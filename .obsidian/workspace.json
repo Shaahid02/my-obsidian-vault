@@ -4,24 +4,49 @@
     "type": "split",
     "children": [
       {
-        "id": "ff874020b9869769",
+        "id": "44c8a6a3da51f033",
         "type": "tabs",
         "children": [
           {
-            "id": "4abad4fa482a8ec0",
+            "id": "de189c8784358fce",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "FYP/Research Papers/Explainable_Multilingual_Sentiment_Analysis_for_Sinhala_English_and_Code-Mixed_Banking_Reviews.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "Explainable_Multilingual_Sentiment_Analysis_for_Sinhala_English_and_Code-Mixed_Banking_Reviews"
+            }
+          },
+          {
+            "id": "f92b64ac6a439053",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Another test run.md",
+                "file": "FYP/Research Papers Grid.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Another test run"
+              "title": "Research Papers Grid"
+            }
+          },
+          {
+            "id": "cf7fd1f7ab9645ad",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "FYP/Research Papers/TradingAgents Multi-Agents LLM Financial Trading.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "TradingAgents Multi-Agents LLM Financial Trading"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -99,7 +124,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Untitled.canvas",
+                "file": "FYP/Research Papers Grid.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +143,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Untitled.canvas",
+                "file": "FYP/Research Papers Grid.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +186,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Untitled.canvas",
+                "file": "FYP/Research Papers Grid.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -171,7 +196,7 @@
             }
           },
           {
-            "id": "a82df7c774597993",
+            "id": "c4fdc0b898c82de0",
             "type": "leaf",
             "state": {
               "type": "git-view",
@@ -200,12 +225,27 @@
       "obsidian-excalidraw-plugin:New drawing": false
     }
   },
-  "active": "4abad4fa482a8ec0",
+  "active": "f92b64ac6a439053",
   "lastOpenFiles": [
-    "Testing capability of git.md",
+    "FYP/Research Papers/~$Presentation.pptx",
+    "FYP/Research Papers/TradingAgents Multi-Agents LLM Financial Trading.pdf",
+    "FYP/Research Papers Grid.md",
+    "FYP/Research Papers/Explainable_Multilingual_Sentiment_Analysis_for_Sinhala_English_and_Code-Mixed_Banking_Reviews.pdf",
+    "FYP/Research Papers/22_IJEFI_18020_dissanayake_okey.pdf",
+    "FYP/Research Overview.canvas",
+    "FYP/Research Papers/Presentation.pptx",
+    "Untitled.md",
+    "FYP/Research Papers",
+    "FYP/Rich_Picture_Diagram.png",
     "Another test run.md",
     "Untitled.canvas",
+    "FYP",
+    "conflict-files-obsidian-git.md",
+    "Testing capability of git.md",
     "create a link.md",
+    "Untitled 2.canvas",
+    "Untitled 1.canvas",
+    "Untitled.base",
     "Welcome.md",
     "Untitled 1",
     "Untitled"
