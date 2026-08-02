@@ -19,6 +19,8 @@
 | 14  | Predicting Financial Market Stress with Machine Learning                                                        | 2025                | Market stress / risk modelling               | Useful for the risk-agent part of the framework. It uses market condition indicators and machine learning to predict stress in major financial markets. ([Bank for International Settlements](https://www.bis.org/publ/work1250.pdf?utm_source=chatgpt.com))                                                            |
 | 15  | Deep Reinforcement Learning Framework for Diversified Dynamic Portfolio Allocation Across Global Equity Markets | 2026                | Portfolio optimisation with market frictions | Useful for the portfolio/trader-agent evaluation. It incorporates transaction costs, turnover penalties, diversification constraints, walk-forward optimisation, and realistic market frictions. ([arXiv](https://arxiv.org/html/2605.17307v1?utm_source=chatgpt.com))                                                  |
 
+^9fe9a8
+
 ### My Findings
 
 | Reference Study                                                                                                                                                                                    | Core Target Task                                                     | Underlying Dataset                                             | Extracted Feature Set                                                     | Implemented Model / Architecture                                     | Evaluation Metrics                                                               | Documented Limitations                                                                                                       |
