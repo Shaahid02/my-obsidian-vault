@@ -4,24 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "c36cff77ee058383",
+        "id": "1f6427874eb8cdbf",
         "type": "tabs",
         "children": [
           {
-            "id": "75251b994cf46723",
+            "id": "abd3d55ebaee740a",
             "type": "leaf",
             "state": {
-              "type": "canvas",
-              "state": {
-                "file": "Untitled.canvas",
-                "viewState": {
-                  "x": 0,
-                  "y": 0,
-                  "zoom": 0
-                }
-              },
-              "icon": "lucide-layout-dashboard",
-              "title": "Untitled"
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
             }
           }
         ]
@@ -44,7 +37,7 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": true,
+                "autoReveal": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
@@ -102,7 +95,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Untitled.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -121,7 +113,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Untitled.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -164,7 +155,6 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Untitled.canvas",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -191,12 +181,17 @@
       "bases:Create new base": false
     }
   },
-  "active": "75251b994cf46723",
+  "active": "abd3d55ebaee740a",
   "lastOpenFiles": [
-    "create a link.md",
-    "Welcome.md",
+    "Untitled 2.canvas",
+    "Untitled 1.canvas",
+    "Untitled.base",
     "Untitled.canvas",
-    "Untitled 1",
-    "Untitled"
+    "create a link.md",
+    "Untitled.md",
+    "Welcome.md",
+    "Untitled",
+    "Untitled 1.base",
+    "Untitled 1"
   ]
 }
