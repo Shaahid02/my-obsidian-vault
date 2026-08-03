@@ -21,8 +21,14 @@ Roles defined by the paper
 	5. **Researcher**
 		i. **Bullish Researcher** - Agents advocate for investment opportunities by highlighting positive indicators
 		ii. **Bearish Researcher** - Agents focused on potential downsides, risks, and unfavorable market signals
-	6. Trader - Execute trade decisions based on analysis provided by Analysts team and Research team
-	**7. Risk Manager** - 
+	6. **Trader** - Execute trade decisions based on analysis provided by Analysts team and Research team
+	7. **Risk Manager** - Assesses market volatility, liquidity, and counterparty risks. Implement risk minimization strategies, and provide feedback back to the analyst and research agents. Essentially creating a feedback loop. 
+
+All agents follow the [ReAct prompting framework](https://arxiv.org/abs/2210.03629) 
+
+Agent Workflow
+
+
 
 
 
