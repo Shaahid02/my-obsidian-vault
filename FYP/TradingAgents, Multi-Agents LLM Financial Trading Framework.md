@@ -4,6 +4,10 @@ Major differences being it is applied to very fluid stock markets such as the NY
 
 Another major difference is when it comes to language for sentiment analysis. This paper does it in english, where as I'll have to extract sentiment from english, singlish, and sinhala.
 
-I might also include an algotrading mechanism
+I might also include an algotrading mechanism.
+
+This paper suggests a split of 4 teams.
+
+
 
 *Whales - People with very large incomes that control the market by having the ability to move large amounts of stock
