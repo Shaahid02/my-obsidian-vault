@@ -1,4 +1,6 @@
+How to read a research paper 
 
+Look at the topic -> relevant to your research -> read the **abstract** -> if it is still relevant -> read the **introduction** -> still relevant -> **Conclusion (Future work / Limitation ) + Methodology / Methods / Proposed Approach / Architecture**
 ### Gugsi's Recs
 
 | No. | Paper                                                                                                           | Year                | Research stream                              | Why it is useful for this topic                                                                                                                                                                                                                                                                                         |
