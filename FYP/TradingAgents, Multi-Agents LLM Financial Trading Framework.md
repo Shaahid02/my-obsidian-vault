@@ -6,7 +6,7 @@ Another major difference is when it comes to language for sentiment analysis. Th
 
 I might also include an algotrading mechanism.
 
-This paper suggests a split of 4 teams.
+This paper 
 
 
 
