@@ -6,6 +6,8 @@ Another major difference is when it comes to language for sentiment analysis. Th
 
 I might also include an algotrading mechanism. (ML Component)
 
+![[Pasted image 20260803235356.png]]
+
 Overall required components
 	1. Analysts team
 	2. Research team
@@ -26,12 +28,9 @@ Roles defined by the paper
 
 All agents follow the [ReAct prompting framework](https://arxiv.org/abs/2210.03629) 
 
-### Agent Workflow
+### [Agent Workflow](Excalidraw/Research_Diagrams.excalidraw.md#^frame=Agent Flow)
 
-[[Excalidraw/Drawing 2026-08-03 15.51.54.excalidraw.md#^Ac5igNtJ|Agent Workflow Overview]]
-
-![[Agent Workflow Overview.png|700]]
-
+![[Research_Diagrams.excalidraw|1000]]
 
 ### LLMs Used
 
