@@ -1,10 +1,10 @@
 Very similar to mine.
 
-Major differences being it is applied to very fluid stock markets such as the NYSE. Mine will be on the CSE, which is more turgid/ less fluid. Which means have to create equations to account for that turgidity. And also the fact that the market is dominated by whales*
+Major differences being it is applied to very fluid stock markets such as the NYSE. Mine will be on the CSE, which is more turgid/ less fluid. Which means have to create equations to account for that turgidity. And also the fact that the market is dominated by [[whales*]]
 
 Another major difference is when it comes to language for sentiment analysis. This paper does it in english, where as I'll have to extract sentiment from english, singlish, and sinhala.
 
-I might also include an algotrading mechanism.
+I might also include an algotrading mechanism. (ML Component)
 
 Overall required components
 	1. Analysts team
@@ -26,10 +26,16 @@ Roles defined by the paper
 
 All agents follow the [ReAct prompting framework](https://arxiv.org/abs/2210.03629) 
 
-Agent Workflow
+### Agent Workflow
 
 
+![[Pasted image 20260803161824.png]]
 
 
+### LLMs Used
+
+Quick thinking models like gpt-4o-mini and gpt-4o for low depth tasks like summarization, data retrieval, and converting tabular data to text
+
+Deep thinking models like o1-preview for reasoning intensive tasks like decision making, evidence based report writing, and data analysis.
 
 *Whales - People with very large incomes that control the market by having the ability to move large amounts of stock
