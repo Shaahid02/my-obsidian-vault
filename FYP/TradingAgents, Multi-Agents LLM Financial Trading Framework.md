@@ -6,7 +6,23 @@ Another major difference is when it comes to language for sentiment analysis. Th
 
 I might also include an algotrading mechanism.
 
-This paper 
+Overall required components
+	1. Analysts team
+	2. Research team
+	3. Trader
+	4. Risk Management team
+	5. Fund Manager
+
+Roles defined by the paper
+	1. **Fundamentals Analyst** - Analyzes financial statements, earnings reports, insider transactions. Assess company's intrinsic value
+	2. **Sentiment Analyst** - Gauge market sentiment through processing large volumes of social media posts, sentiment scores, and insider sentiments
+	3. News Analyst - Analyze news articles, government announcements and other macro    economic indicators
+	4. Technical Analyst - Calculate and select relevant technical indicators, such as MACD and RSI
+	5. **Researcher**
+		i. **Bullish Researcher** - Agents advocate for investment opportunities by highlighting positive indicators
+		ii. **Bearish Researcher** - Agents focused on potential downsides, risks, and unfavorable market signals
+	6. Trader - Execute trade decisions based on analysis provided by Analysts team and Research team
+	**7. Risk Manager** - 
 
 
 
