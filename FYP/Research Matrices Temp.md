@@ -1,4 +1,5 @@
-# Informatics Institute of Technology & University of Westminster
+
+
 
 ## Final Year Project: Literature Review and Framework Mapping Matrices
 
