@@ -1,3 +1,17 @@
+## Major differences to mine
+
+No social media agent
+Wont work for the CSE (fluidity)
+No risk calculating agent
+
+## Standout features
+
+Reflection enchanced prompting
+Multi Agent Debate
+Utilize Observability tool
+
+# Paper Summary
+
 Explores how LLM based agentic system can mitigate cognitive biases.
 
 Mitigating AI-specific issues such as hallucination through collaborative task delegation to
@@ -9,7 +23,7 @@ Prior studies often emphasize chain-of-thought prompting but neglect structured 
 
 Study consists of three specialized micro agents
 	1. **Fundamental Agent**
-		Qualitatively and quantitatively analyzes an equity’s projected trajectory and financial performance. Uses [[#^7695ff |10-K and 10-Q reports]].
+		Qualitatively and quantitatively analyzes an equity’s projected trajectory and financial performance. Uses 10-K and 10-Q reports[^1].
 	2. **Sentiment Agent**
 		 Analyze financial news and provide recommendations based on the prevailing sentiment toward an equity and its potential impact on stock prices.
 	3. **Valuation Agent**
@@ -45,8 +59,11 @@ Autogen Studio serves as the user interface.
 > [!NOTE] Multi Agent Debate
 > Debate is managed via a round robin approach. Each agent receives the query along with peer analyses and the discussion continues until consensus is reached. Each agent gets two turns to present their arguments / findings.
 
+## RAG Evaluation
+
+Uses an observability platform called [Arize Phoenix](https://github.com/arize-ai/phoenix)
 
 
+[^1] 
 
-
-Form 10-K and Form 10-Q are mandatory reports that public companies file with the U.S. Securities and Exchange Commission (SEC). The 10-K is a detailed annual report with audited financial data, while the 10-Q is a shorter quarterly update with unaudited financial statements filed three times a year. ^7695ff
+[^1]: Form 10-K and Form 10-Q are mandatory reports that public companies file with the U.S. Securities and Exchange Commission (SEC). The 10-K is a detailed annual report with audited financial data, while the 10-Q is a shorter quarterly update with unaudited financial statements filed three times a year.
