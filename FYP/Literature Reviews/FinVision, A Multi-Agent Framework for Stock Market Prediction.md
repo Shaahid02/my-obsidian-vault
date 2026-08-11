@@ -8,7 +8,7 @@ No proper sentiment analysis
 Reflection model
 Visual analysis model
 Evaluates visual data (ie Charts)
-## Paper summary
+# Paper summary
 
 Chain of Thought (CoT) prompting
 
