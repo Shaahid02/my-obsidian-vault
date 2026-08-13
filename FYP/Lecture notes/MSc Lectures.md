@@ -1,4 +1,4 @@
-## Week 2
+## Week 2 (How to Research Papers)
 
 Measure the "value" of the paper using [Semantic Scholar](https://www.semanticscholar.org/)
 
@@ -15,7 +15,7 @@ Use H index of author and co-authors
 
 Contribution to the problem domain??
 
-## Week 3
+## Week 3 (AI Usage)
 
 ### Consensus AI
 
@@ -33,4 +33,8 @@ Optional Filters
 	Country Filter
 
 ### Reference Management
+
+Zotero
+
+Has a method to download pdfs using the name
 
