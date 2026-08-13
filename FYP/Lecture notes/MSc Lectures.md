@@ -51,3 +51,8 @@ Podcast
 
 ## Week 4 (Continuation of Week 2)
 
+Research Gap has to be <font color="#ffc000">SMART</font>
+
+> [!NOTE] SMART
+> Specific, Measurable, Achievable, Relevant, and Timebound
+
