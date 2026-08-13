@@ -38,3 +38,8 @@ Zotero
 
 Has a method to download pdfs using the name
 
+### Paper Summarization
+
+[SciSpace](https://scispace.com/)
+
+Can be connected with zotero
