@@ -15,7 +15,7 @@ Use H index of author and co-authors
 
 Contribution to the problem domain??
 
-## Week 3 (AI Usage)
+## Week 3 (AI Usage in Research)
 
 ### Consensus AI
 
@@ -43,3 +43,11 @@ Has a method to download pdfs using the name
 [SciSpace](https://scispace.com/)
 
 Can be connected with zotero
+
+[NotebookLLM](https://notebook.google.com/?pli=1)
+
+MindMap: Breaks down everything
+Podcast
+
+## Week 4 (Continuation of Week 2)
+
