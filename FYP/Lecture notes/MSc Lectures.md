@@ -56,3 +56,9 @@ Research Gap has to be <font color="#ffc000">SMART</font>
 > [!NOTE] SMART
 > Specific, Measurable, Achievable, Relevant, and Timebound
 
+Research Challenge
+Research Question (Can have sub questions)
+Research Aim (Must be one sentence)
+Research Objectives
+
+Might have to publish a paper (conference or smth)
