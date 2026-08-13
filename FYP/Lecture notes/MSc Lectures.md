@@ -51,6 +51,8 @@ Podcast
 
 ## Week 4 (Continuation of Week 2)
 
+[GDrive Link](https://drive.google.com/drive/folders/1Mwf5PgbnTp2PAvsuginbxQONAyYtsKLw) || Pro
+
 Research Gap has to be <font color="#ffc000">SMART</font>
 
 > [!NOTE] SMART
