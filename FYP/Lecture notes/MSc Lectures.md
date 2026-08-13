@@ -49,8 +49,7 @@ Can be connected with zotero
 MindMap: Breaks down everything
 Podcast
 
-
-
+![[Research Pipeline | 1500]]
 
 ## Week 4, Research Gap (Continuation of Week 2)
 
