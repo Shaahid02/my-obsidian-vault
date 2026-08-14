@@ -69,3 +69,8 @@ Might have to publish a paper (conference or smth)
 
 ## Week 5, Literature Review (Continuation of Week 4)
 
+Creating an informative mind map
+
+![[Pasted image 20260814112609.png]]
+
+Green indicates the research gaps, purple indicates gaps which are addressed through the project.
