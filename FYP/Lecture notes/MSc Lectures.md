@@ -51,7 +51,7 @@ Podcast
 
 ![[Research Pipeline | 1500]]
 
-## Week 4, Research Gap (Continuation of Week 2)
+## Week 4: Research Gap (Continuation of Week 2)
 
 [GDrive Link](https://drive.google.com/drive/folders/1Mwf5PgbnTp2PAvsuginbxQONAyYtsKLw) || [Proposal Guide PDF](obsidian://open?vault=my-obsidian-vault&file=FYP%2FSupport%20Material%2FGugsi%20Proposal%20Guide.pdf)
 
@@ -67,7 +67,7 @@ Research Objectives
 
 Might have to publish a paper (conference or smth)
 
-## Week 5, Literature Review (Continuation of Week 4)
+## Week 5: Literature Review, & Methodology (Continuation of Week 4)
 
 Creating an informative mind map
 
