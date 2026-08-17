@@ -77,5 +77,4 @@ Green indicates the research gaps, purple indicates gaps which are addressed thr
 
 ### Concept Architecture
 
-
-
+![[Pasted image 20260817150202.png]]
