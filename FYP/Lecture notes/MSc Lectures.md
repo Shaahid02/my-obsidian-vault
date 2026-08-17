@@ -74,3 +74,8 @@ Creating an informative mind map
 ![[Pasted image 20260814112609.png]]
 
 Green indicates the research gaps, purple indicates gaps which are addressed through the project.
+
+### Concept Architecture
+
+
+
