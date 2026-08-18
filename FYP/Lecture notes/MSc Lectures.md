@@ -69,7 +69,7 @@ Might have to publish a paper (conference or smth)
 
 ## Week 5: Literature Review, & Methodology (Continuation of Week 4)
 
-[Literature Review, Methodology](obsidian://open?vault=my-obsidian-vault&file=FYP%2FSupport%20Material%2FLiterature%20Review%20Guide.pdf)
+[Literature Review and Methodology PDF](obsidian://open?vault=my-obsidian-vault&file=FYP%2FSupport%20Material%2FLiterature%20Review%20Guide.pdf)
 
 
 Creating an informative mind map
