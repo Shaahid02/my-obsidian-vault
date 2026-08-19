@@ -88,11 +88,11 @@ Everything the room builds today belongs to one story. Announce it in the first 
 
 > **"You have been asked to find out what training your 60 staff actually need, and to give the management a recommendation by Friday."**
 
-| Session | What the scenario produces |
-|---|---|
-| **1** | A shared Drive folder, a one-page project brief in Docs, and the raw staff list in Sheets |
-| **2** | A live Google Form, real responses flowing into Sheets, a pivot table + chart, a written report in Docs, a 5-slide management deck, shared and circulated by Gmail + Calendar |
-| **3** | The *same* report rebuilt with Gemini in a fraction of the time, a reusable "Report Writer" Gem, and a NotebookLM notebook that answers questions about the whole project with citations |
+| Session | What the scenario produces                                                                                                                                                               |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **1**   | A shared Drive folder, a one-page project brief in Docs, and the raw staff list in Sheets                                                                                                |
+| **2**   | A live Google Form, real responses flowing into Sheets, a pivot table + chart, a written report in Docs, a 5-slide management deck, shared and circulated by Gmail + Calendar            |
+| **3**   | The *same* report rebuilt with Gemini in a fraction of the time, a reusable "Report Writer" Gem, and a NotebookLM notebook that answers questions about the whole project with citations |
 
 The emotional payoff you are engineering: **at 15:15 they see the identical deliverable produced in 8 minutes instead of 50.** That comparison is the workshop. Protect the time for it.
 
