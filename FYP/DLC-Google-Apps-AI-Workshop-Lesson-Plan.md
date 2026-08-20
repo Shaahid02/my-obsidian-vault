@@ -326,12 +326,12 @@ Tour gemini.google.com: prompt box, model selector, file upload, image upload, c
 
 Then teach the **only prompting framework beginners need — R-T-C-F**:
 
-| | | Example |
-|---|---|---|
-| **R** — Role | Who should it be? | *You are an HR officer in a Sri Lankan NGO.* |
-| **T** — Task | One clear verb | *Summarise the following survey comments into themes.* |
-| **C** — Context | What it needs to know | *60 staff, mixed field and office roles, budget is limited.* |
-| **F** — Format | Exactly what you want back | *A table with three columns: theme, how many mentioned it, suggested action. Maximum 6 rows.* |
+|                 |                            | Example                                                                                       |
+| --------------- | -------------------------- | --------------------------------------------------------------------------------------------- |
+| **R** — Role    | Who should it be?          | *You are an HR officer in a Sri Lankan NGO.*                                                  |
+| **T** — Task    | One clear verb             | *Summarise the following survey comments into themes.*                                        |
+| **C** — Context | What it needs to know      | *60 staff, mixed field and office roles, budget is limited.*                                  |
+| **F** — Format  | Exactly what you want back | *A table with three columns: theme, how many mentioned it, suggested action. Maximum 6 rows.* |
 
 Demonstrate the difference explicitly: run the bare prompt *"summarise this"*, then run the full R-T-C-F prompt on the same text. Put the two outputs side by side. This contrast teaches more than twenty minutes of explanation.
 
