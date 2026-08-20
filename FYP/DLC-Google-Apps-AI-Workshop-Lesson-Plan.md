@@ -59,8 +59,8 @@ By 16:00, every participant can independently:
 
 ### T-1 day (do this today)
 - [ ] Build the **master Google Form** — "Staff Training Needs Survey 2026" (see §3). Set it to accept responses.
-- [ ] Prepare a **seeded response sheet**: 60 fabricated responses in the same columns, so the data looks real even if only 20 people submit. Share it **view-only**; participants use *File → Make a copy*.
-- [ ] Prepare **one PDF and one Word file** of a fictional "Annual Report" to upload as NotebookLM sources and to test Drive's convert-on-upload.
+- [x] Prepare a **seeded response sheet**: 60 fabricated responses in the same columns, so the data looks real even if only 20 people submit. Share it **view-only**; participants use *File → Make a copy*.
+- [x] Prepare **one PDF and one Word file** of a fictional "Annual Report" to upload as NotebookLM sources and to test Drive's convert-on-upload.
 - [ ] Prepare a short **URL card / QR code sheet** with: form link, seeded sheet link, gemini.google.com, notebooklm.google.com. Print it. Beginners mistype long URLs.
 - [ ] Create a **throwaway demo Google account** for your own projector — never present from your real inbox.
 - [ ] Correct all "Bard" references in your slides to "Gemini".
