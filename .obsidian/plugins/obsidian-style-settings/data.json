@@ -1,7 +1,6 @@
 {
   "baseline-style@@colorful-folders": "colorful-folders-side",
   "baseline-style@@color-scheme-dark": "sanctum-dark",
-  "baseline-style@@layout-style": "layout-classic",
   "baseline-style@@accented-interface": true,
   "baseline-style@@background-contrast-dark": "contrast-dark-black",
   "baseline-style@@color-scheme-light": "sanctum-light",
@@ -39,7 +38,6 @@
   "baseline-style@@background-contrast-light": "contrast-light-tonal",
   "baseline-style@@density-modifier": 0.75,
   "baseline-style@@icon-stroke-modifier": 0.75,
-  "baseline-style@@element-style": "input-elevated",
   "baseline-style@@nav-action": "nav-action-center",
   "cupertino@@adaptive-mode-off": false
 }

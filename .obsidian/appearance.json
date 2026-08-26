@@ -3,5 +3,6 @@
   "accentColor": "",
   "textFontFamily": "Aptos",
   "showViewHeader": false,
-  "enabledCssSnippets": []
+  "enabledCssSnippets": [],
+  "showRibbon": true
 }
