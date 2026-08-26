@@ -1,5 +1,6 @@
 {
   "cssTheme": "Baseline",
   "accentColor": "",
-  "textFontFamily": "Aptos"
+  "textFontFamily": "Aptos",
+  "showViewHeader": true
 }
