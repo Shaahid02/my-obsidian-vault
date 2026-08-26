@@ -3,7 +3,5 @@
   "accentColor": "",
   "textFontFamily": "Aptos",
   "showViewHeader": false,
-  "enabledCssSnippets": [
-    "macos-titlebar"
-  ]
+  "enabledCssSnippets": []
 }
