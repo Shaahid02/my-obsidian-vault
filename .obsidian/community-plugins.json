@@ -3,5 +3,6 @@
   "obsidian-excalidraw-plugin",
   "obsidian-icon-folder",
   "editing-toolbar",
-  "obsidian-style-settings"
+  "obsidian-style-settings",
+  "obsidian-linter"
 ]
