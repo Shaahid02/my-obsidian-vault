@@ -1,6 +1,6 @@
 {
   "baseline-style@@colorful-folders": "colorful-folders-side",
-  "baseline-style@@color-scheme-dark": "notion-dark",
+  "baseline-style@@color-scheme-dark": "void-dark",
   "baseline-style@@layout-style": "layout-minimal",
   "baseline-style@@accented-interface": true,
   "baseline-style@@background-contrast-dark": "contrast-dark-black",
@@ -19,7 +19,7 @@
   "baseline-style@@font-text-override": "ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI'",
   "baseline-style@@readable-spacing": true,
   "baseline-style@@readable-spacing-modifier": 0.25,
-  "baseline-style@@file-header-visibility": "view-header-title-hidden",
+  "baseline-style@@file-header-visibility": "view-header-title-always",
   "baseline-style@@file-header-justify": "left",
   "baseline-style@@active-line-style": "active-line-block",
   "baseline-style@@h1-size": "1.875em",
@@ -34,5 +34,6 @@
   "baseline-style@@blockquote-background-color@@dark": "#FFFFFF00",
   "baseline-style@@blockquote-background-color@@light": "#FFFFFF00",
   "baseline-style@@blockquote-border-color@@dark": "#F0EFED",
-  "baseline-style@@blockquote-border-color@@light": "#2C2C2B"
+  "baseline-style@@blockquote-border-color@@light": "#2C2C2B",
+  "baseline-style@@titlebar-text-off": true
 }

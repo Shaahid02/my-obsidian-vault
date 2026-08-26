@@ -1,0 +1,31 @@
+/* macOS style traffic light window controls */
+.titlebar-button-container {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.titlebar-button {
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50% !important;
+  padding: 0 !important;
+}
+
+.titlebar-button.mod-close {
+  background-color: #ff5f56 !important;
+}
+
+.titlebar-button.mod-minimize {
+  background-color: #ffbd2e !important;
+}
+
+.titlebar-button.mod-maximize {
+  background-color: #27c93f !important;
+}
+
+.titlebar-button svg {
+  display: none !important;
+}

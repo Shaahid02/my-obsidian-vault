@@ -2,5 +2,8 @@
   "cssTheme": "Baseline",
   "accentColor": "",
   "textFontFamily": "Aptos",
-  "showViewHeader": false
+  "showViewHeader": false,
+  "enabledCssSnippets": [
+    "macos-titlebar"
+  ]
 }
