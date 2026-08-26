@@ -1,6 +1,8 @@
 {
   "baseline-style@@colorful-folders": "colorful-folders-side",
-  "baseline-style@@color-scheme-dark": "nord-dark",
+  "baseline-style@@color-scheme-dark": "sky-dark",
   "baseline-style@@layout-style": "layout-frame",
-  "baseline-style@@accented-interface": false
+  "baseline-style@@accented-interface": false,
+  "baseline-style@@background-contrast-dark": "contrast-dark-black",
+  "baseline-style@@color-scheme-light": "atom-light"
 }
