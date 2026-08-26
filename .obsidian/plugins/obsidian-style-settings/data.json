@@ -19,7 +19,7 @@
   "baseline-style@@font-text-override": "ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI Variable Display', 'Segoe UI'",
   "baseline-style@@readable-spacing": true,
   "baseline-style@@readable-spacing-modifier": 0.25,
-  "baseline-style@@file-header-visibility": "view-header-title-always",
+  "baseline-style@@file-header-visibility": "view-header-title-hidden",
   "baseline-style@@file-header-justify": "left",
   "baseline-style@@active-line-style": "active-line-block",
   "baseline-style@@h1-size": "1.875em",
