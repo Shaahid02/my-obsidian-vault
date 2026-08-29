@@ -98,3 +98,7 @@ $$
 Most compelling of the four primary approaches, as it combines the advantages of both Policy-based and Value-based RL methods. Therefore able to diminish each others shortcomings. High variance and high bias respectively.
 
 #### 4. Model-Based Methods (Model)
+Constructing a model of the environment, which is then used to simulate and plan actions
+
+Core Framework:
+	1. **Define a Finite Set of States S<sub>t</sub>:** States represent environment derived information at each time *t* such as 
