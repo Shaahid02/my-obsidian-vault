@@ -58,9 +58,10 @@ Extends the single agent paradigm where multiple agents interact either competit
 
 ### Main Reinforcement Learning Methods
 #### 1. Value-Based Methods (Critic Only)
+Value-based methods in RL focus on directly actions of the agent to derive the best policy.
 Core Framework:
 	1. **Define a Finite Set of States S<sub>t</sub>** (Includes info like financial accounting data, prices, sentiment, and technical indicators.)
-	2. **Define a Set of Actions A<sub>t</sub>** (i.e. Buy, Sell, Hold)
+	2. **Define a Set of Actions A<sub>t</sub>** (i.e. Buy, Sell, Hold) <font color="#ffc000">discrete</font>
 	3. **Establish transition probabilities**, which define state transitions based on actions
 	4. **Formulate a reward function R<sub>t</sub>** which provides feedback  to agent 
 	5. **Create a Policy 𝜋,** which <font color="#ffc000">maps states to actions</font> for agent to follow
@@ -68,3 +69,32 @@ Core Framework:
 
 Agent continuously interacts with the market (actions), and through trial and error aims to discover the best possible strategy known as the <font color="#ffc000">optimal policy</font> (𝜋 = 𝜋<sup>*</sup>). Applies <font color="#ffc000">Markov Decision Problem </font>(MDP) to financial trading.
 
+These methods employ algorithms like Q-Learning and SARSA to optimise the expected total reward. But these algorithms are proven to converge to the optimal solution with probability 1. They are traditionally used in tabular settings.
+
+#### 2. Policy-Based Methods (Actor Only)
+ Policy-based methods in RL focus on directly optimising the policy that dictates the agent’s actions. This approach can be particularly advantageous in environments with continuous action spaces and complex dynamics.
+ 
+ The RRL framework is particularly suited for financial applications because it can capture the temporal dependencies and sequential nature of trading decisions.
+ 
+A significant advantage of Policy-based methods is the continuous action space for the agent:
+	Consider a portfolio of stocks: with the Value-based approach, portfolio weights can only take discrete values like buy, sell, or hold. In contrast, the Policy-based approach allows portfolio weights to assume any value in [0, 1] in the long-only case
+
+Policy-based methods require a differentiable reward function
+
+#### 3. Actor-Critic Method (Hybrid)
+Combines the previous two methods and treats them as modules which creates a core framework:
+	1. **Actor Module:** Responsible for selecting actions based on the current state. It learns a policy, which is a mapping from states to actions. This policy can be,
+		1.<font color="#ffc000"> Deterministic</font>: The Actor always chooses the same action for a given state
+		2. <font color="#ffc000">Stochastic</font>: The Actor chooses actions according to a probability distribution
+	2. **Critic Module:** The Critic evaluates the action taken by the Actor by computing a value function. This value function estimates the expected cumulative reward (discounted over time) of being in a given state and taking a particular action.
+	3. **Advantage Function:** The advantage function helps to determine how much better or worse a particular action is compared to the average action taken from that state. It is defined as:
+$$
+				𝐴(𝑆𝑡 , 𝐴𝑡 ) = 𝑄 (𝑆𝑡 , 𝐴𝑡 ) − 𝑉 (𝑆𝑡 ), 
+		$$
+							Q : Action Value function
+							V: State Value function
+	4.  **Gradient Ascent:** Both the Actor and the Critic are trained using gradient ascent. The Actor updates its policy parameters to maximise the expected cumulative reward, while the Critic updates its parameters to provide more accurate evaluations of the actions.
+	5.  **TD Error:** Temporal Difference (TD) error is used to update both the Actor and the Critic. It is the difference between the expected reward and the actual reward received, given by:				$$𝛿𝑡 = 𝑅𝑡+1 + 𝛾𝑉 (𝑆𝑡+1) − 𝑉 (𝑆𝑡 ).$$
+Most compelling of the four primary approaches, as it combines the advantages of both Policy-based and Value-based RL methods. Therefore able to diminish each others shortcomings. High variance and high bias respectively.
+
+#### 4. Model-Based Methods (Model)
