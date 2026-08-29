@@ -57,3 +57,14 @@ Extends the single agent paradigm where multiple agents interact either competit
 4. **On-Policy vs Off-Policy Frameworks:** <font color="#ffc000">On-policy algorithms</font>, such as Proximal Policy Optimisation (PPO), use data generated only from the current policy. This means that only actions taken by the current policy generate data at each training iteration. On-policy algorithms are typically more stable and exhibit lower variance because they learn directly from the policy they are improving and  practical in HFT due to the vast amount of data available despite being sample inefficient. <font color="#ffc000">Off-policy methods</font>, such as DQN, do not have this limitation, allowing them to use data generated from different policies. This makes off-policy methods more sample-efficient, as they can reuse past experiences stored in memory. Also could be used in HFT due to their ability to process large amounts of data, although they may require longer training times, which is crucial in the HFT context. 
 
 ### Main Reinforcement Learning Methods
+#### 1. Value-Based Methods (Critic Only)
+Core Framework:
+	1. **Define a Finite Set of States S<sub>t</sub>** (Includes info like financial accounting data, prices, sentiment, and technical indicators.)
+	2. **Define a Set of Actions A<sub>t</sub>** (i.e. Buy, Sell, Hold)
+	3. **Establish transition probabilities**, which define state transitions based on actions
+	4. **Formulate a reward function R<sub>t</sub>** which provides feedback  to agent 
+	5. **Create a Policy 𝜋,** which <font color="#ffc000">maps states to actions</font> for agent to follow
+	6. **Construct a Value Function V**, which maps states to the agent’s expected total discounted reward from a given state until the episode’s end under policy 𝜋
+
+Agent continuously interacts with the market (actions), and through trial and error aims to discover the best possible strategy known as the <font color="#ffc000">optimal policy</font> (𝜋 = 𝜋<sup>*</sup>). Applies <font color="#ffc000">Markov Decision Problem </font>(MDP) to financial trading.
+
