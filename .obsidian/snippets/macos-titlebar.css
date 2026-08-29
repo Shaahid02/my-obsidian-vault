@@ -1,31 +1,96 @@
-/* macOS style traffic light window controls */
-.titlebar-button-container {
-  position: absolute;
-  top: 12px;
-  left: 12px;
+/* ==========================================================
+   macOS-style title bar for Obsidian on Windows / Linux
+   Save as: <your vault>/.obsidian/snippets/mac-titlebar.css
+   Enable:  Settings -> Appearance -> CSS snippets -> reload -> toggle on
+   Needs:   Settings -> Appearance -> Window frame style = "Obsidian frame"
+   Tune:    change --mac-lights-offset if icons overlap the lights
+   ========================================================== */
+
+body {
+  --mac-lights-offset: 78px;
+  --mac-light-size: 12px;
+}
+
+/* --- move the window buttons to the top-left ------------- */
+body:not(.is-fullscreen) .titlebar-button-container.mod-right {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: auto;
+  height: var(--header-height);
   display: flex;
+  align-items: center;
   gap: 8px;
+  padding: 0 14px;
+  z-index: 100;
+  -webkit-app-region: no-drag;
 }
 
-.titlebar-button {
-  width: 12px !important;
-  height: 12px !important;
-  border-radius: 50% !important;
-  padding: 0 !important;
+/* --- turn them into traffic lights ----------------------- */
+body:not(.is-fullscreen) .titlebar-button-container.mod-right .titlebar-button {
+  width: var(--mac-light-size);
+  height: var(--mac-light-size);
+  min-width: var(--mac-light-size);
+  padding: 0;
+  border-radius: 50%;
+  transition: filter 0.1s ease;
 }
 
-.titlebar-button.mod-close {
-  background-color: #ff5f56 !important;
+.titlebar-button-container.mod-right .titlebar-button svg {
+  display: none;
 }
 
-.titlebar-button.mod-minimize {
-  background-color: #ffbd2e !important;
+.titlebar-button-container.mod-right .titlebar-button.mod-close,
+.titlebar-button-container.mod-right .titlebar-button.mod-close:hover {
+  background-color: #ff5f57;
+  color: #ff5f57;
+  order: 1;
 }
 
-.titlebar-button.mod-maximize {
-  background-color: #27c93f !important;
+.titlebar-button-container.mod-right .titlebar-button.mod-minimize,
+.titlebar-button-container.mod-right .titlebar-button.mod-minimize:hover {
+  background-color: #febc2e;
+  order: 2;
 }
 
-.titlebar-button svg {
-  display: none !important;
+.titlebar-button-container.mod-right .titlebar-button.mod-maximize,
+.titlebar-button-container.mod-right .titlebar-button.mod-maximize:hover {
+  background-color: #28c840;
+  order: 3;
+}
+
+.titlebar-button-container.mod-right .titlebar-button:hover {
+  filter: brightness(0.85);
+}
+
+/* dim the lights when the window loses focus, like macOS */
+body.is-blurred:not(.is-fullscreen) .titlebar-button-container.mod-right .titlebar-button {
+  background-color: var(--background-modifier-border-hover);
+}
+
+/* --- clear space so nothing sits under the lights -------- */
+
+/* push the left ribbon's icons below the title bar row */
+body:not(.is-fullscreen) .workspace-ribbon.mod-left {
+  padding-top: var(--header-height);
+}
+
+/* indent the left sidebar's tab headers */
+body:not(.is-fullscreen) .mod-left-split .workspace-tab-header-container {
+  padding-left: calc(var(--mac-lights-offset) - var(--ribbon-width));
+}
+
+/* if the left sidebar is collapsed, indent the main tab bar instead */
+body:not(.is-fullscreen)
+  .mod-left-split.is-sidedock-collapsed
+  ~ .mod-root
+  > .workspace-tabs
+  > .workspace-tab-header-container,
+body:not(.is-fullscreen)
+  .mod-left-split.is-sidedock-collapsed
+  ~ .mod-root
+  > .workspace-split
+  > .workspace-tabs:first-child
+  > .workspace-tab-header-container {
+  padding-left: calc(var(--mac-lights-offset) - var(--ribbon-width));
 }
