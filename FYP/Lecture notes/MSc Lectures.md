@@ -49,7 +49,7 @@ Can be connected with zotero
 MindMap: Breaks down everything
 Podcast
 
-![[Research Pipeline | 1500]]
+![[Excalidraw/Research Pipeline.md#^frame=Research Pipeline|1200]]
 
 ## Week 4: Research Gap (Continuation of Week 2)
 

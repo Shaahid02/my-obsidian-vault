@@ -163,3 +163,42 @@ Therefore given the complexity and partial observability of financial markets, a
 #### Features
 
 To manage randomness , avoid the curse of dimensionality, and address interpretability issues strategic feature selection is necessary.
+
+State representation commonly incorporates discrete state, technical analysis, pricing data, macroeconomic indicators, sentiment data, current position, and Limit Order Book (LOB) data.
+
+1. **Price History**
+	Price history, represented as Open-High-Low-Close-Volume (OHLCV) bars, serves as the fundamental bedrock of state construction. However , raw OHLC features exhibit extremely high collinearity, which can inject input noise and degrade function approximation stability
+
+	Therefore <font color="#ffc000">market volatility</font> which is an important metric for risk management and regime shift detection should also be considered. Features include:
+		-  **Historical Standard Deviations**: Rolling standard deviations of log-returns across varying temporal horizons.
+		- **GARCH Volatility**: Generalized Autoregressive Conditional Heteroskedasticity features, first integrated into policy-gradient RRL frameworks by Zhang and Maringer to capture time-varying volatility clusters.
+		- **Covariance Matrices**: Full rolling covariance matrices of asset returns are modeled directly in state spaces to enable dynamic cross-sectional risk budgeting .
+		- **Regime-Switching Extensions**: Volatility-driven threshold rules used to identify structural market regimes (e.g., bull, bear, or sideways markets) and dynamically switch underlying agent parameters.
+
+2. **Technical Analysis**
+	Technical analysis employs indicators and rules to predict price directions based on past price and volume data. Indicators such as Moving Average (MA), Exponential Moving Average (EMA), Moving Average Convergence/Divergence (MACD), Japanese candlestick, and Relative Strength Index (RSI) are widely used to represent environments within Reinforcement Learning.
+
+3. **Fundamental Data and Factor Investing**
+	Traditional asset pricing and portfolio construction rely on **factor investing** to explain cross-sectional expected returns . These stylised factors, backed by decades of empirical research, include value, momentum, size (market capitalization), quality, and low beta.
+	
+	Integrating fundamental accounting data (e.g., Price-to-Earnings, Debt-to-Equity, and return on equity) into daily RL trading systems presents a severe temporal mismatch. Accounting data is updated quarterly, whereas trading agents typically operate on daily or intraday frequencies, limiting the utility of fundamental metrics as rapid trading signals.
+
+4. **Microstructure, Alternative, and Exogenous Features**
+	In high-frequency trading (HFT), market-making, and optimal trade execution, macro-level daily indicators are useless. Instead, models require **Limit Order Book (LOB)** features to capture microsecond-level liquidity dynamics:
+		- **Order Book Microstructure**: Bid-ask spreads, order book depth (volume at individual price levels), order flow imbalances, and the expected time to fill limit orders.
+		- **Book Exhaustion Rate (BER)**: A critical real-time liquidity depletion metric used by Zhao and Linetsky to protect market-making agents from adverse selection risk and toxic order flow.
+		- **Execution Metrics**: Elapsed execution time and remaining inventory sizes to enforce dynamic liquidation deadlines.
+	
+	Beyond structured market data, the literature increasingly incorporates **alternative data** to extract non-price signals:
+		 - **Sentiment Signals**: Textual sentiment indicators extracted from Reuters News Corpus, Twitter streams, and Thomson Reuters News Analytics. Natural Language Processing (NLP) models transform unstructured text into continuous sentiment scores, which significantly reduce market uncertainty in state representations
+		  - **Macroeconomic Context**: Exogenous indicators such as central bank policy rates, inflation metrics, GDP growth, and the slope of the US Treasury yield curve are used as risk indicators to model cyclical asset class rotations.
+		  - **Alternative Networks**: Environmental, Social, and Governance (ESG) scores and supply chain network linkages represent promising emerging features to capture firm-level interconnections and systemic risks.
+
+#### Feature Selection and Extraction Frameworks
+
+![[Excalidraw/Research Pipeline.md#^frame=Deep Learning-Based Feature Extraction|1800]]
+
+- **Temporal and Memory-Based Modeling (RNNs & LSTMs)**: Since financial data is inherently sequential, RNNs and LSTMs are vital for capturing temporal dependencies. LSTMs resolve the vanishing gradient problem in deep networks and utilize dedicated memory cells to preserve trading action history. This is highly advantageous for capturing transaction cost structures, as the agent's current position dictates future holding costs. Advanced implementations combine LSTMs with autoencoders, using the autoencoder to compress high-dimensional data (like LOB) into latent states, which the LSTM then uses to map sequential dependencies.
+- **Spatial and Cross-Sectional Modeling (CNNs & ResNets)**: Transitioning from purely temporal modeling, Convolutional Neural Networks (CNNs) introduce a powerful spatial feature extraction paradigm. In portfolio management, CNNs are deployed to analyze multi-asset cross-sectional relationships. Early frameworks utilized an _Ensemble of Identical Independent Evaluators_ to independently extract features for each asset. Modern deep structures leverage Deep Residual Networks (ResNet) to stabilize gradients in very deep networks , and _Inception Networks_ to perform multi-scale temporal convolutions, capturing short-term spikes and long-term trends simultaneously.
+- **Graph and Attention-Gated Mechanisms**: To model systemic connections, researchers utilize Graph Convolutional Networks (GCNs) like _DeepPocket_, mapping spatial relationships based on sector groupings or supply chain networks. Furthermore, the integration of **<font color="#ffc000">Attention Mechanisms</font>** marks a significant advancement in quantitative RL. Attention weights dynamically scale the importance of different features and time steps, enabling the network to focus on high-impact events (e.g., news releases or rapid price breakouts) while ignoring ambient market noise.
+- **Generative and Re-scaling Techniques**: To combat severe financial data scarcity especially in short-lived options contracts or emerging assets researchers deploy Generative Adversarial Networks (GANs) for synthetic data augmentation and Gated Recurrent Units (GRUs) for streamlined sequence modeling.
