@@ -76,6 +76,26 @@ Major drawback: High bias
  Policy-based methods in RL focus on directly optimising the policy that dictates the agent’s actions. This approach can be particularly advantageous in environments with continuous action spaces and complex dynamics.
  
  The RRL framework is particularly suited for financial applications because it can capture the temporal dependencies and sequential nature of trading decisions.
+
+Under the standard RRL framework, the trading position (action) $A_t$ at time $t$ is represented as [51]: $$A_t = A(\theta_t : A_{t-1}, I_t) \in {-1, 0, 1}$$
+
+where:
+
+- $\theta_t$ represents the learned parameter vector [51].
+- $A_{t-1}$ is the agent's prior trading action (or position) at time $t-1$ [51].
+- $I_t$ represents the current state information set, composed of lagged asset prices $z_t$ and external variables $y_t$ [51].
+
+A common single-layer neural implementation models the trading position using the sign activation function [52]: $$A_t = \text{sign}(u A_{t-1} + v_0 r_t + v_1 r_{t-1} + \dots + v_m r_{t-m} + \omega)$$
+
+where $r_t$ denotes price returns, and $\theta_t = \theta = {u, v_i, \omega}$ represents the parameter set to be optimized [52].
+
+To train the model, the system directly maximizes an objective performance function, $U_t(\theta)$, which can represent cumulative wealth, utility, or risk-adjusted ratios like the Sharpe Ratio [52, 93]. A representative reward formulation is the additive profits utility function with transaction costs [53]: $$U_t(\theta) = P_T = \sum_{t=1}^T R_t = \mu \sum_{t=1}^T \left{ r_t^f + A_{t-1}(r_t - r_t^f) - \delta_t |A_t - A_{t-1}| \right}$$
+
+where $P_T$ is the cumulative profit, $\mu > 0$ is a fixed position size, $r_t$ and $r_t^f$ are the returns of the risky and risk-free assets, respectively, and $\delta_t$ denotes transaction costs incurred during position transitions [53].
+
+RRL parameters are optimized online via stochastic gradient ascent: $\Delta \theta_t = \rho \frac{dU_t(\theta)}{d\theta}$, where the cross-temporal gradients are computed as [54, 55]: $$\frac{dU_t(\theta)}{d\theta} = \frac{dU_t(\theta)}{dR_t} \left{ \frac{dR_t}{dA_t} \frac{dA_t}{d\theta} + \frac{dR_t}{dA_{t-1}} \frac{dA_{t-1}}{d\theta} \right}$$
+
+Numerous variations of this framework have been proposed, including the addition of hidden layers to capture complex patterns (DRRL) [56] or threshold extensions to handle regime shifts [74].	
  
 A significant advantage of Policy-based methods is the continuous action space for the agent:
 	Consider a portfolio of stocks: with the Value-based approach, portfolio weights can only take discrete values like buy, sell, or hold. In contrast, the Policy-based approach allows portfolio weights to assume any value in [0, 1] in the long-only case
@@ -117,3 +137,29 @@ Standout qualities/problems:
 	2. **Computational Complexity:** Simulating and planning with complex financial models is computationally intensive, requiring efficient algorithms and high-performance computing, especially for HFT applications.
 	3. **Risk Management:** Robust risk management is vital. Model-based RL can simulate extreme market scenarios to assess potential risks, helping to develop strategies that maximise returns and manage risks effectively.
 
+### Environment Modeling, Features, and Extraction Mechanisms
+
+> [!important]
+> In the RL framework, the environment characterises the current state of the system. The agent, the learner, and decision maker interact with this environment, selecting actions based on state information.
+
+This requires the agent and environment to be mutually exclusive, providing distinct boundaries for rewards, actions, and states.
+
+External factors affecting the environment,
+	- Stock indices
+	- Interest rates
+	- Commodity prices
+	- Macroeconomic causes
+	- Politics
+	- Natural risks
+
+The MDP framework can only be applied if the environment is fully observable and future states depend only on the current state and action, a property which is known as <font color="#ffc000">Markov property</font>
+
+<font color="#ff0000">This is not possible in a financial context</font>, due to above listed factors.
+
+Therefore given the complexity and partial observability of financial markets, a <font color="#ffc000">Partially Observable Markov Decision Process (POMDP)</font> framework is more appropriate.  In Partially Observable (PO) environments, the transition probabilities between states in financial markets are typically not explicitly modelled. Instead, historical data and statistical methods, such as<font color="#ffc000"> LSTM or RNN</font> , are used to approximate these transitions.
+
+> [!warning] Unpredictability
+> This approach acknowledges the inherent randomness and partial observability offinancial markets, making exact environment representation virtually impossible.
+#### Features
+
+To manage randomness , avoid the curse of dimensionality, and address interpretability issues strategic feature selection is necessary.
