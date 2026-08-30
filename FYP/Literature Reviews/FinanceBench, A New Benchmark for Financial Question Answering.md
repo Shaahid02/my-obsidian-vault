@@ -34,4 +34,4 @@ A taxonomy was created to better understand the strengths and weaknesses of AI Q
 There are three types of questions in the taxonomy:
 	1. **Numerical reasoning :** refers to performing mathematical calculations or comparing numerical data.
 	2. **Logical reasoning:** refers to using logical deductions to evaluate, contrast, or make judgments regarding the information in the filings. It includes qualitatively assessing information about the company and assessing numerical calculations, such as evaluating computed values.
-	3. **Information Extraction:**  refers to extracting specific data or textual content from the filings.
+	3. **Information Extraction:**  refers to extracting specific data or textual content from the filings
