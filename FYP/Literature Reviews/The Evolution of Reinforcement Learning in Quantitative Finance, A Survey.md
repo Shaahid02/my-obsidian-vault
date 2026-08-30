@@ -57,11 +57,11 @@ Extends the single agent paradigm where multiple agents interact either competit
 4. **On-Policy vs Off-Policy Frameworks:** <font color="#ffc000">On-policy algorithms</font>, such as Proximal Policy Optimisation (PPO), use data generated only from the current policy. This means that only actions taken by the current policy generate data at each training iteration. On-policy algorithms are typically more stable and exhibit lower variance because they learn directly from the policy they are improving and  practical in HFT due to the vast amount of data available despite being sample inefficient. <font color="#ffc000">Off-policy methods</font>, such as DQN, do not have this limitation, allowing them to use data generated from different policies. This makes off-policy methods more sample-efficient, as they can reuse past experiences stored in memory. Also could be used in HFT due to their ability to process large amounts of data, although they may require longer training times, which is crucial in the HFT context. 
 
 ### Main Reinforcement Learning Methods
-#### 1. Value-Based Methods (Critic Only)
+#### 1. Value-Based Methods/ MDP Framework (Critic Only)
 Value-based methods in RL focus on directly actions of the agent to derive the best policy.
 Core Framework:
-	1. **Define a Finite Set of States S<sub>t</sub>** (Includes info like financial accounting data, prices, sentiment, and technical indicators.)
-	2. **Define a Set of Actions A<sub>t</sub>** (i.e. Buy, Sell, Hold) <font color="#ffc000">discrete</font>
+	1. **Define a Finite Set of States S<sub>t</sub>** at each time point t (Includes info like financial accounting data, prices, sentiment, and technical indicators.)
+	2. **Define a Set of Actions A<sub>t</sub>** at each time point t (i.e. Buy, Sell, Hold) <font color="#ffc000">discrete</font>
 	3. **Establish transition probabilities**, which define state transitions based on actions
 	4. **Formulate a reward function R<sub>t</sub>** which provides feedback  to agent 
 	5. **Create a Policy 𝜋,** which <font color="#ffc000">maps states to actions</font> for agent to follow
@@ -71,6 +71,7 @@ Agent continuously interacts with the market (actions), and through trial and er
 
 These methods employ algorithms like Q-Learning and SARSA to optimise the expected total reward. But these algorithms are proven to converge to the optimal solution with probability 1. They are traditionally used in tabular settings.
 
+Major drawback: High bias
 #### 2. Policy-Based Methods (Actor Only)
  Policy-based methods in RL focus on directly optimising the policy that dictates the agent’s actions. This approach can be particularly advantageous in environments with continuous action spaces and complex dynamics.
  
@@ -81,6 +82,7 @@ A significant advantage of Policy-based methods is the continuous action space f
 
 Policy-based methods require a differentiable reward function
 
+Major drawback: High variance
 #### 3. Actor-Critic Method (Hybrid)
 Combines the previous two methods and treats them as modules which creates a core framework:
 	1. **Actor Module:** Responsible for selecting actions based on the current state. It learns a policy, which is a mapping from states to actions. This policy can be,
@@ -98,7 +100,20 @@ $$
 Most compelling of the four primary approaches, as it combines the advantages of both Policy-based and Value-based RL methods. Therefore able to diminish each others shortcomings. High variance and high bias respectively.
 
 #### 4. Model-Based Methods (Model)
+
+Least researched area.
+
 Constructing a model of the environment, which is then used to simulate and plan actions
 
 Core Framework:
-	1. **Define a Finite Set of States S<sub>t</sub>:** States represent environment derived information at each time *t* such as 
+	1. **Define a Finite Set of States S<sub>t</sub>** at each time point t (Includes info like financial accounting data, prices, sentiment, and technical indicators)
+	2. **Define a Set of Actions A<sub>t</sub>** at each time point t (i.e. Buy, Sell, Hold) <font color="#ffc000">discrete</font>
+	3. **Learn transition probabilities,** construct a model that predicts the next state S<sub>t+1</sub> and reward R<sub>t+1</sub> given the current state and action. Model can be a neural network or any other function approximator.
+	4. **Formulate a Reward Function R<sub>t</sub>,** numerical feedback to agent in response to its preceding action. (Profit, risk, transaction cost)
+	5. **Planning and policy optimisation,** used to simulate future states and rewards, allowing the agent to plan and optimise actions. (Monte Carlo Tree Search, Dynamic Programming)
+
+Standout qualities/problems:
+	1. **Learning Speed:** Model-based RL methods typically learn faster than model-free approaches by using the learnt model for planning and action optimisation, crucial for timely financial market decisions.
+	2. **Computational Complexity:** Simulating and planning with complex financial models is computationally intensive, requiring efficient algorithms and high-performance computing, especially for HFT applications.
+	3. **Risk Management:** Robust risk management is vital. Model-based RL can simulate extreme market scenarios to assess potential risks, helping to develop strategies that maximise returns and manage risks effectively.
+
