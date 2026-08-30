@@ -30,3 +30,8 @@ There are three types of questions in FINANCEBENCH,
 	3. **Metrics Generated Questions**
 		Annotators extracted 18 specific metrics ("base metrics") from the three main financial statement, these were then used to construct a series of derivative metrics (metrics whose values are derived from the base metrics). For example, net income margin is derived from the two base metrics: (1) net income and (2) total revenue. Questions and answers were then constructed from both the base and the derivative metrics, using templates that were specific to each combination of metric, company, fiscal year, and financial statement(s). In some cases, the questions were purely extractive (e.g. “What is the FY2019 unadjusted operating income (as reported by management) for Amazon?”)
 
+A taxonomy was created to better understand the strengths and weaknesses of AI QA tools. 
+There are three types of questions in the taxonomy:
+	1. **Numerical reasoning :** refers to performing mathematical calculations or comparing numerical data.
+	2. **Logical reasoning:** refers to using logical deductions to evaluate, contrast, or make judgments regarding the information in the filings. It includes qualitatively assessing information about the company and assessing numerical calculations, such as evaluating computed values.
+	3. **Information Extraction:**  refers to extracting specific data or textual content from the filings.
