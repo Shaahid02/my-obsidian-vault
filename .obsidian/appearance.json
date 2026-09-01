@@ -1,5 +1,8 @@
 {
-  "cssTheme": "Void",
+  "cssTheme": "Baseline",
   "accentColor": "",
-  "textFontFamily": "Aptos"
+  "textFontFamily": "Aptos",
+  "showViewHeader": false,
+  "enabledCssSnippets": [],
+  "showRibbon": true
 }
