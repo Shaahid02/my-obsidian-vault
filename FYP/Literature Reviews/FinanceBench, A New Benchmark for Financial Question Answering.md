@@ -1,6 +1,6 @@
 
 Focuses on the shortcomings of RAG for financial questioning.
-Provides the dataset for evaluating this shortcoming.
+Provides the [dataset](https://github.com/patronus-ai/financebench) for evaluating this shortcoming.
 
 Challenges faced by LLMs in financial domain:
 	- Needs domain-specific knowledge about financial topics and terminology
