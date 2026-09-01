@@ -37,4 +37,6 @@ There are three types of questions in the taxonomy:
 	3. **Information Extraction:**  refers to extracting specific data or textual content from the filings
 
 Vector store was used to store the documents as is the convention when it comes to RAG.
-A shared vector store was created which used Chroma Database, langchain implementation and OpenAI embeddings
+A shared vector store was created which used Chroma Database, langchain implementation and OpenAI embeddings.
+
+Overall models that have longContext perform better. Giving too much does cause it to be lost.
