@@ -40,3 +40,10 @@ Vector store was used to store the documents as is the convention when it comes 
 A shared vector store was created which used Chroma Database, langchain implementation and OpenAI embeddings.
 
 Overall models that have longContext perform better. Giving too much does cause it to be lost.
+
+**Overall Peformance**
+![[Pasted image 20260901111432.png]]![[Pasted image 20260901111509.png]]
+- **Correct Answer**: desired behavior of models
+- **Incorrect Answer:** vary, from calculations that are off by small margins to several orders of magnitude, and from making up legal information to giving the wrong direction for an effect
+- **Failure to Answer:** if the model explicitly states that it cannot answer because it does not have access to the right information then it is a failure to answer
+![[Pasted image 20260901111825.png]]
