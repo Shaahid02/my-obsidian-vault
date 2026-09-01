@@ -35,3 +35,6 @@ There are three types of questions in the taxonomy:
 	1. **Numerical reasoning :** refers to performing mathematical calculations or comparing numerical data.
 	2. **Logical reasoning:** refers to using logical deductions to evaluate, contrast, or make judgments regarding the information in the filings. It includes qualitatively assessing information about the company and assessing numerical calculations, such as evaluating computed values.
 	3. **Information Extraction:**  refers to extracting specific data or textual content from the filings
+
+Vector store was used to store the documents as is the convention when it comes to RAG.
+A shared vector store was created which used Chroma Database, langchain implementation and OpenAI embeddings
