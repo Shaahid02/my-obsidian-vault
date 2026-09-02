@@ -21,3 +21,5 @@ This study uses financial reports from the US SEC. (Company reports that are pub
 This explores chunking based on element types (document structure), which involves analyzing the inherent structure of documents, such as headings, paragraphs, tables, to guide the chunking process.
 
 However this issue can also be addressed by Markdown and LaTeX based chunking.
+
+
