@@ -16,3 +16,8 @@ This study uses financial reports from the US SEC. (Company reports that are pub
 	 - **Fixed Size Strategy:** divides text into uniform segments, but it often overlooks the underlying textual structure
 	 - **Recursive Strategy:** iteratively subdivides text using separators like punctuation marks, allowing it to adapt more fluidly to the content
 	 - **Contextual Strategy:** takes this a step further by employing NLP techniques such as sentence segmentation to represent the meaning in context
+	 - **Hybrid Strategy:** combines different approaches, offering greater flexibility in handling diverse text types
+
+This explores chunking based on element types (document structure), which involves analyzing the inherent structure of documents, such as headings, paragraphs, tables, to guide the chunking process.
+
+However this issue can also be addressed by Markdown and LaTeX based chunking.
