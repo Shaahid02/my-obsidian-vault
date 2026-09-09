@@ -18,7 +18,7 @@ This study uses financial reports from the US SEC. (Company reports that are pub
 	 - **Contextual Strategy:** takes this a step further by employing NLP techniques such as sentence segmentation to represent the meaning in context
 	 - **Hybrid Strategy:** combines different approaches, offering greater flexibility in handling diverse text types
 
-This explores chunking based on element types (document structure), which involves analyzing the inherent structure of documents, such as headings, paragraphs, tables, to guide the chunking process.
+This paper explores chunking based on element types (document structure), which involves analyzing the inherent structure of documents, such as headings, paragraphs, tables, to guide the chunking process.
 
 However this issue can also be addressed by Markdown and LaTeX based chunking.
 
