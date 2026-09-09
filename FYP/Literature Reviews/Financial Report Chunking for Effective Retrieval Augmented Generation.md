@@ -22,4 +22,6 @@ This paper explores chunking based on element types (document structure), which 
 
 However this issue can also be addressed by Markdown and LaTeX based chunking.
 
+####**RAG Pipeline**
+![[Pasted image 20260909115901.png]]
 
