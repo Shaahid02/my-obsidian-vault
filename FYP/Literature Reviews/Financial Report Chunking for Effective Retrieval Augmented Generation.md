@@ -30,6 +30,13 @@ However this issue can also be addressed by Markdown and LaTeX based chunking.
 VectorDB used: Weaviate
 Encoder model: [sentence transformer](https://huggingface.co/sentence-transformers/multi-qa-mpnet-base-dot-v1)
 
-In this experiment the to
+In this experiment the top 10 chunks are retrieved for each question.
 ![[Pasted image 20260909120726.png]]
 **Generation**
+
+LLM used: GPT-4
+
+Once the vector database has retrieved the top-10 chunks based on a question, the generation module generates the  based on the prompt.
+![[Pasted image 20260909121151.png]]
+**Chunking**
+Baseline chunking method: One of (n ∈ {128, 256, 512})
