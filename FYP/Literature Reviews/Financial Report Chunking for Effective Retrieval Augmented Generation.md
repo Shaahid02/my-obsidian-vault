@@ -22,6 +22,14 @@ This paper explores chunking based on element types (document structure), which 
 
 However this issue can also be addressed by Markdown and LaTeX based chunking.
 
-####**RAG Pipeline**
+#### **RAG Pipeline** 
 ![[Pasted image 20260909115901.png]]
 
+**Indexing and Retrieval**
+
+VectorDB used: Weaviate
+Encoder model: [sentence transformer](https://huggingface.co/sentence-transformers/multi-qa-mpnet-base-dot-v1)
+
+In this experiment the to
+![[Pasted image 20260909120726.png]]
+**Generation**
