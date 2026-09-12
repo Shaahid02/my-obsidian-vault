@@ -6,11 +6,11 @@
     "emojiStyle": "native",
     "iconColor": null,
     "recentlyUsedIcons": [
+      "✍",
+      "LiFilePenLine",
       "LiPalette",
       "LiFilePlus",
-      "LiFiles",
-      "LiServer",
-      "LiMail"
+      "LiFiles"
     ],
     "recentlyUsedIconsSize": 5,
     "rules": [],
@@ -42,5 +42,6 @@
   "FYP/GDrive Quick Access.md": "LiServer",
   "FYP/Lecture notes": "LiFiles",
   "FYP/Support Materials": "LiFilePlus",
-  "Excalidraw": "LiPalette"
+  "Excalidraw": "LiPalette",
+  "FYP/Supervisor Meeting Notes": "LiFilePenLine"
 }
