@@ -40,3 +40,10 @@ Once the vector database has retrieved the top-10 chunks based on a question, th
 ![[Pasted image 20260909121151.png]]
 **Chunking**
 Baseline chunking method: One of (n ∈ {128, 256, 512})
+
+Chunking was done:
+	Based on the number of tokens
+	Process documents using computer vision and natural language processing to extract elements
+
+The list of elements considered are provided by the [Unstructured open source library](https://docs.unstructured.io/welcome)
+
