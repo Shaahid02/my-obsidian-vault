@@ -63,5 +63,28 @@ After the derivation, 3 types of metadata are generated to enrich the content an
 
 **Dataset**
 The [[FinanceBench, A New Benchmark for Financial Question Answering|FinanceBench]] dataset was used for evaluation.
-
 #### Results
+Evaluation is grounded in factual accuracy, which allows us to measure the effectiveness of each configuration by its precision in retrieving answers that match the ground truth, as well as its generation abilities.
+
+**Evaluation analysis was based on 3 major parts:**
+	1. **Chunking Efficiency**
+		Observe the relationship between accuracy and total chunk size. Table 3 shows the number of chunks derived from each one of the processing methods. Unstructured element-based chunks are closer in size to Base 512, and as the chunk size decreases for the basic chunking strategies, the total number of chunks increases linearly
+		![[Pasted image 20260912195600.png]]
+	2. **Retrieval Strategy**
+		 Page numbers in the ground truth to calculate the page-level retrieval accuracy. ROUGE and BLEU scores were used to evaluate the accuracy of paragraph-level retrieval compared to the ground truth evidence paragraphs.
+		 When compared to Unstructured element-based chunking strategies, basic chunking strategies seem to have higher page-level retrieval accuracy but lower paragraph-level accuracy on average
+		 A fascinating discovery is that when various chunking strategies are combined, it results in enhanced retrieval scores, achieving superior performance at both the page level (84.4%) and paragraph level (with ROUGE at 0.568% and BLEU at 0.452%).
+		 ![[Pasted image 20260912200513.png]]
+	3. **Q&A Accuracy**
+		In addition to manual evaluation, we have investigated an automatic evaluation using GPT-4. GPT-4 compares how the answers provided by our method are similar to or different from the FinanceBench gold standard.
+		The following prompt template was used for the automatic eval
+		![[Pasted image 20260912200934.png]]
+		Results show that element-based chunking strategies offer the best question-answering accuracy, which is consistent with page retrieval and paragraph retrieval accuracy. And also this approach stands out in <font color="#ffc000">efficiency</font>.  Element-based chunking achieves the highest retrieval scores with only half the number of chunks required compared to methods that do not consider the structure of the documents (62,529 v.s. 112,155)
+		![[Pasted image 20260912201321.png]]
+#### Discussion
+We have observed that using basic 512 chunking strategies produces results most similar to the Unstructured element-based approach, which may be due to the fact that 512 tokens share a similar length with the token size within our element-based chunks and capture a long context, but fail keep a coherent context in some cases, leaving out relevant information required for Q&A
+
+The findings support existing research stating that the best basic chunk size varies from data to data. These results show, as well, that element-based chunking adapts to different documents without tuning. This method relies on the structural information that is present in the document’s layout to adjust the chunk size automatically.
+
+#### Conclusion
+Results show that our element based chunking strategy improves the state-of-the-art Q&A for the task, which is achieved by providing a better chunking strategy for the processed document.
