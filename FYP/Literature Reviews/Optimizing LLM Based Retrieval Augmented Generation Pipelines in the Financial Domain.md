@@ -38,8 +38,7 @@ language or those with fewer than 10 words were dropped.
 
 In this work, the effect of prompting on generation in RAG pipelines was investigated. In particular, a set of prompts with variations in factors such as the verbosity of instructions, the need for direct quoting, explicit introduction of metrics within prompts, the requirement for citations, and specific response formatting, among other aspects were created.
 
-
 |                                           |                                           |
 | ----------------------------------------- | ----------------------------------------- |
-| ![[Pasted image 20260913011548.png\|338]] | ![[Pasted image 20260913012148.png\|358]] |
+| ![[Pasted image 20260913011548.png\|320]] | ![[Pasted image 20260913012148.png\|358]] |
 ![[Pasted image 20260913011634.png|337]]
