@@ -86,5 +86,8 @@ We have observed that using basic 512 chunking strategies produces results most 
 
 The findings support existing research stating that the best basic chunk size varies from data to data. These results show, as well, that element-based chunking adapts to different documents without tuning. This method relies on the structural information that is present in the document’s layout to adjust the chunk size automatically.
 
+The paper experimented as well with variations of the verbs using in the prompt, e.g. changing referencing with using, which seemed to lower the quality of the answers generated. This shows that prompt engineering is a relevant factor in RAG.
 #### Conclusion
 Results show that our element based chunking strategy improves the state-of-the-art Q&A for the task, which is achieved by providing a better chunking strategy for the processed document.
+
+<font color="#ffc000">Prompt engineering is a relevant factor in RAG as well.</font>
