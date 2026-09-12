@@ -47,3 +47,21 @@ Chunking was done:
 
 The list of elements considered are provided by the [Unstructured open source library](https://docs.unstructured.io/welcome)
 
+> [!info] Chipper
+> Chipper, a vision encoder decoder model inspired by Donut to showcase the performance difference. The Chipper model outputs results as a JSON representation of the document, listing elements per page characterized by their element type. Additionally, Chipper provides a bounding box enclosing each element on the page and the corresponding element text
+
+ Given the structure of finance reporting documents, structural chunking efforts were concentrated on processing titles, texts, and tables. The following steps were taken to generate element based chunks:
+	 - if the element text length is smaller than 2,048 characters, a merge with the following element is attempted.
+	 - iteratively, element texts are merged following the step above till either the desired length is achieved, without breaking the element.
+	 - if a title element is found, a new chunk is started.
+	 - if a table element is found, a new chunk is started, preserving the entire table.
+
+After the derivation, 3 types of metadata are generated to enrich the content and support efficient indexing. The first two are generated via prompt templates:
+	1.  Up to 6 representative keywords of the composite chunk
+	2.  A summarised paragraph of the composite chunk
+	3.  Naive representation using the first two sentences from a composite chunk like a prefix (in case of tables: the description of the table, which is typically identified in the table caption)
+
+**Dataset**
+The [[FinanceBench, A New Benchmark for Financial Question Answering|FinanceBench]] dataset was used for evaluation.
+
+#### Results
