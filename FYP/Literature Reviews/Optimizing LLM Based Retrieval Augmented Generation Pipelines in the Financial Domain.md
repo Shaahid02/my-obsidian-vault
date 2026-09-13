@@ -1,7 +1,7 @@
 Explores the value of prompt engineering by benchmarking  6 LLMs in 15 retrieval scenarios,
 exploring 9 prompts over 2 real world financial domain dataset.
 
-**<font color="#ffc000">Models assessed:</font>** GPT-3.5-turbo-061,  GPT-4-0613, Llama-2-7B, Llama-2-13B, 
+**<font color="#ffc000">Models assessed:</font>** GPT-3.5-turbo-0613,  GPT-4-0613, Llama-2-7B, Llama-2-13B, Llama-2-7B-chat, Llama-2-13B-chat
 
 Given a user query, a typical RAG system employs a retriever system to fetch a list of documents likely relevant to the query from an information source (Retrieval). The documents are then fed into the context of the LLM, with users’ query / conversation history, and specific instructions / prompts on how to generate a response "grounded" in retrieved information (Generation)
 ![[Pasted image 20260913004818.png]]
