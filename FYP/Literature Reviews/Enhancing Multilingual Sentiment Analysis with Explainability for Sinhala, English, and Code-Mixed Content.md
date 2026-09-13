@@ -59,7 +59,7 @@ SHAP and LIME are layered on top of the BERT-based sentiment model:
 They report LIME working noticeably better than SHAP on short, code-mixed, informal reviews, since SHAP struggles more with that kind of sparse/mixed input while LIME's local perturbation approach handles conjunction-based context (e.g. correctly weighting "but" heavily in "fast na, but they reply"). SHAP is described as the more computationally expensive of the two, which matters if this is meant to run close to real time.
 
 Explanation outputs were manually spot-checked for consistency rather than assumed reliable, since XAI methods themselves can be inconsistent especially in low-resource settings.
-
+![[Pasted image 20260913181612.png]]
 #### Results
 
 English (BERT-base-uncased was the final model):
