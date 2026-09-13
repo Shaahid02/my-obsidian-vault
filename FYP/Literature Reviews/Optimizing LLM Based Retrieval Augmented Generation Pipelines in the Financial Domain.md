@@ -42,3 +42,5 @@ In this work, the effect of prompting on generation in RAG pipelines was investi
 | ----------------------------------------- | ----------------------------------------- |
 | ![[Pasted image 20260913011548.png\|320]] | ![[Pasted image 20260913012148.png\|358]] |
 ![[Pasted image 20260913011634.png|337]]
+#### Evaluation
+Assessed based on the <font color="#ffc000">answer quality</font> and <font color="#ffc000">instruction following ability</font>.
