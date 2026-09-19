@@ -125,14 +125,14 @@ Training is standard DDPG. The stabiliser is <font color="#ffff00">Predefined Pe
 
 - **The three-way contrast is what belongs in the review chapter, rather than three paper summaries in sequence.**
 
-  | | Kashif and Ślepaczuk | MacroHFT | FreQuant |
-  | --- | --- | --- | --- |
-  | Task | Cross-sectional allocation | Single-asset timing | Cross-sectional long-short |
-  | State domain | Time, LSTM plus attention | Time, LOB microstructure | Frequency, complex Transformer |
-  | Action | Dirichlet over $N$+cash | Binary $\{0,1\}$ | Top-$k$ signed weights |
-  | Regime handling | Post-hoc decomposition | Hard partition, 6 specialists | Multi-resolution spectrum |
-  | Algorithm | SAC | Dueling DDQN | DDPG |
-  | Costs | 2 bps flat | 2 bps flat | 33/40 bps, fixed-point solve |
-  | Evaluation | 16-fold WFO, HAC and bootstrap tests | 1 split, 6 metrics, no tests | 1 split, 2 metrics, no tests |
+  | Dimension | Kashif & Ślepaczuk | MacroHFT |
+| :--- | :--- | :--- |
+| **Task** | Cross-sectional allocation | Single-asset timing |
+| **State domain** | Time, LSTM plus attention | Time, LOB microstructure |
+| **Action** | Dirichlet over $N + \text{cash}$ | Binary $\{0, 1\}$ |
+| **Regime handling** | Post-hoc decomposition | Hard partition, 6 specialists |
+| **Algorithm** | SAC | Dueling DDQN |
+| **Costs** | 2 bps flat | 2 bps flat |
+| **Evaluation** | 16-fold WFO, HAC and bootstrap tests | 1 split, 6 metrics, no tests |
 
   Read down the evaluation row and the most rigorous protocol belongs to the paper with the least impressive results, which is the point I want to make about this literature rather than a coincidence. Taking the union of what the three do well gives me a protocol none of them has: walk-forward with adaptive retraining and formal significance testing from Kashif and Ślepaczuk, the six-metric risk panel and trade counts from MacroHFT, and the properly solved fee model from FreQuant, plus seeds and a cost-sensitivity sweep. Since no CSE benchmark exists at all, that protocol is a contribution in its own right and not just hygiene.
