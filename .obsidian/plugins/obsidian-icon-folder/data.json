@@ -6,11 +6,11 @@
     "emojiStyle": "native",
     "iconColor": null,
     "recentlyUsedIcons": [
+      "LiBot",
       "LiLayoutGrid",
       "✍",
       "LiFilePenLine",
-      "LiPalette",
-      "LiFilePlus"
+      "LiPalette"
     ],
     "recentlyUsedIconsSize": 5,
     "rules": [],
@@ -44,5 +44,6 @@
   "FYP/Support Materials": "LiFilePlus",
   "Excalidraw": "LiPalette",
   "FYP/Supervisor Meeting Notes": "LiFilePenLine",
-  "FYP/Matrices": "LiLayoutGrid"
+  "FYP/Matrices": "LiLayoutGrid",
+  "FYP/Claude outputs": "LiBot"
 }
