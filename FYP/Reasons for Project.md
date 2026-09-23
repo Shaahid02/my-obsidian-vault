@@ -22,3 +22,9 @@ Then the study can additionally answer an important empirical question:
 > **When does local sentiment actually contribute useful information in CSE decision-making, and when should the system reduce its influence?**
 
 That is a coherent research story: **one main technological contribution, two defensible sub-gaps, multiple datasets, and controlled experiments capable of proving or disproving the student's assumptions.**
+
+# Main
+
+## Heading 2
+ **Bold**
+X<sub>2</sub>
