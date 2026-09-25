@@ -1,207 +1,92 @@
+arXiv:2408.10932v3, 6 May 2025, Nikolaos Pippas, Elliot A. Ludvig and Cagatay Turkay of the University of Warwick, submitted to *ACM Computing Surveys*. A 36-page review of 167 publications applying reinforcement learning to quantitative finance, spanning 1996 to 2022, organised around the components of an RL agent rather than around applications: the environment and its features, the action space, the reward function, and the four method families. It then surveys transfer learning, imitation learning, policy distillation, ensembles and multi-agent systems as augmentations, walks through portfolio management, option hedging, order execution, market making, end-to-end systems and robo-advising as applications, and closes with a discussion section that is <font color="#ffc000">a sustained critique of evaluation practice in its own field</font>. The lead author is employed by HSBC Asset Management, which part-funded the work, declared on the first page.
 
+The note this replaces was a structured digest rather than a review, and the style note flags it as a separate mode for exactly that reason. It was good reference material and it stopped mid-sentence in section 5. Rewriting it as a review is worth doing because the survey's value to me has shifted: the taxonomy is background I mostly already have, and the parts that now matter are the two sections the digest never reached. <font color="#ffc000">Section 6.5 and the future-directions section state my orchestration gap as an open problem</font>, in an ACM survey of 167 papers, and section 8 is an evaluation-discipline checklist that lands directly on the run I am planning. I have kept the reference material that still earns its place and cut the textbook exposition of Q-learning and TD error, which is available in any RL text and was not doing work here.
 
-> [!NOTE] 
-> *“Reinforcement learning is learning what to do–how to map situations to actions–so as to maximise a numerical reward signal.”*
+> [!important] Scope of what this survey can speak to
+> Coverage runs 1996 to 2022, with the feature and reward appendix tables drawn from the fifteen most-cited papers as of October 2022, despite a 2025 publication date. The entire LLM-agent literature is therefore absent, so nothing here engages [[TradingAgents, Multi-Agents LLM Financial Trading Framework]], [[FinMe, A Performance-Enhanced LLM Trading Agent With Layered Memory and Character Design]] or [[Explainable zero-shot trading using multi-agent LLM architecture, A backtested approach for Bitcoin price]]. This is prior art on the reinforcement-learning half of my design space and on evaluation practice, not on the agent architecture I am actually building.
 
+#### Gap it's addressing
 
-Risk Performance Measures (RPM) such Sharpe Ratio
+- **Prior RL-in-finance surveys either cover broader economics or read as RL textbooks.** The stated positioning is against surveys that encompass economic applications generally and against those giving comprehensive textbook treatments of RL theory. This one restricts itself to quantitative finance and assumes the theory, which is the right call and is why the useful content is concentrated in the critique rather than the exposition.
+- **No prior survey dissects RL by agent component through a finance lens.** The organising move is to take the environment, the reward, the action space and the feature-extraction mechanism, and ask what each looks like when the environment is a market. That framing is what produces the survey's most useful observations, because it forces questions like whether the Markov property holds at all.
+- **The field's own evaluation standards have not been examined.** This is not framed as the headline contribution, and it is the one the survey delivers most convincingly. Nothing in the prior literature had assembled the unbalanced-benchmark, forward-looking-bias, survivorship-bias and overengineering criticisms in one place with named examples.
 
-The general pattern of normal ML training is
-	1. The training of an ML model such as a Support Vector Machine (SVM), NN, or Decision Tree with a specific dataset (features), followed by the generation of a forecast or signal over 𝑛 periods ahead.
-	2. The integration of this forecast or signal into a trading system to determine actual trading action or holdings (e.g., buy, sell, or hold in three discrete representations) at a single stock or portfolio level.
+#### Coverage and method
 
-This method does not work well because
-	1.  **Unsuitable Optimization metrics**: They focus on minimizing <font color="#ffff00">forecast error</font> which is often misaligned with the practical needs of financial trading, where <font color="#ffc000">RPMs like SR</font> is more relevant. This leads to suboptimal outcomes.
-	2.  **Limited computational agility**: The two step process in supervised learning increases complexity and slows predictions. Creates a roadblock because market conditions can change rapidly.
-	3. **Limited integration of the financial environment**: Traditional methods such as the conventional portfolio optimisation consist of a process that involves two distinct steps: first, calculating the expected returns and the covariance matrix of the assets; second, using these inputs in mean-variance optimisation to manage a predefined risk budget. The separation of these steps can limit the cohesion and adaptability of the framework. In contrast RL integrates this two step process into one promoting a more cohesive framework.
-	4.  **Limited consideration of restraints**: Traditional frameworks typically incorporate constraints like transaction costs and liquidity in a static manner, relying on predefined assumptions that may not accurately capture the dynamic nature of financial markets. In contrast, RL frameworks allow for real-time integration of these constraints. However, it is important to note that RL models often simplify transaction costs as fixed and assume certainty of execution, overlooking market realities like varying bid/ask spreads. Some studies address these complexities by incorporating execution and slippage costs.
-	5. **Adaptability to Changing Market Conditions:** Financial markets are inherently dynamic and continuously evolving. Traditional methods, may struggle to capture these changes promptly, often proving slow to adapt to shifting market conditions. In contrast, RL algorithms are capable of continuously learning and adapting in real time. Dynamic models itself can be trained to generalize across unseen transition functions, thereby enabling <font color="#ffc000">zero-shot adaptation</font>
+Articles were sourced from Google Scholar on RL and finance keywords and expanded by snowballing on references, spanning 1996 to 2022. <font color="#ffc000">Only 27.5% of the publications predate 2016</font>, which the authors attribute to DQN and the arrival of deep RL. Multi-armed bandits are explicitly excluded as lacking state transitions, and the survey restricts itself to methods that are unambiguously RL.
 
-QF’s complexity and dynamism considerably surpass RL’s conventional learning tasks.
+![[Pasted image 20260926031001.png]]
 
+The classification of all 167 publications by method and algorithm is the survey's one quantitative artefact, and the shape of it is the finding:
 
-> [!WARNING] Black Box Issue
-> Interpretability is crucial in finance as stakeholders must understand how an algorithm arrives at its decisions and validate its recommendations
+| Approach | Method | Algorithms and counts |
+| --- | --- | --- |
+| Model-free, value-based (critic-only) | 89 total | DQN 37, Q-learning 36, SARSA 10, other 6 |
+| Model-free, policy-based (actor-only) | 56 total | RRL 31, policy gradient 13, REINFORCE 5, other 7 |
+| Model-free, actor-critic | 52 total | DDPG 14, PPO 14, DPG 6, A2C 4, TRPO 2, other 12 |
+| Model-based | 3 total | other 3 |
 
+Those counts sum to 200 against 167 publications because several papers are classified under more than one category, which the authors state and never quantify, so the per-method figures are indicative rather than shares. The distribution still carries the argument: value-based methods dominate despite being restricted to discrete action spaces, <font color="#ffff00">actor-critic is described as the most compelling of the four and is among the least represented</font>, and model-based RL stands at three papers out of 167.
 
-### Simplified View 
-![[Pasted image 20260827203129.png]]
-The agent receives information about the state 𝑆𝑡 ∈ S and a reward at time 𝑡 and reacts upon this information with actions 𝐴𝑡 ∈ A. The resulting action feeds back to the environment, and the system generates a new state 𝑆𝑡+1 and a new numerical reward 𝑅𝑡+1 ∈ R ⊂ R at time 𝑡 + 1.5 The goal is to learn a policy to maximize the expected total reward, which effectively creates a trajectory that can be represented as follows:
+#### The RL framework mapped onto a market
 
-			𝑆0, 𝐴0, 𝑅1, 𝑆1, 𝐴1, 𝑅2, ...
-
-### Multi Agent System
-
-Extends the single agent paradigm where multiple agents interact either competitively or cooperatively.
+The survey's central diagram is the mapping of the standard agent-environment loop onto quantitative finance, and it is the piece of the old digest most worth keeping because it is the vocabulary I need when positioning my design against the RL literature rather than the LLM-agent literature.
 
 ![[Pasted image 20260827204351.png]]
-- **Agents:** Each agent 𝑖 has its own set of states 𝑆𝑖 , actions 𝐴𝑖 , and policies 𝜋𝑖 . Agents can have distinct state spaces 𝑆𝑖 depending on their roles and the information they can access. Similarly, agents can have distinct action spaces 𝐴𝑖 , reflecting their different capabilities or roles in the environment.
-- **State Space:** The joint state space 𝑆 is a combination of all individual states 𝑆 = 𝑆1 × 𝑆2 × . . . × 𝑆𝑛 .
-- **Action Space:** The joint action space 𝐴 is the Cartesian product of all individual action spaces 𝐴 = 𝐴1 × 𝐴2 × . . . × 𝐴𝑛 .
-- **Reward Function:** The reward function 𝑅 : 𝑆 × 𝐴 → R𝑛 provides a vector of rewards for all agents, where each component 𝑅𝑖 corresponds to the reward received by agent 𝑖.
-- **Policies:**  Each agent follows a policy 𝜋𝑖 : 𝑆𝑖 → 𝐴𝑖 , mapping states to actions.
-- **Objectives:** The goal is to find a set of policies, 𝜋 = (𝜋1, 𝜋2, . . . , 𝜋𝑛 ), where each policy 𝜋𝑖 maximises the cumulative reward for its respective agent. Depending on the application, this may involve maximising the cumulative reward for all agents collectively or maximising individual rewards independently.
-- **Information Sharing:** Agents share observations or information to enhance decision-making, leading to more informed actions and better performance
-- **Shared States:** Agents access a global or subset of shared states, enabling coordinated actions
-- **Joint Actions:** Agents coordinate actions to achieve common goals, such as synchronizing trades to influence market prices
-- **Cooperative and Competitive Interactions:** Agents work cooperatively for joint rewards or competitively for individual rewards, depending on the financial application
 
+The four method families compare as follows, which is the grid the digest was reaching for:
 
-> [!WARNING] Market Predictability
-> Unlike controlled simulation environments, real-world markets are unpredictable and influenced by myriad factors such as information asymmetry, variable transaction costs, taxes, and noise traders, which can significantly affect model performance 
+| Family | Action space | Learns | Principal weakness | Share here |
+| --- | --- | --- | --- | --- |
+| Value-based (critic-only) | Discrete only | Value function, policy derived from it | High bias; discrete actions misfit portfolio weights | 89 |
+| Policy-based (actor-only) | Continuous | Policy directly; needs a differentiable reward | High variance, slower convergence | 56 |
+| Actor-critic | Continuous | Both, critic stabilises the actor | Complexity; least researched of the model-free three | 52 |
+| Model-based | Either | A transition model, then plans against it | Computationally heavy; requires the model to be accurate | 3 |
 
-### Critical conditions for RL in QF
-1. **Transition from Simulation to Real World Application:** Mandates the necessity for the development of a risk management framework. 
-2. **Sample Efficiency:** Techniques such as model-based RL, experience replay, and transfer learning are valuable. Helps to simulate various market conditions to create synthetic data in a stock-trading scenario. This data helps the model learn how to handle different market situations.
-3. **Online vs Offline RL Settings:**<font color="#ffc000"> Online learning </font>in QF refers to agents learning and adapting continuously as new data arrive.  However, this can be highly impractical in HFT, where decisions occur in microseconds to milliseconds. In contrast, <font color="#ffc000">offline RL </font>uses historical data to develop strategies without continuous interaction with the environment. This method is particularly useful for backtesting and strategy development.
-4. **On-Policy vs Off-Policy Frameworks:** <font color="#ffc000">On-policy algorithms</font>, such as Proximal Policy Optimisation (PPO), use data generated only from the current policy. This means that only actions taken by the current policy generate data at each training iteration. On-policy algorithms are typically more stable and exhibit lower variance because they learn directly from the policy they are improving and  practical in HFT due to the vast amount of data available despite being sample inefficient. <font color="#ffc000">Off-policy methods</font>, such as DQN, do not have this limitation, allowing them to use data generated from different policies. This makes off-policy methods more sample-efficient, as they can reuse past experiences stored in memory. Also could be used in HFT due to their ability to process large amounts of data, although they may require longer training times, which is crucial in the HFT context. 
+> [!NOTE] Why markets are a POMDP and why that matters to me
+> The Markov decision process assumes the environment is fully observable and that the next state depends only on the current state and action. The survey argues plainly that this does not hold in markets: empirical evidence shows <font color="#ffc000">longer memory driven by investor behaviour, economic cycles and external events, introducing dependencies that extend beyond immediate state transitions</font>, so a partially observable MDP is the appropriate frame and transition probabilities are approximated with LSTMs and RNNs rather than modelled. The survey then states that models incorporating memory effects significantly outperform those built on the Markov assumption, particularly for long-term trends and market anomalies. That is a direct theoretical argument for conditioning on persistence, which is the input in my weighting function I have had the least external support for.
 
-### Main Reinforcement Learning Methods
-#### 1. Value-Based Methods/ MDP Framework (Critic Only)
-Value-based methods in RL focus on directly actions of the agent to derive the best policy.
-Core Framework:
-	1. **Define a Finite Set of States S<sub>t</sub>** at each time point t (Includes info like financial accounting data, prices, sentiment, and technical indicators.)
-	2. **Define a Set of Actions A<sub>t</sub>** at each time point t (i.e. Buy, Sell, Hold) <font color="#ffc000">discrete</font>
-	3. **Establish transition probabilities**, which define state transitions based on actions
-	4. **Formulate a reward function R<sub>t</sub>** which provides feedback  to agent 
-	5. **Create a Policy 𝜋,** which <font color="#ffc000">maps states to actions</font> for agent to follow
-	6. **Construct a Value Function V**, which maps states to the agent’s expected total discounted reward from a given state until the episode’s end under policy 𝜋
+Two formulas carry mechanisms that prose would not. The recurrent reinforcement learning framework of Moody and Wu accounts for 31 of the 167 papers, and its defining property is that the position at time $t$ depends on the position at $t-1$:
 
-Agent continuously interacts with the market (actions), and through trial and error aims to discover the best possible strategy known as the <font color="#ffc000">optimal policy</font> (𝜋 = 𝜋<sup>*</sup>). Applies <font color="#ffc000">Markov Decision Problem </font>(MDP) to financial trading.
+$$A_t = \text{sign}\left(u A_{t-1} + v_0 r_t + v_1 r_{t-1} + \dots + v_m r_{t-m} + \omega\right)$$
 
-These methods employ algorithms like Q-Learning and SARSA to optimise the expected total reward. But these algorithms are proven to converge to the optimal solution with probability 1. They are traditionally used in tabular settings.
+where $r_t$ are price returns and $\theta = \{u, v_i, \omega\}$ is the parameter set. That recurrence is what makes transaction costs expressible inside the objective rather than subtracted afterwards, which the additive-profits utility shows directly:
 
-Major drawback: High bias
-#### 2. Policy-Based Methods (Actor Only)
- Policy-based methods in RL focus on directly optimising the policy that dictates the agent’s actions. This approach can be particularly advantageous in environments with continuous action spaces and complex dynamics.
- 
- The RRL framework is particularly suited for financial applications because it can capture the temporal dependencies and sequential nature of trading decisions.
+$$U_t(\theta) = P_T = \sum_{t=1}^{T} R_t = \mu \sum_{t=1}^{T} \left\{ r_t^f + A_{t-1}\left(r_t - r_t^f\right) - \delta_t \left|A_t - A_{t-1}\right| \right\}$$
 
-Under the standard RRL framework, the trading position (action) $A_t$ at time $t$ is represented as [51]: $$A_t = A(\theta_t : A_{t-1}, I_t) \in {-1, 0, 1}$$
+where $P_T$ is cumulative profit, $\mu$ a fixed position size, $r_t$ and $r_t^f$ the risky and risk-free returns, and $\delta_t$ the transaction cost. <font color="#ffff00">The cost term is proportional to the change in position</font>, so an agent that churns pays for it inside the quantity it is maximising. Parameters are optimised online by stochastic gradient ascent, and the gradient carries a cross-temporal term because today's reward depends on both today's and yesterday's action.
 
-where:
+The third formula worth having is the closest thing in 167 papers to the weighting function I am proposing. Hens and Wöhrmann allocate dynamically between a bond and an equity index:
 
-- $\theta_t$ represents the learned parameter vector [51].
-- $A_{t-1}$ is the agent's prior trading action (or position) at time $t-1$ [51].
-- $I_t$ represents the current state information set, composed of lagged asset prices $z_t$ and external variables $y_t$ [51].
+$$R_t^P = w_t^\theta R_t^B + \left(1 - w_t^\theta\right) R_t^E$$
 
-A common single-layer neural implementation models the trading position using the sign activation function [52]: $$A_t = \text{sign}(u A_{t-1} + v_0 r_t + v_1 r_{t-1} + \dots + v_m r_{t-m} + \omega)$$
+where $R_t^B$ and $R_t^E$ are the two returns and $w_t \in [0,1]$ is a weight under an exponential parametric function of $\theta$. Two producers, one weight, one parametric form. I return to this below.
 
-where $r_t$ denotes price returns, and $\theta_t = \theta = {u, v_i, \omega}$ represents the parameter set to be optimized [52].
+#### Findings
 
-To train the model, the system directly maximizes an objective performance function, $U_t(\theta)$, which can represent cumulative wealth, utility, or risk-adjusted ratios like the Sharpe Ratio [52, 93]. A representative reward formulation is the additive profits utility function with transaction costs [53]: $$U_t(\theta) = P_T = \sum_{t=1}^T R_t = \mu \sum_{t=1}^T \left{ r_t^f + A_{t-1}(r_t - r_t^f) - \delta_t |A_t - A_{t-1}| \right}$$
+- **The method distribution is lopsided, and the holes are where the survey says the headroom is.** Value-based methods dominate at 89 classifications despite a discrete action space that the survey repeatedly notes misfits portfolio allocation, where weights are naturally continuous. Actor-critic is characterised as combining the strengths of both model-free families, mitigating policy-based high variance with a critic and value-based high bias with an actor, and is simultaneously the least represented of the three. Model-based RL, which would offer sample efficiency through learned transitions and a route to simulating extreme scenarios for risk management, stands at three papers.
+- **The survey's own diagnosis is that markets are partially observable and that memory beats Markov.** Covered in the callout above, and the reason it appears as a finding rather than background is that it is an empirical claim the survey stakes out, not a definitional one.
+- **Evaluation practice is criticised in four specific, named ways, and this is the most valuable section in the paper.** Benchmark comparisons are often unbalanced because the RL framework uses a different information set than the benchmark, so comparing an RL portfolio manager against Markowitz is not a like-for-like test. Sharpe ratios above 3 are described as exceptional, and the survey points at <font color="#ff0000">a reported Sharpe of 21.2 in one paper and 217.68 in another</font> as raising questions, attributing them to overfitting, data snooping and forward-looking bias where prices are observed at time $t$ and actions taken at the same time. Survivorship bias is named, with frameworks tested on Apple and similar survivors while bankrupt and delisted names are neglected. And attempts to justify methodological complexity are described as sparse.
+- **Overengineering is named as a structural problem in the field rather than a fault of individual papers.** The charge is that RL in QF is treated predominantly as an engineering exercise, drawing heavily on ML and deep-learning literature and applying those concepts after minor modifications or by swapping neural architectures and feature-selection mechanisms. The consequence the survey draws is the one that matters: <font color="#ffc000">the vast array of alternative solutions across varied architectures makes it difficult to identify superior approaches or pinpoint the essential components within a given solution</font>.
+- **Multi-agent RL in finance is thin, small-scale, and explicitly lacking coordination protocols.** The surveyed work is a handful of systems: Lee and Jagmin's four-agent decomposition into buy-signal, buy-order, sell-signal and sell-order agents; MAPS, where each agent manages its own portfolio and the loss is a weighted average of a global loss and individual local losses with a term rewarding diversity of actions; AbdelKawy's synchronous DQN and DDPG model with transfer learning between stocks; and Shavandi and Khedmati's three agents operating at one-hour, fifteen-minute and five-minute frequencies where the lowest-frequency output feeds the higher-frequency agents. The survey's assessment is that existing literature restricts its focus to a few agents, that scalability is a key challenge, and that establishing coordination and communication protocols among agents is underexplored.
+- **Execution friction is treated as a fixed constant across most of the field, and immediate execution is usually presupposed.** The survey states that RL models often simplify transaction costs as fixed and assume certainty of execution, overlooking market realities such as varying bid-ask spreads, with only some studies incorporating execution and slippage costs. Separately, on order execution, it notes that the literature often presupposes immediate execution of trading positions, with only a few frameworks such as Wang et al.'s hierarchical model including an execution module.
 
-where $P_T$ is the cumulative profit, $\mu > 0$ is a fixed position size, $r_t$ and $r_t^f$ are the returns of the risky and risk-free assets, respectively, and $\delta_t$ denotes transaction costs incurred during position transitions [53].
+#### Limitations
 
-RRL parameters are optimized online via stochastic gradient ascent: $\Delta \theta_t = \rho \frac{dU_t(\theta)}{d\theta}$, where the cross-temporal gradients are computed as [54, 55]: $$\frac{dU_t(\theta)}{d\theta} = \frac{dU_t(\theta)}{dR_t} \left{ \frac{dR_t}{dA_t} \frac{dA_t}{d\theta} + \frac{dR_t}{dA_{t-1}} \frac{dA_{t-1}}{d\theta} \right}$$
+- **Coverage ends in 2022 and the paper was published in 2025, which removes the entire LLM-agent literature.** Covered in the callout above, and recorded here because it bounds what the survey can be cited for. It also means the multi-agent assessment, which is the section I lean on most, was written before the systems I am actually comparing against existed.
+- **There is no quantitative synthesis of outcomes anywhere in 167 papers.** The classification table counts publications by algorithm; nothing aggregates what those papers reported. No common benchmark, no meta-analysis of Sharpe ratios or returns, no comparison of any two methods on shared data. So the survey establishes what has been tried and in what proportion, and cannot establish what works, which is a reasonable scope decision but means <font color="#ffc000">no performance claim can be cited from here</font>.
+- **The critique section names problems and quantifies none of them.** Survivorship bias, forward-looking bias, unbalanced benchmarks and unjustified complexity are each asserted with one or two examples. There is no count of how many of the 167 papers exhibit each, which is the piece of work this survey was uniquely positioned to do. The section therefore reads as a set of warnings rather than as evidence about the field's state, and I can cite it for the existence of each problem but not for its prevalence.
+- **The classification counts exceed the publication count and the overlap is never reported.** Two hundred classifications against 167 papers, because several are multiply categorised and some are placed in an "other" bucket when the algorithm is non-standard. The authors state this, but without the overlap figure the per-method counts cannot be converted into shares, which is the natural thing a reader wants to do with them.
+- **Selection is Google Scholar plus snowballing with no stated inclusion criteria or screening counts.** For a survey whose contribution is coverage, there is no protocol, no record of how many papers were screened and excluded, and no statement of what made a paper in or out beyond being unambiguously RL and unambiguously finance. The sample is not reproducible.
+- **A declared conflict of interest, which I record rather than weight.** The lead author is employed by HSBC Asset Management, which provided partial funding. It is declared plainly on the first page, and the critique section is if anything harder on the published literature than a conflicted author would be expected to be, so I see no sign of it shaping the content.
 
-Numerous variations of this framework have been proposed, including the addition of hidden layers to capture complex patterns (DRRL) [56] or threshold extensions to handle regime shifts [74].	
- 
-A significant advantage of Policy-based methods is the continuous action space for the agent:
-	Consider a portfolio of stocks: with the Value-based approach, portfolio weights can only take discrete values like buy, sell, or hold. In contrast, the Policy-based approach allows portfolio weights to assume any value in [0, 1] in the long-only case
+#### Why this matters for my project
 
-Policy-based methods require a differentiable reward function
-
-Major drawback: High variance
-#### 3. Actor-Critic Method (Hybrid)
-Combines the previous two methods and treats them as modules which creates a core framework:
-	1. **Actor Module:** Responsible for selecting actions based on the current state. It learns a policy, which is a mapping from states to actions. This policy can be,
-		1.<font color="#ffc000"> Deterministic</font>: The Actor always chooses the same action for a given state
-		2. <font color="#ffc000">Stochastic</font>: The Actor chooses actions according to a probability distribution
-	2. **Critic Module:** The Critic evaluates the action taken by the Actor by computing a value function. This value function estimates the expected cumulative reward (discounted over time) of being in a given state and taking a particular action.
-	3. **Advantage Function:** The advantage function helps to determine how much better or worse a particular action is compared to the average action taken from that state. It is defined as:
-$$
-				𝐴(𝑆𝑡 , 𝐴𝑡 ) = 𝑄 (𝑆𝑡 , 𝐴𝑡 ) − 𝑉 (𝑆𝑡 ), 
-		$$
-							Q : Action Value function
-							V: State Value function
-	4.  **Gradient Ascent:** Both the Actor and the Critic are trained using gradient ascent. The Actor updates its policy parameters to maximise the expected cumulative reward, while the Critic updates its parameters to provide more accurate evaluations of the actions.
-	5.  **TD Error:** Temporal Difference (TD) error is used to update both the Actor and the Critic. It is the difference between the expected reward and the actual reward received, given by:				$$𝛿𝑡 = 𝑅𝑡+1 + 𝛾𝑉 (𝑆𝑡+1) − 𝑉 (𝑆𝑡 ).$$
-Most compelling of the four primary approaches, as it combines the advantages of both Policy-based and Value-based RL methods. Therefore able to diminish each others shortcomings. High variance and high bias respectively.
-
-#### 4. Model-Based Methods (Model)
-
-Least researched area.
-
-Constructing a model of the environment, which is then used to simulate and plan actions
-
-Core Framework:
-	1. **Define a Finite Set of States S<sub>t</sub>** at each time point t (Includes info like financial accounting data, prices, sentiment, and technical indicators)
-	2. **Define a Set of Actions A<sub>t</sub>** at each time point t (i.e. Buy, Sell, Hold) <font color="#ffc000">discrete</font>
-	3. **Learn transition probabilities,** construct a model that predicts the next state S<sub>t+1</sub> and reward R<sub>t+1</sub> given the current state and action. Model can be a neural network or any other function approximator.
-	4. **Formulate a Reward Function R<sub>t</sub>,** numerical feedback to agent in response to its preceding action. (Profit, risk, transaction cost)
-	5. **Planning and policy optimisation,** used to simulate future states and rewards, allowing the agent to plan and optimise actions. (Monte Carlo Tree Search, Dynamic Programming)
-
-Standout qualities/problems:
-	1. **Learning Speed:** Model-based RL methods typically learn faster than model-free approaches by using the learnt model for planning and action optimisation, crucial for timely financial market decisions.
-	2. **Computational Complexity:** Simulating and planning with complex financial models is computationally intensive, requiring efficient algorithms and high-performance computing, especially for HFT applications.
-	3. **Risk Management:** Robust risk management is vital. Model-based RL can simulate extreme market scenarios to assess potential risks, helping to develop strategies that maximise returns and manage risks effectively.
-
-### Environment Modeling, Features, and Extraction Mechanisms
-
-> [!important]
-> In the RL framework, the environment characterises the current state of the system. The agent, the learner, and decision maker interact with this environment, selecting actions based on state information.
-
-This requires the agent and environment to be mutually exclusive, providing distinct boundaries for rewards, actions, and states.
-
-External factors affecting the environment,
-	- Stock indices
-	- Interest rates
-	- Commodity prices
-	- Macroeconomic causes
-	- Politics
-	- Natural risks
-
-The MDP framework can only be applied if the environment is fully observable and future states depend only on the current state and action, a property which is known as <font color="#ffc000">Markov property</font>
-
-<font color="#ff0000">This is not possible in a financial context</font>, due to above listed factors.
-
-Therefore given the complexity and partial observability of financial markets, a <font color="#ffc000">Partially Observable Markov Decision Process (POMDP)</font> framework is more appropriate.  In Partially Observable (PO) environments, the transition probabilities between states in financial markets are typically not explicitly modelled. Instead, historical data and statistical methods, such as<font color="#ffc000"> LSTM or RNN</font> , are used to approximate these transitions.
-
-> [!warning] Unpredictability
-> This approach acknowledges the inherent randomness and partial observability offinancial markets, making exact environment representation virtually impossible.
-#### Features
-
-To manage randomness , avoid the curse of dimensionality, and address interpretability issues strategic feature selection is necessary.
-
-State representation commonly incorporates discrete state, technical analysis, pricing data, macroeconomic indicators, sentiment data, current position, and Limit Order Book (LOB) data.
-
-1. **Price History**
-	Price history, represented as Open-High-Low-Close-Volume (OHLCV) bars, serves as the fundamental bedrock of state construction. However , raw OHLC features exhibit extremely high collinearity, which can inject input noise and degrade function approximation stability
-
-	Therefore <font color="#ffc000">market volatility</font> which is an important metric for risk management and regime shift detection should also be considered. Features include:
-		-  **Historical Standard Deviations**: Rolling standard deviations of log-returns across varying temporal horizons.
-		- **GARCH Volatility**: Generalized Autoregressive Conditional Heteroskedasticity features, first integrated into policy-gradient RRL frameworks by Zhang and Maringer to capture time-varying volatility clusters.
-		- **Covariance Matrices**: Full rolling covariance matrices of asset returns are modeled directly in state spaces to enable dynamic cross-sectional risk budgeting .
-		- **Regime-Switching Extensions**: Volatility-driven threshold rules used to identify structural market regimes (e.g., bull, bear, or sideways markets) and dynamically switch underlying agent parameters.
-
-2. **Technical Analysis**
-	Technical analysis employs indicators and rules to predict price directions based on past price and volume data. Indicators such as Moving Average (MA), Exponential Moving Average (EMA), Moving Average Convergence/Divergence (MACD), Japanese candlestick, and Relative Strength Index (RSI) are widely used to represent environments within Reinforcement Learning.
-
-3. **Fundamental Data and Factor Investing**
-	Traditional asset pricing and portfolio construction rely on **factor investing** to explain cross-sectional expected returns . These stylised factors, backed by decades of empirical research, include value, momentum, size (market capitalization), quality, and low beta.
-	
-	Integrating fundamental accounting data (e.g., Price-to-Earnings, Debt-to-Equity, and return on equity) into daily RL trading systems presents a severe temporal mismatch. Accounting data is updated quarterly, whereas trading agents typically operate on daily or intraday frequencies, limiting the utility of fundamental metrics as rapid trading signals.
-
-4. **Microstructure, Alternative, and Exogenous Features**
-	In high-frequency trading (HFT), market-making, and optimal trade execution, macro-level daily indicators are useless. Instead, models require **Limit Order Book (LOB)** features to capture microsecond-level liquidity dynamics:
-		- **Order Book Microstructure**: Bid-ask spreads, order book depth (volume at individual price levels), order flow imbalances, and the expected time to fill limit orders.
-		- **Book Exhaustion Rate (BER)**: A critical real-time liquidity depletion metric used by Zhao and Linetsky to protect market-making agents from adverse selection risk and toxic order flow.
-		- **Execution Metrics**: Elapsed execution time and remaining inventory sizes to enforce dynamic liquidation deadlines.
-	
-	Beyond structured market data, the literature increasingly incorporates **alternative data** to extract non-price signals:
-		 - **Sentiment Signals**: Textual sentiment indicators extracted from Reuters News Corpus, Twitter streams, and Thomson Reuters News Analytics. Natural Language Processing (NLP) models transform unstructured text into continuous sentiment scores, which significantly reduce market uncertainty in state representations
-		  - **Macroeconomic Context**: Exogenous indicators such as central bank policy rates, inflation metrics, GDP growth, and the slope of the US Treasury yield curve are used as risk indicators to model cyclical asset class rotations.
-		  - **Alternative Networks**: Environmental, Social, and Governance (ESG) scores and supply chain network linkages represent promising emerging features to capture firm-level interconnections and systemic risks.
-
-#### Feature Selection and Extraction Frameworks
-
-![[Excalidraw/Research Pipeline.md#^frame=Deep Learning-Based Feature Extraction|1800]]
-
-- **Temporal and Memory-Based Modeling (RNNs & LSTMs)**: Since financial data is inherently sequential, RNNs and LSTMs are vital for capturing temporal dependencies. LSTMs resolve the vanishing gradient problem in deep networks and utilize dedicated memory cells to preserve trading action history. This is highly advantageous for capturing transaction cost structures, as the agent's current position dictates future holding costs. Advanced implementations combine LSTMs with autoencoders, using the autoencoder to compress high-dimensional data (like LOB) into latent states, which the LSTM then uses to map sequential dependencies.
-- **Spatial and Cross-Sectional Modeling (CNNs & ResNets)**: Transitioning from purely temporal modeling, Convolutional Neural Networks (CNNs) introduce a powerful spatial feature extraction paradigm. In portfolio management, CNNs are deployed to analyze multi-asset cross-sectional relationships. Early frameworks utilized an _Ensemble of Identical Independent Evaluators_ to independently extract features for each asset. Modern deep structures leverage Deep Residual Networks (ResNet) to stabilize gradients in very deep networks , and _Inception Networks_ to perform multi-scale temporal convolutions, capturing short-term spikes and long-term trends simultaneously.
-- **Graph and Attention-Gated Mechanisms**: To model systemic connections, researchers utilize Graph Convolutional Networks (GCNs) like _DeepPocket_, mapping spatial relationships based on sector groupings or supply chain networks. Furthermore, the integration of **<font color="#ffc000">Attention Mechanisms</font>** marks a significant advancement in quantitative RL. Attention weights dynamically scale the importance of different features and time steps, enabling the network to focus on high-impact events (e.g., news releases or rapid price breakouts) while ignoring ambient market noise.
-- **Generative and Re-scaling Techniques**: To combat severe financial data scarcity especially in short-lived options contracts or emerging assets researchers deploy Generative Adversarial Networks (GANs) for synthetic data augmentation and Gated Recurrent Units (GRUs) for streamlined sequence modeling.
-
-#### Action Modelling and Reward Functions in Finance
-The action space $A_t$ defines how an agent interacts with the market, while the reward signal $R_t$ specifies the mathematical objective the agent seeks to optimize over time. The design of these components determines both the physical realism of the trading strategy and the convergence properties of the underlying learning algorithms.
+- **An ACM survey of 167 papers states my orchestration gap as an open problem, which is the strongest external support I have for it.** The assessment that multi-agent work restricts itself to a few agents, that scalability is a key challenge, and that <font color="#ffc000">the establishment of coordination and communication protocols among different agents is underexplored</font>, is a 2025 survey of the RL half of my field saying the thing I am proposing has not been done there. Under the scoping language the supervisor permits, this supports a candidate technical contribution not identified in the reviewed literature. It does not close the question, because the survey's coverage ends in 2022 and the LLM-agent systems I compare against came after, so the honest form of the claim cites this alongside the post-2022 notes rather than instead of them.
+- **Hens and Wöhrmann is the closest prior art in 167 papers to my weighting function, and it gives me a lineage rather than a leap.** Two asset classes, one weight, one exponential parametric form in $\theta$. That is the whole treatment of state-conditional weighting in the surveyed RL literature. My $w_{i,t} = f(L_t, V_t, P_t, C_{i,t})$ generalises it along three axes at once, from two producers to four heterogeneous ones, from a parametric function of time to a function of market state, and from asset-class returns to agent outputs. Positioning the contribution as a generalisation of a known and cited form is a better framing for the proposal than presenting it as novel machinery, and the survey's own future-directions section pointing at multi-objective RL and at hierarchical RL as underexplored gives me two more places to attach it.
+- **The POMDP argument is direct theoretical support for conditioning on persistence, which is the input I had the least backing for.** The survey's claim that markets exhibit memory extending beyond immediate state transitions, and that models incorporating those effects significantly outperform Markov-based ones, is the reason $P_t$ belongs in the conditioning set alongside liquidity and volatility rather than being the speculative fourth item. The empirical side of that already sits in the long-memory and volatility-persistence notes; what this adds is the framing that persistence is not just a property of the data, it is the reason the standard formalism does not fit, which is a stronger argument to put in the proposal.
+- **The friction critique generalises the tally I have been building across individual papers.** I have been recording flat or absent cost models one paper at a time, MacroHFT at 0.02%, Jung and Lee at 0.1% plus 0.1%, FinVision and TradingAgents at nothing at all. The survey states that fixed transaction costs with assumed certainty of execution is the field's default, and that immediate execution is usually presupposed. So this is not four papers being careless, it is a documented convention, and the RRL utility above shows the form the cost term takes when it is modelled at all, $\delta_t|A_t - A_{t-1}|$ proportional to the position change. The CSE version has to extend that with a spread that is a real cost rather than a rounding error and an impact term that is separate rather than folded in, and [[HLOB – Information persistence and structure in limit order books]] and [[A reinforcement learning approach to optimal execution]] carry the mechanism.
+- **Section 8 converts into a pre-registered evaluation checklist, and every item maps to a decision I have already half-made.** Benchmarks must run on the same information set the proposed system sees, which means my equal-weight and static-learned-weight baselines get the identical four agent outputs and not a reduced feature set. No forward-looking bias, so signals use information to the close of $t-1$ and execution happens at $t$. Survivorship-aware universe, which for the CSE means including delisted and suspended counters rather than the currently listed set, and that is a data-collection decision I need to make before the dataset is fixed rather than after. Sharpe reported with scepticism above 3, which connects directly to TradingAgents' 8.21 on sixty days and to my own twelve-month window. And complexity justified component by component.
+- **The overengineering charge lands on my design specifically, and my supervisor made the same objection independently.** Four agents plus an orchestrator plus FIGARCH plus structure-aware retrieval is exactly the kind of system the survey means when it says the proliferation of variants makes it impossible to identify which components matter. The supervisor's version was that three or four well-defined agents are better research than six loosely justified ones. The defence is the same in both cases and it is already specified: the three-way weighting comparison and the four independently removable state inputs exist precisely so that each piece has to earn its slot. Worth saying in the write-up that an independent survey of 167 papers and my supervisor arrived at the same objection, because that converts a design constraint into a positioning argument.
+- **Hierarchical RL is the vocabulary to use when positioning against the RL literature rather than the agent literature.** The survey names HRL as noticeably underexplored in QF apart from a few exceptions, and the exception it cites, Wang et al.'s hierarchical framework splitting high-level portfolio management from low-level execution, is structurally what I am building: a coordinating layer over specialised components. When the proposal needs to place the contribution against RL work rather than against LLM agents, "a coordination layer over heterogeneous specialised agents, conditioned on market state" is the description, and HRL and multi-objective RL are the two labels the survey hands me for it.
+- **The method-family table is background for a decision I have not had to make yet, and I should be honest about that.** My current design has no reinforcement learning component in it at all; the four agents are an indicator model, a retrieval system, a volatility model and a liquidity model, and the orchestrator is a fitted weighting function rather than a policy. If the orchestrator ever becomes a learned policy over a continuous weight simplex, the survey's steer is actor-critic, on the grounds that the action space is continuous and that the critic mitigates the variance that sinks actor-only methods. That is a prior to hold, not a decision to take now, and recording it that way keeps the note honest about what the survey does and does not bear on.
