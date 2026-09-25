@@ -2,7 +2,8 @@ Journal of Business and Technology, Vol. 10 No. 1, January 2026, pp. 120 to 135,
 
 This is the closest thing I have to a direct empirical warrant for the choice my whole architecture rests on, which is conditioning on market microstructure state rather than on a macro block, because the paper's single strongest result is that <font color="#ffc000">trading volume Granger-causes ASPI at p = 0.0041 while money supply and inflation cause nothing at all</font>, and it reaches that result on my exact market over a window that contains the Easter attacks, COVID-19 and the 2022 sovereign default. It also reports a reverse causality, stock returns predicting the exchange rate rather than the other way round, which contradicts both Wickremasinghe (2011) and Gunasekarage et al. (2004) and which the authors present as the paper's novelty. I want both findings. What I can't take is the estimation that produces them, because the variable the tests actually use is the log ASPI in levels rather than returns, and that one decision propagates into every p-value in Table 6.
 
-> [!WARNING] **The word "returns" appears in the title and nowhere in the estimation.** Every table refers to `log_ASPI closing price`, undifferenced, retained at level because the ADF test failed to find a unit root in it. So the paper tests whether trading volume predicts the _level_ of the index, not its return, and the two questions have different answers and different sampling distributions. Scope every result below to that, and see the limitations for why I think the underlying ADF result is itself wrong.
+> [!WARNING]
+> **The word "returns" appears in the title and nowhere in the estimation.** Every table refers to `log_ASPI closing price`, undifferenced, retained at level because the ADF test failed to find a unit root in it. So the paper tests whether trading volume predicts the *level* of the index, not its return, and the two questions have different answers and different sampling distributions. Scope every result below to that, and see the limitations for why I think the underlying ADF result is itself wrong.
 
 #### Gap it's addressing
 
@@ -14,13 +15,13 @@ This is the closest thing I have to a direct empirical warrant for the choice my
 
 Monthly series, <font color="#ffc000">2014 to 2022, 108 observations claimed</font>, purposive sampling, all variables converted to natural logarithms before testing. Sources are the Central Bank of Sri Lanka for money supply and the exchange rate, the Colombo Stock Exchange for the ASPI and trading volume, and the Department of Census and Statistics for inflation.
 
-|Variable|Construction|Notes|
-|---|---|---|
-|Market returns|ASPI closing price, in LKR|Log level, retained at level|
-|Trading volume|Shares traded monthly, millions|Log level, retained at level|
-|Exchange rate|USD/LKR|Log, first differenced|
-|Money supply|M2b, including time, savings and money market accounts|Log, first differenced|
-|Inflation|NCPI, base 2013 = 100|Log, **second** differenced|
+| Variable | Construction | Notes |
+| --- | --- | --- |
+| Market returns | ASPI closing price, in LKR | Log level, retained at level |
+| Trading volume | Shares traded monthly, millions | Log level, retained at level |
+| Exchange rate | USD/LKR | Log, first differenced |
+| Money supply | M2b, including time, savings and money market accounts | Log, first differenced |
+| Inflation | NCPI, base 2013 = 100 | Log, **second** differenced |
 
 Three inflation indices were available, the CCPI, the NCPI and the PPI, and the NCPI was chosen because the study is national in scope rather than Colombo-specific, which is the right call and better justified than most of the local literature manages. The data collection section also discloses that <font color="#ffff00">ChatGPT and Google assisted in locating credible sources</font>, with the series then manually extracted, mostly from Excel downloads and the inflation data transcribed out of PDFs.
 
@@ -32,25 +33,26 @@ Descriptive statistics in Table 1 are the first place the sample accounting come
 
 Granger's (1969) definition is that $x$ causes $y$ if past $x$ improves the prediction of $y$ beyond what past $y$ alone provides, which in practice is an F-test on the lagged cross terms of an autoregression:
 
-$$y_t = \alpha_0 + \sum_{i=1}^{p}\alpha_i,y_{t-i} + \sum_{i=1}^{p}\beta_i,x_{t-i} + \varepsilon_t \qquad H_0:\ \beta_1 = \beta_2 = \cdots = \beta_p = 0$$
+$$y_t = \alpha_0 + \sum_{i=1}^{p}\alpha_i\,y_{t-i} + \sum_{i=1}^{p}\beta_i\,x_{t-i} + \varepsilon_t \qquad H_0:\ \beta_1 = \beta_2 = \cdots = \beta_p = 0$$
 
 where:
-
 - $y_t$ is the log ASPI and $x_t$ each macro or volume variable in turn, tested pairwise rather than in one system
 - $p$ is the common lag order, selected once and applied to every pair
 - rejection of $H_0$ is read as $x$ Granger-causing $y$, which is predictive precedence and not structural causation, a distinction the paper states correctly and then drifts away from in the discussion
 
-Lag order was selected by the Schwarz criterion over lags one to ten and <font color="#ffc000">lag one was chosen, SC = −32.1528</font>. The choice is consequential enough to be worth seeing why the criteria disagree, since Table 4's AIC minimises at lag three (−33.0528) and HQIC at lag two (−32.3946):
-
-$$\text{SC} = \ln\hat{\sigma}^2 + \frac{k\ln T}{T} \qquad\text{against}\qquad \text{AIC} = \ln\hat{\sigma}^2 + \frac{2k}{T}$$
-
-With $T \approx 105$, $\ln T \approx 4.65$, so SC charges each added parameter more than twice what AIC does, and in a five-variable system each extra lag adds 25 parameters, which is enough for the two criteria to land three lags apart. The paper reports the disagreement in the table and doesn't discuss it, and with $p = 1$ the F-test above collapses to a single restriction, so **every result in the paper is a t-test on one coefficient**.
-
-Stationarity was established with ADF. Log ASPI (−5.0724, p = 0.0000) and log trading volume (−3.1719, p = 0.0217) were declared stationary at level and deliberately left undifferenced to avoid losing information, citing Engle and Granger (1987). The exchange rate (p = 0.9922), money supply (p = 0.9261) and NCPI (p = 0.9978) all failed at level, the first two reached stationarity after one difference, and the NCPI needed two, its first difference sitting at p = 0.0821.
+Stationarity was established with ADF. Log ASPI (−5.0724, p = 0.0000) and log trading volume (−3.1719, p = 0.0217) were declared stationary at level and deliberately left undifferenced to avoid losing information, citing Engle and Granger (1987). The exchange rate (p = 0.9922), money supply (p = 0.9261) and NCPI (p = 0.9978) all failed at level, the first two reached stationarity after one difference, and the NCPI needed two, its first difference sitting at p = 0.0821 and its second at −4.21, p = 0.0006. Linear dependence was then confirmed with the sample autocorrelation function to twelve lags, and it is worth reading Tables 2 and 3 against each other, because the autocorrelations are what make me doubt the unit root results sitting directly above them.
 
 ![[Pasted image 20260925130002.png]]
 
-Linear dependence was confirmed with the sample autocorrelation function to twelve lags, and diagnostics were run before the causality tests. The ARCH test found heteroscedasticity in the exchange rate (42.4551), the ASPI (86.5509) and trading volume (70.0659), and none in money supply or inflation, so robust standard errors were applied following Stock and Watson (2015). The LM test found no serial correlation anywhere, p between 0.1936 and 0.7478.
+Lag order was selected by the Schwarz criterion over lags one to ten and <font color="#ffc000">lag one was chosen, SC = −32.1528</font>. Table 4 reports two other criteria beside it and they do not all agree, HQIC also minimises at lag one (−32.6066) but <font color="#ffc000">AIC minimises at lag four (−33.1968)</font>, three lags further out than the specification the paper actually estimates:
+
+$$\text{SC} = \ln\hat{\sigma}^2 + \frac{k\ln T}{T} \qquad\text{against}\qquad \text{AIC} = \ln\hat{\sigma}^2 + \frac{2k}{T}$$
+
+With $T \approx 105$, $\ln T \approx 4.65$, so SC charges each added parameter more than twice what AIC does, and in a five-variable system each extra lag adds 25 parameters, which is enough for the two criteria to land three lags apart. Two of three criteria backing lag one is a reasonable defence of the choice, and the paper doesn't make it, it reports the table and moves on. What it also doesn't say is that with $p = 1$ the F-test above collapses to a single restriction, so **every result in the paper is a t-test on one coefficient**.
+
+![[Pasted image 20260925130003.png]]
+
+Diagnostics were run before the causality tests. The ARCH test found heteroscedasticity in the exchange rate (42.4551), the ASPI (86.5509) and trading volume (70.0659), and none in money supply or inflation, so robust standard errors were applied following Stock and Watson (2015). The LM test found no serial correlation anywhere, p between 0.1936 and 0.7478.
 
 #### Findings
 
@@ -60,26 +62,20 @@ Linear dependence was confirmed with the sample autocorrelation function to twel
 - **Inflation causes nothing either, p = 0.2772 and 0.9649**, against Gunasekarage et al.'s unidirectional inflation to price finding. The paper reads both null results as semi-strong EMH, macro news being anticipated and priced before it lands in a monthly print, which is one reading, and low test power on a twice-differenced series at a single lag is another that the paper doesn't consider.
 - **Heteroscedasticity clusters in exactly the three series the paper keeps at level or treats as market variables**, the exchange rate, the ASPI and trading volume, all with ARCH p-values of 0.0000, while the two macro series that produce null results show none. That pattern is consistent with the market-side series carrying volatility clustering that the level specification doesn't model, and it's the same persistence [[The effect of COVID-19 on long memory in returns and volatility of cryptocurrency and stock markets]] is about.
 
-![[Pasted image 20260925130003.png]]
+![[Pasted image 20260925130004.png]]
 
 #### Limitations
 
 - **The ADF result that licences keeping ASPI and volume at level is not credible, and everything downstream inherits it.** A log equity index over nine years is about as close to a canonical near-unit-root series as financial data gets, and an ADF statistic of −5.0724 with p = 0.0000 on one is a red flag rather than a finding. The paper's own Table 3 contradicts it, reporting a lag-one sample autocorrelation of <font color="#ffc000">0.9273 for log ASPI and 0.8179 for log trading volume</font>, decaying to 0.2928 and 0.4366 at lag twelve, which is the autocorrelation profile of a highly persistent level series and not of a stationary one. The most likely explanation is a specification difference in how the test was run, trend plus intercept against intercept only, but the paper reports no ADF specification, no lag choice for the test and no alternative unit root test, so I can't diagnose it further and neither can a reader. What it means practically is that the two variables in the headline result are probably I(1) and entered untransformed, which puts the volume to ASPI test in spurious-regression territory, and that is the single result the paper's contribution rests on. Robust standard errors correct for the heteroscedasticity the ARCH test found, they do nothing about a non-standard limiting distribution.
-    
 - **The dependent variable is a level and the paper interprets it as a return.** These are different quantities with different orders of integration and different economic meaning:
-    
-    $$\text{what Table 6 tests: } \log(\text{ASPI}_t) \qquad\text{against}\qquad \text{what the title claims: } r_t = \log(\text{ASPI}_t) - \log(\text{ASPI}_{t-1})$$
-    
-    Descriptive statistics make the substitution visible, the reported mean of 8.8223 with a standard deviation of 0.1845 is a log index sitting around 6,800 points, which no return series produces. This is the same construct-to-proxy slippage that runs through [[The Long-Term Impact of Macroeconomic Stability Variables on Stock Price Volatility]], where a signed monthly change is called volatility, and the two papers together are why I now check what a CSE study's dependent variable actually is before reading any of its conclusions.
-    
+
+  $$\text{what Table 6 tests: } \log(\text{ASPI}_t) \qquad\text{against}\qquad \text{what the title claims: } r_t = \log(\text{ASPI}_t) - \log(\text{ASPI}_{t-1})$$
+
+  Descriptive statistics make the substitution visible, the reported mean of 8.8223 with a standard deviation of 0.1845 is a log index sitting around 6,800 points, which no return series produces. This is the same construct-to-proxy slippage that runs through [[The Long-Term Impact of Macroeconomic Stability Variables on Stock Price Volatility]], where a signed monthly change is called volatility, and the two papers together are why I now check what a CSE study's dependent variable actually is before reading any of its conclusions.
 - **Mixing I(0), I(1) and I(2) variables in one pairwise testing framework without cointegration analysis breaks the test's asymptotics.** Money supply and the exchange rate enter first-differenced, the NCPI twice-differenced, the ASPI and volume at level, so several of the pairs in Table 6 regress variables of different integration orders on each other, and the F-distribution the p-values are read against assumes that doesn't happen. The paper concedes the missing piece in its further research section, naming VECM and the Johansen test as what should come next, which is the right diagnosis arriving one section too late.
-    
-- **Second-differencing the NCPI changes the hypothesis without the paper noticing.** The first difference of a log price index is the inflation rate, so the second difference is the change in the inflation rate, and H2 as estimated tests whether _acceleration_ in inflation predicts the index while the discussion, the conclusion and the EMH interpretation all talk about inflation levels. The first difference was also marginal at p = 0.0821, stationary at 10% and not at 5%, so a defensible alternative specification existed and the choice between them is never argued.
-    
-- **Lag one forecloses the lag structure the other CSE evidence points at.** At a single monthly lag the model can only detect transmission completing inside one month, and the two nearest local studies both find much slower channels, a two-month exchange rate lead at p = 0.0015 in the ARDL study and four to six month monetary leads in [[Machine Learning-Driven Sri Lankan Stock Market Prediction, Harnessing Economic Indicators and Sentiment Analysis]]. So the null results for money supply and inflation are consistent with genuinely absent causality, and equally consistent with causality operating at a horizon the specification can't see, and the paper reports the first reading as though the second weren't available. AIC preferring lag three in the paper's own table makes this harder to wave off.
-    
+- **Second-differencing the NCPI changes the hypothesis without the paper noticing.** The first difference of a log price index is the inflation rate, so the second difference is the change in the inflation rate, and H2 as estimated tests whether *acceleration* in inflation predicts the index while the discussion, the conclusion and the EMH interpretation all talk about inflation levels. The first difference was also marginal at p = 0.0821, stationary at 10% and not at 5%, so a defensible alternative specification existed and the choice between them is never argued.
+- **Lag one forecloses the lag structure the other CSE evidence points at.** At a single monthly lag the model can only detect transmission completing inside one month, and the two nearest local studies both find much slower channels, a two-month exchange rate lead at p = 0.0015 in the ARDL study and four to six month monetary leads in [[Machine Learning-Driven Sri Lankan Stock Market Prediction, Harnessing Economic Indicators and Sentiment Analysis]]. So the null results for money supply and inflation are consistent with genuinely absent causality, and equally consistent with causality operating at a horizon the specification can't see, and the paper reports the first reading as though the second weren't available. SC and HQIC both landing on lag one makes the choice defensible, AIC preferring lag four makes the sensitivity check the paper never runs the obvious one to ask for.
 - **The sample is small for the number of regime breaks it spans and there is no subsample analysis.** Roughly 105 usable observations covering the Easter attacks, the pandemic, the 2021 import restrictions, the March 2022 float and the sovereign default, with no structural break test, no rolling window and no pre-crisis against crisis split, so a full-sample causality result is averaging over regimes that almost certainly differ. The exchange rate skewness of 5.7245 says one month dominates that series, and nothing in the design isolates it.
-    
 
 #### Why this matters for my project
 
