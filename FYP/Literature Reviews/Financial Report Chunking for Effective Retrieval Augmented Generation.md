@@ -1,93 +1,104 @@
-Revolves around chunk primary by structural element components of documents. Dissecting documents into these constituent elements.
+arXiv:2402.05131v3, 16 March 2024, Antonio Jimeno Yepes, Yao You, Jan Milczek, Sebastian Laverde and Leah Li of Unstructured Technologies. A systematic comparison of chunking strategies for retrieval-augmented generation over SEC filings, holding every other component of the pipeline fixed so that chunking is the only variable. The baseline splits documents into fixed token windows of 128, 256 and 512. The proposed alternative runs a vision encoder-decoder over each page to label regions by structural type, title, narrative text, list item, table, then builds chunks by merging elements up to roughly 2,048 characters, <font color="#ffff00">starting a new chunk at every title and giving every table a chunk of its own</font>. Each element chunk is indexed three ways, with GPT-4 keywords, with a GPT-4 summary, and with a naive prefix. Evaluated on [[FinanceBench, A New Benchmark for Financial Question Answering]] using Weaviate, a `multi-qa-mpnet-base-dot-v1` encoder, the top ten chunks, and GPT-4 as the generator.
 
-Framework that evaluates how chunking based on element types annotated by document understanding models contributes to the overall context and accuracy of the information retrieved.
+This is the paper that supplies the retrieval mechanism for <font color="#ffc000">A<sub>F</sub>, the fundamental and retrieval channel</font>, and it is the direct continuation of the FinanceBench note, using that benchmark's public sample as its evaluation set. The note it replaces was an accurate summary of what the paper *says*, and the reason it needed rewriting is that the tables do not support the prose in two specific places, both of which I had carried forward into my own cross-references. Reading the numbers rather than the claims changes what I can cite from this paper, and it changes it in a direction that is still favourable to structure-aware retrieval but for different reasons than I had recorded.
 
-> [!info] RAG
-> In RAG, instead of answering a user query directly using an LLM, the user query is used to retrieve documents or segments from a corpus and the top retrieved documents or segments are used to generate the answer in conjunction with an LLM.
+> [!WARNING] The number I had been citing is not the number to cite
+> I had this paper on record as showing element-based chunking reaching **84.4% page-level retrieval accuracy**. That figure is the *aggregation* of three separately-indexed element-based variants, it beats the equivalent aggregation of the three fixed-size baselines by 0.71 points, and the discussion states that this configuration <font color="#ff0000">exceeded GPT-4's token limit and produced a non-effective Q&A solution</font>, so it never ran end to end. Every individual element-based index retrieves pages *worse* than every fixed-size baseline. The citable result from this paper is the end-to-end one, 53.19% against 48.23%, and I have corrected the FinanceBench note accordingly.
 
-This segmenting is called chunking. After chunking it is indexed by a <font color="#ffc000">retrieval system</font> and recovered and processed as required.  
+#### Gap it's addressing
 
-The retrieval system in RAG can use traditional retrieval systems using bag-of-words methods or a vector database. If a vector database is used, then an embedding needs to be obtained from each chunk, thus the number of tokens in the chunk is relevant since the neural networks processing the chunks might have constraints on the number of tokens. As well, different chunk sizes might
-have undesirable retrieval results.
+- **Chunking is treated as a hyperparameter rather than studied, and never systematically for financial reports.** The existing strategies are named and fairly characterised, fixed size dividing text into uniform segments, recursive subdividing on punctuation separators, contextual using sentence segmentation, and hybrid combining them, and the shared property is that all four treat text as uniform and discard whatever structure the document had. The authors claim this is the first systematic study of chunking for document understanding and specifically for financial reports, and on the evidence of the related-work section that claim holds.
+- **Structural chunking has no dedicated treatment even though partial versions exist.** Chunking by Markdown or LaTeX headings comes closest, and the paper is right that this is not the same thing as chunking on element types recovered from an arbitrary PDF, because a filing has no markup to key on.
+- **Financial reports are the hard case for any of this.** Varying sizes and layouts and heavy tabular content, which their own dataset statistics then bear out: documents run from 4 to 549 pages, and <font color="#ffc000">the mean page on which the evidence sits is 54.58 with a standard deviation of 43.66</font>, reaching page 304 in one case. That single statistic is the best argument in the paper for why retrieval over filings is a real problem rather than a solved one.
 
-This study uses financial reports from the US SEC. (Company reports that are publicly traded)
+#### Data and setup
 
- Various strategies have been developed for text chunking:
-	 - **Fixed Size Strategy:** divides text into uniform segments, but it often overlooks the underlying textual structure
-	 - **Recursive Strategy:** iteratively subdivides text using separators like punctuation marks, allowing it to adapt more fluidly to the content
-	 - **Contextual Strategy:** takes this a step further by employing NLP techniques such as sentence segmentation to represent the meaning in context
-	 - **Hybrid Strategy:** combines different approaches, offering greater flexibility in handling diverse text types
+The evaluation set is FinanceBench's public 150 questions, which span 84 unique reports. FinanceBench does not distribute the source PDFs, and the authors were able to recover only 80 documents, which reduces the question count to 141. So every number reported here is on 141 questions, and is not strictly comparable to FinanceBench's own figures on its 150.
 
-This paper explores chunking based on element types (document structure), which involves analyzing the inherent structure of documents, such as headings, paragraphs, tables, to guide the chunking process.
+The 80 recovered documents total 11,787 pages, averaging 147.34 with a standard deviation of 97.78, and average 102,444 tokens each with a standard deviation of 61,979 under the `cl100k_base` tokenizer. The element detector labels 146,921 elements across them: NarrativeText 61,780, ListItem 33,054, Title 29,664, UncategorizedText 9,400, Table 7,700, Header 3,959, Footer 1,026, and negligible counts of Image, FigureCaption, Formula and Address. <font color="#ffc000">Tables are 5.2% of detected elements</font>, which is low for a corpus that is three quarters 10Ks, and no table-detection accuracy is reported anywhere.
 
-However this issue can also be addressed by Markdown and LaTeX based chunking.
+The pipeline is held constant across all conditions: Weaviate as the vector database with approximate nearest-neighbour search, a sentence-transformer encoder trained on over 256M question-answer pairs, top-ten retrieval, and GPT-4 as the generator under a fixed prompt that includes an explicit abstention instruction:
 
-#### **RAG Pipeline** 
+```
+please answer the question below by referencing the list of sources
+provided after the question; if the question can not be answered just
+respond 'No answer'. The sources are listed after "Sources:".
+
+Question: {query}
+
+Sources: {key} - {source}
+```
+
+That abstention instruction is what produces the "No answer" column in the results, and it is the same behaviour FinanceBench labels failure to answer, which makes the two papers' outputs directly comparable on that axis.
+
+#### Pipeline and chunking design
+
+There is no model trained here and no mathematics in the paper, so this section takes the place of the architecture section in the other notes. The pipeline is a standard RAG loop and only the chunker changes.
+
 ![[Pasted image 20260909115901.png]]
 
-**Indexing and Retrieval**
+The element-based chunker applies four rules in order: merge an element with the following one if its text is under 2,048 characters; keep merging until the target length is reached without breaking an element; start a new chunk whenever a title element appears; and start a new chunk whenever a table appears, preserving the whole table. The 2,048-character target is roughly 512 tokens, which is why Base 512 turns out to be the closest baseline in both size and behaviour.
 
-VectorDB used: Weaviate
-Encoder model: [sentence transformer](https://huggingface.co/sentence-transformers/multi-qa-mpnet-base-dot-v1)
+Each element chunk is then indexed three separate ways, and the three are treated as distinct strategies rather than as one enriched index. **Keywords** prompts GPT-4 for up to six representative keywords of the chunk. **Summary** prompts GPT-4 for a summarised paragraph. **Prefix and Table Description** takes the first two sentences of the chunk, or for a table the caption that describes it. The "aggregation" rows in the results are the union of retrieval across all three indexes, which is why their chunk counts are exactly three times the individual ones.
 
-In this experiment the top 10 chunks are retrieved for each question.
-![[Pasted image 20260909120726.png]]
-**Generation**
+Retrieval is scored three ways. **Page accuracy** asks whether any retrieved chunk came from the page the annotator recorded as holding the evidence. **ROUGE** and **BLEU** are computed as the maximum score over the ten retrieved contexts against the gold evidence paragraph, so they measure how tightly the best retrieved passage matches the evidence text rather than merely whether the right region was found. Question answering is scored twice, once by hand and once automatically with GPT-4 under a simple equivalence prompt:
 
-LLM used: GPT-4
+```
+Begin with True or False. Are the two following answers (Answer 1 and
+Answer 2) the same with respect to the question between single quotes
+'{question}'?
 
-Once the vector database has retrieved the top-10 chunks based on a question, the generation module generates the  based on the prompt.
-![[Pasted image 20260909121151.png]]
-**Chunking**
-Baseline chunking method: One of (n ∈ {128, 256, 512})
+Answer 1: '{ground_truth_answer}'
+Answer 2: '{generated_answer}'
+```
 
-Chunking was done:
-	Based on the number of tokens
-	Process documents using computer vision and natural language processing to extract elements
+#### Findings
 
-The list of elements considered are provided by the [Unstructured open source library](https://docs.unstructured.io/welcome)
+- **Every individual element-based index retrieves pages worse than every fixed-size baseline, which is the reverse of the paper's own summary.** Keywords Chipper reaches 46.10 page accuracy, Summary 62.41 and Prefix 67.38, against Base 512 at 68.09, Base 128 at 72.34 and Base 256 at 73.05. The prose describes element-based chunking as achieving the highest retrieval scores, and that is only true of the aggregated row.
 
-> [!info] Chipper
-> Chipper, a vision encoder decoder model inspired by Donut to showcase the performance difference. The Chipper model outputs results as a JSON representation of the document, listing elements per page characterized by their element type. Additionally, Chipper provides a bounding box enclosing each element on the page and the corresponding element text
+  ![[Pasted image 20260912200513.png]]
 
- Given the structure of finance reporting documents, structural chunking efforts were concentrated on processing titles, texts, and tables. The following steps were taken to generate element based chunks:
-	 - if the element text length is smaller than 2,048 characters, a merge with the following element is attempted.
-	 - iteratively, element texts are merged following the step above till either the desired length is achieved, without breaking the element.
-	 - if a title element is found, a new chunk is started.
-	 - if a table element is found, a new chunk is started, preserving the entire table.
+- **What element-based chunking genuinely wins is paragraph-level precision, and the margin there is wide.** BLEU runs 0.315, 0.350 and 0.400 for the three element variants against 0.181, 0.231 and 0.250 for the three baselines, so <font color="#ffc000">the worst element variant beats the best baseline on BLEU</font>, and at aggregation it is 0.452 against 0.277, a 63% relative gain. ROUGE moves the same way though less dramatically, 0.514 against 0.455 at the individual level. This is a coherent mechanism rather than a curiosity: a chunk bounded by a title or a table edge contains less unrelated material, so when it is retrieved it matches the evidence text more tightly, even if the strategy lands on the right page less often.
+- **The 84.40 headline is an aggregation over three indexes, beats its fair comparator by 0.71 points, and cannot be run end to end.** Chipper Aggregation at 84.40 against Base Aggregation at 83.69 is a difference of one question out of 141. More decisively, the discussion states that aggregated retrieval exceeded GPT-4's token limit and yielded a non-effective Q&A solution, which is why Table 5 has no aggregation rows at all. A retrieval score from a configuration that cannot answer questions is not a result about a working system.
+- **The defensible result is the end-to-end one, and it is real but modest.** Under manual evaluation the best element-based configurations reach 53.19% against Base 512's 48.23%, roughly five points or seven questions. Against FinanceBench's own 50% single-vector-store figure the discussion honestly frames this as 50% versus 53.19%.
 
-After the derivation, 3 types of metadata are generated to enrich the content and support efficient indexing. The first two are generated via prompt templates:
-	1.  Up to 6 representative keywords of the composite chunk
-	2.  A summarised paragraph of the composite chunk
-	3.  Naive representation using the first two sentences from a composite chunk like a prefix (in case of tables: the description of the table, which is typically identified in the table caption)
+  | Chunking strategy | No answer | GPT-4 judge | Manual |
+  | --- | --- | --- | --- |
+  | Base 128 | 35.46 | 29.08 | 35.46 |
+  | Base 256 | 25.53 | 32.62 | 36.88 |
+  | Base 512 | 24.82 | 41.84 | 48.23 |
+  | Keywords Chipper | 22.70 | **43.97** | **53.19** |
+  | Summary Chipper | **17.73** | **43.97** | 51.77 |
+  | Prefix & Table Description Chipper | 20.57 | 41.13 | **53.19** |
 
-**Dataset**
-The [[FinanceBench, A New Benchmark for Financial Question Answering|FinanceBench]] dataset was used for evaluation.
-#### Results
-Evaluation is grounded in factual accuracy, which allows us to measure the effectiveness of each configuration by its precision in retrieving answers that match the ground truth, as well as its generation abilities.
+  The more interesting column is the first one. Abstentions fall from 35.46% to as low as 17.73% while accuracy rises by about five points, so most of what better chunking buys is <font color="#ffc000">converting refusals into answers rather than converting wrong answers into right ones</font>.
 
-**Evaluation analysis was based on 3 major parts:**
-	1. **Chunking Efficiency**
-		Observe the relationship between accuracy and total chunk size. Table 3 shows the number of chunks derived from each one of the processing methods. Unstructured element-based chunks are closer in size to Base 512, and as the chunk size decreases for the basic chunking strategies, the total number of chunks increases linearly
-		![[Pasted image 20260912195600.png]]
-	2. **Retrieval Strategy**
-		 Page numbers in the ground truth to calculate the page-level retrieval accuracy. ROUGE and BLEU scores were used to evaluate the accuracy of paragraph-level retrieval compared to the ground truth evidence paragraphs.
-		 When compared to Unstructured element-based chunking strategies, basic chunking strategies seem to have higher page-level retrieval accuracy but lower paragraph-level accuracy on average
-		 A fascinating discovery is that when various chunking strategies are combined, it results in enhanced retrieval scores, achieving superior performance at both the page level (84.4%) and paragraph level (with ROUGE at 0.568% and BLEU at 0.452%).
-		 ![[Pasted image 20260912200513.png]]
-	3. **Q&A Accuracy**
-		In addition to manual evaluation, we have investigated an automatic evaluation using GPT-4. GPT-4 compares how the answers provided by our method are similar to or different from the FinanceBench gold standard.
-		The following prompt template was used for the automatic eval
-		![[Pasted image 20260912200934.png]]
-		Results show that element-based chunking strategies offer the best question-answering accuracy, which is consistent with page retrieval and paragraph retrieval accuracy. And also this approach stands out in <font color="#ffc000">efficiency</font>.  Element-based chunking achieves the highest retrieval scores with only half the number of chunks required compared to methods that do not consider the structure of the documents (62,529 v.s. 112,155)
-		![[Pasted image 20260912201321.png]]
-#### Discussion
-We have observed that using basic 512 chunking strategies produces results most similar to the Unstructured element-based approach, which may be due to the fact that 512 tokens share a similar length with the token size within our element-based chunks and capture a long context, but fail keep a coherent context in some cases, leaving out relevant information required for Q&A
+- **The configuration with the worst page retrieval has the joint-best answer accuracy, which contradicts the paper's stated consistency.** Keywords Chipper sits at 46.10 page accuracy, the lowest figure in the entire retrieval table, and at 53.19% manual Q&A, the joint highest. The paper writes that the Q&A ordering is consistent with page retrieval and paragraph retrieval accuracy; it is consistent with paragraph retrieval and flatly inconsistent with page retrieval. The useful conclusion, which the authors do not draw, is that page-hit rate is the wrong retrieval proxy for predicting downstream answer quality and chunk-level precision is the better one.
+- **GPT-4 as an automatic judge under-scores systematically, and the bias grows with system quality.** The judge trails the manual labels by 6.38, 4.26, 6.39, 9.22, 8.04 and 12.06 points across the six configurations, so the better the system the larger the understatement. The named failure mode is that a more elaborate answer is judged different from a terse gold standard, and the example is a model correctly deriving 39.73% with the full calculation against a gold answer of "39.7%".
 
-The findings support existing research stating that the best basic chunk size varies from data to data. These results show, as well, that element-based chunking adapts to different documents without tuning. This method relies on the structural information that is present in the document’s layout to adjust the chunk size automatically.
+  ![[Pasted image 20260926021001.png]]
 
-The paper experimented as well with variations of the verbs using in the prompt, e.g. changing referencing with using, which seemed to lower the quality of the answers generated. This shows that prompt engineering is a relevant factor in RAG.
-#### Conclusion
-Results show that our element based chunking strategy improves the state-of-the-art Q&A for the task, which is achieved by providing a better chunking strategy for the processed document.
+  The bias is not merely a constant offset, since it reorders the element-based variants: the judge ranks Summary Chipper above Prefix Chipper where the manual labels put Prefix level with Keywords and above Summary.
 
-<font color="#ffc000">Prompt engineering is a relevant factor in RAG as well.</font>
+#### Limitations
+
+- **141 questions, one run, no dispersion, and the headline margins do not clear sampling error.** At 141 cases the binomial standard error near 50% is about 4.2 points, so a difference between two configurations carries a 95% interval of roughly ±11.7 points. The 4.96-point Q&A gain from Base 512 to the best element configuration sits well inside that, and the 0.71-point retrieval gain is one question. The direction of the Q&A result is consistent across all three element variants, which is worth something, but nothing here is a tested difference and the paper reports no interval or test of any kind.
+- **The authors are evaluating their own commercial product, and the prose reads the tables more favourably than the numbers support.** Unstructured Technologies, the Unstructured open-source library and the proprietary Chipper model are all theirs. That does not invalidate anything, the experimental design is clean and everything needed to check the claims is printed, but the two places where the summary overstates the tables, the "highest retrieval scores" claim and the "consistent with page retrieval" claim, both run the same direction, and that is the pattern to read for.
+- **The cost comparison is one-sided.** Element-based chunking requires a vision encoder-decoder pass over all 11,787 pages plus two GPT-4 calls per chunk for the keyword and summary indexes, against a tokenizer split for the baselines. The efficiency claim, 62,529 chunks against 112,155 for comparable retrieval, is a genuine result about index size and query latency, but it is offset by an indexing cost the paper never quantifies and which for a continuously updated corpus would recur.
+- **The benchmark was silently reduced and then compared against its own published numbers.** Eighty of 84 documents and 141 of 150 questions, because FinanceBench ships no source PDFs. The discussion's "50% vs 53.19%" comparison is therefore across two different question sets, and while nine missing questions is unlikely to flip a five-point gap it is not a like-for-like comparison and is not flagged as one.
+- **The retrieval metrics are coarse and none of them shows ranking position.** Page accuracy asks only whether any of ten retrieved chunks touched the gold page, which is a low bar on a short document and a coarse one on a 549-page filing, and it gives no credit for a near miss on an adjacent page. ROUGE and BLEU taken as the maximum over ten retrieved contexts reward lexical overlap and are generous by construction. There is no precision@k and no mean reciprocal rank anywhere, so nothing in the paper says whether the right chunk arrived first or tenth, which is the quantity that actually determines what fits in a generator prompt.
+- **Table handling is the design's most distinctive rule and the least evidenced.** Whole tables get their own chunk, which is the right instinct for financial statements, but only 5.2% of detected elements are tables, no table-detection accuracy is reported, and there is no breakdown of answer accuracy on table-sourced against text-sourced questions. That split is exactly the one [[FinQA, A Dataset of Numerical Reasoning over Financial Data]] and [[TAT-QA, A Question Answering Benchmark on a Hybrid of Tabular and Textual Content in Finance]] both show behaves differently, so its absence here is the gap I most wanted filled.
+
+#### Why this matters for my project
+
+- **The corrected claim is smaller than the one I was carrying and still supports the design.** Structure-aware retrieval for $A_F$ is justified by an end-to-end gain of roughly five points over the best fixed-size baseline, consistent in direction across three element variants, and by an index roughly half the size. It is not justified by better page retrieval, because on this evidence element-based chunking retrieves pages worse. Writing the weaker version into the proposal is safer and is also harder to attack, and the [[Neo4j Graph-RAG for CSE]] prior art means I was never claiming this as novel anyway.
+- **Optimise $A_F$'s retrieval for chunk precision, not page hit rate, because only one of them tracks answer quality.** Keywords Chipper is the existence proof: worst page accuracy in the table, joint-best answers. The concrete decisions are to report retrieval and end-to-end accuracy separately and never let a retrieval proxy stand in for the answer metric, and to use precision@k or mean reciprocal rank rather than a binary page hit so the position of the right chunk in the ranking is visible. A tighter chunk is also a better citation, which matters because <font color="#ffff00">citation tracing is A<sub>F</sub>'s entire explainability story</font> after the re-scope.
+- **The abstention column is the bridge to the FinanceBench taxonomy, and it changes what a chunking improvement means.** Abstentions fall from 35.46% to 17.73% across configurations while accuracy moves about five points, so most of the gain is converting "No answer" into an answer. Set against the FinanceBench conclusion that abstention and error are different failures for the orchestrator, this needs watching rather than celebrating: a chunking change that reduces abstentions by giving the agent enough context to guess is not obviously an improvement for a channel feeding a weighting function. So the reporting requirement for every $A_F$ configuration is correct, incorrect and abstain side by side, and the quantity to check is whether the incorrect column grew while the abstain column shrank.
+- **This paper and FinanceBench together settle the prompt-order question rather than disagreeing about it.** FinanceBench found a 53-point swing from moving the question in a 95,000-token prompt and only four points in its short oracle setting; here, reordering question and retrieved context over ten chunks produced no statistically different result. The reconciliation is that ordering discipline binds when the context is long, and since $A_F$ will operate on a handful of retrieved chunks rather than a whole filing, it is in the regime where this does not matter. Worth recording so I do not over-engineer a variable that two papers between them show is inert at my context length.
+- **The element vocabulary transfers and CSE filings will stress it differently.** Title, narrative text, list item and table is the inventory, and the two load-bearing rules are a new chunk at every title and never splitting a table. CSE annual reports have the consistent section headings that make the first rule work, but tables are 5.2% of elements on a corpus of US 10Ks and Sri Lankan annual reports are far more table-dense, often with the statements forming the bulk of the document. So I should expect the table rule to carry more weight and table-detection recall to become the binding constraint, and the cheap thing to do first is measure that recall on a sample of CSE filings before committing to any chunker.
+- **Do not use an LLM judge on the $A_F$ probe set, or calibrate it against manual labels before reporting anything from it.** The judge here understates by 4 to 12 points, the understatement grows with system quality, and it reorders configurations. $A_F$'s answers will be exactly the verbose, calculation-showing kind that the judge penalises, and a probe set of 50 to 150 cases is hand-labellable, so manual labelling is both affordable and more trustworthy. If an automatic score appears at all it goes beside the manual one, never instead of it, and this paper is the citation for why.
+- **Two independent pipelines now put well-built RAG over financial filings near 50%, and that is the number to design around.** FinanceBench's single vector store at 50% and this paper's best manual at 53.19%, on overlapping documents with entirely different retrieval stacks. Added to FinQA and TAT-QA sitting in the low 40s on computed quantities with no retrieval required at all, the working expectation for $A_F$ on CSE filings is firmly below half on computed questions. The design consequence is that the orchestrator's job is to remain useful with a channel that is right less than half the time, which is an argument for a clean abstention path and weight redistribution rather than for trying to engineer the fundamental channel up to reliability it is not going to reach.
+- **The indexing cost is a planning number I should take from this paper rather than discover.** A vision model over every page plus two GPT-4 calls per chunk, for 11,787 pages producing 20,843 chunks. Scaled to a CSE corpus of a few hundred companies' annual and quarterly filings, that is a one-off cost worth estimating before committing, and it compounds with the per-day inference budget already flagged in the trading notes. The mitigation is the same one: filings change quarterly, so the index is built once per reporting period rather than per query, and only the retrieval and generation steps run at decision time.
+
+> [!NOTE]
+> The transferable artefacts are the four chunking rules, the three-index metadata design, and the generator prompt's explicit abstention instruction, which is what makes the output comparable to FinanceBench's taxonomy. The 84.40 page-accuracy figure is not transferable and should not appear in the proposal. If a single number from this paper is needed, it is 53.19% manual end-to-end accuracy against 48.23% for the best fixed-size baseline, on 141 questions, with the caveat that the difference does not clear a 95% interval on that sample.
