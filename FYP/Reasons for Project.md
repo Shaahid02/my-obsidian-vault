@@ -23,8 +23,4 @@ Then the study can additionally answer an important empirical question:
 
 That is a coherent research story: **one main technological contribution, two defensible sub-gaps, multiple datasets, and controlled experiments capable of proving or disproving the student's assumptions.**
 
-# Main
-
-## Heading 2
- **Bold**
-X<sub>2</sub>
+Throughout reading local literature, realized the evaluation is very lacking and inconsistent
