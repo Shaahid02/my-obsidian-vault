@@ -1,3 +1,7 @@
+---
+citekey: zhaoAlphaAgentsLargeLanguage2025
+year: 2025
+---
 arXiv preprint (2508.11152v1), August 2025, Zhao, Lyu, Jones, Garber, Pasquali and Mehta, all six out of BlackRock. Three specialist LLM agents, fundamental, sentiment and valuation, each analyse a stock from their own data and toolset, then argue to consensus on a BUY or SELL. It contributes two things, debate as a hallucination check and investor risk tolerance embedded in the prompt rather than applied as a filter afterwards, and it stops at stock selection, feeding a screened list to Mean-Variance Optimization or Black-Litterman, and it never produces weights itself.
 
 Worth reading mainly because it takes the opposite position to [[FinCon, A Synthesized LLM Multi-Agent System with Conceptual Verbal Reinforcement for Enhanced Financial Decision Making]] on the one architectural question I actually have to answer. FinCon routes everything through a manager and forbids lateral chatter because peer-to-peer discussion is an unpriced cost. AlphaAgents makes debate the point, because disagreement is the only signal you get that an agent is hallucinating. Neither runs the comparison that would settle it, so I have two credible positions and an open question, which is where I should leave it.

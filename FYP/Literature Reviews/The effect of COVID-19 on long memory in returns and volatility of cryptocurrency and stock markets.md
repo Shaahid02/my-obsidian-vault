@@ -1,3 +1,7 @@
+---
+citekey: lahmiriEffectCOVID19Long2021
+year: 2021
+---
 Estimates long memory (self-similarity) in both returns and volatility across 45 cryptocurrency markets and 16 international equity indices, split into a pre-pandemic window and a pandemic window, using a combined ARFIMA-FIGARCH specification and comparing the resulting fractional differencing parameters across markets with t-tests and F-tests. Lahmiri and Bekiros, *Chaos, Solitons and Fractals* 151 (2021) 111221.
 
 This sits directly beside [[Modeling Long-Term Volatility Memory Dynamics in the Colombo Stock Exchange]] in my reading, same estimator family, same regime-split logic, far larger cross-section, and it's useful to me for two separable reasons. The design is a clean template for framing a before-and-after long-memory comparison across a cross-section of markets rather than one index at a time, which is close to what I'd want on CSE tickers. The execution is a cautionary example of how thin the evidence gets when each window is four months long and the inference is read loosely, and two of the paper's four headline conclusions don't survive a conventional reading of its own tables.

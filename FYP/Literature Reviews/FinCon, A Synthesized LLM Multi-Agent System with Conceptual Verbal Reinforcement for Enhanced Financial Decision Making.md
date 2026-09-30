@@ -1,3 +1,7 @@
+---
+citekey: yuFinConSynthesizedLLM2024
+year: 2024
+---
 NeurIPS 2024, Yu, Yao, Li, Deng et al. out of Stevens Institute of Technology, Harvard and The Fin AI. An LLM multi-agent system for sequential financial decision making, built around two ideas: a manager-analyst hierarchy copied from how real investment firms are structured, and a dual-level risk control component that updates the manager's investment beliefs in natural language instead of in weights. Tested on both single stock trading and portfolio management.
 
 This is the closest published system to what I'm proposing on the orchestration side, closer than [[TradingAgents, Multi-Agents LLM Financial Trading Framework]] in one specific way: TradingAgents lets agents debate laterally, FinCon explicitly refuses to. Everything routes through a manager. Worth reading carefully because it's the strongest existing argument that peer-to-peer agent discussion is a cost, not a feature.

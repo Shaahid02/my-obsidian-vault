@@ -1,3 +1,7 @@
+---
+citekey: luoQFinZeroUnifiedFinancial2026
+year: 2026
+---
 Luo, Li, Ko, An, Xu, Tang, Wong, Gao, Lai, Zhang and Liu, City University of Hong Kong and collaborators, ACL 2026 Volume 3 System Demonstrations, pages 68 to 77, open source under Apache 2.0 at `github.com/CityU-MLO/qfinzero`. This is not a method paper and it does not propose an agent, it proposes the layer underneath one, a unified agent-callable toolchain standardising multi-frequency price access, structured news and event retrieval, and stateful brokerage simulation behind consistent JSON schemas and time-aligned interfaces. I am reading it as tooling and as a template for the evaluation harness I still have to build, not as a methodological template for the orchestrator, because it sits at the opposite end of the stack from my main gap. It is the most directly useful engineering reference I have read so far, and it is also the paper that most clearly tells me which parts of my system are plumbing rather than contribution.
 
 > [!info] MCP

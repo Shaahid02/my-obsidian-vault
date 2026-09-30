@@ -6,8 +6,14 @@
   "pdfExportImageQuality": 90,
   "citeFormats": [
     {
-      "name": "Format #1",
-      "format": "pandoc"
+      "name": "bib",
+      "format": "formatted-bibliography",
+      "cslStyle": "harvard-university-of-westminster"
+    },
+    {
+      "name": "cite",
+      "format": "pandoc",
+      "brackets": true
     }
   ],
   "exportFormats": [

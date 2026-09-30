@@ -1,3 +1,7 @@
+---
+citekey: mohamedriyathModelingLongtermVolatility2026
+year: 2026
+---
 Uses an ARMA-FIGARCH model to test long-term volatility memory in the Colombo Stock Exchange, comparing the ASPI and S&P SL20 across three economic regimes (normal, COVID-19, economic crisis) using daily data from January 2012 to April 2024.
 
 Core motivation: volatility clustering and long memory are well documented in developed markets, but frontier markets like Sri Lanka rarely get the advanced econometric treatment. Standard GARCH models capture short-run clustering fine but assume shocks decay exponentially, when in reality financial time series often show hyperbolic decay, shocks that fade slowly and linger for a long time (Baillie, 1996). The paper's angle is that CSE's dual-index structure (ASPI as the broad market, S&P SL20 as the top 20 liquid blue-chip stocks) plus its exposure to two back-to-back systemic shocks, COVID-19 followed straight into an economic/forex crisis, makes it an unusually good natural experiment for testing whether volatility memory holds up under compounded stress.

@@ -1,3 +1,7 @@
+---
+citekey: dissnayakeRoleMarketLiquidity2025
+year: 2025
+---
 Behavioural finance paper testing whether market-wide liquidity and investor sentiment (proxied by turnover) can predict short-term expected returns on the Colombo Stock Exchange (CSE), using monthly data from 2010 to 2021.
 
 Core motivation: traditional finance treats liquidity as just a transaction-cost story, wider spreads and higher price impact mean investors demand a return premium. But Baker and Stein (2004) and Baker and Wurgler (2006) argue transaction costs alone can't explain how strongly liquidity predicts returns over time. The behavioural explanation is that liquidity itself is partly driven by investor sentiment: overconfident, irrational investors under short-sale constraints underreact to market signals, which lowers the price impact of trades and pushes liquidity up. So liquidity swings become a readable proxy for sentiment swings.

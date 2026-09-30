@@ -1,3 +1,7 @@
+---
+citekey: sahaLargeLanguageModel2025
+year: 2025
+---
 Saha, Lyu, Saxena, Zhao and Mehta, all five at BlackRock, ICAIF '25 Singapore, pages 736 to 744, nine pages of which two are references. This is a map rather than a method: there is no system, no dataset, no experiment and not a single equation anywhere in it, and every number on the page is a citation index. I am reading it for positioning, not for technique, and on that job it earns its slot, because it is the first survey I have read that annotates each reviewed system with which stages of an agent workflow that system actually implements. That annotation is the closest thing I have to direct evidence for the claim the whole project rests on, that coordinating heterogeneous agents is treated as a solved detail rather than as a design problem.
 
 The scoping is narrow in a way that helps me. Consumer banking, fraud detection and anti-money laundering are explicitly out. The survey positions itself against two alpha-generation surveys spanning statistical models through to LLMs, against three broad LLMs-in-finance surveys that it says do not address agent frameworks in a trading or investment context, and against two that cover interpretability, governance and evaluation for general LLM agents rather than financial ones. What it claims for itself is a targeted review of generative AI inside trading and investment specifically, organised by function and by architecture, plus a compiled set of benchmark datasets.

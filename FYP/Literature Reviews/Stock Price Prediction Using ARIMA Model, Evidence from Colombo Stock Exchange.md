@@ -1,3 +1,7 @@
+---
+citekey: tharshigaStockPricePrediction2026
+year: 2026
+---
 South Asian Journal of Finance, Volume 6 Issue 01, 2026, pp. 76 to 92, Tharshiga, Paranika and Subramaniam, all at the Department of Financial Management, University of Jaffna. A univariate Box-Jenkins study asking whether an ARIMA model can forecast the CSE Price Index, fitted on 2,362 daily observations from 1 July 2014 to 30 June 2024 and validated on a one-month out-of-sample window in July 2024. DOI 10.4038/sajf.v6i1.142.
 
 This is the most recent ARIMA-on-CSE paper I have and the only one covering a full decade through to mid-2024, so it sits directly on the baseline layer of my own evaluation, the univariate price-only model that every agent-based signal has to beat before it earns its place. That is what I came for and it is not really what the paper delivers. The headline, <font color="#ffc000">MAPE of 3.9% and therefore strong short-term forecasting performance</font>, comes from a forecast path that is a straight line, and the paper's own Table 4 contains everything needed to show that a no-change random walk would have beaten it on every single day of the test month. I read this as a useful specification record and an unusually clean example of the benchmark failure I keep finding in the local literature, alongside [[The Long-Term Impact of Macroeconomic Stability Variables on Stock Price Volatility]], rather than as evidence that ARIMA forecasts the CSE.

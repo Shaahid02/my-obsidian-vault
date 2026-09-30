@@ -1,3 +1,7 @@
+---
+citekey: zhuTATQAQuestionAnswering2021
+year: 2021
+---
 TAT-QA is Zhu et al., ACL-IJCNLP 2021, out of the National University of Singapore with 6Estates, Sichuan University and Bloomberg, and it is the sibling paper to [[FinQA, A Dataset of Numerical Reasoning over Financial Data]], published the same year on almost the same problem with a materially different set of design choices. Like FinQA it speaks to <font color="#ffc000">A<sub>F</sub>, the fundamental and retrieval channel</font>, and to the evaluation layer, and to nothing else, so I am reading it as prior art on the task rather than as an architectural template for the orchestrator.
 
 The reason it earns its own note rather than a paragraph appended to the FinQA one is that the two papers disagree, and the places they disagree are exactly the places where I have a design decision to make for $A_F$. FinQA generates an executable program over a ten-operation DSL and retrieves before it reasons. TAT-QA tags evidence in place, applies exactly one of ten aggregation operators, and is handed the relevant page rather than finding it. FinQA flattens multi-header tables and caps them at 20 rows; TAT-QA deliberately keeps the messy structure and reports that <font color="#ffc000">79% of its tables have two or more row headers</font>. And TAT-QA adds one thing FinQA has no equivalent of at all, a <font color="#ffff00">scale prediction head</font>, which turns out to be the single most directly transferable idea in the paper for CSE filings.

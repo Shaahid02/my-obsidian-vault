@@ -1,3 +1,7 @@
+---
+citekey: nanayakkaraAdaptiveStockMarket2021
+year: 2021
+---
 2021 5th SLAAI International Conference on Artificial Intelligence, Nanayakkara, Wanniarachchi and Vidanagama out of the Department of Information Technology at General Sir John Kotelawala Defence University, Rathmalane. A web and mobile portfolio management platform for the Colombo Stock Exchange with a price prediction module attached, a stacked LSTM for short and mid term horizons and a geometric Brownian motion model for the long term, with requirements elicited through interviews with CSE officials and a 17 question survey of 233 investors, deployed on Azure. DOI 10.1109/SLAAI-ICAI54477.2021.9664735.
 
 This is the closest thing in my set to a direct predecessor, it is the only paper I have that builds a CSE-facing portfolio system rather than a model, and it is worth reading for the requirements and the institutional access rather than for the modelling, because the models are off the shelf and, more to the point, <font color="#ffc000">not one of them is ever evaluated on a Colombo-listed stock</font>. The forecasting evidence in a paper titled for the CSE comes from Apple, Microsoft and Nike. So I treat this as prior art establishing that the platform gap is real and locally recognised, and as a worked example of what happens when an evaluation protocol is never fixed before the build starts.

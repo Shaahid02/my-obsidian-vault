@@ -1,3 +1,7 @@
+---
+citekey: kouAutomateStrategyFinding2024
+year: 2024
+---
 Kou, Yu, Luo, Peng, Li, Liu, Dai, Chen, Han and Guo, HKUST, HKUST Guangzhou and Peking University, arXiv:2409.06289v4 dated 3 November 2025, seventeen pages with a seven-page appendix, code at `github.com/kouzhizhuo/Automate-Strategy-Finding-with-LLM-in-Quant-investment`. I came to this from the [[Large Language Model Agents for Investment Management, Foundations, Benchmarks, and Research Frontiers|BlackRock survey]], which describes it as employing an adaptive gating mechanism that tunes the influence of each signal in real time under shifting market conditions. That is not what the paper does, and the difference is the most useful thing I got out of reading it.
 
 <font color="#ffc000">The adaptivity here is at selection, not at weighting.</font> Which alpha factors enter the strategy depends on the market state, because the market state is passed to the two evaluating agents. How much each selected factor counts is a weight vector produced once by a small MLP trained on a fixed historical window, and it carries no time index anywhere in the paper's equations or in its algorithm listing. So this is not a competitor to my orchestrator. It is the strongest published instantiation I have of <font color="#ffc000">Baseline 2, the static learned weight</font>, which the supervisor identified as the baseline that actually matters, and it is the reference design I should implement that arm against.

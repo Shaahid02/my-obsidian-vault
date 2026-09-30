@@ -1,3 +1,7 @@
+---
+citekey: samarawickramai.d.w.SRILANKANSTOCK2023
+year: 2023
+---
 Uses an ARMA(2,2)-GARCH family framework to estimate and forecast volatility on the Colombo Stock Exchange, comparing symmetric and asymmetric GARCH specifications on the ASPI from January 2018 to December 2022, a window that swallows the Easter Sunday attacks, COVID-19, and the 2022 economic crisis.
 
 Core motivation: CSE is repeatedly described in the literature as a sluggish, developing market prone to periodic instability, and that instability is exactly what scares off long-term investors. If volatility isn't estimated accurately, neither investors nor policymakers get a reliable read on market risk, so the paper's whole pitch is that getting the mean and variance equations right for ASPI during a genuinely turbulent five-year stretch has direct value for market development, not just as an econometric exercise. The other half of the motivation is methodological: ARCH/GARCH models assume normality, which clashes with the fat tails and non-normal returns actually seen in financial data, so the paper wants to test whether asymmetric extensions (EGARCH, TGARCH, GJR-GARCH) actually earn their keep over plain symmetric GARCH in the Sri Lankan context specifically, since most of the supporting evidence for that claim comes from other markets.

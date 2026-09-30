@@ -1,3 +1,7 @@
+---
+citekey: somathilakaLongTermImpactMacroeconomic2025
+year: 2025
+---
 Sri Lankan Journal of Banking and Finance, Volume 8 Issue 01, June 2025, pp. 84 to 102, Somathilaka (University of Vavuniya) and Hewamana (Wayamba University of Sri Lanka). An ARDL bounds-testing study of whether five macroeconomic stability variables, GDP, inflation, money supply, interest rate and exchange rate, drive what the authors call stock price volatility on the Colombo Stock Exchange, using 120 monthly observations from January 2010 to December 2019. DOI 10.4038/sljbf.v8i1.68.
 
 This is the most complete single-framework macro study of the CSE I have, five variables in one model rather than the two or three that the earlier local impact literature usually runs, and the review section is the best consolidated map of Sri Lankan macro-market work I've found in one place, which is most of what I'm taking from it. The empirical half is a different matter. <font color="#ffc000">The dependent variable is not volatility</font>, it is the monthly change in the ASPI, which is a return, and once that's clear every substantive interpretation in the paper has to be re-read as a statement about returns wearing the word volatility. I read it as a useful survey and a cautionary specification rather than a result I can cite for a volatility claim, which puts it in the same bracket as [[Machine Learning-Driven Sri Lankan Stock Market Prediction, Harnessing Economic Indicators and Sentiment Analysis]], strong on the local input side, unusable on the protocol side.

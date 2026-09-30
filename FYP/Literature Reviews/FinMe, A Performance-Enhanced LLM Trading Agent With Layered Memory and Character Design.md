@@ -1,3 +1,7 @@
+---
+citekey: yuFinMemPerformanceEnhancedLLM2025
+year: 2025
+---
 arXiv 2311.13743v2, December 2023, Yu, Li, Chen, Jiang, Li, Zhang, Liu, Suchow and Khashanah out of Stevens Institute of Technology. A single LLM trading agent for daily single-stock decisions, built from three modules, a profiling module that fixes the agent's professional background and risk inclination, a memory module split into working memory and a three-layer long-term store with different decay rates per layer, and a decision module that emits Buy, Sell or Hold on one share. Tested on five US tickers against three DRL agents, two LLM agents and buy-and-hold. Code released.
 
 This is the ancestor of two systems already in the vault, [[FinCon, A Synthesized LLM Multi-Agent System with Conceptual Verbal Reinforcement for Enhanced Financial Decision Making]] comes from largely the same Stevens group and benchmarks against it, and [[A Multimodal Foundation Agent for Financial Trading, Tool-Augmented, Diversified, and Generalist]] credits it with the memory mechanism and human-aligned character design before beating it on four of five stocks and losing to it on crypto. Reading it after those two is the right order, since what each builds on top is clearer once the base is in view, and since FinMem is the cleanest statement in my set of the idea I actually want, that <font color="#ffc000">an information source's timeliness should determine how long the agent remembers what it said</font>. The rest of the paper is a wrapper around that.

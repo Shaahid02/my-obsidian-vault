@@ -1,3 +1,7 @@
+---
+citekey: chenFinQADatasetNumerical2021
+year: 2021
+---
 FinQA is Chen et al., EMNLP 2021, out of UC Santa Barbara with J.P. Morgan, Penn State and CMU, and it is the paper that turned numerical question answering over real financial reports into a task with a dataset, a domain specific language and a baseline attached. It speaks to exactly one agent in my architecture, <font color="#ffc000">A<sub>F</sub>, the fundamental and retrieval channel</font>, and to the evaluation layer, and to nothing else, so I am reading it as a task specification and prior art rather than as an architectural template for the orchestrator.
 
 It matters more than a benchmark paper normally would, because [[Neo4j Graph-RAG for CSE]] left $A_F$ with one honest place to differentiate, the numbers inside the financial statement tables rather than the entity relationships around them, and that note closed on the observation that tabular financial data was explicitly out of scope there. FinQA is the paper that says what the in-scope version of that task actually is, and its headline result, 61.24% execution accuracy against a human expert upper bound of 91.16%, is the number I should be carrying as my prior on how hard numeric extraction from reports is before any CSE-specific difficulty is added.

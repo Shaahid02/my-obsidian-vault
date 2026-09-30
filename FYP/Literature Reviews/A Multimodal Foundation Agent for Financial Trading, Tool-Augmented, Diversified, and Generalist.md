@@ -1,3 +1,6 @@
+---
+citekey: MultimodalFoundationAgent
+---
 KDD 2024, Zhang, Zhao, Xia, Sun et al. out of NTU Singapore, NUS, Zhejiang, SMU and Skywork AI. This is FinAgent. A single LLM trading agent, not a multi-agent system, built around five modules: market intelligence, memory, low-level reflection, high-level reflection, and a tool-augmented decision maker. Two things are actually new here, a dual-level reflection split and a diversified retrieval scheme that indexes memory by retrieval intent rather than by raw similarity. Tested on 5 US stocks and one crypto pair, single asset trading only.
 
 Worth reading as the direct predecessor to most of what came after it. [[FinVision, A Multi-Agent Framework for Stock Market Prediction]] is close to a lighter reimplementation of this, same module decomposition, same MACD Crossover and KDJ with RSI Filter strategies bolted on as tools, and [[FinCon, A Synthesized LLM Multi-Agent System with Conceptual Verbal Reinforcement for Enhanced Financial Decision Making]] benchmarks against it and beats it. So FinAgent is the thing the field moved past, which makes it useful for a different reason than FinCon: it is where the single-agent-with-modules design hits its ceiling, and that ceiling is the argument for going multi-agent at all.

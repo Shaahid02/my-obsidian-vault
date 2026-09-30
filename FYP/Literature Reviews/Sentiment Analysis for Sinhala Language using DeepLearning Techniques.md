@@ -1,3 +1,7 @@
+---
+citekey: senevirathneSentimentAnalysisSinhala2020
+year: 2020
+---
 arXiv preprint 2011.07280v1, November 2020, Senevirathne, Demotte, Karunanayake, Munasinghe and Ranathunga out of the Department of Computer Science and Engineering, University of Moratuwa. A document-level, four-class sentiment classification study on Sinhala news comments, comparing fourteen deep learning architectures from vanilla RNN through to capsule networks, and releasing what is still the largest publicly annotated Sinhala sentiment dataset, 15,059 comments labelled POSITIVE, NEGATIVE, NEUTRAL and CONFLICT, alongside a 9.48 million token unannotated corpus used to train the word embeddings.
 
 This is the foundational resource paper for the Sinhala side of my sentiment component, and I read it primarily as a dataset and baseline contribution rather than a modelling one. It is the paper that establishes what the Sinhala sentiment ceiling actually looks like when nobody has a pretrained language model to lean on, and the honest answer it gives, roughly 63% weighted accuracy across fourteen architectures that differ from each other by less than three points, is more useful to me than any single model in it. Where [[Enhancing Multilingual Sentiment Analysis with Explainability for Sinhala, English, and Code-Mixed Content]] gives me the modern modelling approach for Sinhala and code-mixed text, this gives me the corpus, the embeddings, the preprocessing rules and the baseline number those later results have to be read against.

@@ -1,3 +1,7 @@
+---
+citekey: zhaoOptimizingLLMBased2024
+year: 2024
+---
 Explores the value of prompt engineering by benchmarking  6 LLMs in 15 retrieval scenarios,
 exploring 9 prompts over 2 real world financial domain dataset.
 

@@ -1,3 +1,7 @@
+---
+citekey: dissanayakeRelationshipMacroeconomicVariables2026
+year: 2026
+---
 Journal of Business and Technology, Vol. 10 No. 1, January 2026, pp. 120 to 135, Dissanayake, Rathnayake and Panditharathna, Department of Commerce and Financial Management, University of Kelaniya. A pairwise Granger causality study asking whether the USD/LKR exchange rate, inflation, broad money and trading volume predict All Share Price Index movements on the Colombo Stock Exchange, on 108 monthly observations covering 2014 to 2022. DOI 10.4038/jbt.v10i1.209.
 
 This is the closest thing I have to a direct empirical warrant for the choice my whole architecture rests on, which is conditioning on market microstructure state rather than on a macro block, because the paper's single strongest result is that <font color="#ffc000">trading volume Granger-causes ASPI at p = 0.0041 while money supply and inflation cause nothing at all</font>, and it reaches that result on my exact market over a window that contains the Easter attacks, COVID-19 and the 2022 sovereign default. It also reports a reverse causality, stock returns predicting the exchange rate rather than the other way round, which contradicts both Wickremasinghe (2011) and Gunasekarage et al. (2004) and which the authors present as the paper's novelty. I want both findings. What I can't take is the estimation that produces them, because the variable the tests actually use is the log ASPI in levels rather than returns, and that one decision propagates into every p-value in Table 6.

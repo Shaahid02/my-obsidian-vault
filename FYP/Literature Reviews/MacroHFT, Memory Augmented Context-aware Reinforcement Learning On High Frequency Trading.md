@@ -1,3 +1,7 @@
+---
+citekey: zongMacroHFTMemoryAugmented2024
+year: 2024
+---
 KDD '24, Zong, Wang, Qin, Feng, Wang and An, out of NTU Singapore, Skywork AI and SUTD. Minute-level high-frequency trading on four cryptocurrency pairs, framed as a two-level hierarchical MDP where six specialised DDQN sub-agents are each trained on a slice of the market decomposed by <font color="#ffc000">trend and volatility</font>, and a hyper-agent then learns a softmax mixture over their Q-value estimates, with an episodic memory module attached to stabilise that mixture under sudden fluctuations. Code released at github.com/ZONG0004/MacroHFT.
 
 This is the direct successor to EarnHFT from largely the same group, and for my purposes it is the closest thing in the vault to a worked template for the RL execution layer, single asset, long only, discrete action, minute bars, which is exactly the shape the RL component would take on the CSE. It is also the only paper I have read so far that treats <font color="#ffc000">volatility as a conditioning variable the policy is trained against</font> rather than as a metric reported at the end, which is precisely where G2 lives. The contrast with [[Deep Reinforcement Learning Framework for Diversified Dynamic Portfolio Allocation Across Global Equity Markets]] is useful, that paper is cross-sectional allocation with a continuous Dirichlet action and walk-forward retraining, this one is single-asset timing with a binary action and one fixed split, so between them they bracket the two ends of what an RL layer can be asked to do.

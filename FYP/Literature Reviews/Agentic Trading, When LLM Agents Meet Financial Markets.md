@@ -1,3 +1,7 @@
+---
+citekey: xiaAgenticTradingWhen2026
+year: 2026
+---
 Xia, You, Wang, Liu, Qi, Wu and Zhang, Shenzhen University with one author at the Shenzhen Audencia Financial Technology Institute, 2026, fifty-nine pages of which roughly the last fifteen are appendices and references. It presents itself as a survey of LLM-based trading agents, but the taxonomy is not what it is selling. The authors screened a candidate registry of **92** records down to **77** included studies, then imposed an inclusion boundary admitting a study to the primary evidence tier only if the system emits tradable actions and those actions are evaluated in a closed loop, which leaves a primary empirical subset of **19**, and they report what those 19 papers actually disclose about data splits, transaction costs, universe construction, execution semantics and runnable artifacts. Almost none of them disclose any of it. I am reading this for two jobs, first as the citation for why my evaluation protocol has to be specified before the architecture is, an argument I have been making from individual papers and can now make from a counted corpus, and second because its minimum reporting checklist is the closest thing in this literature to a specification of what an agentic trading paper owes its reader, which I intend to build the CSE evaluation against rather than inventing my own.
 
 #### Gap it's addressing

@@ -1,3 +1,7 @@
+---
+citekey: gondhalekarMultiFinRAGOptimizedMultimodal2025
+year: 2025
+---
 Purpose-built RAG framework for financial QA over long, multimodal filings (10-Ks, 10-Qs, 8-Ks, investor presentations). Point of reference: a single Morgan Stanley 10-Q runs ~120 pages with 275+ tables and ~200 figures, way past what a normal RAG pipeline can handle cleanly.
 
 > [!info] Why standard RAG struggles here

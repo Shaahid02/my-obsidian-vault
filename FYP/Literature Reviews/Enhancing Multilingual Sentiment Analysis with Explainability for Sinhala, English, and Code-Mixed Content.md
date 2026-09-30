@@ -1,3 +1,7 @@
+---
+citekey: rizviEnhancingMultilingualSentiment2025
+year: 2025
+---
 Hybrid ABSA framework for banking customer feedback in English, Sinhala, Singlish, and Sinhala-English code-mixed text, built specifically to be explainable rather than just accurate.
 
 Core motivation: brand reputation in banking depends on catching negative sentiment fast, but Sri Lankan customer feedback is rarely clean English. It's a mix of English, Sinhala, Singlish (Sinhala written in English letters), and code-mixed sentences that switch language mid-sentence. Generic sentiment models and commercial tools like Brandwatch and Meltwater don't support Sinhala or code-mixed input at all, so a bank has no way to monitor a big chunk of its actual feedback.

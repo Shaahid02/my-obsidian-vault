@@ -1,3 +1,7 @@
+---
+citekey: kashifDeepReinforcementLearning2026
+year: 2026
+---
 Develops and evaluates a deep reinforcement learning framework for dynamic portfolio allocation using the Soft Actor-Critic (SAC) algorithm, tested across three global equity markets, the Nasdaq-100, Nikkei 225, and Euro Stoxx 50, with walk-forward optimization spanning sixteen out-of-sample folds from 2003 to 2026. Written by Kashif and Ślepaczuk, this is essentially the direct methodological blueprint for my own project, same core idea of framing portfolio allocation as a sequential decision problem under an MDP, same SAC backbone, same walk-forward evaluation logic, just applied at global market scale rather than the CSE.
 
 Core motivation: traditional portfolio construction treats prediction and allocation as two separate steps, forecast returns first, then feed them into a mean-variance optimizer. This two-step process is misaligned with what actually matters (risk-adjusted performance rather than forecast accuracy), slow to react to fast-changing markets, and brittle under estimation error. RL collapses prediction and allocation into a single learned policy trained directly on the objective that matters, so the paper's whole pitch is building and stress-testing that unified framework under conditions realistic enough, transaction costs, turnover penalties, diversification constraints, walk-forward retraining, that the results actually say something about deployability rather than just backtested-in-hindsight profitability.
