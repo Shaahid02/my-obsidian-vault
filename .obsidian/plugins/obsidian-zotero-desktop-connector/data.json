@@ -19,10 +19,11 @@
   "exportFormats": [
     {
       "name": "Literature Review",
-      "outputPathTemplate": "Literature Reviews/{{title | replace(\":\", \",\") | replace(\"/\", \"-\")}}.md",
+      "outputPathTemplate": "FYP/Literature Reviews/{{title | replace(\":\", \",\") | replace(\"/\", \"-\")}}.md",
       "imageOutputPathTemplate": "Assets",
       "imageBaseNameTemplate": "image",
-      "templatePath": "FYP/Support Materials/Zotero Templates/Literature Review Template.md"
+      "templatePath": "FYP/Support Materials/Zotero Templates/Literature Review Template.md",
+      "cslStyle": "harvard-university-of-westminster"
     }
   ],
   "citeSuggestTemplate": "[[{{citekey}}]]",

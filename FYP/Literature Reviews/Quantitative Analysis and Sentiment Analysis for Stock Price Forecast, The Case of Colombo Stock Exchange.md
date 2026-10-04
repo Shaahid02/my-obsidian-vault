@@ -1,0 +1,100 @@
+---
+citekey: "pavithyaQuantitativeAnalysisSentiment2021"
+title: "Quantitative Analysis and Sentiment Analysis for Stock Price Forecast: The Case of Colombo Stock Exchange"
+authors: "M. B. D. Pavithya, G. S. D. Perera, S. L. Munasinghe, S. N. Karunarathna"
+year: 2021
+venue: "2021 10th International Conference on Information and Automation for Sustainability (ICIAfS)"
+doi: "10.1109/ICIAfS52090.2021.9606034"
+zotero: "zotero://select/library/items/XMAIQR9E"
+stream: orchestration
+market: CSE
+status: written
+tags:
+  - literature-review
+---
+2021 ICIAfS paper, pp. 512 to 517, Pavithya, Munasinghe, Perera and Karunarathna out of the Department of Computer Engineering at the University of Peradeniya. Two models are built separately and then merged: univariate and multivariate LSTMs over eight years of CSE trade data for three counters, and a Multinomial Naive Bayes classifier over roughly 4,000 scraped economic news articles, combined by a fixed weighted vote into a single up or down call for the next trading day. The headline is that <font color="#ffc000">the combination lifts trend accuracy from 54% to 58%</font>, and that a 1:3 weight ratio favouring the text model beat equal weighting on the holdout set.
+
+This is the closest thing in my CSE set to the shape of what I'm building, and it runs aground in exactly the place my main gap sits. Two methodologically heterogeneous models, one shared binary decision, and a combination rule that is a pair of constants found by trying a few values and keeping the best. No conditioning on market state, no per-day reweighting, no handling of a channel whose input is absent that day. So I read this as the local instance of the fixed-influence problem rather than as a pipeline to extend, which is also the only reading available to me since sentiment is out of scope ([[Scope sentiment analysis dropped]]) and the text half is not something I'll rebuild. What I take instead is the walk-forward protocol, which is the one piece of evaluation discipline most of the local CSE work skips, the lookback sweep, and a 2021 data point on how thin the CSE's own announcement channel is.
+
+> [!WARNING]
+> **The stated 1:3 weight ratio is not what actually decides the trend, the article count is.** The combining rule sums one prediction from the quantitative model against one prediction per news article and divides by total weight, so with $n_t$ articles the text channel holds $n_t w_P/(w_V + n_t w_P)$ of the decision. At the reported 1:3 ratio a single article already gives text 75%, two give it 86%, and roughly 4,000 articles across eight years is about two per trading day. The LSTM, which is the better-validated of the two components, is therefore carrying something near 14% of a typical day's decision, and moving from equal weights to 1:3 only shifts the text share from about 67% to about 86%. That is the real reason the weight axis buys so little, 2.15 accuracy points, and the paper never states the quantity.
+
+#### Gap it's addressing
+
+- **Forecasting models validated on deep markets are not guaranteed to transfer to a disrupted one.** The abstract is explicit that prior work is built on well established exchanges and that such models are not guaranteed to capture the trends of exchanges showing high disruptive behaviour like the CSE, where some indexes have no trades on some days and the data is therefore incomplete. That is the right motivation and it is close to my own, and it is also the thing the methodology then fails to act on.
+- **Combining a price model with a text model, rather than running either alone.** The surveyed work in Table I is mostly one channel or the other, and where both appear the integration is a single joint model rather than two models with an explicit combination step. Building two and then asking how to merge them is the genuinely interesting decision in this paper, and it is the one that receives the least analysis.
+- **The CSE text channel had not been established as usable at all.** The authors tried the exchange's own announcement feed first and abandoned it, which is itself the finding.
+
+#### Data and setup
+
+CSE trade information for the past eight years, one file per index, covering <font color="#ffc000">John Keells Holdings (JKH), Ceylon Tobacco Corporation (CTC) and Agalawatte Plantations PLC (AGAL)</font>. The authors stress that this is real exchange data rather than a downloadable synthetic set, which they argue makes the results more realistic for automated trading on the CSE. Split is six years training, one year validation, one year testing, with the training partition expanding on each iteration because of the walk-forward scheme.
+
+Missing values were handled and the data normalised, except for CTC, which was trained unnormalised with a different parameter set and is therefore not comparable with the other two. PCA was applied for dimension reduction and then dropped as unsuitable, after which feature selection was done on correlation and autocorrelation instead: previous-day close, high, low and open plus volume correlated best, and the previous seven days of prices showed higher autocorrelation than days further back. Day of the week was added on the observation that Mondays and Fridays behave differently from the three mid-week days, which is what makes the multivariate variant multivariate. Seasonality and trend removal was attempted and abandoned because the model did not perform well on the stationarised series, reported plainly as a pitfall rather than buried.
+
+For text, the CSE announcement data obtained from the exchange was <font color="#ffc000">not rich enough to train a usable classifier</font>, so news was scraped from a public economic-news blog with a pagination loop, giving over 4,000 articles from 2012 to 2019. Labels were not annotated, they were derived mechanically: each article was joined to the quantitative data by publication date under the assumption that news published on one day moves the trend on the next, and inherited that next day's up or down label.
+
+#### Model architecture and training
+
+The final LSTM is four layers of 128, 64, 16 and 1 units, dropout 0.5 on the first two layers, an L1L2 bias regulariser at $l1 = l2 = 0.001$, batch size 10 and Adam, with depth, width, epochs, dropout, optimiser and learning rate searched using a Hyperas wrapper and grid search.
+
+The validation choice is the part worth crediting. The authors reject k-fold cross validation explicitly, on the grounds that it assumes instances are independent and therefore ignores the temporal component, and use walk-forward validation instead, where real data for a batch is added back and the model retrained before predicting the next batch. That puts this paper ahead of [[Machine Learning-Driven Sri Lankan Stock Market Prediction, Harnessing Economic Indicators and Sentiment Analysis]], which treats shuffling the series before splitting as a design improvement, and ahead of [[ARIMA and ANN Approach for forecasting daily stock price fluctuations of industries in Colombo Stock Exchange]], which selects a neural architecture with no validation partition at all.
+
+The text side compares Decision Tree, Naive Bayes, SVM, Random Forest and a simple ANN, tuned over CountVectorizer n-gram range, stop-word removal and TfidfTransformer settings. Multinomial Naive Bayes was selected on 10-fold cross-validation accuracy: <font color="#ffff00">Naive Bayes 0.95 (±0.02) and SVM 0.95 (±0.03) against Decision Tree and Random Forest at 0.88</font>.
+
+The two are then joined by the weighted vote, which is the mechanism I care about:
+
+$$\text{Trend}_t = \frac{w_V V_t + w_P \sum_{k=1}^{n_t} P_{k,\,t-1}}{w_V + n_t\,w_P}$$
+
+where:
+- $V_t$ is the single up or down prediction from the quantitative model, fed four days of past prices, trend details and day of the week
+- $P_{k,\,t-1}$ is the text model's prediction for the $k$-th of the $n_t$ articles published on the previous day
+- $w_V : w_P = 1:3$ in the finalised model, after the authors tried several ratios and kept the one with the highest holdout accuracy
+- both $w_V$ and $w_P$ carry no time index, which is the whole point of the note
+
+![[Pasted image 20261004130001.png]]
+
+#### Findings
+
+- **A short lookback wins on these counters, and the margin is clear enough to be worth inheriting.** Sweeping leading days from 1 to 10 on CTC, the one-day-ahead error score falls from 0.0436 at one day to 0.0189 at four and 0.0177 at five, then rises again to 0.0267 at six and 0.0280 at ten. The same shape holds across the two- and three-day prediction columns, and the authors' reading, that four or five previous days beats both shorter and longer windows, is supported by the table. Note that the correlation analysis had pointed at seven days and the final architecture diagram says four, so the empirical sweep overrode the feature-selection step and the paper doesn't remark on it. The metric itself is never defined, it is reported only as "error score" on normalised data, so the shape of the curve is usable to me and the levels are not.
+
+  ![[Pasted image 20261004130002.png]]
+
+- **Combining the two channels moves accuracy from 0.5622 to 0.5837, and the Matthews correlation from 0.0966 to 0.1493.** Accuracy on a binary task whose class balance is never reported is close to uninformative, so the quantity worth reading here is the one the authors also report and then ignore:
+
+  $$\mathrm{MCC} = \frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}$$
+
+  which is 0 for a classifier that has learned nothing beyond the base rate and 1 for a perfect one. At 0.1493 the finalised model has some directional signal and not much, and the gap between an accuracy that sounds like 58% and an MCC that sits at 0.15 is the whole story of the result.
+
+  ![[Pasted image 20261004130004.png]]
+
+- **The model is biased toward calling "up", and that bias is doing visible work in the accuracy figure.** Sensitivity is 0.6232 against specificity 0.4737 under equal weights, so the down class is being called worse than a coin flip while the headline accuracy still reads 0.5622. The finalised weights narrow it, 0.6391 against 0.5100, which is the more meaningful of the two improvements since it is specificity rather than accuracy that moved, but precision barely shifts at all, 0.6324 to 0.6343. The honest summary is that the weight change mostly bought a less lopsided classifier rather than a better one.
+- **The 0.95 cross-validation accuracy on the text classifier is not evidence of predictive skill, and the hybrid result demonstrates that.** Those labels were assigned mechanically from the next day's price direction, and 10-fold CV shuffles articles that are temporally adjacent and frequently cover the same event, so articles sharing a day share a label and overlapping vocabulary and the classifier can recover the day rather than the direction. The test that matters is the one the paper itself runs: a component scoring 0.95 in isolation contributes about four accuracy points to a joint decision in which it holds most of the weight. Those two numbers cannot both be measuring the same thing.
+- **The LSTM reproduces the shape of the series with a lag and smooths away the moves a trader would need.** On CTC the predicted line tracks the fall from roughly 1,350 to 1,290 and then flattens where the actual flattens, but it cuts the amplitude of nearly every local swing and misses the terminal drop to about 1,203 entirely. The authors describe this as having predicted the basic behaviour with less fluctuations, which is accurate, and it is also the signature of a network leaning heavily on the most recent close. Since seasonality and trend removal were abandoned, the network is fitting levels rather than changes, which is the condition under which that failure mode is expected.
+
+  ![[Pasted image 20261004130003.png]]
+
+#### Limitations
+
+- **The weights were selected on the data the result is reported on.** Table IV is headed as a holdout measurement and reports both the equal-weight and finalised instances on it, and the finalised ratio was found by changing the weights until performance was at its best. There is no third partition separating weight selection from reporting, so 0.5837 is an in-sample figure for the one parameter the paper's contribution turns on. <font color="#ff0000">The 54% to 58% improvement is therefore not independently evidenced</font>, and with the walk-forward machinery already built, holding out a separate window for the combination step would have cost very little.
+- **The disrupted-data problem that motivates the paper is never handled in the methodology.** Non-trading days on thin counters are named in the abstract as the reason a CSE-specific model is needed, and then the only treatment is a general statement that missing values in the raw data were handled. Nothing says whether an absent day was dropped, forward-filled or zero-filled, and on a lookback of four days the difference between those choices changes what the window contains. AGAL is a plantation counter and the most likely of the three to have gaps, which makes the omission load-bearing rather than cosmetic.
+- **No baseline of any kind, and no backtest.** For a binary direction task the relevant floors are the majority-class rate and a persistence call, neither of which is computed, and the class balance needed to work out the first is not reported. There is also no position, no fee, no spread and no return, so the claim that at 58% accuracy "the users will always receive an overall gain" does not follow from anything in the paper. Directional accuracy says nothing about the magnitude of the moves caught versus missed, and on a market where [[Role of Market Liquidity in Sentiment-Based Return Predictions, Evidence from Sri Lanka]] measures unexpected illiquidity shocks depressing returns by 8 to 10 basis points, a near-coin-flip signal traded daily is the case where costs decide the outcome.
+- **Three counters, one of them trained differently, and no liquidity screen.** JKH, CTC and AGAL are described as powerful counters without a stated selection criterion, and they differ sharply in how actively they trade. CTC was trained unnormalised with a different parameter set, so cross-counter comparison is not available even in principle, and the trend-classification result in Table IV is reported as a single number without saying which counter or counters produced it.
+- **The label construction fixes a one-day news-to-price lag by assumption, and the conclusion concedes it is wrong.** News published on day $t-1$ is assumed to move the trend on day $t$, which is what makes the labels mechanically derivable, and the authors then acknowledge that this is not the real scenario since any news or event can affect the stock at the moment it is published. Both legs of the hybrid are consequently trained against the same label stream under an assumption the paper itself disowns, and the proposed fix, real-time news acquisition, is listed as future work rather than tested.
+
+#### Why this matters for my project
+
+- **This is my CSE-local instance of the fixed-influence failure, and it belongs in the gap argument beside FinAgent and AlphaAgents.** Two heterogeneous models, one shared decision, and the combination rule is a constant chosen once. What I'm building replaces the constant with a function of measured state,
+
+  $$\text{Decision}_t = \sum_i w_{i,t} A_{i,t}, \qquad w_{i,t} = f(L_t, V_t, P_t, C_{i,t})$$
+
+  and the contrast is cleaner here than in any of the LLM systems, because this paper does at least have an explicit weight vector to point at. Per the scope rules the text channel is cited as a fixed-influence failure case, not as a component to rebuild.
+- **Component-level accuracy is not a basis for setting an agent's weight, and this paper is the proof.** The text model was given three times the influence because it scored higher in individual testing, and that individual score was measuring a different and much easier task than the one it was being weighted for. So the weight my orchestrator assigns $A_T$, $A_F$, $A_V$ or $A_L$ has to come from each agent's measured marginal contribution to the joint decision, computed by ablation on held-out windows, and never from how well an agent does on its own in-domain metric. That is a direct argument for the ablation design already in the evaluation plan.
+- **Influence has to be normalised explicitly, or the input volume sets it accidentally.** Dividing by total weight while summing one term per article means a channel's share rises with how much material it happens to produce that day, which is an availability-weighted scheme nobody designed and nobody analysed. My orchestrator emits a weight vector that sums to one over agents, one scalar per agent regardless of how many documents, bars or signals that agent consumed, and the effective share each agent held gets logged per day so the realised weighting can be audited against the intended one.
+- **It does, though, point at something real for the abstention channel.** When no article appears the text term vanishes and the decision falls back entirely to the quantitative model, which is the behaviour I want from $A_F$ on a counter whose last filing is stale, arrived at here by accident rather than design. The lesson is that fallback has to be an explicit state with the remaining weights renormalised and the event recorded, not a side effect of a denominator, because as implemented here the system cannot tell a confident abstention from a quiet news day.
+- **The CSE announcement feed being too thin to train on in 2021 is direct evidence for how I scope $A_F$.** The authors had the exchange's own data and had to abandon it for scraped material, the same thin-channel failure AlphaAgents hit with news on fifteen US megacaps, and it is why I expect the fundamental channel to be unusable a large fraction of the time. The binding constraint on structure-aware retrieval over CSE filings is document availability per counter per period, so that count is worth establishing before the retrieval design is settled.
+- **A four to five day lookback is my starting point for the technical agent, not thirty.** The error sweep here is the only direct evidence I have on window length for CSE counters and it says short beats long, with the curve turning sharply after five days. On a per-counter archive of 374 trading days a five-day lookback yields far more usable sequences than a thirty-day one, so this cuts in the same direction as the data-depth constraint, and window length goes into the ablation set rather than being inherited.
+- **Walk-forward with retraining is the protocol, and this paper is the local precedent I cite for it.** Expanding training window, retrain on each batch, evaluate on the next, with the horizon and the refit policy stated as columns in every results table. That is three CSE papers now where the modelling is ordinary and the evaluation is what separates them, which keeps pointing at the same thing: on this market the contribution worth making is evaluation that survives being checked.
+- **Report MCC alongside accuracy for every directional result, and a return alongside both.** Accuracy 0.5837 with MCC 0.1493 is the clearest example in my set of a metric that reads well and a metric that reads honestly describing the same classifier, and the claim that 58% directional accuracy guarantees an overall gain is the overclaim it enables. Any directional number my system reports carries the class balance, the Matthews correlation and the cost-adjusted return on the same row.
+---
+
+Pavithya, M.B.D. et al. (2021). Quantitative Analysis and Sentiment Analysis for Stock Price Forecast: The Case of Colombo Stock Exchange. _2021 10th International Conference on Information and Automation for Sustainability (ICIAfS)_. August 2021. 512–517. Available from [https://doi.org/10.1109/ICIAfS52090.2021.9606034](https://doi.org/10.1109/ICIAfS52090.2021.9606034) [Accessed 4 October 2026].
