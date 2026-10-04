@@ -2,113 +2,93 @@
 citekey: gondhalekarMultiFinRAGOptimizedMultimodal2025
 year: 2025
 ---
-Purpose-built RAG framework for financial QA over long, multimodal filings (10-Ks, 10-Qs, 8-Ks, investor presentations). Point of reference: a single Morgan Stanley 10-Q runs ~120 pages with 275+ tables and ~200 figures, way past what a normal RAG pipeline can handle cleanly.
+arXiv:2506.20821v1, 25 June 2025, marked Preprint Copy. Chinmay Gondhalekar, Urjitkumar Patel and Fang-Chun Yeh, all three at S&P Global Ratings in New York. A retrieval pipeline built for financial filings that treats tables and figures as first-class retrievable objects rather than flattening them into text. Three mechanisms: <font color="#ffff00">batch multimodal extraction</font>, where detected table and figure regions are cropped and sent in batches to a quantized open-source vision model that returns a JSON rendering plus a prose description; semantic chunk merging with modality-specific similarity thresholds over three separate FAISS indexes; and a <font color="#ffff00">tiered fallback</font> that tries text alone first and escalates to table and then image context when the text hits are too few. Evaluated on 300 hand-written questions over SEC filings, graded by hand, against a fixed-chunk RAG baseline and ChatGPT-4o's free tier, with everything running on a free Colab T4.
 
-> [!info] Why standard RAG struggles here
-> - **Length & cost:** document length blows past LLM token limits, driving up API cost and making end to end processing infeasible.
-> - **Mixed formats:** tables and charts lose their structure once flattened into plain text, which obscures the numerical context financial QA actually needs.
-> - Standard pipelines make this worse with fixed-size non-overlapping chunks (splits explanations/numbers across boundaries), treating tables/charts as plain text, and static top-𝑘 retrieval (redundant or barely relevant snippets).
+The note this replaces was a careful summary that got the mechanisms right and read the paper largely on its own terms. Rewriting it as a review matters here more than it did for the other RAG notes, because this is the first paper in the set that is a corporate preprint rather than a peer-reviewed venue, and reading the tables against the prose turns up several things the summary did not: <font color="#ffc000">the backbone model, not the pipeline, carries most of the headline gain</font>, the paper's own showcase figure contains a transposition error that inverts the direction of a capital ratio, and the reference list contains unfilled templates. None of that makes the work useless to me. It is still the only paper in my set that gives tables and figures their own index and their own retrieval threshold, which is the live design question for $A_F$ over CSE annual reports, where the financial statements are not an appendix to the document, they are most of it.
 
-**Three things this paper adds:**
-1. **Batch multimodal extraction:** small groups of table/chart images get sent to a lightweight multimodal LLM, which returns structured JSON plus a short text summary. Keeps the numeric relationships and visual detail intact for indexing.
-2. **Semantic chunk merging & thresholded retrieval:** over-segmented text chunks get recombined by embedding similarity and indexed in FAISS with modality-specific similarity thresholds (80% for text vs 65% for images) so marginal context gets filtered out.
-3. **Tiered fallback:** queries first try high-similarity text only. If that's not enough, retrieval escalates to table and image context, combining text + table + image when needed.
+#### Gap it's addressing
 
-Runs on commodity/free-tier hardware and still beats ChatGPT-4o (free tier) by **19 percentage points** on complex financial QA across text, tables, images, and combined reasoning.
+- **Flattening tables and charts into plain text destroys the numeric relationships that financial QA depends on.** The framing point is concrete: a single Morgan Stanley 10-Q runs about 120 pages with more than 275 tables and nearly 200 figures, so a pipeline that reduces all of that to a token stream is discarding most of the document's information structure. Their own baseline then demonstrates this rather than asserting it, which is the strongest part of the setup.
+- **Fixed-size non-overlapping chunks split explanations away from the numbers they describe, and static top-$k$ retrieval dilutes what survives.** Both are standard criticisms and both are addressed by the design, the first through semantic merging and the second through thresholded retrieval that returns only what clears a similarity bar.
+- **Prior financial RAG retrieves within a modality but does not align and synthesise across modalities.** This is the stated gap and it is the one the evaluation is actually built around, since the hardest of the four question types requires resolving a term from the narrative and then locating the corresponding value in a table. It is a real gap and [[Financial Report Chunking for Effective Retrieval Augmented Generation]] and [[FinanceBench, A New Benchmark for Financial Question Answering]] both leave it open.
 
-#### Related Work
-Sits itself against SELF-RAG (self-reflective retrieval critique), T-RAG (tree based hierarchical retrieval), MoG/DRAGIN (dynamic chunk sizing and retrieval timing), Late Chunking (deferring segmentation until after embedding), and DPR as the dual-encoder retrieval baseline. On the eval side it brings up eRAG/DPA-RAG (retrieval relevance vs downstream generation) and ClashEval/vRAG-Eval (behaviour under noisy/conflicting retrieval).
+#### Data and setup
 
-Financial-domain specific work it cites:
-- **PDFTriage:** flattening PDFs to plain text loses layout/context, so it proposes layout-aware retrieval instead.
-- Smith et al. on structural segmentation. This is actually the same paper as [[Financial Report Chunking for Effective Retrieval Augmented Generation]] already in this vault, they showed structural segmentation improves retrieval accuracy.
-- **Fin-RAG:** improves accuracy using tree-based retrieval with metadata clustering.
+Documents come from SEC EDGAR through the SEC API, covering 10-Q, 10-K, 8-K with EX-99.1 and DEF 14A, converted to PDF. The worked examples are Morgan Stanley, Home Depot and Intuit filings. Three hundred questions were written by hand across four difficulty tiers, with answers kept to short values or terms and checked so they do not appear verbatim elsewhere in the document:
 
-Gap it's trying to close: existing financial RAG systems retrieve snippets per modality but don't really align and synthesize across text, tables, and figures together. That coordinated cross-modal reasoning is where most prior work falls short.
+| Type | What it needs | Count |
+| --- | --- | --- |
+| 1, text-based | Answerable from the narrative alone | 146 |
+| 2, image-based | Reading a value off a chart, such as the peak bar in a VaR histogram | 42 |
+| 3, table-based | Locating the right row and column in a statement | 72 |
+| 4, text and image/table | Resolve a term in the narrative, then look the value up in a table | 40 |
 
-#### Models and Tools Used
-- **Table detection:** Detectron2Layout, pre-trained on TableBank.
-- **Image/figure detection:** Pdfminer's layout analysis (LTImage/LTFigure).
-- **Multimodal summarization:** quantized Gemma3:12B and LLaMA-3.2-11B-Vision-Instruct, run through Ollama.
-- **Embeddings:** BAAI/bge-base-en-v1.5 via SentenceTransformer.
-- **Approximate retrieval:** FAISS (IVF-PQ index).
+Type 4 is the one worth looking at, because it is the shape of almost every real question about a filing:
 
-Worth noting: quantization cuts Gemma3:12B's 24GB GPU footprint by about 65% while keeping over 90% of its original accuracy, which is what makes single-GPU deployment on commodity hardware realistic for both models.
+![[Pasted image 20261004120002.png]]
 
-**Baseline framework** used for comparison: standard RAG with fixed-size non-overlapping text chunks, same bge embeddings + FAISS IVF-PQ, but no multimodal parsing at all. Tables/charts are flattened into raw text or just ignored, no JSON conversion or captioning.
+Both examples turn on a vocabulary mismatch, the narrative says the Lighting department moved into the Décor product line and only the table carries the figure, or the narrative defines NQDCP and only the table uses the abbreviation. <font color="#ffc000">Neither question can be answered from either modality alone</font>, which is precisely the construction that makes this dataset useful and that no other benchmark in my set isolates.
 
-#### Proposed System
-Each PDF gets split into three retrievable chunk sets, text, table, and image, all embedded into separate per-modality FAISS indexes. A query triggers tiered retrieval (text-only first, escalating to text+table+image) before a final LLM call generates the answer.
+The stack is Detectron2Layout pre-trained on TableBank for table detection, pdfminer's `LTImage` and `LTFigure` layout analysis for figures, quantized Gemma3:12B and LLaMA-3.2-11B-Vision-Instruct served through Ollama for multimodal summarisation and generation, `BAAI/bge-base-en-v1.5` for embeddings and FAISS IVF-PQ for approximate retrieval. Quantization cuts Gemma3's 24GB footprint by roughly 65% while retaining over 90% of its accuracy, which is what makes single-GPU deployment realistic. The baseline is the same embeddings and the same index with fixed-size non-overlapping text chunks, no semantic merging, no tiered logic and no multimodal parsing at all.
+
+Grading is manual, by the authors' own team of domain experts. The paper rejects exact match because unit discrepancies break it, "1 billion" against "1,000 million", rejects BERTScore because embedding numeric answers and comparing semantic similarity is not meaningful, and rejects LLM-as-judge citing evaluator bias. That reasoning is sound and lines up with the judge bias measured directly in the chunking note. No public release of the dataset is stated anywhere.
+
+#### Pipeline design
+
+Each document is segmented into three retrievable sets, $C_i = C_i^{\text{text}} \cup C_i^{\text{table}} \cup C_i^{\text{image}}$, each embedded into its own FAISS index.
+
 ![[Pasted image 20260913132812.png]]
 
-**Semantic Chunking & Indexing**
-1. Segment the narrative into sentences.
-2. Form overlapping sliding-window blocks (window size 𝑤, overlap 𝑜).
-3. Embed each sentence, compute cosine distance between consecutive sentence embeddings, mark any distance above the 95th percentile as a split point.
-4. Split blocks at those breakpoints into semantic chunks.
-5. Merge any chunk pairs whose cosine similarity is above a high threshold (0.85) to cut down redundancy.
-6. Build a FAISS HNSW/IVF-PQ index for sub-second k-NN lookup at scale (|C| > 10⁵).
+Semantic chunking is the one piece with a stated mechanism rather than a description. Narrative text is split into sentences, overlapping sliding windows are formed, each sentence is embedded, and the cosine distance between consecutive sentence embeddings is computed:
 
-This chunking + merging step alone cuts total chunks (and tokens sent to the LLM) by roughly 40 to 60%. Lower cost and lower latency without giving up retrieval quality.
+$$d_j = 1 - \frac{e_j \cdot e_{j+1}}{\lVert e_j \rVert \lVert e_{j+1} \rVert}, \qquad j = 1, \dots, w-1$$
 
-**Batch Multimodal Extraction (Algorithm 1)**
-- Detected table/figure regions get cropped and batched (batch size 𝐵) into single multimodal prompts, each one listing the exact filenames so the structured output can be matched back to the right image.
-- Tables produce (description, JSON) pairs, the description gets embedded and indexed into the table index alongside its JSON.
-- Images/charts get a 3 to 6 sentence summary each (explicitly told to ignore non-data visuals like logos/watermarks), embedded into the image index.
-- **Coverage guarantee:** if a filename is missing from a batch response (LLM omission or low confidence), a stub gets written and retried as a single-image prompt. Nothing gets silently dropped.![[Pasted image 20260913132921.png]]
+where $e_j = E(s_j)$ is the embedding of sentence $j$ and $w$ the window size. Any $d_j$ above the 95th percentile of the distances within that window is marked as a split point, blocks are cut at those points, and any resulting pair of chunks whose cosine similarity exceeds 0.85 is greedily merged to remove redundancy. The claimed effect is a 40 to 60% reduction in total chunks and therefore in tokens sent to the generator.
 
-**Tiered Retrieval & Decision Function**
-Parameters n=6 (minimum text chunks), m=4 (table fallback fetch), p=3 (image fallback fetch), all tuned by trial and error on a holdout set.
-1. Text-only retrieval above θtext. If ≥ n hits, answer straight from text.
-2. Otherwise fall back to top-m table chunks above θtable.
-3. And top-p image summaries above θimage.
-4. Combine whatever non-empty sets came back (including each table's JSON + summary) into one final LLM call.
+Table and figure regions are cropped and partitioned into batches of at most $B$, and a single multimodal prompt per batch lists the exact filenames so that each structured output can be matched back to its source region. Tables return a description and a JSON rendering, the description embedded into the table index with the JSON stored alongside; figures return a three to six sentence summary with an explicit instruction to ignore non-data visuals such as logos and watermarks. If a filename is missing from a batch response, a stub is written and retried as a single-image prompt, so <font color="#ffff00">no detected region is silently dropped</font>. This is the output format, and it is also where the problem in finding five lives:
 
-Every LLM call also carries a system prompt telling it to say "insufficient information" instead of hallucinating when the context doesn't support an answer.
+![[Pasted image 20261004120001.png]]
 
-**Threshold Calibration**
-Swept θtext from 0.55 to 0.85 and (θtable, θimage) from 0.55 to 0.75 on a held-out query set, optimizing a combined context-relevance + accuracy metric under a context-size budget. Final values landed at θtext = 0.70, θtable = 0.65, θimage = 0.55. Makes sense that text has the stricter bar since image/table summaries are noisier and need a lower threshold to even get considered once fallback kicks in.
+Retrieval is the tiered decision function, and it is the whole novelty in one place. Text-only retrieval collects everything clearing the text threshold,
 
-#### Evaluation Setup
-- **Dataset:** financial filings pulled from SEC EDGAR (10-Q, 10-K, 8-K w/ EX-99.1, DEF 14A) via the SEC API, converted to PDF.
-- **300 manually written questions** across four tiers:
-	1. Text-based (146), straightforward, answerable from narrative text alone.
-	2. Image-based (42), requires reading values off charts/graphs (e.g. finding the peak bar in a VaR bar chart).
-	3. Table-based (72), requires locating the right row/column in a table.
-	4. Text + image/table combined (40), requires resolving a term/entity from text first (e.g. "Lighting department" = "Decor" product line, or "NQDCP" = Non-Qualified Deferred Compensation Plan) then looking the value up in a table.
-- Answers are kept to short values/terms and checked so they don't appear verbatim anywhere else in the document, to cut down on ambiguity.
-- **Why manual evaluation:** exact-match breaks on unit differences ("1 billion" vs "1,000 million"), BERTScore doesn't make sense for numeric answers, and LLM-as-judge brings in evaluator bias. Manual eval is more work but avoids all three issues.
+$$\mathcal{T} = \left\{ c \in C^{\text{text}} \;\middle|\; \cos\left(e_Q, E(c)\right) \ge \theta_{\text{text}} \right\}$$
 
-#### Results
-Baseline basically collapses on anything non-text: 0% on image and combined questions, next to 0% on tables too. Confirms that flattening tables/figures into plain text (or skipping them) is a real failure mode, not just a theoretical worry.
+and if $|\mathcal{T}| \ge n$ the system issues a single generator call with $\mathcal{T}$ as context and stops. Otherwise it falls back, adding the top $m$ table chunks above $\theta_{\text{table}}$ and the top $p$ image summaries above $\theta_{\text{image}}$, and concatenates every non-empty set, including each table's JSON alongside its summary, into one final call. The selected values are $n = 6$, $m = 4$, $p = 3$ and $\theta_{\text{text}} = 0.70$, $\theta_{\text{table}} = 0.65$, $\theta_{\text{image}} = 0.55$, with the ordering reflecting that generated summaries are noisier than source text and need a lower bar to be considered once fallback has fired. Every generator call carries a system prompt instructing the model to state insufficient information rather than hallucinate.
 
-- **Text-based (146q):** MultiFinRAG+Gemma3 hits 90.4%, up from 75.3%/76.7% baseline (Llama/Gemma), and 4.1% above ChatGPT-4o (86.3%).
-- **Image-based (42q):** MultiFinRAG+Gemma3 gets 66.7% vs ChatGPT-4o's 23.8%, over 40 points higher. Baseline scores 0% on both models.
-- **Table-based (72q):** MultiFinRAG+Gemma3 at 69.4% vs ChatGPT-4o's 44.4%, over 25 points higher. Baseline barely clears 5.6%.
-- **Text+image/table (40q):** MultiFinRAG+Gemma3 at 40.0% vs ChatGPT-4o's 15.0%. Baseline is 0% on both models here too.
-- **Total (300q):** MultiFinRAG+Gemma3 lands at 75.3%, beating ChatGPT-4o's 56.0% by 19.3 points, and well above the 33.3/36.7% baseline.
+#### Findings
 
-Gemma3 consistently beats LLaMA-3.2-11B-Vision-Instruct as the multimodal summarizer/generator across every category, sharpest gap on tables (69.4% vs 13.9%). Comes down to Gemma3 producing better table/image descriptions that feed into the retrieval index.
+- **The baseline scores zero on every non-text question type, for both backbones, which is the paper's most solid result.** Image questions 0% and 0%, combined text-and-table questions 0% and 0%, table questions 2.8% and 5.6%. That is not a weak comparator being beaten, it is a demonstration that flattening tables and figures into the text stream removes the information rather than degrading it.
 
-Gap to ChatGPT-4o is smallest on text-only questions (+4.1%) and biggest on image/table questions, exactly where a generic LLM without structured extraction would struggle most. Qualitative failures on both sides point to the same root cause though: ChatGPT-4o sometimes answers from its own background knowledge instead of the actual document (e.g. inventing "$0 million restricted cash" that's nowhere in the filing, but also correctly expanding "NQDCP" purely from prior knowledge in one case). Grounding in the actual document seems to be the real differentiator here, not raw model capability.
+  | Question type | N | Base+Llama | Base+Gemma | MFR+Llama | **MFR+Gemma** | GPT-4o free |
+  | --- | --- | --- | --- | --- | --- | --- |
+  | 1, text | 146 | 75.3% | 76.7% | 83.6% | **90.4%** | 86.3% |
+  | 2, image | 42 | 0% | 0% | 42.9% | **66.7%** | 23.8% |
+  | 3, table | 72 | 2.8% | 5.6% | 13.9% | **69.4%** | 44.4% |
+  | 4, text+image/table | 40 | 0% | 0% | 10.0% | **40.0%** | 15.0% |
+  | Total | 300 | 33.3% | 36.7% | 47.3% | **75.3%** | 56.0% |
 
-**Efficiency & cost:** roughly 25 minutes to process a 200-page/200-table/150-image filing on a free-tier Google Colab T4 GPU (16GB RAM). Both baseline and MultiFinRAG ran on free-tier compute at zero cost, and the >60% token reduction from chunking/merging directly lowers per-query LLM spend too.
+- **The backbone, not the pipeline, carries most of the gain on exactly the questions the pipeline exists for.** Same pipeline, same retrieval, same index, same thresholds: table questions score 13.9% with LLaMA-3.2-11B and 69.4% with Gemma3:12B, a gap of <font color="#ffc000">55.5 points from swapping the model that reads the table</font>, and 10.0% against 40.0% on the combined type. The baseline meanwhile is nearly backbone-insensitive at 33.3% against 36.7%, so the pipeline is amplifying backbone quality rather than substituting for it. The paper notices the variance and reads it as highlighting the importance of the model's ability to describe graphs and tables, which is correct as far as it goes and stops short of the implication for its own headline claim.
+- **The 19-point margin over ChatGPT-4o is real on this sample and is concentrated entirely outside the text category.** Total 75.3% against 56.0%. On text-only questions the margin is 4.1 points, 90.4% against 86.3%, which is within what I would expect from any competent retrieval pipeline. On images it is 42.9 points, on tables 25.0 and on the combined type 25.0. Scoped properly, what this shows is that structured extraction of tables and figures buys the difference, not the chunking and not the thresholding, and the comparator is a free-tier consumer product rather than a tuned system.
+- **The qualitative analysis locates the difference in grounding rather than capability, and the examples support it.** ChatGPT-4o answered that Morgan Stanley had "$0 million in restricted cash" and asserted this was "explicitly stated in the report" when the figure appears nowhere in the filing, and in a separate case answered correctly by expanding NQDCP from prior knowledge rather than from the document. Both are the same phenomenon, a model drawing on training data where the document should be governing, and the second is the more unsettling of the two because it scores as a success.
+- **The paper's showcase figure for its core mechanism contains a transposition that inverts the direction of a capital ratio.** In Figure 2 the source table gives Tier 1 capital, Advanced as 17.7% in the first column, which the surrounding rows establish as Q1 2025, and 17.8% in the second, Q4 2024. The extracted JSON records Q1 2025 as 17.8 and Q4 2024 as 17.7, and the generated description then states that Tier 1 capital "edged up slightly from 17.7% to 17.8%" when the table shows it falling quarter over quarter. Every other row in the same figure is extracted correctly, so this is one row out of six rather than a systemic parse failure, and <font color="#ff0000">it is the error class that matters most in this application</font>, a direction of change inverted inside a machine-readable object that looks authoritative.
+- **The efficiency result is modest, well-evidenced and the part most likely to transfer.** Roughly 25 minutes to process a 200-page filing containing 200 tables and 150 images on a free-tier Colab T4 with 16GB of RAM, at zero cost, with quantization cutting the model footprint by about 65% and semantic merging cutting chunk and token counts by a claimed 40 to 60%.
 
-#### Discussion & Limitations
-They're upfront that this paper only reports end-to-end QA accuracy, retrieval-level metrics (precision/recall of retrieval itself) were collected during development but left out here "due to space constraints," promised for a follow-up paper. That's a gap worth flagging, can't tell from this paper alone how much of the accuracy gain is from better retrieval vs better generation/summarization.
+#### Limitations
 
-Also all 300 QA pairs were verified by the authors' own team (domain experts), not external annotators or real users. Fine for a first pass but limits how independent the evaluation really is.
+- **Nothing is ablated, and the one comparison that would separate the pipeline from the backbone is computable from their own table and never computed.** The authors list module-wise evaluation as future work, which is honest, but Table 1 already contains the arithmetic: holding the backbone fixed, the pipeline is worth <font color="#ffc000">14.0 points with LLaMA, 47.3% against 33.3%, and 38.6 points with Gemma, 75.3% against 36.7%</font>. So the pipeline's own contribution ranges by a factor of nearly three depending on which model reads the output, and the headline framing of a single framework effect is not supported by the data the paper itself prints.
+- **No retrieval metrics are reported at all, so the contribution cannot be located within the pipeline.** Precision and recall were "collected during development" and omitted for space, promised in a follow-up. Two of the three mechanisms are retrieval mechanisms, and neither is measured as retrieval. The chunking note is the direct contrast: it reports page-level and paragraph-level retrieval separately from end-to-end accuracy, and its most useful finding was that the two disagree, with the configuration having the worst page retrieval producing the best answers. That finding could not have been made under this paper's reporting.
+- **The dataset is private, self-written and self-graded, and the questions were written by the people who built the system.** Three hundred questions over documents the authors selected, verified by the authors' own domain experts, with no public release. Against FinanceBench's 150 open cases and 2,400 responses labelled by its research team, nothing here is reproducible or comparable to anything else, and difficulty calibration sits with the same party that benefits from the result. The manual grading itself is the right call and I am not disputing the labels, only noting that nobody outside the group can check them.
+- **Threshold calibration runs on a held-out query set whose relationship to the 300 evaluation questions is never stated.** Three similarity thresholds swept over a grid and three count parameters set by trial and error, all selected on a combined context-relevance and accuracy criterion. If that development set overlaps the evaluation set the thresholds are fitted on the test data, and the paper offers nothing that would rule it out. With six tuned parameters and a 300-question evaluation, this is the assumption most capable of moving the headline number.
+- **The reference list contains unfilled templates and at least one invented authorship.** Reference [22], cited in the text as DRAGIN, reads "Author Su. 2024. Title Placeholder. Journal Placeholder". References [7] and [31] carry the same placeholder arXiv identifier, 2401.12345, for two different papers, both with "xx-yy" page ranges. And reference [21] is [[Financial Report Chunking for Effective Retrieval Augmented Generation]], correctly identified by its arXiv number 2402.05131, attributed to "John Smith, Jane Doe, and Emily Johnson" rather than to Jimeno Yepes and colleagues. None of this touches the experiments, and it is a preprint rather than a published paper, but it sets how much of the unverifiable detail I am willing to take on trust.
+- **Small reported numbers disagree with each other across the manuscript.** The abstract gives the modality thresholds as 80% for text and 65% for images where section 3.3.5 gives 0.70, 0.65 and 0.55; token reduction is 40 to 60% in section 3.3.2 and "over 60%" in the conclusion. Individually trivial, and worth recording only because they point the same way as the previous bullet.
 
-**Future work they flag:**
-- Module-wise ablations, isolate batch extraction vs tiered fallback contributions separately.
-- Structured-data pipeline for large tabular attachments (CSV/Excel) beyond the current JSON+summary stage, normalize into a lightweight DB with an NL query interface.
-- Cross-document & longitudinal analysis, unified multi-document index, paired-chunk retrieval (Q1 vs Q2), automated trend narratives.
-- Robustness to OCR/layout noise, ensembling OCR/layout engines, consistency checks (row-sum invariants, unit sanity), small fine-tuned correction LLMs.
-- Extended domain coverage: S-1 filings, prospectuses, earnings-call transcripts.
-- Fine-tuning/domain adaptation, LoRA-based generator customization, contrastive retrieval training.
-- Web-article ingestion for real-time multimodal Q&A (headless-browser rendering, DOM table extraction, optionally pre-filtered by the same authors' own FANAL/CANAL news-alerting classifiers, kind of a nice full-circle plug for their own prior work).
+#### Why this matters for my project
 
-#### Conclusion
-<font color="#ffc000">The real win isn't a bigger model, it's structured modality-aware extraction (JSON + summary per table/figure) plus a tiered escalation policy. That's what lets a small quantized open-source model beat a much larger proprietary one specifically on the multimodal questions, because it's actually grounded in the parsed table/image content instead of guessing from text alone.</font>
-
-Related notes in this vault worth cross-checking: [[FinanceBench, A New Benchmark for Financial Question Answering]] for the dataset/question-type taxonomy this kind of eval borrows from, and [[Optimizing LLM Based Retrieval Augmented Generation Pipelines in the Financial Domain]] for the same Gemma-beats-smaller-Llama pattern showing up again in a completely different RAG setup.
+- **This closes the question the chunking note left open, and the two papers only make the argument together.** I recorded there that the most distinctive rule in element-based chunking, never splitting a table, was also its least evidenced, because tables were only 5.2% of detected elements and no table-versus-text breakdown of answers was reported. MultiFinRAG supplies that breakdown directly: tables are 72 of 300 questions, and a pipeline that flattens them scores 5.6%. So the pair is the full case for how $A_F$ handles statements, the chunking paper says preserve the table boundary, this one says convert the table into a structured object and index the structured object, and neither establishes it alone.
+- **For CSE annual reports the table channel is the main channel rather than a secondary one, which changes where the effort goes.** Sri Lankan annual reports are statement-heavy, and the financial statements plus notes are the bulk of the document rather than an appendix to a narrative. On this paper's evidence a text-only pipeline reaches 5.6% on table questions and 0% on cross-modal ones, and on a statement-heavy corpus those two classes are most of what $A_F$ will be asked. The commitment that follows is a separate table index with a structured rendering per table, built first rather than added later.
+- **$A_F$ should emit a typed structured object per table, and this paper supplies the format while also showing its failure mode.** Description plus JSON, the description embedded for retrieval and the JSON carried into the generator prompt alongside it. That composes with the [[TAT-QA, A Question Answering Benchmark on a Hybrid of Tabular and Textual Content in Finance]] conclusion that $A_F$ emits a typed quantity rather than a bare number, and with citation tracing, since a JSON rendering anchored to a page is a far better citation than a prose paraphrase. The caveat travels with the format: <font color="#ffc000">a structured rendering that silently transposes two columns is more dangerous than a prose summary that hedges</font>, because it is machine-readable and carries no uncertainty. Any table extraction in my pipeline needs a consistency check, row sums against stated totals and period labels against the column headers, before the object enters the index.
+- **Tiered fallback gives the abstention path I already committed to a principled place to fire.** Text first, escalate to table, escalate to image, with every call instructed to state insufficient information rather than guess. That is the same abstention instruction the chunking paper used and the same correct, incorrect and abstain distinction FinanceBench established, and the escalation ladder answers the question of when $A_F$ should abstain rather than retrieve harder: when every tier has been tried and the thresholds are still unmet. Implemented as an explicit state that drives $w_{F,t}$ to zero, not as a low confidence value.
+- **Copy the threshold calibration procedure, not the threshold values, and run it on a provably disjoint split.** The ordering is the transferable part, a stricter bar for source text than for generated table summaries and a lower one again for figure summaries, because the summaries are model output and noisier by construction. The specific values are fitted to their corpus and their embedding model, so I would re-sweep on CSE filings, and I would be able to say what the sweep set was, which is the thing this paper cannot demonstrate.
+- **Report $A_F$'s result with the backbone named, and ideally at two backbones, because a pipeline gain can be a model gain wearing a pipeline's clothes.** The pipeline effect here ranges from 14.0 to 38.6 points depending on which open model reads the tables, and that spread is wider than most of the effects I will be trying to measure in my own component evaluation. The same Gemma-over-Llama ordering turns up in a completely different RAG setup in [[Optimizing LLM Based Retrieval Augmented Generation Pipelines in the Financial Domain]], so the sensitivity is not an artefact of this pipeline. This is cheap insurance: running the $A_F$ probe set at two generators costs one extra pass and tells me whether I have built a retrieval improvement or discovered a better model.
+- **Quantized open models on free-tier hardware removes a practical risk from the plan.** A 12B model at roughly a third of its unquantized footprint retaining over 90% of accuracy, the whole pipeline running on a Colab T4 in about 25 minutes per 200-page filing, at no cost. Against the per-reporting-period indexing cost I flagged in the chunking note and the per-decision inference budget flagged in the trading notes, this says the $A_F$ indexing pass is affordable without API spend, which matters for an FYP with no compute budget.
+- **Over-weight the cross-modal question type in my probe set rather than sampling proportionally, because it is the class that discriminates.** Resolve a term in the narrative, then find the value in a table, is the shape of a CSE question where segment names in the notes differ from those in the statements, or where a Sinhala-English bilingual report defines a line item in prose and tabulates it under an abbreviation. The best configuration here reaches 40.0% on that type against 90.4% on text-only, and the baseline reaches 0%. Everything separates on this class and nothing separates on text-only, so a probe set that mirrors natural question frequency would mostly be measuring noise.
