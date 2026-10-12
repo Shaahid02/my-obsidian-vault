@@ -43,8 +43,6 @@ A continuous, agent-level weighting function over methodologically heterogeneous
 
 ### C2. The structural confidence operator $C_{i,t}$.
 
-**This has been under-sold and should be stated as a contribution in its own right.** It currently sits as one row in a conditioning-set sheet.
-
 The contribution is a method for making confidence **comparable across architecturally unlike components** by computing it from the structure of each component's output rather than by asking the component how sure it is.
 
 | Agent | Mechanism | Source of the mechanism |
