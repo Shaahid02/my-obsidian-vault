@@ -1,7 +1,3 @@
----
-citekey: jeonFreQuantReinforcementLearningBased2024
-year: 2024
----
 KDD '24, Jeon, Park, Park and Kang, out of Seoul National University and DeepTrade Technologies. Daily-bar long-short portfolio optimization across six markets, five equity and one crypto, where the whole state representation is built in the <font color="#ffc000">frequency domain</font> rather than the time domain, the price tensor passing through a 1-d Discrete Fourier Transform before the policy network sees anything, with a DDPG actor-critic on top and an explicitly solved proportional transaction fee model underneath. Two modules carry it, a Frequency State Encoder that turns each asset's spectrum into an embedding and a Portfolio Generator that scores assets against each other and keeps only the top $|\mathcal{G}|$. No code release is mentioned.
 
 This is the third RL portfolio paper in the vault and it brackets the other two rather than duplicating either. [[Deep Reinforcement Learning Framework for Diversified Dynamic Portfolio Allocation Across Global Equity Markets]] is cross-sectional allocation with a continuous Dirichlet action, an LSTM time-domain encoder and sixteen walk-forward folds, [[MacroHFT, Memory Augmented Context-aware Reinforcement Learning On High Frequency Trading]] is single-asset timing with a binary action and a hard partition of the data by trend and volatility, and FreQuant is cross-sectional long-short allocation with hard top-$k$ selection, a spectral encoder and one fixed split per market. What makes it the most interesting of the three for the CSE is the representation rather than the architecture: the one solid quantitative result anyone has established about the Colombo exchange is that its volatility has <font color="#ffc000">long memory</font>, and long memory is by definition a statement about the low-frequency end of a spectral density, so a state encoder working in frequency space is the natural home for that result rather than an exotic add-on. Worth flagging too that FreQuant charges 0.33% to close a long and 0.4% to close a short, sixteen to twenty times the 2 bps assumed in both other papers.
@@ -129,14 +125,14 @@ Training is standard DDPG. The stabiliser is <font color="#ffff00">Predefined Pe
 
 - **The three-way contrast is what belongs in the review chapter, rather than three paper summaries in sequence.**
 
-  | Dimension | Kashif & Ślepaczuk | MacroHFT |
-| :--- | :--- | :--- |
-| **Task** | Cross-sectional allocation | Single-asset timing |
-| **State domain** | Time, LSTM plus attention | Time, LOB microstructure |
-| **Action** | Dirichlet over $N + \text{cash}$ | Binary $\{0, 1\}$ |
-| **Regime handling** | Post-hoc decomposition | Hard partition, 6 specialists |
-| **Algorithm** | SAC | Dueling DDQN |
-| **Costs** | 2 bps flat | 2 bps flat |
-| **Evaluation** | 16-fold WFO, HAC and bootstrap tests | 1 split, 6 metrics, no tests |
+  | | Kashif and Ślepaczuk | MacroHFT | FreQuant |
+  | --- | --- | --- | --- |
+  | Task | Cross-sectional allocation | Single-asset timing | Cross-sectional long-short |
+  | State domain | Time, LSTM plus attention | Time, LOB microstructure | Frequency, complex Transformer |
+  | Action | Dirichlet over $N$+cash | Binary $\{0,1\}$ | Top-$k$ signed weights |
+  | Regime handling | Post-hoc decomposition | Hard partition, 6 specialists | Multi-resolution spectrum |
+  | Algorithm | SAC | Dueling DDQN | DDPG |
+  | Costs | 2 bps flat | 2 bps flat | 33/40 bps, fixed-point solve |
+  | Evaluation | 16-fold WFO, HAC and bootstrap tests | 1 split, 6 metrics, no tests | 1 split, 2 metrics, no tests |
 
   Read down the evaluation row and the most rigorous protocol belongs to the paper with the least impressive results, which is the point I want to make about this literature rather than a coincidence. Taking the union of what the three do well gives me a protocol none of them has: walk-forward with adaptive retraining and formal significance testing from Kashif and Ślepaczuk, the six-metric risk panel and trade counts from MacroHFT, and the properly solved fee model from FreQuant, plus seeds and a cost-sensitivity sweep. Since no CSE benchmark exists at all, that protocol is a contribution in its own right and not just hygiene.
