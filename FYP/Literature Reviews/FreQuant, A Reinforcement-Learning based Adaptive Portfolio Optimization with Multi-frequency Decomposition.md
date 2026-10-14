@@ -1,3 +1,7 @@
+---
+citekey: jeonFreQuantReinforcementLearningBased2024
+year: 2024
+---
 KDD '24, Jeon, Park, Park and Kang, out of Seoul National University and DeepTrade Technologies. Daily-bar long-short portfolio optimization across six markets, five equity and one crypto, where the whole state representation is built in the <font color="#ffc000">frequency domain</font> rather than the time domain, the price tensor passing through a 1-d Discrete Fourier Transform before the policy network sees anything, with a DDPG actor-critic on top and an explicitly solved proportional transaction fee model underneath. Two modules carry it, a Frequency State Encoder that turns each asset's spectrum into an embedding and a Portfolio Generator that scores assets against each other and keeps only the top $|\mathcal{G}|$. No code release is mentioned.
 
 This is the third RL portfolio paper in the vault and it brackets the other two rather than duplicating either. [[Deep Reinforcement Learning Framework for Diversified Dynamic Portfolio Allocation Across Global Equity Markets]] is cross-sectional allocation with a continuous Dirichlet action, an LSTM time-domain encoder and sixteen walk-forward folds, [[MacroHFT, Memory Augmented Context-aware Reinforcement Learning On High Frequency Trading]] is single-asset timing with a binary action and a hard partition of the data by trend and volatility, and FreQuant is cross-sectional long-short allocation with hard top-$k$ selection, a spectral encoder and one fixed split per market. What makes it the most interesting of the three for the CSE is the representation rather than the architecture: the one solid quantitative result anyone has established about the Colombo exchange is that its volatility has <font color="#ffc000">long memory</font>, and long memory is by definition a statement about the low-frequency end of a spectral density, so a state encoder working in frequency space is the natural home for that result rather than an exotic add-on. Worth flagging too that FreQuant charges 0.33% to close a long and 0.4% to close a short, sixteen to twenty times the 2 bps assumed in both other papers.
@@ -30,14 +34,14 @@ Six markets, three newly collected and three reused from prior work, one fixed t
 
 What to look for there is the spread of test lengths, nine years on the U.S. market against thirteen months on crypto, which means the six ARR figures are not comparable to each other as evidence even though they are printed in one row. The U.K. row is the one I care about, 21 assets with 10 held, the only configuration anywhere near CSE breadth.
 
-State is three things, an asset price feature tensor $X_t^{\text{Asset}} \in \mathbb{R}^{J \times N \times T}$, a market index tensor $X_t^{\text{Market}} \in \mathbb{R}^{1 \times 1 \times T}$ and the current weights $w'_t \in \mathbb{R}^{N+1}$, with the window fixed at $T = 256$ days. The action is a long-short weight vector $v_t \in \mathbb{R}^{N+1}$, cash non-negative at $v_{t,0} \geq 0$, assets in $[-1, 1]$, and an $L^1$ budget $\sum_{i=0}^{N}|v_{t,i}| = 1$, so a negative weight is a short and its magnitude is the share of budget committed. Reward is realised profit and loss minus the fee actually paid, with a margin-call term that forcibly closes a short and caps its loss at the initial invested amount when the price doubles within a step.
+State is three things, an asset price feature tensor $X_t^{\text{Asset}} \in \mathbb{R}^{J \times N \times T}$, a market index tensor $X_t^{\text{Market}} \in \mathbb{R}^{J \times 1 \times T}$ carrying the same $J$ features for the single index series, and the current weights $w'_t \in \mathbb{R}^{N+1}$, with the window fixed at $T = 256$ days. The action is a long-short weight vector $v_t \in \mathbb{R}^{N+1}$, cash non-negative at $v_{t,0} \geq 0$, assets in $[-1, 1]$, and an $L^1$ budget $\sum_{i=0}^{N}|v_{t,i}| = 1$, so a negative weight is a short and its magnitude is the share of budget committed. Reward is realised profit and loss minus the fee actually paid, with a margin-call term that forcibly closes a short and caps its loss at the initial invested amount when the price doubles within a step.
 
 Competitors are five, all long-short: Cross-Sectional Mean reversion and Buying-Loser-Selling-Winner on the traditional side, AlphaStock, DeepTrader and MetaTrader on the learned side. Metrics are two, Annualized Rate of Return and Annualized Sharpe Ratio, with Portfolio Value $\prod_{t=2}^{t'}(1 + r_{t-1})$ plotted separately. No drawdown, no turnover, no trade count, which is thin for a long-short paper and well behind MacroHFT's six-metric panel.
 
 Hyperparameters worth recording: actor learning rate $1 \times 10^{-4}$ and critic $5 \times 10^{-5}$, regularization coefficient $\lambda = 0.5$, buffer 10,000, batch size 8, $\gamma = 0.99$, 150 episodes, 4 FSE blocks, 2 fusion units, 5 event-filters each, complex projection dimension 64, 10 predefined periodicities, all on one GTX 1080 Ti. Fees are $f_l = 0.33\%$ closing long and $f_s = 0.4\%$ closing short, the asymmetry justified because the market treats a short as a borrowed asset and charges interest before realization.
 
 > [!WARNING]
-> The rebalancing frequency $r_f$ is defined in the problem formulation and then never given a value, not in Table 4 and not in the experimental setup. Since the fee is charged per closing position at 33 to 40 bps, annual cost drag is entirely determined by how often the portfolio rebalances, so without $r_f$ the reported returns cannot be checked against the stated fee structure at all. That is the biggest reproducibility hole in the paper and it sits directly on top of its most transferable contribution.
+> The rebalancing frequency $r_f$ is defined in the problem formulation and then never given a value, not in Table 4 and not in the experimental setup. The time-step set is $\{1, 2, \dots, \lfloor \frac{|D \setminus C| - 1}{r_f}\rfloor\}$ with $r_f \in \mathbb{Z}^+$, so the unit is open market days and $r_f$ is the stride between rebalances, which is exactly the quantity left unspecified. Dividing the count of market days by $r_f$ would be vacuous if $r_f$ were pinned to 1, so this is not daily rebalancing by definition, it is unstated. Since the fee is charged per closing position at 33 to 40 bps, annual cost drag is entirely determined by how often the portfolio rebalances, so without $r_f$ the reported returns cannot be checked against the stated fee structure at all. That is the biggest reproducibility hole in the paper and it sits directly on top of its most transferable contribution.
 
 #### Model architecture and training
 
@@ -125,14 +129,14 @@ Training is standard DDPG. The stabiliser is <font color="#ffff00">Predefined Pe
 
 - **The three-way contrast is what belongs in the review chapter, rather than three paper summaries in sequence.**
 
-  | | Kashif and Ślepaczuk | MacroHFT | FreQuant |
-  | --- | --- | --- | --- |
-  | Task | Cross-sectional allocation | Single-asset timing | Cross-sectional long-short |
-  | State domain | Time, LSTM plus attention | Time, LOB microstructure | Frequency, complex Transformer |
-  | Action | Dirichlet over $N$+cash | Binary $\{0,1\}$ | Top-$k$ signed weights |
-  | Regime handling | Post-hoc decomposition | Hard partition, 6 specialists | Multi-resolution spectrum |
-  | Algorithm | SAC | Dueling DDQN | DDPG |
-  | Costs | 2 bps flat | 2 bps flat | 33/40 bps, fixed-point solve |
-  | Evaluation | 16-fold WFO, HAC and bootstrap tests | 1 split, 6 metrics, no tests | 1 split, 2 metrics, no tests |
+  | Dimension | Kashif & Ślepaczuk | MacroHFT |
+| :--- | :--- | :--- |
+| **Task** | Cross-sectional allocation | Single-asset timing |
+| **State domain** | Time, LSTM plus attention | Time, LOB microstructure |
+| **Action** | Dirichlet over $N + \text{cash}$ | Binary $\{0, 1\}$ |
+| **Regime handling** | Post-hoc decomposition | Hard partition, 6 specialists |
+| **Algorithm** | SAC | Dueling DDQN |
+| **Costs** | 2 bps flat | 2 bps flat |
+| **Evaluation** | 16-fold WFO, HAC and bootstrap tests | 1 split, 6 metrics, no tests |
 
   Read down the evaluation row and the most rigorous protocol belongs to the paper with the least impressive results, which is the point I want to make about this literature rather than a coincidence. Taking the union of what the three do well gives me a protocol none of them has: walk-forward with adaptive retraining and formal significance testing from Kashif and Ślepaczuk, the six-metric risk panel and trade counts from MacroHFT, and the properly solved fee model from FreQuant, plus seeds and a cost-sensitivity sweep. Since no CSE benchmark exists at all, that protocol is a contribution in its own right and not just hygiene.
