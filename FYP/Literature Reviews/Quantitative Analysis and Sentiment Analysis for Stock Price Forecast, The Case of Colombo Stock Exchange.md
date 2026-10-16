@@ -12,6 +12,8 @@ status: written
 tags:
   - literature-review
 ---
+%% begin review %%
+
 2021 ICIAfS paper, pp. 512 to 517, Pavithya, Munasinghe, Perera and Karunarathna out of the Department of Computer Engineering at the University of Peradeniya. Two models are built separately and then merged: univariate and multivariate LSTMs over eight years of CSE trade data for three counters, and a Multinomial Naive Bayes classifier over roughly 4,000 scraped economic news articles, combined by a fixed weighted vote into a single up or down call for the next trading day. The headline is that <font color="#ffc000">the combination lifts trend accuracy from 54% to 58%</font>, and that a 1:3 weight ratio favouring the text model beat equal weighting on the holdout set.
 
 This is the closest thing in my CSE set to the shape of what I'm building, and it runs aground in exactly the place my main gap sits. Two methodologically heterogeneous models, one shared binary decision, and a combination rule that is a pair of constants found by trying a few values and keeping the best. No conditioning on market state, no per-day reweighting, no handling of a channel whose input is absent that day. So I read this as the local instance of the fixed-influence problem rather than as a pipeline to extend, which is also the only reading available to me since sentiment is out of scope ([[Scope sentiment analysis dropped]]) and the text half is not something I'll rebuild. What I take instead is the walk-forward protocol, which is the one piece of evaluation discipline most of the local CSE work skips, the lookback sweep, and a 2021 data point on how thin the CSE's own announcement channel is.
@@ -95,6 +97,21 @@ where:
 - **A four to five day lookback is my starting point for the technical agent, not thirty.** The error sweep here is the only direct evidence I have on window length for CSE counters and it says short beats long, with the curve turning sharply after five days. On a per-counter archive of 374 trading days a five-day lookback yields far more usable sequences than a thirty-day one, so this cuts in the same direction as the data-depth constraint, and window length goes into the ablation set rather than being inherited.
 - **Walk-forward with retraining is the protocol, and this paper is the local precedent I cite for it.** Expanding training window, retrain on each batch, evaluate on the next, with the horizon and the refit policy stated as columns in every results table. That is three CSE papers now where the modelling is ordinary and the evaluation is what separates them, which keeps pointing at the same thing: on this market the contribution worth making is evaluation that survives being checked.
 - **Report MCC alongside accuracy for every directional result, and a return alongside both.** Accuracy 0.5837 with MCC 0.1493 is the clearest example in my set of a metric that reads well and a metric that reads honestly describing the same classifier, and the claim that 58% directional accuracy guarantees an overall gain is the overclaim it enables. Any directional number my system reports carries the class balance, the Matthews correlation and the cost-adjusted return on the same row.
+
+%% end review %%
+
+---
+
+> [!info]- Raw annotations from Zotero
+> Working material, not part of the review. Re-run the import to pull in new highlights. Delete this block once the review is written.
+
+%% begin annotations %%
+
+%% end annotations %%
+
 ---
 
 Pavithya, M.B.D. et al. (2021). Quantitative Analysis and Sentiment Analysis for Stock Price Forecast: The Case of Colombo Stock Exchange. _2021 10th International Conference on Information and Automation for Sustainability (ICIAfS)_. August 2021. 512–517. Available from [https://doi.org/10.1109/ICIAfS52090.2021.9606034](https://doi.org/10.1109/ICIAfS52090.2021.9606034) [Accessed 4 October 2026].
+
+
+%% Import Date: 2026-10-04T11:07:36.336+05:30 %%
