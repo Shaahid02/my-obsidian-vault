@@ -1,6 +1,22 @@
 ---
-citekey: kashifDeepReinforcementLearning2026
+citekey: "kashifDeepReinforcementLearning2026"
+title: ""
+authors: "Kashif, Ślepaczuk"
 year: 2026
+venue: ""
+doi: ""
+zotero: ""
+stream: portfolio
+market: global
+data_period: 2003-2026
+method: [SAC, DRL, walk-forward]
+role: protocol-source
+has_oos: true
+reproducible:
+status: skeleton
+validated:
+tags:
+  - literature-review
 ---
 Develops and evaluates a deep reinforcement learning framework for dynamic portfolio allocation using the Soft Actor-Critic (SAC) algorithm, tested across three global equity markets, the Nasdaq-100, Nikkei 225, and Euro Stoxx 50, with walk-forward optimization spanning sixteen out-of-sample folds from 2003 to 2026. Written by Kashif and Ślepaczuk, this is essentially the direct methodological blueprint for my own project, same core idea of framing portfolio allocation as a sequential decision problem under an MDP, same SAC backbone, same walk-forward evaluation logic, just applied at global market scale rather than the CSE.
 

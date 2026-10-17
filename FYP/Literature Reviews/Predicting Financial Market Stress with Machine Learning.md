@@ -6,9 +6,15 @@ year: 2025
 venue: "Bank for International Settlements"
 doi: ""
 zotero: "zotero://select/library/items/PYNXNGJT"
-stream: 
-market: 
+stream: macro-finance
+market: US
+data_period:
+method: [quantile-regression, random-forest, PCA, Shapley]
+role: protocol-source
+has_oos: true
+reproducible: no
 status: complete
+validated:
 tags:
   - literature-review
 ---

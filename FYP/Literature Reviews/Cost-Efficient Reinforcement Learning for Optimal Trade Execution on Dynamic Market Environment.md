@@ -1,6 +1,22 @@
 ---
-citekey: chenCostEfficientReinforcementLearning2022
+citekey: "chenCostEfficientReinforcementLearning2022"
+title: ""
+authors: "Chen, Zhu, Liu, Li"
 year: 2022
+venue: "ICAIF '22"
+doi: ""
+zotero: ""
+stream: execution
+market: US
+data_period: 2020
+method: [RL, D3Q, Dyna]
+role: protocol-source
+has_oos: true
+reproducible: no
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 ICAIF '22, pages 386-393, Chen, Zhu, Liu and Li, the first author at Cornell writing up an IBM Research internship, the rest at MIT-IBM Watson AI Lab, IBM Research and Three Bridges Capital. The paper takes <font color="#ffc000">optimal trade execution</font> of a parent order, liquidating a fixed inventory over a fixed number of steps, and attacks two things at once: it puts the agent in a <font color="#ffff00">queue-reactive virtual market</font> that responds to the agent's own orders rather than replaying a frozen book, and it proposes <font color="#ffff00">Deep Dyna-Double Q-learning (D3Q)</font>, a hybrid of direct RL and planning against a learned market environment model, plus a state-balanced exploration scheme built for the fact that inventory only ever decreases. Seven US stocks, IEX limit order book data from March to December 2020, everything evaluated inside their own simulator. No code release is mentioned.
 

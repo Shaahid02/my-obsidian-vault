@@ -1,6 +1,22 @@
 ---
-citekey: chenFinQADatasetNumerical2021
+citekey: "chenFinQADatasetNumerical2021"
+title: ""
+authors: ""
 year: 2021
+venue: "EMNLP"
+doi: ""
+zotero: ""
+stream: rag-qa
+market: US
+data_period:
+method: [QA-benchmark, program-generation]
+role: dataset
+has_oos: true
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 FinQA is Chen et al., EMNLP 2021, out of UC Santa Barbara with J.P. Morgan, Penn State and CMU, and it is the paper that turned numerical question answering over real financial reports into a task with a dataset, a domain specific language and a baseline attached. It speaks to exactly one agent in my architecture, <font color="#ffc000">$A_F$, the fundamental and retrieval channel</font>, and to the evaluation layer, and to nothing else, so I am reading it as a task specification and prior art rather than as an architectural template for the orchestrator.
 

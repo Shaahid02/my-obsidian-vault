@@ -1,6 +1,22 @@
 ---
-citekey: guoPredictFutureTemporal2023
+citekey: "guoPredictFutureTemporal2023"
+title: ""
+authors: "Guo, Hu, Yang"
 year: 2023
+venue: "EMNLP"
+doi: ""
+zotero: ""
+stream: sentiment
+market: US
+data_period:
+method: [distribution-shift, OOD-detection, fine-tuning]
+role: protocol-source
+has_oos: true
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 EMNLP 2023 main conference, pages 1029 to 1038, Guo, Hu and Yang, The Hong Kong University of Science and Technology. The paper asks what happens to a financial sentiment classifier when the market it was fitted on stops being the market it is deployed into, and it answers with a rolling monthly experiment over three years of <font color="#ffc000">StockTwits</font> data, six model families from logistic regression to GPT-3.5, and three different ways of deciding what data a model gets retrained on. The finding is that every fine-tuned model degrades from in-sample to out-of-sample, that the degradation tracks a measurable <font color="#ffc000">temporal distribution shift</font>, and that the choice of retraining strategy buys you either in-sample capability or out-of-sample stability but not both. The mitigation they propose is a two-stage arrangement, an <font color="#ffff00">OOD detector</font> that flags samples the current model is likely to get wrong, and an <font color="#ffff00">autoregressive model over past models' predictions</font> that answers for those samples instead.
 

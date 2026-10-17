@@ -1,6 +1,22 @@
 ---
-citekey: wangReinforcementLearningContinuoustime2026
+citekey: "wangReinforcementLearningContinuoustime2026"
+title: ""
+authors: "Wang, Gao, Li"
 year: 2026
+venue: "Finance and Stochastics"
+doi: ""
+zotero: ""
+stream: execution
+market: US
+data_period:
+method: [actor-critic, Almgren-Chriss, entropy-regularisation]
+role: protocol-source
+has_oos: true
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 Finance and Stochastics 30(3), 2026, 597-655, Wang, Gao and Li, all at the Department of Systems Engineering and Engineering Management at CUHK, received October 2023, accepted February 2025, published online 10 March 2026, open access. The paper takes the <font color="#ffc000">parent-order liquidation problem</font> in continuous time under the Almgren-Chriss model, regularises it with Shannon entropy to induce exploration, solves the resulting <font color="#ffff00">exploratory mean-quadratic-variation (EMQV)</font> control problem in closed form, and then uses that closed form as the parametrisation for an actor-critic RL algorithm with five learnable scalars in total. The algorithmic contribution is a third update step, <font color="#ffff00">recalibration</font>, sitting alongside the usual policy evaluation and policy gradient, and the theoretical contribution is a finite-time error bound with conditions on the learning rates under which the algorithm converges linearly to the global optimum. It is tested on three simulators, an Almgren-Chriss simulator, a historical-order-flow simulator built from LOBSTER data, and a stochastic order book model, against the classical estimate-then-plug-in approach and against SAC. No code release is mentioned.
 

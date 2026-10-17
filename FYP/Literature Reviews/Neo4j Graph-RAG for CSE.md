@@ -1,3 +1,23 @@
+---
+citekey: ""
+title: ""
+authors: "Shamila, Silva, Talagala"
+year: 2025
+venue: "ERU Symposium"
+doi: "10.31705/ERU.2025.35"
+zotero: ""
+stream: rag-qa
+market: CSE
+data_period:
+method: [Graph-RAG, Neo4j, LangGraph]
+role: local-context
+has_oos: false
+reproducible: no
+status: complete
+validated:
+tags:
+  - literature-review
+---
 This is the paper my matrix has been carrying as an unverified supervisor-supplied citation, the 2025 CSE Neo4j Graph-RAG work that closed former G4, and it is now verified: Shamila, Silva and Talagala, Department of Computer Science & Engineering, University of Moratuwa, ERU Symposium 2025, DOI 10.31705/ERU.2025.35. It builds a Neo4j knowledge graph of Colombo Stock Exchange corporate structure out of annual report PDFs and puts a LangGraph agent in front of it that turns natural-language questions into Cypher. It speaks to exactly one part of my architecture, <font color="#ffc000">$A_F$, the fundamental and retrieval channel</font>, and to nothing else in it, so I am reading it as tooling and prior art rather than as a methodological template.
 
 Two things need saying before anything else. First, this is a two-page symposium paper, pages 74 and 75 of the proceedings, so almost every number in it arrives without the apparatus that would let me weigh it. Second, that weakness does not give me back the novelty. Priority is priority, and structure-aware retrieval over CSE annual reports is now published work from a local group, which is the point the supervisor was making when they said the literature search was incomplete.

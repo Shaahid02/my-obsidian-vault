@@ -6,9 +6,15 @@ year: 2025
 venue: "South Asian Journal of Finance"
 doi: "10.4038/sajf.v5i1.113"
 zotero: "zotero://select/library/items/4Y76RTSM"
-stream: fundamentals
+stream: corporate-finance
 market: CSE
-status: reviewed
+data_period: 2013-2023
+method: [panel-regression, random-effects]
+role: local-context
+has_oos: false
+reproducible: partial
+status: complete
+validated:
 tags:
   - literature-review
 ---

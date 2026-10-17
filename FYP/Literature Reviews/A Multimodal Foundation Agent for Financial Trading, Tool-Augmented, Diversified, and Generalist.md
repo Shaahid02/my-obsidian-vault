@@ -1,5 +1,22 @@
 ---
-citekey: MultimodalFoundationAgent
+citekey: "MultimodalFoundationAgent"
+title: ""
+authors: "Zhang, Zhao, Xia, Sun, et al."
+year: 2024
+venue: "KDD"
+doi: ""
+zotero: ""
+stream: llm-agents
+market: US
+data_period:
+method: [LLM-agent, RAG, reflection]
+role: gap-evidence
+has_oos:
+reproducible:
+status: skeleton
+validated:
+tags:
+  - literature-review
 ---
 KDD 2024, Zhang, Zhao, Xia, Sun et al. out of NTU Singapore, NUS, Zhejiang and Skywork AI. This is FinAgent. A single LLM trading agent, not a multi-agent system, built around five modules: market intelligence, memory, low-level reflection, high-level reflection, and a tool-augmented decision maker. Two things are actually new here, a dual-level reflection split and a diversified retrieval scheme that indexes memory by retrieval intent rather than by raw similarity. Tested on 5 US stocks and one crypto pair, single asset trading only.
 

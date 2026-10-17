@@ -1,6 +1,22 @@
 ---
-citekey: dissnayakeRoleMarketLiquidity2025
+citekey: "dissnayakeRoleMarketLiquidity2025"
+title: ""
+authors: ""
 year: 2025
+venue: ""
+doi: ""
+zotero: ""
+stream: sentiment
+market: CSE
+data_period: 2010-2021
+method: [liquidity-proxies, predictive-regression]
+role: local-context
+has_oos:
+reproducible:
+status: skeleton
+validated:
+tags:
+  - literature-review
 ---
 Behavioural finance paper testing whether market-wide liquidity and investor sentiment (proxied mainly by turnover, with the advance-decline ratio as a secondary proxy) can predict short-term expected returns on the Colombo Stock Exchange (CSE), using monthly data from 2010 to 2021.
 

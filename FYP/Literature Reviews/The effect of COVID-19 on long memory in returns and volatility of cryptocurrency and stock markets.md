@@ -1,6 +1,22 @@
 ---
-citekey: lahmiriEffectCOVID19Long2021
+citekey: "lahmiriEffectCOVID19Long2021"
+title: ""
+authors: "Salim Lahmiri, Stelios Bekiros"
 year: 2021
+venue: "Chaos, Solitons and Fractals"
+doi: ""
+zotero: ""
+stream: volatility
+market: global
+data_period:
+method: [ARFIMA-FIGARCH]
+role: cautionary-spec
+has_oos: false
+reproducible: partial
+status: skeleton
+validated:
+tags:
+  - literature-review
 ---
 Estimates long memory (self-similarity) in both returns and volatility across 45 cryptocurrency markets and 16 international equity indices, split into a pre-pandemic window and a pandemic window, using a combined ARFIMA-FIGARCH specification and comparing the resulting fractional differencing parameters across markets with t-tests and F-tests. Lahmiri and Bekiros, *Chaos, Solitons and Fractals* 151 (2021) 111221.
 

@@ -1,6 +1,22 @@
 ---
-citekey: fatemiFinVisionMultiAgentFramework2024
+citekey: "fatemiFinVisionMultiAgentFramework2024"
+title: ""
+authors: "Sorouralsadat Fatemi, Yuheng Hu"
 year: 2024
+venue: "arXiv"
+doi: ""
+zotero: ""
+stream: llm-agents
+market: US
+data_period: 2023
+method: [LLM-agents, multimodal, LangGraph]
+role: gap-evidence
+has_oos: true
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 arXiv:2411.08899v1, Sorouralsadat Fatemi and Yuheng Hu of the University of Illinois at Chicago, 29 October 2024. A multimodal multi-agent LLM framework for daily stock trading built from four modules and an execution agent, a Summarizer that condenses the previous day's news into prose, a Technical Analyst that reads a *rendered image* of a candlestick chart with indicators rather than the numeric series, a two-part Reflection module that scores recent decision effectiveness in text and separately looks at a plotted chart of past buy and sell markers, and a Prediction agent that concatenates all of it and emits BUY, SELL or HOLD with a position size and a written rationale. A Reward agent executes the trade and feeds performance back into the next iteration. Implemented in LangGraph over a shared `AgentState`, with `gpt-4o-mini` at temperature 0.3 for every agent except the Prediction agent, which runs `o1-mini` at temperature 1, the only setting that model allows. Tested on AAPL, AMZN and MSFT from April to December 2023 against buy-and-hold, two rule-based strategies, PPO, DQN and FinAgent.
 

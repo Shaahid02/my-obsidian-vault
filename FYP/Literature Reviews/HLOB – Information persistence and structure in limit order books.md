@@ -1,6 +1,22 @@
 ---
-citekey: briolaHLOBInformationPersistence2025
+citekey: "briolaHLOBInformationPersistence2025"
+title: ""
+authors: ""
 year: 2025
+venue: ""
+doi: ""
+zotero: ""
+stream: microstructure
+market: US
+data_period:
+method: [HCNN, TMFG, LSTM, LOB]
+role: protocol-source
+has_oos: true
+reproducible: yes
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 Expert Systems With Applications 266, 2025, article 126078, Briola, Bartolucci and Aste, UCL Computer Science and the LSE Systemic Risk Centre, published open access on 12 December 2024. The paper introduces <font color="#ffc000">HLOB</font>, a deep learning architecture for forecasting the direction of <font color="#ffc000">mid-price changes</font> in a Limit Order Book, and its one real idea is to stop treating the LOB as an image. Instead of convolving over price levels in the order they happen to be stored, the authors first learn a dependency structure among the volume levels using an <font color="#ffff00">Information Filtering Network</font>, specifically the <font color="#ffff00">Triangulated Maximally Filtered Graph</font>, then feed the resulting topological objects, tetrahedra, triangles and edges, into a <font color="#ffff00">Homological Convolutional Neural Network</font> extended with an LSTM for temporal dynamics. It is tested against 9 SOTA alternatives on 15 NASDAQ stocks over 3 years at 3 prediction horizons, with code released as part of the LOBFrame pipeline.
 

@@ -1,6 +1,22 @@
 ---
-citekey: yepesFinancialReportChunking2024
+citekey: "yepesFinancialReportChunking2024"
+title: ""
+authors: ""
 year: 2024
+venue: "arXiv"
+doi: ""
+zotero: ""
+stream: rag-qa
+market: US
+data_period:
+method: [chunking, RAG, vision-encoder]
+role: protocol-source
+has_oos: true
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 arXiv:2402.05131v3, 16 March 2024, Antonio Jimeno Yepes, Yao You, Jan Milczek, Sebastian Laverde and Leah Li of Unstructured Technologies. A systematic comparison of chunking strategies for retrieval-augmented generation over SEC filings, holding every other component of the pipeline fixed so that chunking is the only variable. The baseline splits documents into fixed token windows of 128, 256 and 512. The proposed alternative runs a vision encoder-decoder over each page to label regions by structural type, title, narrative text, list item, table, then builds chunks by merging elements up to roughly 2,048 characters, <font color="#ffff00">starting a new chunk at every title and giving every table a chunk of its own</font>. Each element chunk is indexed three ways, with GPT-4 keywords, with a GPT-4 summary, and with a naive prefix. Evaluated on [[FinanceBench, A New Benchmark for Financial Question Answering]] using Weaviate, a `multi-qa-mpnet-base-dot-v1` encoder, the top ten chunks, and GPT-4 as the generator.
 

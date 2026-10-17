@@ -8,11 +8,36 @@ doi: "{{DOI}}"
 zotero: "{{desktopURI}}"
 stream: 
 market: 
+data_period: 
+method: 
+role: 
+has_oos: 
+reproducible: 
 status: skeleton
+validated: 
 tags:
   - literature-review
 ---
 {% persist "review" %}
+
+<!-- Fill the six manual properties above once the review is written. Controlled
+     vocabularies, so that `_Corpus Index.md` stays queryable:
+
+     stream   subject area, one of: llm-agents, forecasting, rag-qa, sentiment,
+              portfolio, volatility, execution, macro-finance, benchmarks,
+              corporate-finance, microstructure, rl-trading, calibration
+     market   where the paper's EVIDENCE comes from, not what it is about:
+              CSE, SriLanka, US, global, crypto, none
+     data_period  YYYY-YYYY of the sample, or YYYY for a single year. Blank if
+              the paper never states one.
+     method   short list, e.g. [ARDL, bounds-test]. Reuse existing spellings.
+     role     what this note does for MY thesis, exactly one of:
+              protocol-source, baseline, gap-evidence, dataset, local-context,
+              cautionary-spec, survey, tooling, theory
+     has_oos  does an out-of-sample evaluation EXIST (true/false). Not whether
+              it is sound: leakage and contamination belong in Limitations.
+     reproducible  could a reader rerun it from the paper alone: yes/partial/no
+     validated  date of the last external validation pass, blank if none. -->
 
 <!-- Opening paragraph: place the paper, then say plainly how it relates to my work. -->
 
@@ -44,7 +69,8 @@ tags:
 
 <!-- Before saving: (1) over budget? merge bullets that share a conclusion. (2) said twice?
      every criticism gets exactly one home. (3) any display formula that one sentence of
-     prose would cover? Three or four display formulas, three or four images. -->
+     prose would cover? Three or four display formulas, three or four images.
+     (4) set status: complete and fill the six properties. -->
 
 {% endpersist %}
 

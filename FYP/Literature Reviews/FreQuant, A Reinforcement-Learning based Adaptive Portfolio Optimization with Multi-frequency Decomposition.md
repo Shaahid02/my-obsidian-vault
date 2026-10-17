@@ -1,6 +1,22 @@
 ---
-citekey: jeonFreQuantReinforcementLearningBased2024
+citekey: "jeonFreQuantReinforcementLearningBased2024"
+title: ""
+authors: "Jeon, Park, Park, Kang"
 year: 2024
+venue: "KDD '24"
+doi: ""
+zotero: ""
+stream: portfolio
+market: global
+data_period:
+method: [DDPG, DFT, RL]
+role: baseline
+has_oos: true
+reproducible: no
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 KDD '24, Jeon, Park, Park and Kang, out of Seoul National University and DeepTrade Technologies. Daily-bar long-short portfolio optimization across six markets, five equity and one crypto, where the whole state representation is built in the <font color="#ffc000">frequency domain</font> rather than the time domain, the price tensor passing through a 1-d Discrete Fourier Transform before the policy network sees anything, with a DDPG actor-critic on top and an explicitly solved proportional transaction fee model underneath. Two modules carry it, a Frequency State Encoder that turns each asset's spectrum into an embedding and a Portfolio Generator that scores assets against each other and keeps only the top $|\mathcal{G}|$. No code release is mentioned.
 

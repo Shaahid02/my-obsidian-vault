@@ -1,6 +1,22 @@
 ---
-citekey: samarawickramai.d.w.SRILANKANSTOCK2023
+citekey: "samarawickramai.d.w.SRILANKANSTOCK2023"
+title: ""
+authors: ""
 year: 2023
+venue: ""
+doi: ""
+zotero: ""
+stream: volatility
+market: CSE
+data_period: 2018-2022
+method: [ARMA-GARCH, EGARCH, TGARCH, GJR-GARCH]
+role: local-context
+has_oos:
+reproducible:
+status: skeleton
+validated:
+tags:
+  - literature-review
 ---
 Uses an ARMA(2,2)-GARCH family framework to estimate and forecast volatility on the Colombo Stock Exchange, comparing symmetric and asymmetric GARCH specifications on the ASPI from January 2018 to December 2022, a window that swallows the Easter Sunday attacks, COVID-19, and the 2022 economic crisis.
 

@@ -1,6 +1,22 @@
 ---
-citekey: zhangDeepLearningPortfolio2020
+citekey: "zhangDeepLearningPortfolio2020"
+title: ""
+authors: "Zihao Zhang, Stefan Zohren, Stephen Roberts"
 year: 2020
+venue: "arXiv"
+doi: ""
+zotero: ""
+stream: portfolio
+market: US
+data_period: 2011-2020
+method: [LSTM, Sharpe-objective]
+role: baseline
+has_oos: true
+reproducible: no
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 arXiv:2005.13665v3, Zhang, Zohren and Roberts, out of the Oxford-Man Institute of Quantitative Finance. Daily-rebalanced long-only allocation across four index ETFs, where the entire contribution is that the <font color="#ffc000">Sharpe ratio is the training objective itself</font> rather than a metric computed after a forecaster has been fitted, so the network maps raw price and return history to portfolio weights in one differentiable pass and is updated by gradient ascent on realised portfolio Sharpe. The model is called DLS, it is a single-layer LSTM with 64 units and a softmax head, and the asset universe is deliberately tiny, four ETFs tracking US total stock (VTI), US aggregate bond (AGG), commodities (DBC) and volatility (VIX). Tested 2011 to April 2020, so the COVID crash sits at the right edge of the sample. No code release is mentioned.
 

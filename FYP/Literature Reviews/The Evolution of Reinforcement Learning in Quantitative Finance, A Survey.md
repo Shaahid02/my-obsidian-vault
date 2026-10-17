@@ -1,6 +1,22 @@
 ---
-citekey: pippasEvolutionReinforcementLearning2025
+citekey: "pippasEvolutionReinforcementLearning2025"
+title: ""
+authors: "Nikolaos Pippas, Elliot A. Ludvig, Cagatay Turkay"
 year: 2025
+venue: "arXiv"
+doi: ""
+zotero: ""
+stream: rl-trading
+market: none
+data_period: 1996-2022
+method: [survey]
+role: survey
+has_oos: false
+reproducible: no
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 arXiv:2408.10932v3, 6 May 2025, Nikolaos Pippas, Elliot A. Ludvig and Cagatay Turkay of the University of Warwick, submitted to *ACM Computing Surveys*. A 36-page review of 167 publications applying reinforcement learning to quantitative finance, spanning 1996 to 2022, organised around the components of an RL agent rather than around applications: the environment and its features, the action space, the reward function, and the four method families. It then surveys transfer learning, imitation learning, policy distillation, ensembles and multi-agent systems as augmentations, walks through portfolio management, option hedging, order execution, market making, end-to-end systems and robo-advising as applications, and closes with a discussion section that is <font color="#ffc000">a sustained critique of evaluation practice in its own field</font>. The lead author is employed by HSBC Asset Management, which part-funded the work, declared on the first page.
 

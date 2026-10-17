@@ -6,9 +6,15 @@ year: 2021
 venue: "2021 10th International Conference on Information and Automation for Sustainability (ICIAfS)"
 doi: "10.1109/ICIAfS52090.2021.9606034"
 zotero: "zotero://select/library/items/XMAIQR9E"
-stream: orchestration
+stream: sentiment
 market: CSE
-status: written
+data_period:
+method: [LSTM, naive-bayes, weighted-vote]
+role: cautionary-spec
+has_oos: true
+reproducible: no
+status: complete
+validated:
 tags:
   - literature-review
 ---

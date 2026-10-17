@@ -1,6 +1,22 @@
 ---
-citekey: dissanayakeRelationshipMacroeconomicVariables2026
+citekey: "dissanayakeRelationshipMacroeconomicVariables2026"
+title: ""
+authors: "Dissanayake, Rathnayake, Panditharathna"
 year: 2026
+venue: "Journal of Business and Technology"
+doi: "10.4038/jbt.v10i1.209"
+zotero: ""
+stream: macro-finance
+market: CSE
+data_period: 2014-2022
+method: [Granger-causality, VAR]
+role: gap-evidence
+has_oos: false
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 Journal of Business and Technology, Vol. 10 No. 1, January 2026, pp. 120 to 135, Dissanayake, Rathnayake and Panditharathna, Department of Commerce and Financial Management, University of Kelaniya. A pairwise Granger causality study asking whether the USD/LKR exchange rate, inflation, broad money and trading volume predict All Share Price Index movements on the Colombo Stock Exchange, on 108 monthly observations covering 2014 to 2022. DOI 10.4038/jbt.v10i1.209.
 

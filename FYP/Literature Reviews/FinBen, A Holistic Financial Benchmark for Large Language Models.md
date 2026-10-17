@@ -1,6 +1,22 @@
 ---
-citekey: xieFinBenHolisticFinancial2024
+citekey: "xieFinBenHolisticFinancial2024"
+title: ""
+authors: ""
 year: 2024
+venue: "arXiv"
+doi: ""
+zotero: ""
+stream: benchmarks
+market: US
+data_period:
+method: [LLM-benchmark]
+role: dataset
+has_oos: true
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 arXiv:2402.12659v2, 19 June 2024, preprint under review. Qianqian Xie, Jimin Huang and Min Peng again, now with roughly thirty authors across The Fin AI, Wuhan, Manchester, Florida, Columbia, CUHK-Shenzhen, Stevens, Stony Brook and others, with Alejandro Lopez-Lira and Sophia Ananiadou on the science leadership list. <font color="#ffff00">FinBen</font> is the successor to FLARE: 36 datasets across 24 tasks, organised into seven aspects, information extraction, textual analysis, question answering, text generation, risk management, forecasting and decision-making, evaluated zero-shot against fifteen LLMs including GPT-4, ChatGPT and Gemini Pro. Three datasets are new, <font color="#ffc000">EDTSum</font> for news summarisation, <font color="#ffc000">Regulations</font> for long-form OTC-derivatives QA under EMIR, and <font color="#ffc000">FinTrade</font> for stock trading, together 10.32% of the total data. The claimed firsts are stock trading evaluation, agent-based evaluation and RAG-based evaluation.
 

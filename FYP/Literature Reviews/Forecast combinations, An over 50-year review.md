@@ -6,9 +6,15 @@ year: 2023
 venue: "International Journal of Forecasting"
 doi: "10.1016/j.ijforecast.2022.11.005"
 zotero: "zotero://select/library/items/UUXXEDS8"
-stream: 
-market: 
+stream: forecasting
+market: none
+data_period:
+method: [forecast-combination, survey]
+role: survey
+has_oos: false
+reproducible: no
 status: complete
+validated:
 tags:
   - literature-review
 ---

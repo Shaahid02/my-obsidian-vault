@@ -1,6 +1,22 @@
 ---
-citekey: parkEnhancingAnomalyDetection2024
+citekey: "parkEnhancingAnomalyDetection2024"
+title: ""
+authors: "Taejin Park"
 year: 2024
+venue: "arXiv"
+doi: ""
+zotero: ""
+stream: llm-agents
+market: US
+data_period: 1980-2023
+method: [LLM-agents, AutoGen, anomaly-detection]
+role: protocol-source
+has_oos: false
+reproducible: no
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 arXiv:2403.19735v1 [q-fin.RM], Taejin Park, 28 March 2024. A single-author preprint, affiliated to the Bank for International Settlements but carrying the standard disclaimer that the views are the author's alone, so it is not a BIS Working Paper and should not be cited as one. It proposes an LLM multi-agent framework that sits *after* a conventional anomaly detector and automates the manual verification that normally follows an alert. A statistical screen flags outliers in a tabular series, a question-formulating agent converts the flagged rows plus their metadata into natural-language verification questions, three specialised expert agents answer them from different evidence sources, a consolidation agent writes a summary report, a panel of three manager personas plus a moderator and a critic discusses it through AutoGen, and a human analyst receives the result. Demonstrated once, on daily S&P 500 percentage changes from 1980 to 2023, against three genuine outliers and three deliberately injected missing values. There are no metrics anywhere in the paper.
 

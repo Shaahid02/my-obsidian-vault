@@ -1,6 +1,22 @@
 ---
-citekey: chenFinHEARHumanExpertise2025
+citekey: "chenFinHEARHumanExpertise2025"
+title: ""
+authors: ""
 year: 2025
+venue: "Findings of EMNLP"
+doi: ""
+zotero: ""
+stream: llm-agents
+market: US
+data_period: 2023
+method: [LLM-agents, prospect-theory]
+role: protocol-source
+has_oos: true
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 Findings of EMNLP 2025, pages 1648–1672, Chen, Zou, Wang, Wang, Sun, Zhang and Xu out of Fudan University, Tensorpacific, Peng Cheng Laboratory, Meta AI and the Shanghai Academy of AI for Science. A six-agent LLM framework for daily single-asset trading, extended by a seventh gating agent for multi-asset allocation, organised as an event-driven pipeline, historical trend into current event into expert retrieval, with a risk agent and a decision agent predicting magnitude and direction separately before they are combined into one of four actions, and a refinement agent that rewrites earlier analyses once outcomes land. Evaluated on three US equities and gold over calendar 2023 against nine baselines. Code released at github.com/pilgrim00/FinHEAR.
 

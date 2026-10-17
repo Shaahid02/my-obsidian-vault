@@ -1,6 +1,22 @@
 ---
-citekey: liHedgeAgentsBalancedawareMultiagent2025
+citekey: "liHedgeAgentsBalancedawareMultiagent2025"
+title: ""
+authors: ""
 year: 2025
+venue: "WWW Companion '25"
+doi: "10.1145/3701716.3715232"
+zotero: ""
+stream: llm-agents
+market: global
+data_period: 2021-2023
+method: [LLM-agents, mean-variance, hedging]
+role: gap-evidence
+has_oos: true
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 WWW Companion '25, Xiangyu Li, Yawen Zeng, Xiaofen Xing, Jin Xu and Xiangmin Xu, South China University of Technology and Pazhou Lab with ByteDance, pages 296 to 305, DOI 10.1145/3701716.3715232. Four LLM agents arranged as a hedge fund, three asset analysts covering Bitcoin, the Dow components and forex, and one fund manager who allocates capital across them. Each analyst runs the same workflow, 23 tools, three memory stores and eight actions, and coordination happens through three scheduled or triggered meetings rather than through a fixed reporting hierarchy. Backtested from 1 January 2021 to 31 December 2023 against nine baselines on nine metrics, headline result 71.60 % annualised and 405.34 % total return for a stated API cost of fifteen dollars over the whole three years. Code is public.
 

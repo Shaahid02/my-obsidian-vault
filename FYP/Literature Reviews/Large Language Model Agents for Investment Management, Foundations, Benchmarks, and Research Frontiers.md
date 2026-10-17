@@ -1,6 +1,22 @@
 ---
-citekey: sahaLargeLanguageModel2025
+citekey: "sahaLargeLanguageModel2025"
+title: ""
+authors: ""
 year: 2025
+venue: "ICAIF '25"
+doi: ""
+zotero: ""
+stream: llm-agents
+market: none
+data_period:
+method: [survey]
+role: survey
+has_oos: false
+reproducible: no
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 Saha, Lyu, Saxena, Zhao and Mehta, all five at BlackRock, ICAIF '25 Singapore, pages 736 to 744, nine pages of which the last page and a half are references. This is a map rather than a method: there is no system, no dataset, no experiment and not a single equation anywhere in it, and almost every number on the page is a citation index. I am reading it for positioning, not for technique, and on that job it earns its slot, because it is the first survey I have read that annotates each reviewed system with which stages of an agent workflow that system actually implements. That annotation is the closest thing I have to direct evidence for the claim the whole project rests on, that coordinating heterogeneous agents is treated as a solved detail rather than as a design problem.
 

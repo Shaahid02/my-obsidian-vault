@@ -1,6 +1,22 @@
 ---
-citekey: zhaoOptimizingLLMBased2024
+citekey: "zhaoOptimizingLLMBased2024"
+title: ""
+authors: ""
 year: 2024
+venue: "NAACL Industry Track"
+doi: ""
+zotero: ""
+stream: rag-qa
+market: none
+data_period:
+method: [RAG, LLM-evaluation]
+role: protocol-source
+has_oos: true
+reproducible: no
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 NAACL 2024, Industry Track, pages 279 to 294, so the only peer-reviewed paper of the three RAG notes in this vault. Yiyun Zhao, Hanoz Bhathena, Prateek Singh and Saket Sharma with equal contribution, plus Bernardo Ramos, Aviral Joshi and Swaroop Gadiyaram, all at the Machine Learning Center of Excellence, JPMorgan Chase. A factorial benchmark of <font color="#ffc000">1,620 experiments</font>, six generative LLMs plus an extractive RoBERTa baseline, across fifteen retrieval conditions, nine prompts and two proprietary banking datasets. The design move that makes it useful is that retrieval quality is *simulated*, by manipulating a fixed retrieved list rather than by swapping retrievers, which isolates how the generator responds to retrieval quality from the question of how to achieve it.
 

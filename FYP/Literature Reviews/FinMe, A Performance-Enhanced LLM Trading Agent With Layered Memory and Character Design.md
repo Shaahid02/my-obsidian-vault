@@ -1,3 +1,23 @@
+---
+citekey: ""
+title: ""
+authors: "Yu, Li, Chen, Jiang, Li, Suchow, Zhang, Khashanah"
+year: 2025
+venue: "IEEE Transactions on Big Data"
+doi: "10.1109/TBDATA.2025.3593370"
+zotero: ""
+stream: llm-agents
+market: US
+data_period:
+method: [LLM-agent, layered-memory]
+role: baseline
+has_oos: true
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
+---
 IEEE Transactions on Big Data, vol. 11, no. 6, pp. 3443–3459, November/December 2025, DOI 10.1109/TBDATA.2025.3593370, Yu, Li, Chen, Jiang, Li, Suchow, Zhang and Khashanah out of Stevens Institute of Technology. A single LLM trading agent for daily single-stock decisions, built from three modules, a profile module that fixes the agent's professional background and risk inclination, a memory module split into working memory and a three-layer long-term store with different decay rates per layer, and a decision module that emits Buy, Sell or Hold on one share. Tested on five US tickers against three DRL agents, two LLM agents and buy-and-hold. Code released.
 
 > [!important]

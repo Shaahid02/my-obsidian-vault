@@ -1,6 +1,22 @@
 ---
-citekey: jungExplainableZeroshotTrading2026
+citekey: "jungExplainableZeroshotTrading2026"
+title: ""
+authors: "Hae Sun Jung, Haein Lee"
 year: 2026
+venue: "Information Processing and Management"
+doi: ""
+zotero: ""
+stream: llm-agents
+market: crypto
+data_period:
+method: [LLM-agents, GPT-4o, zero-shot]
+role: gap-evidence
+has_oos: true
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 Information Processing and Management 63 (2026) 104466, Hae Sun Jung of Sungkyunkwan University and Haein Lee of Dongguk University-Seoul, received July 2025 and online 5 November 2025. A zero-shot GPT-4o multi-agent framework for daily Bitcoin trading, with three domain agents reading technical indicators, on-chain metrics and macro-financial variables, each emitting a natural-language summary rather than a number, and a meta trading agent that synthesises those summaries into one of BUY, SELL or HOLD together with a written rationale. Two further text agents, one over Reddit and one over news wires, are added in ablation. Everything is backtested against LSTM, GRU, DLinear and PatchTST across three input windows over a common 268-day test period under a shared execution model, and there is no fine-tuning and no gradient training anywhere in the agent path.
 

@@ -1,6 +1,22 @@
 ---
-citekey: rizviEnhancingMultilingualSentiment2025
+citekey: "rizviEnhancingMultilingualSentiment2025"
+title: ""
+authors: ""
 year: 2025
+venue: ""
+doi: ""
+zotero: ""
+stream: sentiment
+market: SriLanka
+data_period:
+method: [ABSA, explainability]
+role: local-context
+has_oos:
+reproducible:
+status: skeleton
+validated:
+tags:
+  - literature-review
 ---
 Hybrid ABSA framework for banking customer feedback in English, Sinhala, Singlish, and Sinhala-English code-mixed text, built specifically to be explainable rather than just accurate.
 

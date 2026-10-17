@@ -1,6 +1,22 @@
 ---
-citekey: gondhalekarMultiFinRAGOptimizedMultimodal2025
+citekey: "gondhalekarMultiFinRAGOptimizedMultimodal2025"
+title: ""
+authors: ""
 year: 2025
+venue: "arXiv"
+doi: ""
+zotero: ""
+stream: rag-qa
+market: US
+data_period:
+method: [RAG, multimodal, FAISS]
+role: protocol-source
+has_oos: true
+reproducible: no
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 arXiv:2506.20821v1, 25 June 2025, marked Preprint Copy. Chinmay Gondhalekar, Urjitkumar Patel and Fang-Chun Yeh, all three at S&P Global Ratings in New York. A retrieval pipeline built for financial filings that treats tables and figures as first-class retrievable objects rather than flattening them into text. Three mechanisms: <font color="#ffff00">batch multimodal extraction</font>, where detected table and figure regions are cropped and sent in batches to a quantized open-source vision model that returns a JSON rendering plus a prose description for each table and a prose summary for each figure; semantic chunk merging with modality-specific similarity thresholds over three separate FAISS indexes; and a <font color="#ffff00">tiered fallback</font> that tries text alone first and escalates to table and image context together when the text hits are too few. Evaluated on 300 hand-written questions over SEC filings, graded by hand, against a fixed-chunk RAG baseline and ChatGPT-4o's free tier, with everything running on a free Colab T4.
 

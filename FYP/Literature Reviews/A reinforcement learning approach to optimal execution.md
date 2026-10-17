@@ -1,6 +1,22 @@
 ---
-citekey: moallemiReinforcementLearningApproach2022
+citekey: "moallemiReinforcementLearningApproach2022"
+title: ""
+authors: "Ciamac C. Moallemi, Muye Wang"
 year: 2022
+venue: "Quantitative Finance"
+doi: ""
+zotero: ""
+stream: execution
+market: US
+data_period: 2013
+method: [RL, TD-learning, optimal-stopping]
+role: protocol-source
+has_oos: true
+reproducible: no
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 Quantitative Finance 22(6), 2022, 1051-1069, Moallemi and Wang, both at Columbia Graduate School of Business, received May 2021 and published online March 2022. The paper takes the <font color="#ffc000">child-order execution problem</font>, the last atomic step after a parent order has already been sliced, and formulates it as an <font color="#ffff00">optimal stopping problem</font>: the trader holds one indivisible share, has a horizon of $T$ seconds, and at each second chooses CONTINUE or STOP. Two data-driven solutions are built on one neural architecture, a supervised learning method that forecasts the entire future price change trajectory and acts on it, and a reinforcement learning method that learns the continuation value directly. Both are trained with a family of temporal difference updates, TD($m$-step), with one-step TD at one end and empirical Monte Carlo at the other, so the paper is really four algorithm families rather than two. Everything is tested on NASDAQ ITCH level III data covering 50 stocks over all of 2013. No code release is mentioned.
 

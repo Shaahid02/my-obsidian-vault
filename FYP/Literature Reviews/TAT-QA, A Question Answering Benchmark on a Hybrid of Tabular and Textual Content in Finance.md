@@ -1,6 +1,22 @@
 ---
-citekey: zhuTATQAQuestionAnswering2021
+citekey: "zhuTATQAQuestionAnswering2021"
+title: ""
+authors: ""
 year: 2021
+venue: "ACL-IJCNLP"
+doi: ""
+zotero: ""
+stream: rag-qa
+market: US
+data_period:
+method: [QA-benchmark, tabular-reasoning]
+role: dataset
+has_oos: true
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 TAT-QA is Zhu et al., ACL-IJCNLP 2021, out of the National University of Singapore with 6Estates, Sichuan University and Bloomberg, and it is the sibling paper to [[FinQA, A Dataset of Numerical Reasoning over Financial Data]], published the same year on almost the same problem with a materially different set of design choices. Like FinQA it speaks to <font color="#ffc000">A<sub>F</sub>, the fundamental and retrieval channel</font>, and to the evaluation layer, and to nothing else, so I am reading it as prior art on the task rather than as an architectural template for the orchestrator.
 

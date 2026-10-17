@@ -1,6 +1,22 @@
 ---
-citekey: guoOnlinePortfolioSelection2023
+citekey: "guoOnlinePortfolioSelection2023"
+title: ""
+authors: "Guo, Gu, Fok, Ching"
 year: 2023
+venue: "European Journal of Operational Research"
+doi: ""
+zotero: ""
+stream: portfolio
+market: global
+data_period:
+method: [online-portfolio, SOPS, transaction-costs]
+role: baseline
+has_oos: true
+reproducible: no
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 European Journal of Operational Research 311 (2023) 333-353, Guo, Gu, Fok and Ching, out of Beijing Institute of Technology, SUSTech and the Advanced Modeling and Applied Computing Laboratory at HKU. Daily-rebalanced long-only online portfolio selection across four equity datasets, where the entire contribution sits on the cost side rather than the prediction side: the paper derives the exact analytical form of the <font color="#ffc000">transaction remainder factor</font>, proves it exists and is unique, gives an algorithm that computes it exactly instead of iteratively, and then builds two optimization models around it that are switched between by a hand-set market-state rule. The assembled algorithm is called SOPS, and its three parts are SEMA, a state-dependent price estimator, NPM, a net profit maximization model, and NPMRP, the same model with a risk parity penalty. No code release is mentioned.
 

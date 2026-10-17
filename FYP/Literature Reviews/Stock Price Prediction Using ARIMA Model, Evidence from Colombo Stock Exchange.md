@@ -1,6 +1,22 @@
 ---
-citekey: tharshigaStockPricePrediction2026
+citekey: "tharshigaStockPricePrediction2026"
+title: ""
+authors: "Tharshiga, Paranika, Subramaniam"
 year: 2026
+venue: "South Asian Journal of Finance"
+doi: "10.4038/sajf.v6i1.142"
+zotero: ""
+stream: forecasting
+market: CSE
+data_period: 2014-2024
+method: [ARIMA, Box-Jenkins]
+role: baseline
+has_oos: true
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 South Asian Journal of Finance, Volume 6 Issue 01, 2026, pp. 76 to 92, Tharshiga, Paranika and Subramaniam, all at the Department of Financial Management, University of Jaffna. A univariate Box-Jenkins study asking whether an ARIMA model can forecast the CSE Price Index, fitted on 2,362 daily observations from 1 July 2014 to 30 June 2024 and validated on a one-month out-of-sample window in July 2024. DOI 10.4038/sajf.v6i1.142.
 

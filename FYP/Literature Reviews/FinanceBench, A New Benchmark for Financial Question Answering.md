@@ -1,6 +1,22 @@
 ---
-citekey: islamFinanceBenchNewBenchmark2023
+citekey: "islamFinanceBenchNewBenchmark2023"
+title: ""
+authors: ""
 year: 2023
+venue: "arXiv"
+doi: ""
+zotero: ""
+stream: rag-qa
+market: US
+data_period: 2015-2023
+method: [QA-benchmark, RAG]
+role: dataset
+has_oos: true
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 arXiv:2311.11944v1, 20 November 2023, Pranab Islam, Anand Kannappan, Douwe Kiela, Rebecca Qian, Nino Scherrer and Bertie Vidgen of Patronus AI, Contextual AI and Stanford. An <font color="#ffff00">open-book</font> financial QA test suite of 10,231 question, answer and evidence triplets covering 40 US-listed companies and 361 public filings from 2015 to 2023, mostly 10Ks. Every entry carries the evidence string and the page number that proves the answer, so a question can be scored on whether the model found the right place as well as on whether it got the number right. Sixteen configurations of GPT-4, GPT-4-Turbo, Llama2 and Claude2 are run across five settings, closed book, oracle, one vector store per document, one shared store over all documents, and the whole filing in a long-context window, and 2,400 responses on a 150-case sample are labelled by hand as correct, incorrect or failure to answer.
 

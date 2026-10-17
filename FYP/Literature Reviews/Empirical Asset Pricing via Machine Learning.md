@@ -1,6 +1,22 @@
 ---
-citekey: guEmpiricalAssetPricing2018
+citekey: "guEmpiricalAssetPricing2018"
+title: ""
+authors: "Shihao Gu, Bryan Kelly, Dacheng Xiu"
 year: 2018
+venue: ""
+doi: ""
+zotero: ""
+stream: forecasting
+market: US
+data_period: 1957-2016
+method: [neural-nets, random-forest, GBRT, elastic-net, PLS, PCR]
+role: baseline
+has_oos: true
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 Gu, Kelly and Xiu, Chicago Booth and Yale, November 2018 working version of what became the *Review of Financial Studies* paper that everything in this area now cites. A comparative horse race of thirteen prediction methods, OLS, a three-characteristic OLS benchmark, PLS, PCR, elastic net, a spline generalized linear model with group lasso, random forest, gradient boosted trees, and feed-forward networks at one through five hidden layers, all run on the same problem: predict next month's excess return for every US stock, from nearly 30,000 stocks over 60 years, using 920 features built from 94 stock characteristics, eight macroeconomic series and 74 industry dummies. <font color="#ffc000">The headline is that neural networks win, that the win comes specifically from nonlinear interactions among predictors, that shallow beats deep, and that every method agrees on the same small set of dominant signals: price trends, liquidity, and volatility.</font>
 

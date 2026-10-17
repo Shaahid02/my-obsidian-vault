@@ -6,12 +6,15 @@ year: 2024
 venue: "Journal of Financial Economics"
 doi: "10.1016/j.jfineco.2024.103916"
 zotero: "zotero://select/library/items/DDK5ITU3"
-stream: 
-market: 
+stream: microstructure
+market: US
+data_period:
+method: [EDGE, spread-estimator]
+role: tooling
+has_oos: false
+reproducible: yes
 status: complete
-decision: last resort — may never be used
-decision-date: 2026-10-11
-verified: 2026-10-11 against source PDF
+validated:
 tags:
   - literature-review
 ---

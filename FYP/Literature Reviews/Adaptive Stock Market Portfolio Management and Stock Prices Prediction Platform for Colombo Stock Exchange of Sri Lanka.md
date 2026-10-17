@@ -1,6 +1,22 @@
 ---
-citekey: nanayakkaraAdaptiveStockMarket2021
+citekey: "nanayakkaraAdaptiveStockMarket2021"
+title: ""
+authors: "Nanayakkara, Wanniarachchi, Vidanagama"
 year: 2021
+venue: "2021 5th SLAAI International Conference on Artificial Intelligence"
+doi: "10.1109/SLAAI-ICAI54477.2021.9664735"
+zotero: ""
+stream: forecasting
+market: US
+data_period:
+method: [LSTM, GBM]
+role: cautionary-spec
+has_oos: false
+reproducible: no
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 2021 5th SLAAI International Conference on Artificial Intelligence, Nanayakkara, Wanniarachchi and Vidanagama out of the Department of Information Technology at General Sir John Kotelawala Defence University, Rathmalane. A web and mobile portfolio management platform for the Colombo Stock Exchange with a price prediction module attached, a stacked LSTM for short and mid term horizons and a geometric Brownian motion model for the long term, with requirements elicited through interviews with CSE officials and a 17 question survey of 233 investors, deployed on Azure. DOI 10.1109/SLAAI-ICAI54477.2021.9664735.
 

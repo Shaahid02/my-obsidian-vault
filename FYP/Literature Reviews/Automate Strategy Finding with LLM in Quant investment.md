@@ -1,6 +1,22 @@
 ---
-citekey: kouAutomateStrategyFinding2024
+citekey: "kouAutomateStrategyFinding2024"
+title: ""
+authors: ""
 year: 2024
+venue: "arXiv"
+doi: ""
+zotero: ""
+stream: llm-agents
+market:
+data_period:
+method: [LLM, alpha-factors, MLP-gating]
+role: baseline
+has_oos: true
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 Kou, Yu, Luo, Peng, Li, Liu, Dai, Chen, Han and Guo, HKUST, HKUST Guangzhou and Peking University, arXiv:2409.06289v4 dated 3 November 2025, seventeen pages with a seven-page appendix, code at `github.com/kouzhizhuo/Automate-Strategy-Finding-with-LLM-in-Quant-investment`. I came to this from the [[Large Language Model Agents for Investment Management, Foundations, Benchmarks, and Research Frontiers|BlackRock survey]], which describes it as employing an adaptive gating mechanism that tunes the influence of each signal in real time under shifting market conditions. That is not what the paper does, and the difference is the most useful thing I got out of reading it.
 

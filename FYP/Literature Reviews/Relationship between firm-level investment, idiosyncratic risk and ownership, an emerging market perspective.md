@@ -6,9 +6,15 @@ year: 2026
 venue: "Managerial Finance"
 doi: "10.1108/MF-10-2024-0791"
 zotero: "zotero://select/library/items/K3N7LZ4S"
-stream: market-structure
+stream: corporate-finance
 market: CSE
-status: reviewed
+data_period: 2010-2018
+method: [panel-regression, fixed-effects]
+role: local-context
+has_oos: false
+reproducible: partial
+status: complete
+validated:
 tags:
   - literature-review
 ---

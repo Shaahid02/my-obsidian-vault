@@ -1,6 +1,22 @@
 ---
-citekey: yuFinConSynthesizedLLM2024
+citekey: "yuFinConSynthesizedLLM2024"
+title: ""
+authors: ""
 year: 2024
+venue: "NeurIPS"
+doi: ""
+zotero: ""
+stream: llm-agents
+market: US
+data_period:
+method: [LLM-agents, verbal-reinforcement]
+role: gap-evidence
+has_oos:
+reproducible:
+status: skeleton
+validated:
+tags:
+  - literature-review
 ---
 NeurIPS 2024, Yu, Yao, Li, Deng et al. out of Stevens Institute of Technology, Harvard and The Fin AI. An LLM multi-agent system for sequential financial decision making, built around two ideas: a manager-analyst hierarchy copied from how real investment firms are structured, and a dual-level risk control component that updates the manager's investment beliefs in natural language instead of in weights. Tested on both single stock trading and portfolio management.
 
