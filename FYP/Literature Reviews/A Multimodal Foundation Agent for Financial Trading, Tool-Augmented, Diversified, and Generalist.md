@@ -11,9 +11,9 @@ market: US
 data_period:
 method: [LLM-agent, RAG, reflection]
 role: gap-evidence
-has_oos:
-reproducible:
-status: skeleton
+has_oos: true
+reproducible: partial
+status: complete
 validated:
 tags:
   - literature-review

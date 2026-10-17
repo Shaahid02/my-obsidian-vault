@@ -11,9 +11,9 @@ market: CSE
 data_period: 2010-2021
 method: [liquidity-proxies, predictive-regression]
 role: local-context
-has_oos:
-reproducible:
-status: skeleton
+has_oos: false
+reproducible: partial
+status: complete
 validated:
 tags:
   - literature-review

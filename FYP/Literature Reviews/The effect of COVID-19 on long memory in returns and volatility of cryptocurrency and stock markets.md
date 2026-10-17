@@ -13,7 +13,7 @@ method: [ARFIMA-FIGARCH]
 role: cautionary-spec
 has_oos: false
 reproducible: partial
-status: skeleton
+status: complete
 validated:
 tags:
   - literature-review

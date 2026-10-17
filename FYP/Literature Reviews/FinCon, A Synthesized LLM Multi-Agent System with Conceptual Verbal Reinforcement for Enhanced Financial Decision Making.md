@@ -11,9 +11,9 @@ market: US
 data_period:
 method: [LLM-agents, verbal-reinforcement]
 role: gap-evidence
-has_oos:
-reproducible:
-status: skeleton
+has_oos: true
+reproducible: partial
+status: complete
 validated:
 tags:
   - literature-review

@@ -11,9 +11,9 @@ market: CSE
 data_period: 2018-2022
 method: [ARMA-GARCH, EGARCH, TGARCH, GJR-GARCH]
 role: local-context
-has_oos:
-reproducible:
-status: skeleton
+has_oos: false
+reproducible: partial
+status: complete
 validated:
 tags:
   - literature-review

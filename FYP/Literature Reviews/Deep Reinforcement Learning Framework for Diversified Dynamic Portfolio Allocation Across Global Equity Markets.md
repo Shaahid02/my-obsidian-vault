@@ -12,8 +12,8 @@ data_period: 2003-2026
 method: [SAC, DRL, walk-forward]
 role: protocol-source
 has_oos: true
-reproducible:
-status: skeleton
+reproducible: partial
+status: complete
 validated:
 tags:
   - literature-review

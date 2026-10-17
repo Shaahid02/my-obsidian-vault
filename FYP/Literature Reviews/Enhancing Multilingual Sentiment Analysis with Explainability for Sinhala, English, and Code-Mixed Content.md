@@ -11,9 +11,9 @@ market: SriLanka
 data_period:
 method: [ABSA, explainability]
 role: local-context
-has_oos:
-reproducible:
-status: skeleton
+has_oos: true
+reproducible: no
+status: complete
 validated:
 tags:
   - literature-review
