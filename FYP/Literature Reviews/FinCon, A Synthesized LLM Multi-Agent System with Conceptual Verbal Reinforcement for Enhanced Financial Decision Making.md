@@ -44,7 +44,7 @@ Against multi-agent systems that do use discussion (StockAgent is the one it nam
 
 #### Problem formulation
 
-Quantitative trading is framed as an infinite horizon POMDP, same framing as the survey in [[The Evolution of Reinforcement Learning in Quantitative Finance, A Survey]] uses for why the Markov property fails in finance. Time index $\mathbb{T} = \{0,1,2,\dots\}$, discount factor $\alpha \in (0,1)$.
+Quantitative trading is framed as an infinite horizon POMDP, same framing as the survey in [[The Evolution of Reinforcement Learning in Quantitative Finance, A Survey]] uses for why the Markov property fails in finance. Time index $\mathbb{T} = \{0,1,2,\dots\}$, discount factor $\alpha \in (0,1]$. Note the closed upper bound, which as written permits $\alpha = 1$ and so an undiscounted infinite sum that needn't converge. Nothing downstream depends on it, since the actual optimisation is prompt rewriting rather than value iteration, but it's loose as stated.
 
 The pieces:
 
@@ -138,7 +138,7 @@ There's also an access counter using Guardrails AI: a memory ID judged critical 
 #### Experimental setup
 
 - Backbone: GPT-4-Turbo for every LLM agent system compared, temperature 0.3 (dropped to 0 for belief generation so beliefs are reproducible across episodes).
-- Data: Jan 3 2022 to Jun 10 2023. Stock prices from Yahoo Finance via yfinance, news from Refinitiv, filings from SEC EDGAR, Zacks equity research, ECC audio. Appendix A.8 says the window ends June 10 **2022**, which contradicts the main text and the test split, so it's a typo in the appendix.
+- Data: Jan 3 2022 to Jun 10 2023. Stock prices from Yahoo Finance via yfinance, news from Refinitiv Real-Time News, filings from SEC EDGAR, Zacks equity research, ECC audio. Appendix A.8 says the window ends June 10 **2022**, which contradicts the main text and the test split, so it's a typo in the appendix. The same appendix also contradicts itself on provenance: its opening sentence credits Yahoo Finance, the Alpaca News API and Capital IQ, while Table 6 directly beneath credits Refinitiv for news and the SEC API for filings, and neither Alpaca nor Capital IQ appears anywhere else in the paper. Table 6 is the version I've followed because Figure 9 corroborates it, but the news source is genuinely ambiguous as published.
 - Split: train Jan 3 2022 to Oct 4 2022, test Oct 5 2022 to Jun 10 2023. DRL baselines get a much longer training window, Jan 1 2018 to Oct 4 2022, because they need it to converge.
 - Single stock: eight tickers, TSLA, AMZN, NIO, MSFT, AAPL, GOOG, NFLX, COIN. (Figure 5's caption says "all six stocks" while plotting eight, another slip.)
 - Portfolio: Portfolio 1 = TSLA, MSFT, PFE. Portfolio 2 = AMZN, GM, LLY. Chosen by the stock selection agent from a 42 stock pool filtered on news availability, over 800 articles each.
@@ -171,17 +171,23 @@ Portfolio management:
 | FinRL-A2C | 11.589 | 0.649 | 15.787 |
 | Equal-Weighted ETF | 15.061 | 0.867 | 14.662 |
 
-Table 3's caption claims FinCon leads all performance metrics. It doesn't. On Portfolio 2 both FinRL-A2C (15.787) and the Equal-Weighted ETF (14.662) have lower drawdown than FinCon's 21.502. Minor, but it's exactly the kind of overclaim a reviewer would pick up, and I should not repeat the pattern.
+Table 3's caption claims FinCon leads all performance metrics. It doesn't. On Portfolio 2 both FinRL-A2C (15.787) and the Equal-Weighted ETF (14.662) have lower drawdown than FinCon's 21.502. The same sentence is then reused verbatim as the caption of Table 7 and of Table 8 in the extreme conditions appendix, and it's false in both of those too, DQN's 8.463% MDD against FinCon's 45.215% on TSLA, and FinRL-A2C's 21.569% against FinCon's 26.176% on Portfolio 1. Three captions, one claim, contradicted each time by the table printed immediately above it. Individually minor, collectively it's exactly the kind of overclaim a reviewer picks up, and I should not repeat the pattern.
 
 A Sharpe of 3.269 on a three-stock portfolio over an eight month test window is also not a number to take at face value. Three assets, one window, no repeated splits, median of five epochs. That's thin evidence for a ratio that high.
 
 #### Ablations
 
-Both ablations are strong, and they're the reason to trust the architecture rather than the headline CR.
+Both ablations are strong on the numbers, and they're the reason to trust the architecture rather than the headline CR. The prose wrapped around them is a different matter, and two of its claims don't survive a check against the tables they cite.
 
-**Without within-episode CVaR control:** GOOG goes from 25.077% CR to -1.461%, NIO from 17.461% to -52.887%, Portfolio 1 from 113.836% to 14.699%. MDD roughly doubles in the bearish case (40.647% to 70.243%). Removing one risk trigger flips the system from profitable to loss-making.
+**Without within-episode CVaR control:** GOOG goes from 25.077% CR to -1.461%, NIO from 17.461% to -52.887%, Portfolio 1 from 113.836% to 14.699%. MDD roughly doubles in the bearish case (40.647% to 70.243%). Removing one risk trigger flips the system from profitable to loss-making, and that result holds.
 
-**Without over-episode belief updates:** GOOG 25.077% to -11.944%, NIO 17.461% to 8.197%, Portfolio 1 113.836% to 28.432%. The paper argues this loop matters more than the CVaR one for decision quality, though the raw deltas look comparable to me.
+<font color="#ff0000">A.7.1 then overstates it.</font> The text says the ablated system underperforms Buy-and-Hold, citing "CR of GOOG: 22.42%, CR of NIO: -77.210%". For GOOG that's right, -1.461% against 22.420%. For NIO it's backwards, the ablated system returns -52.887% against B&H's -77.210%, beating the baseline by roughly 24 points. Stripping CVaR is plainly damaging without also being worse than holding, and the paper didn't need the stronger version of the claim to make its case.
+
+**Without over-episode belief updates:** GOOG 25.077% to -11.944%, NIO 17.461% to 8.197%, Portfolio 1 113.836% to 28.432%.
+
+<font color="#ff0000">The ranking claim built on this is contradicted by the paper's own tables.</font> A.7.2 argues the over-episode mechanism is the more critical of the two, on the grounds that "CR, SR, and MDD are lower than without the within-episode risk control in single asset trading". Read Tables 4 and 5 against each other and that holds for GOOG alone, where w/o belief (-11.944%, -0.496, 29.309%) is worse on all three than w/o CVaR (-1.461%, -0.006, 27.079%). NIO reverses it outright, 8.197% against -52.887%, and Portfolio 1 reverses it on CR and SR, 28.432% and 1.181 against 14.699% and 1.142. One case of three supports the ordering and two contradict it, so on this evidence both loops matter and the paper has no basis for ranking them. The sentence is self-undermining anyway, since lower MDD is better, so "MDD are lower" argues against the point it's offered in support of.
+
+What survives is the finding I actually want, that <font color="#ffc000">removing either loop destroys performance</font>, and that's enough on its own. Which loop matters more is an open question here rather than a result, and if I run the equivalent ablation on the CSE I should report the two independently instead of ranking them off three assets.
 
 The belief convergence evidence is the most interesting single number in the paper. Trading action overlap between consecutive training episodes: 46.939%, then 71.429%, then 81.633%. Beliefs stabilise after four episodes. Compare that to DRL agents needing years of data and thousands of steps. If that holds up, verbal reinforcement is dramatically more sample-efficient than gradient RL, which matters enormously for a market with as little history as the CSE.
 
@@ -189,7 +195,7 @@ Figure 8 shows the actual belief text evolving, from generic ("enhance the use o
 
 #### Extreme conditions (A.15)
 
-Tested on a high volatility window, VIX averaging above 20, train Jan 17 to Mar 31 2022, test Apr 1 to Oct 15 2022. FinCon is the only agent with positive CR and SR on TSLA single stock (22.460%, 0.695) while everything else is deeply negative, but its MDD is 45.215%, worse than DQN's 8.463%.
+Tested on a high volatility window, VIX averaging above 20, train Jan 17 to Mar 31 2022, test Apr 1 to Oct 15 2022. FinCon is the only agent with positive CR and SR on TSLA single stock (22.460%, 0.695) while everything else is deeply negative, but its MDD is 45.215%, worse than DQN's 8.463%, which is one of the two places the leads-all-metrics caption is reused and wrong.
 
 On Portfolio 1 under the same conditions FinCon returns **-8.429%** with SR -0.294. Best of a bad field, still a loss. Honest of them to include it, and it's the number I'd quote rather than the 113.836%.
 
@@ -201,17 +207,18 @@ On Portfolio 1 under the same conditions FinCon returns **-8.429%** with SR -0.2
 - Beliefs are frozen at test time, so there's no evidence the system adapts to regime change it hasn't seen in training.
 - NeurIPS checklist item 7 answers **No** on statistical significance / error bars. Five epochs, median reported, Wilcoxon on the main comparison only. Test window is eight months on eight tickers.
 - Hard cap on information volume. The conclusion admits the core unsolved tension: distil aggressively and lose information, extend the context and lose decision quality.
+- <font color="#ff0000">Prose and captions don't reliably match the tables they describe.</font> I've flagged each slip where it falls, plus two with no natural home, section 4.2.1 pointing the reader at "Table 1" where it means Table 2, and A.8's "detailed explained in Table ." with the number never filled in. Individually those are editorial. Two of them are not: A.7.1's claim that the CVaR-ablated system underperforms Buy-and-Hold, and A.7.2's ranking of the two risk loops, both contradicted by Tables 4 and 5 on the facing pages, and both load-bearing for how the contribution is framed. The practical consequence is that nothing in this paper's running text can be quoted without checking it against the underlying table first, and combined with the No on error bars, that's what caps how much of it I'm willing to carry into the proposal.
 
 #### What I'm taking from this
 
 The manager-analyst hierarchy with no lateral chatter, as the default. If I want debate anywhere in my design (and [[AlphaAgents, Large Language Model Based Multi-Agents for Equity Portfolio Constructions]] makes a decent case for it as a hallucination check), I need to justify the cost against this paper, not ignore it.
 
-Separating direction from sizing. LLM outputs a discrete signal, a classical optimizer converts it to weights. Keeps the sizing auditable and gives a clean place to inject CSE liquidity and friction constraints, which is where G1 actually lives.
+Separating direction from sizing. LLM outputs a discrete signal, a classical optimizer converts it to weights. Keeps the sizing auditable and gives a clean place to inject CSE liquidity and friction constraints, which is where execution friction in a thin book actually has to be handled.
 
 Per-source memory decay rates. Directly portable, and more defensible on the CSE than on US large caps because CSE information arrives so irregularly. A CSE annual report should decay far slower than a Daily FT article.
 
 The decision-overlap learning rate. Measure behaviour, not text. Also gives a free convergence diagnostic.
 
-Swap CVaR for something with volatility memory. CVaR on realised PnL is backward looking and has no persistence structure. Feeding a FIGARCH-derived conditional volatility into the risk agent instead of, or alongside, empirical CVaR is a concrete and defensible novelty, and it's exactly what G2 is asking for. The CVaR formula stays useful as the fallback trigger.
+Swap CVaR for something with volatility memory. CVaR on realised PnL is backward looking and has no persistence structure. Feeding a FIGARCH-derived conditional volatility into the risk agent instead of, or alongside, empirical CVaR is a concrete and defensible novelty, and it's exactly the volatility persistence question I need an answer to. The CVaR formula stays useful as the fallback trigger.
 
 And the thing to be careful about: FinCon works partly because its information environment is dense. Before assuming the manager-analyst structure transfers, I need to know how many analyst agents the CSE can actually feed. An analyst agent with no data is worse than no analyst agent, it produces confident text about nothing and the manager has no way to tell.
