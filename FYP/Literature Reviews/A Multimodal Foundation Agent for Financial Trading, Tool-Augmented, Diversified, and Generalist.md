@@ -1,7 +1,7 @@
 ---
 citekey: MultimodalFoundationAgent
 ---
-KDD 2024, Zhang, Zhao, Xia, Sun et al. out of NTU Singapore, NUS, Zhejiang, SMU and Skywork AI. This is FinAgent. A single LLM trading agent, not a multi-agent system, built around five modules: market intelligence, memory, low-level reflection, high-level reflection, and a tool-augmented decision maker. Two things are actually new here, a dual-level reflection split and a diversified retrieval scheme that indexes memory by retrieval intent rather than by raw similarity. Tested on 5 US stocks and one crypto pair, single asset trading only.
+KDD 2024, Zhang, Zhao, Xia, Sun et al. out of NTU Singapore, NUS, Zhejiang and Skywork AI. This is FinAgent. A single LLM trading agent, not a multi-agent system, built around five modules: market intelligence, memory, low-level reflection, high-level reflection, and a tool-augmented decision maker. Two things are actually new here, a dual-level reflection split and a diversified retrieval scheme that indexes memory by retrieval intent rather than by raw similarity. Tested on 5 US stocks and one crypto pair, single asset trading only.
 
 Worth reading as the direct predecessor to most of what came after it. [[FinVision, A Multi-Agent Framework for Stock Market Prediction]] is close to a lighter reimplementation of this, same module decomposition, same MACD Crossover and KDJ with RSI Filter strategies bolted on as tools, and [[FinCon, A Synthesized LLM Multi-Agent System with Conceptual Verbal Reinforcement for Enhanced Financial Decision Making]] benchmarks against it and beats it. So FinAgent is the thing the field moved past, which makes it useful for a different reason than FinCon: it is where the single-agent-with-modules design hits its ceiling, and that ceiling is the argument for going multi-agent at all.
 
@@ -145,57 +145,67 @@ Maximum drawdown, Calmar and Sortino:
 
 $$MDD = \max_{i=0}^{T}\frac{P_i - R_i}{P_i} \qquad CR = \frac{\mathbb{E}[\mathbf{r}]}{MDD} \qquad SoR = \frac{\mathbb{E}[\mathbf{r}]}{DD}$$
 
-with $R_i$ the cumulative return path, $P_i = \max_{i=0}^{T} R_i$ the running peak, and $DD$ the standard deviation of negative returns only. The MDD definition as printed is malformed, $R_i$ is written as $\prod_{i=1}^{T} \frac{V_i}{V_{t-1}}$, which mixes the index $i$ with $t$ and runs the product to $T$ inside a quantity indexed by $i$. The intent is obvious, it is just wrong on the page.
+with $R_i$ the cumulative return path, $P_i = \max_{i=0}^{T} R_i$ the running peak, and $DD$ the standard deviation of negative returns only. The MDD definition as printed is malformed. $R_i$ is written as $\prod_{i=1}^{T} \frac{V_i}{V_{i-1}}$, which runs the product all the way to $T$ inside a quantity that is itself indexed by $i$, and $P_i = \max_{i=1}^{T} R_i$ reuses $i$ as both the outer subscript and the maximisation index. Under a literal reading every $R_i$ is the same number and $MDD$ collapses to zero. The intent is obvious, it is just wrong on the page.
 
 Note there is no risk-free rate in the Sharpe. $SR = \mathbb{E}[\mathbf{r}]/\sigma[\mathbf{r}]$ with $R_f = 0$. Over a 2023 test window with US short rates around 5%, that inflates every Sharpe in the table including the baselines'. Consistent across methods so the ranking survives, but the absolute numbers do not mean what they look like.
 
 #### Results
 
-Table 4, test window ARR% / SR / MDD%:
+Table 4, test window ARR% / SR / MDD%. The "best baseline" column is the baseline with the highest ARR, which is the reference the paper's own improvement row is computed against:
 
-| Asset | FinAgent | Best baseline | B&H |
+| Asset | FinAgent | Best baseline by ARR | B&H |
 | --- | --- | --- | --- |
-| AAPL | 31.9 / 1.43 / 10.4 | LGBM 16.93 / 1.47 / 2.52 | 13.0 / 0.6 / 14.78 |
+| AAPL | 31.9 / 1.43 / 10.4 | SAC 24.84 / 1.12 / 11.98 | 13.0 / 0.6 / 14.78 |
 | AMZN | 65.1 / 1.61 / 13.2 | FinGPT 42.93 / 1.1 / 18.94 | 42.33 / 1.08 / 17.38 |
-| GOOGL | 56.15 / 1.78 / 8.45 | DQN 34.4 / 1.39 / 7.15 | 22.47 / 0.71 / 12.97 |
-| MSFT | 44.74 / 1.79 / 5.57 | DQN 30.44 / 1.18 / 10.56 | 22.49 / 0.84 / 12.92 |
+| GOOGL | 56.15 / 1.78 / 8.45 | PPO 38.29 / 1.30 / 8.45 | 22.47 / 0.71 / 12.97 |
+| MSFT | 44.74 / 1.79 / 5.57 | FinMem 40.58 / 1.50 / 7.48 | 22.49 / 0.84 / 12.92 |
 | TSLA | 92.27 / 2.01 / 12.14 | FinMem 50.04 / 0.92 / 25.77 | 37.4 / 0.72 / 32.65 |
 | ETHUSD | 43.08 / 1.18 / 12.72 | FinMem 44.72 / 1.27 / 13.59 | 29.26 / 0.87 / 23.21 |
 
-Highest ARR and SR on all five stocks. Loses to FinMem on ETHUSD on every one of the three. The stated improvements over best baseline are 28.39% on AAPL, 51.64% ARR and 37.61% SR on AMZN, 46.64% on GOOGL, 10.25% ARR and 19.33% SR on MSFT, and 84.39% ARR with 93.27% SR on TSLA.
+Best ARR and best SR are not the same baseline on most assets, and that matters for how much the headline is worth. On AAPL the best baseline SR is LGBM's 1.47, above FinAgent's 1.43. On GOOGL it is KDJ&RSI's 2.13, far above FinAgent's 1.78, on an MDD of 2.03% against 8.45%. On AMZN the SR reference is DQN at 1.17, on TSLA it is Transformer at 1.04. Only on MSFT does one baseline, FinMem, hold both.
+
+Highest ARR on all five stocks. Highest SR on three of five. Loses to FinMem on ETHUSD on every one of the three. The stated improvements over best baseline are 28.39% on AAPL, 51.64% ARR and 37.61% SR on AMZN, 46.64% on GOOGL, 10.25% ARR and 19.33% SR on MSFT, and 84.39% ARR with 93.27% SR on TSLA.
 
 The abstract's headline is "92.27% return (a 84.39% relative improvement)". That is TSLA, the best of six, against the best single baseline on that asset. The average improvement figure of over 36% is the one to quote if quoting anything.
 
-The 12 baselines claim does not survive counting. The abstract and §5.3 say twelve, §6 and Appendix C say nine, and Appendix D says "four conventional strategies and five advanced algorithms", which is nine. Listing them gives 4 + 3 + 3 + 2 = 12. So the twelve is right and two later sections undercount. Sloppy, and the same species of error as FinCon's caption overclaims.
+Three internal inconsistencies in the reported numbers, worth knowing before citing any of them:
 
-Some baseline results are worth more than the headline. LGBM on AAPL gets SR 1.47 against FinAgent's 1.43 with an MDD of 2.52% against 10.4%. A gradient boosted tree on price features beats the multimodal foundation agent on risk-adjusted return with a quarter of the drawdown. The paper explains this correctly, rule-based and tree-based methods are robust to outliers and noise so they control risk well while capturing less return, and it concedes FinAgent trades risk control for returns given an aggressive trader preference. That concession is doing a lot of work. The trader preference is a prompt string, and no result isolates how much of the performance difference is architecture versus that one word.
+- **TSLA improvement, text vs table.** §6 says FinAgent achieves "84% and 118% improvement" on TSLA. Table 4's improvement row says 84.39 and 93.27. The 118% is SR measured against FinMem (2.01 / 0.92), the 93.27% is SR measured against Transformer (2.01 / 1.04). Same sentence, two different reference baselines, and the paper never says which it means.
+- **Baseline count.** The abstract and §5.3 say twelve, §6 and Appendix B say nine. §5.3's own enumeration is four conventional rule-based strategies plus eight advanced algorithms, which is twelve, and listing them gives 4 + 3 + 3 + 2 = 12. So twelve is right and the two nines undercount. Sloppy, and the same species of error as FinCon's caption overclaims.
+- **Main table vs appendix table.** Appendix Table 6 reports the same experiment to four decimals with a different improvement row: AAPL 35.85 against the main text's 28.39, and ETHUSD 22.56 ARR / 7.13 SR where the main table correctly prints a dash. The ETHUSD figure is indefensible on the appendix's own numbers, since FinMem's 44.717 beats FinAgent's 43.082 on every metric. Neither improvement row reconciles to the other.
+
+Some baseline results are worth more than the headline. LGBM on AAPL gets SR 1.47 against FinAgent's 1.43 with an MDD of 2.52% against 10.4%. A gradient boosted tree on price features beats the multimodal foundation agent on risk-adjusted return with a quarter of the drawdown. And the ARR reference on AAPL is SAC at 24.84%, so the 28.39% headline improvement is over an off-the-shelf actor-critic, not over anything LLM-based. The paper explains this correctly, rule-based and tree-based methods are robust to outliers and noise so they control risk well while capturing less return, and it concedes FinAgent trades risk control for returns given an aggressive trader preference. That concession is doing a lot of work. The trader preference is a prompt string, and no result isolates how much of the performance difference is architecture versus that one word.
 
 ETHUSD is the honest failure. FinMem beats FinAgent on all three metrics, and the paper's diagnosis is that the auxiliary agents are stock-specific strategies that do not suit crypto's higher trading frequency. The ablation section says a generalised auxiliary agent for crypto could take ETH returns from 44% to 54%. Which means the augmented tools component is not general, it is tuned to an asset class, and the "Generalist" in the title is overstated.
 
 #### Ablations
 
-Table 5, TSLA and ETHUSD, components added cumulatively as M, ML, MLH, MLHT:
+Table 5, TSLA and ETHUSD. Note the row order: the **first row is T alone**, not M. The tick columns are headed M, L, H, T and the first row ticks only the last of them. Three things confirm it, and they are worth recording because the row is easy to misread as M and the whole reading of the ablation turns on it. §7.2 refers to "the 16% ARR% for solely T method", which is the 16.21 in row one under ETHUSD. Appendix Table 6 runs the same configurations under negative names, and w/o-MLH gives TSLA 39.0087 / ETH 16.2106, matching row one exactly, while w/o-LHT gives 39.2704 / 25.9708, matching row two. And §7.1's remark about "a slight 7% rise in MDD% for TSLA" at the ML to MLH step only matches the +7.18% printed in row four.
 
 | Config | TSLA ARR / SR / MDD | ETHUSD ARR / SR / MDD |
 | --- | --- | --- |
-| M | 39.01 / 0.90 / 22.54 | 16.21 / 0.63 / 15.93 |
-| ML | 39.27 / 0.77 / 30.15 | 25.97 / 0.77 / 24.43 |
-| MLH | 57.16 / 1.02 / 25.77 | 52.33 / 1.34 / 13.59 |
-| MLHT | 92.27 / 2.01 / 12.14 | 43.08 / 1.18 / 12.72 |
+| T | 39.01 / 0.90 / 22.54 | 16.21 / 0.63 / 15.93 |
+| M | 39.27 / 0.77 / 30.15 | 25.97 / 0.77 / 24.43 |
+| ML | 57.16 (+45.56%) / 1.02 (+33.14%) / 25.77 (−14.52%) | 52.33 (+101.48%) / 1.34 (+72.99%) / 13.59 (−44.39%) |
+| MLH | 89.25 (+56.14%) / 1.46 (+42.86%) / 27.62 (+7.18%) | 54.80 (+4.73%) / 1.40 (+5.09%) / 11.74 (−13.57%) |
+| MLHT | 92.27 (+3.38%) / 2.01 (+37.84%) / 12.14 (−56.04%) | 43.08 (−21.39%) / 1.18 (−16.09%) / 12.72 (+8.30%) |
 
-The prose does not match the table. The text claims the low-level reflection module raises ARR% by 45% to 101% and cuts risk by 14% to 44%, but M to ML is 39.01 to 39.27 on TSLA, which is nothing, and MDD gets worse, 22.54 to 30.15. The 45% and 101% figures line up with the ML to MLH step instead, so the prose has attributed the high-level reflection gains to the low-level module. Read the table, not the paragraph.
+Percentages in brackets are the paper's own, each relative to the row above.
 
-What the table actually says:
+What the table says, step by step:
 
-- Low-level reflection alone does nothing useful on TSLA and helps on ETH while increasing drawdown on both.
-- High-level reflection is the module that earns its place. ML to MLH is the largest clean jump on both assets and it reduces drawdown on ETH from 24.43 to 13.59.
-- Augmented tools are the biggest single contributor on TSLA, 57.16 to 92.27 ARR and 1.02 to 2.01 SR, and they actively hurt ETH, 52.33 down to 43.08. Same asset-class specificity as in the main results.
+- **Low-level reflection (M to ML) is the largest ARR step on both assets**, +45.56% on TSLA and +101.48% on ETH, and it is the only step that cuts drawdown on both, −14.52% and −44.39%. The §7.1 sentence about "an impressive increase in ARR% by 45% to 101% ... and cutting risk by 14% to 44%" is an accurate description of this row.
+- **High-level reflection (ML to MLH) is strong on TSLA and marginal on ETH.** +56.14% ARR on TSLA against +4.73% on ETH, and it is the one step that makes TSLA drawdown worse, 25.77 to 27.62.
+- **Augmented tools (MLH to MLHT) barely move return on TSLA and destroy it on ETH.** TSLA ARR goes 89.25 to 92.27, a +3.38% nudge, but SR goes 1.46 to 2.01 and MDD halves from 27.62 to 12.14, so on stocks the tools are a risk-control component rather than a return component. On ETH they take 54.80 down to 43.08, −21.39%. Same asset-class specificity as in the main results, and it is the only step anywhere in the table that is net negative.
+- **T alone is weak on stocks and actively harmful on crypto.** 39.01 on TSLA, 16.21 on ETH.
+
+Two oddities in the table that the paper does not comment on. M alone is worse than T alone on TSLA on both risk measures, SR 0.77 against 0.90 and MDD 30.15 against 22.54, so market intelligence on its own degrades risk control relative to running the rule-based tools by themselves. And the ETH column peaks at MLH, 54.80, which is above every baseline including FinMem's 44.72, meaning the published FinAgent configuration is not the best configuration the paper itself reports on that asset.
 
 RQ3 pushes further: tools used alone, with no other module feeding the decision, gives 16% ARR on ETHUSD against B&H's 29%. So the rule-based auxiliary agents are not merely unhelpful on crypto, they are worse than doing nothing.
 
 RQ4, diversified retrieval, tested on AAPL only. Figure 5(a) shows ARR and SR both improve with it. Figure 5(b) is a t-SNE of the retrieved market intelligence embeddings coloured by retrieval type, and the clusters separate cleanly, which is offered as proof the retrieval types are picking up genuinely different content. The separation is real but it is evidence that the query texts differ, not that the retrieved information is more useful. One asset, one plot, no numbers in the table. This is the thinnest evidence in the paper supporting what I think is its best idea.
 
-Appendix Table 7 has the fuller grid, w/o-MLH, w/o-LHT, w/o-HT, w/o-T, plus a No-finetuned variant, across all six assets with SOR, CR and VOL. Better ablation than the main text, and it should have been in the main text.
+Appendix Table 6 has the fuller grid, w/o-MLH, w/o-LHT, w/o-HT, w/o-T, plus a No-finetuned variant, across all six assets with SOR, CR and VOL. Better ablation than the main text, and it should have been in the main text.
 
 #### Limitations
 
@@ -207,7 +217,8 @@ Appendix Table 7 has the fuller grid, w/o-MLH, w/o-LHT, w/o-HT, w/o-T, plus a No
 - One test window, seven months, six assets, five of which are correlated US tech megacaps over a period when that sector rallied hard. No walk-forward, no repeated splits, no significance test, no error bars, no seeds. Same G7 problem as everything else in this literature.
 - Sharpe computed with a zero risk-free rate in a 5% rate environment.
 - Single backbone, GPT-4 and GPT-4V, no open-weight comparison, so architecture versus model is unresolved. Same criticism as FinCon.
-- Prose contradicts the ablation table on which reflection module does the work.
+- Reported numbers are internally inconsistent in three places: the TSLA SR improvement is 118% in §6 and 93.27% in Table 4, the baseline count is twelve in the abstract and nine in §6 and Appendix B, and Appendix Table 6's improvement row disagrees with Table 4's on AAPL and claims a positive ETHUSD improvement that its own numbers contradict.
+- The published configuration is not the best configuration reported. MLH beats MLHT on ETHUSD by 11.7 points of ARR in the paper's own ablation.
 - "Generalist" is not supported. It generalises across five same-sector US stocks and fails on the one asset outside that class.
 
 #### What I'm taking from this
@@ -216,7 +227,7 @@ Split retrieval from reasoning. Generate a dedicated query field alongside every
 
 Tag retrieved evidence with the intent that found it. Retrieving $M \times K$ items labelled by retrieval type, rather than top-$K$ by raw similarity, is cheap and gives the decision layer something to weigh. It also gives G6 a free win, an attributable retrieval trail per decision without any extra instrumentation.
 
-The low-level versus high-level reflection split, specifically the axis it splits on. Reflecting on the market and reflecting on your own decisions are different tasks with different inputs. Table 2 is the design. But the ablation says high-level is where the value is, so if I am cutting scope, cut the low-level one.
+The low-level versus high-level reflection split, specifically the axis it splits on. Reflecting on the market and reflecting on your own decisions are different tasks with different inputs. Table 2 is the design. The ablation says low-level is the step that carries both assets, +45.56% and +101.48% ARR with drawdown down on both, while high-level is strong on TSLA and near-flat on ETH and is the only step that raises TSLA drawdown. So if I am cutting scope, keep low-level reflection and cut high-level, which is the reverse of what the module ordering suggests. Caveat it properly though: this is two assets, one window, no repeats, and the steps are cumulative so none of it isolates a module from its interaction with the ones below it.
 
 Auxiliary strategy agents must be matched to the asset. The ETH result is the useful finding in the whole paper. MACD, KDJ with RSI and mean reversion are calibrated to US large-cap daily dynamics, and dropping them onto an asset that trades differently made things actively worse than doing nothing. On the CSE, where turnover is thin and whale-driven, I should assume the same three strategies transfer badly and treat the choice of auxiliary strategies as something to validate, not inherit. This is a concrete argument for G7's equal-weight and rule-based baseline set: if a stock-tuned MACD agent underperforms B&H on ETH, it will very plausibly underperform B&H on the CSE.
 
