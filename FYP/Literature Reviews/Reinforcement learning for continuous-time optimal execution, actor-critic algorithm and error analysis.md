@@ -22,10 +22,10 @@ The simulation study and the empirical study serve different purposes and it is 
 | Item | Simulation study | Empirical study |
 | --- | --- | --- |
 | Environment | AC simulator, known ground truth | HD simulator (LOBSTER order flow) and CST simulator (Cont-Stoikov-Talreja order book) |
-| Data | $S_0=100$, $q_0 = 5\times10^5$, $\kappa = 2.5\times10^{-7}$, $\eta = 2.5\times10^{-6}$, $\sigma = 30\%$ | 7 Nasdaq stocks, 6 sectors, Jul 2016 to Mar 2017 |
+| Data | $S_0=100$, $q_0 = 5\times10^5$, $\kappa = 2.5\times10^{-7}$, $\eta = 2.5\times10^{-6}$, $\sigma = 30\%$ | 7 Nasdaq stocks, 5 sectors, Jul 2016 to Mar 2017 |
 | Horizon | $T = 1$ day | $T = 1$ day, 6 hours from 10:00 |
 | Inventory | fixed | 10% of ADTV per stock, 57,500 to 374,000 shares |
-| Risk aversion | $\lambda^{\text{low}} = \eta$, $\lambda^{\text{mid}} = 10^3\eta$, $\lambda^{\text{high}} = 10^4\eta$ | same three levels |
+| Risk aversion | $\lambda^{\text{low}} = 1\eta_{\text{env}}$, $\lambda^{\text{mid}} = 10^3\eta_{\text{env}}$, $\lambda^{\text{high}} = 10^4\eta_{\text{env}}$ (p. 626; multiples of $\eta_{\text{env}}$, which is what gives $\varphi_1^* = 30, 948.7, 3000$) | same three levels |
 | Discretisation | $N = 100$, $n = 15$ Gauss-Hermite nodes, $L = 500$ iterations | same hyperparameters |
 | Protocol | 100 independent runs, error against known optimum | rolling quarters, train 2016Q3 test 2016Q4, train 2016Q4 test 2017Q1 |
 | Comparators | SAC across depth 1-2 and width 128-256 | SAC, and STAT, the estimate-then-plug-in classical approach |
