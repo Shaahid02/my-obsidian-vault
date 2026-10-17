@@ -1,6 +1,22 @@
 ---
-citekey: mohamedriyathModelingLongtermVolatility2026
+citekey: "mohamedriyathModelingLongtermVolatility2026"
+title: "Modeling Long-Term Volatility Memory Dynamics in the Colombo Stock Exchange"
+authors: "Mohamed Riyath"
 year: 2026
+venue: "IIM Ranchi Journal of Management Studies"
+doi: ""
+zotero: ""
+stream: volatility
+market: CSE
+data_period: 2012-2024
+method: [ARMA-FIGARCH]
+role: protocol-source
+has_oos: false
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 Uses an ARMA-FIGARCH model to test long-term volatility memory in the Colombo Stock Exchange, comparing the ASPI and S&P SL20 across three economic regimes (normal, COVID-19, economic crisis) using daily data from January 2012 to April 2024. Mohamed Riyath, *IIM Ranchi Journal of Management Studies* 5, no. 1 (2026): 21–45.
 

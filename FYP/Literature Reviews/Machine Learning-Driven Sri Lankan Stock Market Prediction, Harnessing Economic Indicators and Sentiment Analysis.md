@@ -1,6 +1,22 @@
 ---
-citekey: dinushanMachineLearningDrivenSri2024
+citekey: "dinushanMachineLearningDrivenSri2024"
+title: "Machine Learning-Driven Sri Lankan Stock Market Prediction, Harnessing Economic Indicators and Sentiment Analysis"
+authors: "Dinushan, Wijegunasekara"
 year: 2024
+venue: "2024 4th International Conference on Advanced Research in Computing (ICARC)"
+doi: "10.1109/ICARC61713.2024.10499774"
+zotero: ""
+stream: forecasting
+market: CSE
+data_period: 2010-2022
+method: [ANN, CNN, LSTM, SVR, RandomForest, RoBERTa]
+role: cautionary-spec
+has_oos: true
+reproducible: partial
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 2024 4th International Conference on Advanced Research in Computing (ICARC), pp. 61 to 66, Dinushan and Wijegunasekara out of the Department of Software Engineering, Faculty of Computing and Technology, University of Kelaniya. A monthly forecasting study that predicts the next month's value of the ASPI and the S&P SL20 separately, using nine Sri Lankan macroeconomic series, the S&P 500 as a proxy for global conditions, and a Twitter sentiment score, with the feature set narrowed by correlation, lag search, forward stepwise regression and p-value pruning before six model families are trained and compared on MAE. The authors close by naming reinforcement learning for stock prediction and extension to other countries' markets as their two intended next steps, which is the local literature pointing at the direction I'm already taking. DOI 10.1109/ICARC61713.2024.10499774.
 

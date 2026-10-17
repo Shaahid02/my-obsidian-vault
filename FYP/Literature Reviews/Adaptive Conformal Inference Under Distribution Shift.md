@@ -6,9 +6,15 @@ year: 2021
 venue: "arXiv"
 doi: "10.48550/ARXIV.2106.00170"
 zotero: "zotero://select/library/items/KZFWZYSI"
-stream: 
-market: 
+stream: calibration
+market: US
+data_period:
+method: [conformal-prediction, ACI, GARCH]
+role: tooling
+has_oos: true
+reproducible: yes
 status: complete
+validated:
 tags:
   - literature-review
 ---

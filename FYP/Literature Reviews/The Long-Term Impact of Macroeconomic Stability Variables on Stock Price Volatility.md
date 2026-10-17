@@ -1,6 +1,22 @@
 ---
-citekey: somathilakaLongTermImpactMacroeconomic2025
+citekey: "somathilakaLongTermImpactMacroeconomic2025"
+title: "The Long-Term Impact of Macroeconomic Stability Variables on Stock Price Volatility"
+authors: "H.P.A.D. Somathilaka, H.M.R.R. Hewamana"
 year: 2025
+venue: "Sri Lankan Journal of Banking and Finance"
+doi: "10.4038/sljbf.v8i1.68"
+zotero: ""
+stream: macro-finance
+market: CSE
+data_period: 2010-2019
+method: [ARDL, bounds-test]
+role: cautionary-spec
+has_oos: false
+reproducible: no
+status: complete
+validated: 2026-10-17
+tags:
+  - literature-review
 ---
 Sri Lankan Journal of Banking and Finance, Volume 8 Issue 01, June 2025, pp. 84 to 102, Somathilaka (University of Vavuniya) and Hewamana (Wayamba University of Sri Lanka). An ARDL bounds-testing study of whether five macroeconomic stability variables, GDP, inflation, money supply, interest rate and exchange rate, drive what the authors call stock price volatility on the Colombo Stock Exchange, using 120 monthly observations from January 2010 to December 2019. DOI 10.4038/sljbf.v8i1.68.
 

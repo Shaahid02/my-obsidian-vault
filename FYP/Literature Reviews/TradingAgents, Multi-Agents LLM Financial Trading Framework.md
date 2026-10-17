@@ -1,6 +1,22 @@
 ---
-citekey: xiaoTradingAgentsMultiAgentsLLM2025
+citekey: "xiaoTradingAgentsMultiAgentsLLM2025"
+title: "TradingAgents: Multi-Agents LLM Financial Trading Framework"
+authors: "Yijia Xiao, Edward Sun, Di Luo, Wei Wang"
 year: 2025
+venue: "arXiv"
+doi: "10.48550/ARXIV.2412.20138"
+zotero: ""
+stream: llm-agents
+market: US
+data_period: 2024
+method: [LLM-agents, ReAct, multi-agent-debate]
+role: gap-evidence
+has_oos: true
+reproducible: no
+status: complete
+validated:
+tags:
+  - literature-review
 ---
 arXiv:2412.20138v7, Yijia Xiao, Edward Sun and Wei Wang of UCLA with Di Luo of UCLA and MIT, under the Tauric Research banner, last revised 3 June 2025. Seven role types declared for a simulated trading firm, fundamentals, sentiment, news and technical analysts, a researcher, a trader and a risk manager, instantiated as eleven agents once the researcher splits into a bullish and a bearish debater who argue for $n$ rounds, the risk manager into aggressive, neutral and conservative perspectives, and a fund manager is placed above all of them to authorise the trade. Everything runs on the ReAct prompting framework over a shared agent state, communication between teams is by structured report rather than free-form message passing, and the backbone is tiered, `gpt-4o-mini` and `gpt-4o` for retrieval and summarisation and `o1-preview` for decisions. Backtested from 1 January to 29 March 2024 on AAPL, GOOGL and AMZN against buy-and-hold and four rule-based strategies, on cumulative return, annualised return, Sharpe and maximum drawdown. Code is public.
 
