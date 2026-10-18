@@ -1,7 +1,7 @@
 ---
-citekey: ""
-title: ""
-authors: "Yu, Li, Chen, Jiang, Li, Suchow, Zhang, Khashanah"
+citekey: "yuFinMemPerformanceEnhancedLLM2025"
+title: "FinMem: A Performance-Enhanced LLM Trading Agent With Layered Memory and Character Design"
+authors: "Yangyang Yu, Haohang Li, Zhi Chen, Yuechen Jiang, Yang Li, Jordan W. Suchow, Denghui Zhang, Khaldoun Khashanah"
 year: 2025
 venue: "IEEE Transactions on Big Data"
 doi: "10.1109/TBDATA.2025.3593370"

@@ -1,10 +1,10 @@
 ---
-citekey: ""
-title: ""
-authors: "Chao Zhang, Xingyue Pu, Xiaowen Dong, Mihai Cucuringu"
+citekey: "zhangForecastingRealizedVolatility2025"
+title: "Forecasting Realized Volatility with Spillover Effects: Perspectives from Graph Neural Networks"
+authors: "Chao Zhang, Xingyue Pu, Mihai Cucuringu, Xiaowen Dong"
 year: 2025
 venue: "International Journal of Forecasting"
-doi: ""
+doi: "10.1016/j.ijforecast.2024.09.002"
 zotero: ""
 stream: volatility
 market: US

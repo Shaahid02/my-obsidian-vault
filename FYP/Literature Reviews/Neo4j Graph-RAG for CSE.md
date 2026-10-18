@@ -1,9 +1,9 @@
 ---
-citekey: ""
-title: ""
-authors: "Shamila, Silva, Talagala"
+citekey: "shamilaNeo4jpoweredGraphragSystem2025"
+title: "Neo4j-Powered Graph-Rag System for Financial Insights on the Colombo Stock Exchange"
+authors: "B. Shamila, S. Silva, S. Talagala"
 year: 2025
-venue: "ERU Symposium"
+venue: "Engineering Research Unit"
 doi: "10.31705/ERU.2025.35"
 zotero: ""
 stream: rag-qa

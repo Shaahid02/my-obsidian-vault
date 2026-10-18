@@ -1,10 +1,10 @@
 ---
-citekey: ""
-title: ""
-authors: "Rafsun Sheikh, Shah J. Miah"
+citekey: "sheikhTRIAGTrireinforcedInfused2026"
+title: "TRIAG: Tri-Reinforced Infused Generative Agents for Financial Risk Compliance"
+authors: "Rafsun Sheikh, Shah J Miah"
 year: 2026
 venue: "Intelligent Systems with Applications"
-doi: ""
+doi: "10.1016/j.iswa.2026.200653"
 zotero: ""
 stream: llm-agents
 market: none

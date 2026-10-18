@@ -1,10 +1,10 @@
 ---
-citekey: ""
-title: ""
-authors: "Chen, et al."
+citekey: "chenConvFinQAExploringChain2022"
+title: "ConvFinQA: Exploring the Chain of Numerical Reasoning in Conversational Finance Question Answering"
+authors: "Zhiyu Chen, Shiyang Li, Charese Smiley, Zhiqiang Ma, Sameena Shah, William Yang Wang"
 year: 2022
-venue: "EMNLP"
-doi: ""
+venue: "Proceedings of the 2022 Conference on Empirical Methods in Natural Language Processing"
+doi: "10.18653/v1/2022.emnlp-main.421"
 zotero: ""
 stream: rag-qa
 market: US

@@ -1,10 +1,10 @@
 ---
-citekey: ""
-title: ""
-authors: "Çelik, İcan, Bulut"
+citekey: "celikExtendingMachineLearning2023"
+title: "Extending Machine Learning Prediction Capabilities by Explainable AI in Financial Time Series Prediction"
+authors: "Taha Bu\u gra \c Cel\.ik, \"Ozg\"ur \.Ican, Elif Bulut"
 year: 2023
 venue: "Applied Soft Computing"
-doi: ""
+doi: "10.1016/j.asoc.2022.109876"
 zotero: ""
 stream: forecasting
 market: global

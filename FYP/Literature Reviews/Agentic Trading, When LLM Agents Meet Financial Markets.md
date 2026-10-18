@@ -1,10 +1,10 @@
 ---
-citekey: ""
-title: ""
-authors: "Xia, You, Wang, Liu, Qi, Wu, Zhang"
+citekey: "xiaAgenticTradingWhen2026"
+title: "Agentic Trading: When LLM Agents Meet Financial Markets"
+authors: "Yihan Xia, Panpan You, Taotao Wang, Fang Liu, Han Qi, Xiaoxiao Wu, Shengli Zhang"
 year: 2026
-venue: ""
-doi: ""
+venue: "arXiv"
+doi: "10.48550/ARXIV.2605.19337"
 zotero: ""
 stream: llm-agents
 market: none

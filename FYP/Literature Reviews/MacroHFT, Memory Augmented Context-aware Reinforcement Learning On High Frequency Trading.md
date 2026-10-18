@@ -1,10 +1,10 @@
 ---
-citekey: ""
-title: ""
-authors: "Zong, Wang, Qin, Feng, Wang, An"
+citekey: "zongMacroHFTMemoryAugmented2024"
+title: "MacroHFT: Memory Augmented Context-Aware Reinforcement Learning On High Frequency Trading"
+authors: "Chuqiao Zong, Chaojie Wang, Molei Qin, Lei Feng, Xinrun Wang, Bo An"
 year: 2024
-venue: "KDD '24"
-doi: ""
+venue: "Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining"
+doi: "10.1145/3637528.3672064"
 zotero: ""
 stream: rl-trading
 market: crypto

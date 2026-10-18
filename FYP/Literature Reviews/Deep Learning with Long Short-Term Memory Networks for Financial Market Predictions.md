@@ -1,10 +1,10 @@
 ---
-citekey: ""
-title: ""
+citekey: "fischerDeepLearningLong2018"
+title: "Deep Learning with Long Short-Term Memory Networks for Financial Market Predictions"
 authors: "Thomas Fischer, Christopher Krauss"
 year: 2018
 venue: "European Journal of Operational Research"
-doi: ""
+doi: "10.1016/j.ejor.2017.11.054"
 zotero: ""
 stream: forecasting
 market: US

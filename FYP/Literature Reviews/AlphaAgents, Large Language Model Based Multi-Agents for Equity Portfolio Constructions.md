@@ -1,10 +1,10 @@
 ---
-citekey: ""
-title: ""
-authors: "Zhao, Lyu, Jones, Garber, Pasquali, Mehta"
+citekey: "zhaoAlphaAgentsLargeLanguage2025"
+title: "AlphaAgents: Large Language Model Based Multi-Agents for Equity Portfolio Constructions"
+authors: "Tianjiao Zhao, Jingrao Lyu, Stokes Jones, Harrison Garber, Stefano Pasquali, Dhagash Mehta"
 year: 2025
 venue: "arXiv"
-doi: ""
+doi: "10.48550/arXiv.2508.11152"
 zotero: ""
 stream: llm-agents
 market: US

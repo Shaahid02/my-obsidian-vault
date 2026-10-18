@@ -1,9 +1,9 @@
 ---
-citekey: ""
-title: ""
-authors: "Xie, Han, Peng, Zhang, Lai, Lopez-Lira, Huang"
+citekey: "xiePIXIUComprehensiveBenchmark2023"
+title: "PIXIU: A Comprehensive Benchmark, Instruction Dataset and Large Language Model for Finance"
+authors: "Qianqian Xie, Weiguang Han, Xiao Zhang, Yanzhao Lai, Min Peng, Alejandro Lopez-Lira, Ji-Min Huang"
 year: 2023
-venue: "NeurIPS Datasets and Benchmarks"
+venue: "Neural Information Processing Systems"
 doi: "10.52202/075280-1454"
 zotero: ""
 stream: benchmarks

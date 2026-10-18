@@ -1,9 +1,9 @@
 ---
-citekey: ""
-title: ""
-authors: "Senevirathne, Demotte, Karunanayake, Munasinghe, Ranathunga"
+citekey: "senevirathneSentimentAnalysisSinhala2020"
+title: "Sentiment Analysis for Sinhala Language Using Deep Learning Techniques"
+authors: "L. Senevirathne, Piyumal Demotte, Binod Karunanayake, Udyogi Munasinghe, Surangika Ranathunga"
 year: 2020
-venue: "arXiv"
+venue: "ArXiv"
 doi: ""
 zotero: ""
 stream: sentiment

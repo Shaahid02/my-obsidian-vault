@@ -1,10 +1,10 @@
 ---
-citekey: ""
-title: ""
-authors: "Wijesinghe, Rathnayaka"
+citekey: "wijesingheARIMAANNApproach2020"
+title: "ARIMA and ANN Approach for Forecasting Daily Stock Price Fluctuations of Industries in Colombo Stock Exchange, Sri Lanka"
+authors: "G.W.R.I. Wijesinghe, R.M.K.T. Rathnayaka"
 year: 2020
-venue: "IEEE"
-doi: ""
+venue: "2020 5th International Conference on Information Technology Research (ICITR)"
+doi: "10.1109/ICITR51448.2020.9310826"
 zotero: ""
 stream: forecasting
 market: CSE
