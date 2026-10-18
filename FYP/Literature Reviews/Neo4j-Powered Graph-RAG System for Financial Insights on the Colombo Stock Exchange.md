@@ -1,6 +1,8 @@
 ---
 citekey: "shamilaNeo4jpoweredGraphragSystem2025"
-title: "Neo4j-Powered Graph-Rag System for Financial Insights on the Colombo Stock Exchange"
+title: "Neo4j-Powered Graph-RAG System for Financial Insights on the Colombo Stock Exchange"
+aliases:
+  - Neo4j Graph-RAG for CSE
 authors: "B. Shamila, S. Silva, S. Talagala"
 year: 2025
 venue: "Engineering Research Unit"
