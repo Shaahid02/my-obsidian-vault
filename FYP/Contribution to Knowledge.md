@@ -1,3 +1,10 @@
+---
+status: current
+revised: 2026-10-12
+written_against: 59 reviews
+tags:
+  - working-doc
+---
 *Created 12 October 2026, against all 59 literature reviews. Companion to [[Research Gap]], which states what the literature lacks. This note states what this research produces. Sentiment is out of scope throughout.*
 
 ---

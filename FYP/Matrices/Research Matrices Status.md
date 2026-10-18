@@ -1,8 +1,9 @@
 ---
-tags:
-  - status
 status: current
-date: 2026-10-11
+revised: 2026-10-11
+written_against: 59 reviews
+tags:
+  - working-doc
 ---
 # Research Matrices — status
 

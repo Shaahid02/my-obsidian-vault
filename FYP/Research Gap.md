@@ -1,3 +1,10 @@
+---
+status: current
+revised: 2026-10-12
+written_against: 59 reviews
+tags:
+  - working-doc
+---
 *Revised 12 October 2026 against all 59 literature reviews. Supersedes the 27 September version, which was written against 53. Sentiment is out of scope (supervisor, 20 September 2026, Final), see `Scope sentiment analysis dropped.md`. Claims narrowed in the previous revision are still marked **[narrowed]**. Claims changed in this revision are marked **[new]**.*
 
 ---

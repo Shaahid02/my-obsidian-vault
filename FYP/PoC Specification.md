@@ -1,3 +1,10 @@
+---
+status: current
+revised: 2026-10-13
+written_against: 59 reviews; Research Gap; Contribution to Knowledge
+tags:
+  - working-doc
+---
 *Created 13 October 2026, against [[Research Gap]] (59 reviews), [[Contribution to Knowledge]], [[Temp Progress Update]] and the revised plan in [[29-09-2026]]. This note states what gets built and what counts as the build succeeding. It does not restate why — that is in the gap and contribution notes. Sentiment is out of scope throughout.*
 
 ---
