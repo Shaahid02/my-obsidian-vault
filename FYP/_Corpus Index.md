@@ -34,7 +34,7 @@ regenerate. A blank cell means the field has not been filled yet.
 | [[Explainable zero-shot trading using multi-agent LLM architecture, A backtested approach for Bitcoin price]] | 2026 | llm-agents | crypto | — | gap-evidence | yes | partial | complete |
 | [[FinCon, A Synthesized LLM Multi-Agent System with Conceptual Verbal Reinforcement for Enhanced Financial Decision Making]] | 2024 | llm-agents | US | — | gap-evidence | yes | partial | complete |
 | [[FinHEAR, Human Expertise and Adaptive Risk-Aware Temporal Reasoning for Financial Decision-Making]] | 2025 | llm-agents | US | 2023 | protocol-source | yes | partial | complete |
-| [[FinMe, A Performance-Enhanced LLM Trading Agent With Layered Memory and Character Design]] | 2025 | llm-agents | US | — | baseline | yes | partial | complete |
+| [[FinMem, A Performance-Enhanced LLM Trading Agent With Layered Memory and Character Design]] | 2025 | llm-agents | US | — | baseline | yes | partial | complete |
 | [[FinVision, A Multi-Agent Framework for Stock Market Prediction]] | 2024 | llm-agents | US | 2023 | gap-evidence | yes | partial | complete |
 | [[HedgeAgents, A Balanced-aware Multi-agent Financial Trading System]] | 2025 | llm-agents | global | 2021-2023 | gap-evidence | yes | partial | complete |
 | [[Large Language Model Agents for Investment Management, Foundations, Benchmarks, and Research Frontiers]] | 2025 | llm-agents | none | — | survey | no | no | complete |
