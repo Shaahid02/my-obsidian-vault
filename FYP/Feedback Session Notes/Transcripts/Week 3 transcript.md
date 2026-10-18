@@ -8,7 +8,7 @@ tags:
   - panel-feedback
   - transcript
   - week-3
-status: placeholder
+status: final
 ---
 
 # Panel Feedback Transcript — Week 3
