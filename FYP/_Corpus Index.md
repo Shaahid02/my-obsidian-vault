@@ -55,7 +55,7 @@ regenerate. A blank cell means the field has not been filled yet.
 | [[Financial Report Chunking for Effective Retrieval Augmented Generation]] | 2024 | rag-qa | US | — | protocol-source | yes | partial | complete |
 | [[FinQA, A Dataset of Numerical Reasoning over Financial Data]] | 2021 | rag-qa | US | — | dataset | yes | partial | complete |
 | [[MultiFinRAG, An Optimized Multimodal Retrieval-Augmented Generation Framework for Financial Question Answering]] | 2025 | rag-qa | US | — | protocol-source | yes | no | complete |
-| [[Neo4j Graph-RAG for CSE]] | 2025 | rag-qa | CSE | — | local-context | no | no | complete |
+| [[Neo4j-Powered Graph-RAG System for Financial Insights on the Colombo Stock Exchange]] | 2025 | rag-qa | CSE | — | local-context | no | no | complete |
 | [[Optimizing LLM Based Retrieval Augmented Generation Pipelines in the Financial Domain]] | 2024 | rag-qa | none | — | protocol-source | yes | no | complete |
 | [[TAT-QA, A Question Answering Benchmark on a Hybrid of Tabular and Textual Content in Finance]] | 2021 | rag-qa | US | — | dataset | yes | partial | complete |
 | [[MacroHFT, Memory Augmented Context-aware Reinforcement Learning On High Frequency Trading]] | 2024 | rl-trading | crypto | — | protocol-source | yes | partial | complete |
