@@ -7,10 +7,10 @@
     "iconColor": null,
     "recentlyUsedIcons": [
       "LiArchive",
-      "LiNotebookPen",
       "LiBot",
       "LiLayoutGrid",
-      "✍"
+      "✍",
+      "LiFilePenLine"
     ],
     "recentlyUsedIconsSize": 5,
     "rules": [],
@@ -45,6 +45,6 @@
   "Excalidraw": "LiPalette",
   "FYP/Supervisor Meeting Notes": "LiFilePenLine",
   "FYP/Matrices": "LiLayoutGrid",
-  "FYP/Feedback Session Notes": "LiNotebookPen",
+  "FYP/Claude outputs": "LiBot",
   "FYP/Archives": "LiArchive"
 }
