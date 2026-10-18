@@ -32,6 +32,30 @@ Thirty-six hours, from nothing, to the gate in [[29-09-2026]] §11.5: *data to a
 
 ---
 
+## 0a. Amendment, 18 October 2026, evening
+
+Written after reading the rebuilt Dataset sheet and [[Research Matrices Status]]. The dataset record changed today, after [[PoC Specification]] was written on 13 October, so three statements in §2 to §4 below are superseded. They are marked `[CORRECTED 18 OCT]` in place rather than rewritten silently. Three findings matter to the build.
+
+**1. The primary series is not adjusted for corporate actions, and this is the binding data constraint.** D22 is unadjusted, confirmed by inspection today. JKH closes at 212.50 on 2024-10-28 and 21.20 on 2024-11-06, a share split rendered as a return of minus ninety percent; AAF shows plus 767 percent in 2019. Everything the PoC produces sits downstream of a return, so the direction label, Parkinson on a split-day range, Amihud, the confidence calibration and every arm comparison are all affected. D26, the adjusted series, is what the build should consume and it does not exist. It depends on D25, inside the D24 Data Library purchase at Rs 1,500, not yet bought, delivery time unknown.
+
+**Interim rule for the PoC, to be written into the pre-registration block:**
+
+| Step | Action |
+|---|---|
+| Purchase | Initiate the D24 order today, independent of the PoC. The real system needs it and the lead time is unknown |
+| Detect | Jump detector as the **first** task on the spine, before the liquidity screen. Flag days where the close-to-close ratio sits near a simple split ratio with no matching turnover behaviour |
+| Exclude | Select the 5 to 10 PoC counters from those with no detected event inside the window. With roughly 292 ordinary counters available this is cheap. State the rule and report how many counters it removed |
+| Carry | Dividends will not be caught by ratio snapping. Roughly one mislabelled day per dividend per counter survives, on the order of one percent of counter-days. Quantify it, report it as a known label error, correct it when D25 arrives |
+| Bias | Counters that split are disproportionately ones that rose. Report the direction of the exclusion bias |
+
+**2. Turnover and trade count are held across the full span**, not only the 17 months the spec's §4.3 assumed. D22 carries `turnover` and `trade_volume` from 2012-01-02 to 2026-10-02. Amihud and the turnover ratio therefore enter the $L_t$ composite over the whole window rather than a fragment, which is a stronger composite than §3 below assumes.
+
+**3. Per-counter history is median roughly 3,400 days**, not 374. The 374 figure was the superseded Chindara archive. Coverage is uneven, with the 10th percentile at 1,081 days, but $\hat{d}$ is estimable per counter for well-covered securities.
+
+**Two further data facts that bound the build.** Of 334 counter files, 17 are rights instruments and belong out of the universe, and 61 securities end before 2026-10-02, which mixes delistings, suspensions and dormancy. D16 holds 119 delisted company names with no effective dates, so a point-in-time tradability mask is not possible; use the D22 series-end dates as a proxy, say plainly that they are a proxy, and report the residual bias. At least one security, ASPM.N0000, prints a close outside its own high-low range, so a high $\geq$ close $\geq$ low validation runs before anything is trusted. No bid, ask or depth is held, and none of D24's forty files contains any.
+
+---
+
 ## 1. Where 29-09 and Week 4 differ, and how each is resolved
 
 Five differences. None of them is a contradiction once the role of each instruction is separated from its content.
@@ -69,7 +93,7 @@ Five differences. None of them is a contradiction once the role of each instruct
 | Excluded | Reason |
 |---|---|
 | PoC-B, the persistence re-levering experiment | Does not fit in 36 hours alongside PoC-A. Sub-gap 2 stays a hypothesis, which is what [[29-09-2026]] §3.4 already calls it |
-| Adaptive conformal wrapper on $A_V$ | The common accuracy-at-threshold transform in [[PoC Specification]] §5.3 covers all agents uniformly and is cheaper. This also takes the 1250-day calibration window problem off the critical path |
+| Adaptive conformal wrapper on $A_V$ | The common accuracy-at-threshold transform in [[PoC Specification]] §5.3 covers all agents uniformly and is cheaper. `[CORRECTED 18 OCT]` The 1250-day calibration constraint was withdrawn today because the archive clears it on both tracks, so this cut rests on the 36 hours alone, not on a data limitation |
 | Gate 0.2 tick-size classification | Blocked on bid/ask, which is not held. Record as blocked, not skipped |
 | Cost inside the objective | Already out of the first pass in the spec. The orchestrator still exposes the proposed allocation so the door stays open |
 | Everything in [[PoC Specification]] Part 1 "what is out" | Unchanged |
@@ -87,12 +111,12 @@ The four state-input ablations all run with three live agents, so A6 is satisfie
 | Item | Proposed | Reasoning |
 |---|---|---|
 | Volatility estimator | **Parkinson** | Garman-Klass carries a $(\ln C/O)^2$ term, and on a thin counter the open is often a stale or auction-set price. Parkinson uses the high-low range only. Report the $\tau_t$ rate alongside so the degeneracy where open or close coincides with high or low stays visible |
-| $P_t$ estimation | **Index track, not per counter** | $\hat{d}$ instability on short windows is a named risk. The ASPI track holds roughly 2,400 observations against a per-counter archive that is far shorter. Estimating $P_t$ at market level makes it estimable and is defensible as a market-state variable. State plainly that it is market-level and that per-counter persistence was not attempted |
+| $P_t$ estimation | `[CORRECTED 18 OCT]` **Per counter above a minimum history, index fallback below it** | The original entry here routed $P_t$ to the index on the grounds that the per-counter archive was far shorter. That rested on the 374-day figure, which was the superseded Chindara archive. Per-counter history is median roughly 3,400 days, so $\hat{d}$ is estimable per counter for well-covered securities. Set a minimum, estimate per counter above it, fall back to the D15 index estimate below it, and report which counters used which. $\hat{d}$ instability remains a named risk |
 | Abstention floor $\phi$ | **0.05 as the pre-registered primary**, sweep as a robustness strip if Sunday allows | A full sweep before a primary result is not affordable. What matters for attributability is that the value was fixed in advance |
 | Unchanged-price handling | Exact zero close-to-close return is `unchanged`. Excluded from the directional metric, retained in the economic metric with the position held flat | On this market an unchanged close often means no trade or a single trade at the same price, so it is a liquidity observation rather than a forecasting failure. The exclusion rate per counter is the zero-return statistic from the D17 screen, so it does double duty |
 | Abstained-day exposure | **Hold**, not flat | The flat option carries a round-trip cost each time, which contaminates the abstention economics the spec asks to measure |
 | Counter selection rule | **Stratified across the liquidity cross-section**, roughly three high, three mid, three thin | Selecting the ten most liquid counters leaves $L_t$ with little variation, and A3 then has nothing to detect. The mechanism needs liquidity to vary both across counters and within each counter |
-| Window | **Approximately Jan 2021 to Jun 2024** | Contains the 2022 crisis as the stress regime, quiet 2021 before it and recovery after. Sits at the upper end of the 2 to 5 year band in [[Week 4]] §2.5, avoids the 2012 gap, and ends near the S&P standardisation rather than starting there. That is a partial answer to the start-point question left unanswered in [[Week 4]] §6 |
+| Window | **Approximately Jan 2021 to Dec 2024** | Contains the 2022 crisis as the stress regime, quiet 2021 before it and recovery after. Sits inside the 2 to 5 year band in [[Week 4]] §2.5. `[CORRECTED 18 OCT]` Archive depth is no longer the constraint, since D22 runs 2012-01-02 to 2026-10-02, so the window is chosen on the coverage test and corporate-action cleanliness rather than on what data exists. That is a partial answer to the start-point question left unanswered in [[Week 4]] §6 |
 
 **The binding window test is coverage, not span.** Per [[Week 4]] §2.5 the window must contain both normal and low-liquidity conditions. Apply it per counter as well as at index level: each selected counter must show both a high and a low stretch by its own $L_t$ over the window, or the adaptive mechanism has nothing to react to for that counter. This is a selection criterion, not only a window criterion.
 
@@ -108,13 +132,16 @@ The 17 October ordering the spec asks to protect still holds: the as-of cursor c
 
 | Hrs | Task | Output |
 |--:|---|---|
-| 3 | Data layer: as-of cursor, ticker-date schema, loader. Components receive queries, not dataframes. Cursor violation raises an exception | Cursor violations raise |
-| 3 | D17 per-counter screen over the held OHLCV set: history length, % non-zero volume days, zero-return frequency recorded separately from non-trading, $\tau_t$ rate, median and mean volume, ADV, missing-day count | Authoritative per-counter table. Resolves the 374-day against 10-year conflict in [[PoC Specification]] §0.4 |
-| 2 | Apply the stratified selection rule and the per-counter coverage test. Freeze the universe and the window. Write the §3 values into the pre-registration block | Universe and window frozen |
+| 3 | Data layer: as-of cursor, ticker-date schema, loader. Components receive queries, not dataframes. Cursor violation raises an exception. Bar validation on load: high $\geq$ close $\geq$ low, high $\geq$ open $\geq$ low. Drop the 17 rights instruments | Cursor violations raise. Validated spine |
+| 1 | **Corporate-action jump detector**, per §0a. Ratio snapping against simple split ratios, no matching turnover behaviour. Runs before the screen | Flagged counter-days. Clean-counter list for the window |
+| 2 | D17 per-counter screen over the held set: history length, % non-zero volume days, zero-return frequency recorded separately from non-trading, $\tau_t$ rate, median and mean volume, ADV, median turnover, Amihud, missing-day count. Volume, not price change, decides a zero-return day; the D15 exchange calendar separates non-trading from zero-volume | Per-counter table reported **by tier**, not reduced to one threshold |
+| 2 | Apply the stratified selection rule, the per-counter coverage test and the clean-counter filter. Freeze the universe and the window. Write the §3 values and the §0a interim rule into the pre-registration block | Universe and window frozen |
 | 2 | Gate 0.1: quantile AR(1) on $L_t$ over the index track | One sentence: the state-forecasting layer is justified or it is cut |
 | 2 | Agent output contract in code. One stub agent emitting it. One ticker-date end to end | **A1** |
 
-**If the day overruns, drop Gate 0.1.** It decides only whether the PoC can be made simpler, and the default without it is to condition on contemporaneous state, which is already the simpler option.
+**If the day overruns, drop Gate 0.1.** It decides only whether the PoC can be made simpler, and the default without it is to condition on contemporaneous state, which is already the simpler option. The jump detector is not droppable: without it every return in the PoC is wrong on corporate-action days.
+
+**Off the clock, today:** initiate the D24 Data Library purchase. Rs 1,500 at the student rate, which also buys items 06, 09, 16, 17, 21 and 29. It does not reach the 25 October gate and it is not meant to. It is what makes D26 possible afterwards.
 
 ### Tue 20 Oct, 2h
 $A_T$ and $A_V$ emitting the contract over the selected counters.
@@ -175,6 +202,7 @@ Those are the same requirement stated twice. A3 and A4 together are the evidence
 
 ## 7. Carry to the supervisor
 
+0. **The corporate-action problem and the interim rule in §0a.** This is the one that should be raised first. The PoC runs on a detect-and-exclude workaround rather than an adjusted series, and the supervisor should see that stated rather than discover it in the results. [[Research Gap]] now carries it as commitment zero in the evaluation section, because it is a precondition for every number below it.
 1. **The PoC-B cut.** [[PoC Specification]] Part 13 item 3 already flags the ordering as a supervisor question. The cut is larger than the reorder and should not be made silently.
 2. **Three agents rather than four, and $A_F$ stubbed.** This follows the panel directive in [[Week 4]] §2.6 and conflicts with the four-agent build in the 29 September Sunday 18 October task list. Confirm which takes precedence.
 3. **The technical-contribution framing**, which [[Week 4]] §2.4 was explicitly offered as the panel member's own view and referred back to the supervisor. Outstanding action 9.
