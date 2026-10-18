@@ -1,10 +1,10 @@
 ---
 citekey: "dissnayakeRoleMarketLiquidity2025"
-title: ""
-authors: ""
+title: "Role of Market Liquidity in Sentiment-Based Return Predictions: Evidence from Sri Lanka"
+authors: "D. M. T. R. Dissanayake, N. S. Nanayakkara"
 year: 2025
-venue: ""
-doi: ""
+venue: "International Journal of Economics and Financial Issues"
+doi: "10.32479/ijefi.18020"
 zotero: ""
 stream: sentiment
 market: CSE
