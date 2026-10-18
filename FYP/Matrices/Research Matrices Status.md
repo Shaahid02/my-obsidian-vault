@@ -1,6 +1,6 @@
 ---
 status: current
-revised: 2026-10-11
+revised: 2026-10-18
 written_against: 59 reviews
 tags:
   - working-doc
@@ -9,6 +9,40 @@ tags:
 
 > [!note] Provenance
 > Rescued from the Claude project on 18 October 2026, where it was the only copy. Two dated sections: the 11 October 2026 update on top, the 27 September 2026 status beneath it.
+
+## 18 Oct 2026 update
+
+A long working session. Four files changed, one new file was created, and two claims that had been propagating through every matrix turned out to be wrong.
+
+### The two corrections that matter most
+
+**1. The per-counter data blocker is largely resolved, and the figure in the gap matrices is wrong by roughly a factor of nine.** Every version of the gap analysis still says the per-counter track is "roughly February 2025 to February 2026" and quotes "roughly 374 trading days per counter". That number is the Chindara archive, which has been superseded. The project's own extraction holds **2012-01-02 to 2026-10-02, about 14.75 years**, for 323 securities and roughly 829,070 security-day observations, with turnover and trade count. The Dataset sheet already recorded this as D22; the gap matrices had not caught up. Verified directly against the staged files: 334 per-counter CSVs, 285 fetched with zero failures, median around 3,400 rows each. Consequences: the cross-sectional reframe is a convenience rather than a necessity, all three regime episodes sit inside the sample, and the forecast-combination argument in v6 that leans on "limited historical data" is weaker than it reads.
+
+**2. The primary price series is NOT adjusted for corporate actions.** Confirmed by inspection on 18 October. JKH closes at 212.50 on 2024-10-28 and 21.20 on 2024-11-06, a share split appearing as a -90% return; AAF shows a +767% move in 2019. Until an adjusted series exists, every return, volatility estimate, Amihud value, regime split and backtest in this project is wrong on corporate-action days. This is now the highest-priority item in the data plan, ahead of the liquidity screen.
+
+### CSE Data Library
+
+The order form was read in full. Forty files. The student rate is Rs 1,500 for all of them against Rs 500 for the first selected file and Rs 250 thereafter, so five selected files already cost the price of the whole set. **Buy the lot.**
+
+What earns it: items 01 to 05, the corporate actions, which are the only official route to fixing correction 2 above; item 06 listings and delistings, for survivorship; item 09 Total Returns Indices, which gives ASTRI, the market proxy P59 says is correct rather than the ASPI currently held; item 39 GICS, since the sector mapping covers 60 of 334 counters; item 17 Public Holding for free float; item 29 Beta Values as a published benchmark; items 16 and 21 for issued quantity and market cap; items 11 and 12 for market-wide turnover to normalise Amihud; and items 30 to 33, the Daily Share Price Lists 1991 to 2025, as an official cross-check that also extends the record back two decades. Note those lists stop at 2025, so the project's own extraction stays primary for the most recent year.
+
+**It does not close Sub-gap 1.** There is no bid, no ask, no depth and no order book in any of the forty items. The separate request to the exchange remains the only route to a measured spread, exactly as the 11 October update concluded.
+
+### Files changed
+
+- **Literature Survey Matrix** - six dated Read Me amendments in one day. Bibliographic backfill (9 DOIs, then 5 more); the Limitations column populated for the 33 rows that read "Not recorded in the note"; dash normalisation removing 560 em dashes, with a correction the following pass restoring 29 letter-compound en dashes such as Fama-French and bid-ask that the first pass had wrongly flattened; wording consistency on 29 "N/A" cells; five Year cells reduced to bare years. Then a quoted-fragment audit against all 59 notes, which produced **thirteen substantive corrections**, four adjudicated against the source PDFs through the Zotero full-text caches. The most serious: P27 had reversed the paper's own ablation finding, P27 and P03 each asserted something their note explicitly withholds, P57 quoted NN3's turnover for NN4's strategy, and P37 carried an MCC gain that appears at no horizon in the paper. **P37's note was also wrong** and was corrected alongside the row. Finally a provenance pass moved 79 opening and 95 closing quotation marks and unquoted 101 spans, so that all 1,621 quoted spans in the sheet are now verbatim in the note they are drawn from.
+- **Refined Research Gap Analysis Matrix v6** - new file beside v5. The substantive change is that the main gap was defended only against agent systems, all of which lack a weight object. The forecast combination literature is the prior art for the weighting function itself and now sits in the Prior Work Contrast as a seventh row. It both legitimises the gap, giving w_i,t a lineage as a time-varying feature-conditioned combination with FFORMA as the nearest named ancestor, and threatens it through the combination puzzle. Equal weights is promoted from a listed baseline to the pre-registered primary benchmark. Adaptive conformal inference supplies C_i,t's mechanism for A_V, which v5 left open. Gu, Kelly and Xiu enter Sub-gap 1 as its reference case. The conditioning set is restated as **specified rather than resolved** and the agent pool as **unchanged but provisional**, which is what the standing rule requires. Four absolutes were corrected, including "unprecedented in the published record" twice.
+- **Consolidated Research Matrix** - the Literature Survey sheet was re-pasted wholesale from the standalone and now matches it at zero differing cells, with column order aligned. The other three sheets were brought up to v6 content, 19 cells. The Dataset sheet was rebuilt, see below. All four sheets were given the v6 formatting treatment. One self-inflicted problem worth recording: adding a freeze pane to a sheet whose saved view origin was `topLeftCell="A60"` left two contradictory origins and locked scrolling at the last row. Removing the pane fixed it. Excel also silently overwrote two of the intervening fixes because the file was open at the time.
+- **Dataset sheet** - cut from 23 rows to 17. Removed: Trading Economics, two CBSL macro rows, the Chindara archive and the TradingView-route scraper, then the PyPI wrapper, stockanalysis.com, TradingView and Investing.com once the Data Library was costed. Added D24 the Data Library, D25 the corporate actions register, D26 the adjusted price series that everything downstream should consume. D22 is now the raw input to D26 rather than a substitute for it. Four corrections: D22's "adjustment status unknown" replaced with the confirmed finding, D17's Time Period which claimed the D22 span and then quoted Chindara's 374 days, and two references in D12 that pointed at a central-bank row where the evidence says they meant the report PDFs. The clean-licence point from the removed wrapper row was folded into D01 rather than lost.
+- **Dataset Comparison Matrix** - rebuilt as a true standalone mirror of the Dataset sheet and its Read Me rewritten. It had not been touched since 20 September at 13:10, the same day as the sentiment decision, and still carried three Sinhala sentiment corpora, four news and forum sources, and a recommended stack that included designing a sentiment agent. It had also drifted into a **different ID scheme**: eleven of its twenty-one IDs pointed at different sources from the same IDs in the Dataset sheet, so any cross-reference was wrong in one file or the other. Its Read Me also contained "No Sinhala financial-sentiment dataset exists anywhere", which is the forbidden form; the correction is recorded rather than made silently.
+
+### Still open after today
+
+The gap matrices have not been corrected for finding 1. Both **v6** and the **Research Gap Analysis sheet** still carry the February 2025 to February 2026 span and the 374-day figure, in Required Data, Feasibility, Risk and the Experiment cells, and v6's forecast-combination risk argument leans on the small number. That is the next job and it is not bookkeeping: it changes how hard the equal-weight benchmark is to beat.
+
+Two smaller things. The universe needs defining before anything is computed: of 334 counter files, 17 are rights instruments and 18 are under 5KB, so the investable set is nearer 292 ordinary plus 21 non-voting. And this note still contains em dashes throughout its older sections, which the current language rule does not allow; say the word and I will sweep them.
+
+---
 
 ## 11 Oct 2026 update — Literature Survey Matrix v6
 
@@ -44,10 +78,10 @@ All amended rows are marked amber.
 
 Files in `Obsidian Vault/FYP/Matrices/`:
 
-- **Consolidated Research Matrix.xlsx** — 5 sheets, all now current: Literature Survey (53×24), Research Gap Analysis (v5), Conditioning Set, Reclassified Components, **Dataset (28×23, updated 27 Sep)**
-- **Refined Research Gap Analysis Matrix v5.xlsx** — 6 sheets. Two new: **Conditioning Set**, **Prior Work Contrast** (replaces MacroHFT Positioning)
-- **Literature Survey Matrix.xlsx** — 53 papers × 24 cols, new **Speaks To / Effect on the Gaps** column
-- Dataset Comparison Matrix.xlsx — standalone file, **still the old 21-row version**; the consolidated workbook's Dataset sheet supersedes it
+- **Consolidated Research Matrix.xlsx** — 5 sheets, all now current: Literature Survey (53×24), Research Gap Analysis (v5), Conditioning Set, Reclassified Components, **Dataset (28×23, updated 27 Sep)** *(superseded 18 Oct: Literature Survey is 59×24, the gap sheets are at v6, and Dataset is 17×23)*
+- **Refined Research Gap Analysis Matrix v5.xlsx** — 6 sheets. Two new: **Conditioning Set**, **Prior Work Contrast** (replaces MacroHFT Positioning) *(superseded 18 Oct by v6, a new file beside it; v5 is kept)*
+- **Literature Survey Matrix.xlsx** — 53 papers × 24 cols, new **Speaks To / Effect on the Gaps** column *(superseded: 59 papers)*
+- Dataset Comparison Matrix.xlsx — standalone file, **still the old 21-row version**; the consolidated workbook's Dataset sheet supersedes it *(resolved 18 Oct: rebuilt as a 17-row mirror of the Dataset sheet)*
 
 Sentiment out of scope throughout (supervisor, 20 Sep 2026, Final). Sentiment papers retained in the survey matrix under the granted exception.
 
@@ -93,33 +127,33 @@ Surviving claim: *continuously vary the influence weight of methodologically het
 
 **Sub-gap 2 — sharpened, rating holds 3.5.** Broad claim withdrawn: Deep Learning for Portfolio Optimization operationalises volatility *level* daily via a target-volatility scaler, and that non-learned scaler does most of the risk work (Sharpe 0.929→1.526). What survives is the **persistence** half, now aimed at that named component: an EWMA half-life assumes exponential decay, exactly what the CSE long-memory result contradicts. **Testable on the source paper's own four-ETF setup before any CSE data** — takes the blocker off this component's path. Run it first.
 
-## Conditioning set — resolved
+## Conditioning set — specified, not closed *(restated 18 Oct)*
 
 | Term | Status |
 |---|---|
 | L_t liquidity | **KEEP**, strengthened. Granger on CSE: volume → ASPI at p=0.0041. Three jobs from one measurement. Runs on Amihud, turnover, zero-return frequency and the high–low range — no EDGE component |
 | V_t volatility | **KEEP**, specify estimator (Parkinson/Garman-Klass — 5-min RV unavailable), pin window |
 | P_t persistence | **KEEP**, now locally evidenced. Three CSE papers detect clustering and discard it (ARCH stat 86.55 on ASPI, addressed only with robust SEs) |
-| C_i,t confidence | **REDEFINED** — structural property of the output, not a self-report. Four notes converge |
+| C_i,t confidence | **REDEFINED** — structural property of the output, not a self-report. Four notes converge *(18 Oct: five, and adaptive conformal inference now supplies the A_V mechanism that was left open)* |
 | Abstention channel | **ADD** — the one structural addition. A_F expected unusable >50% of the time |
 | Pairwise conflict score | Pre-registered test, not adopted |
 | Macro block | **REJECTED** — ARDL adj R²=0.189 on five macro vars over a decade; Granger nulls for money supply and inflation |
 
-Four-agent pool **confirmed unchanged** — no note in 53 proposes adding or removing an agent.
+Four-agent pool **unchanged by the reviews but provisional** — no note in the 59 proposes adding or removing an agent. *(Restated 18 Oct: v5 wrote "confirmed" and "resolved", which overstate the evidence and conflict with the standing rule that the agent set and conditioning set are provisional.)*
 
 ## Open items
 
 **Closed:** CSE Neo4j Graph-RAG verified (Shamila, Silva & Talagala, ERU 2025, DOI 10.31705/ERU.2025.35, Moratuwa — same dept, reachable, public repo, best lead on data access). Almgren-Chriss citation verified. Confidence mechanism now specified. Sentiment sources cleared from the Dataset sheet. EDGE propagation complete (11 Oct).
 
 **Open:**
-1. **Per-counter CSE data** — restated 27 Sep. Index track secure. Per-counter archive is **374 days × ~300 counters ≈ 100k sequences at L=30**, better than previously assumed. The binding question is now *how many counters clear a liquidity screen*.
+1. ~~**Per-counter CSE data**~~ — **LARGELY CLOSED 18 Oct.** The 374-day figure was the Chindara archive. The project's own extraction holds 2012-01-02 to 2026-10-02, about 14.75 years, 323 securities, roughly 829,070 security-day observations. The binding question remains *how many counters clear a liquidity screen*, and a new one is added: the series is unadjusted for corporate actions and must be corrected first.
 2. **Listing/delisting register** — hard blocker. Without it the universe is survivorship-biased in the direction that flatters returns. Ask by name; if refused, state the bias and its direction.
 3. Minimum estimation window for persistence + turbulence indicator — resolve together in one experiment.
 4. CSE R&D letter — **one consolidated request**: per-counter history, delisting register, and the microstructure feature list. **Raised to the top item on 11 Oct: bid/ask and depth are now the only route to a measured spread, not a validation extra.**
 5. Put the narrowed CSE justification to the supervisor (my reading, not theirs), together with the two Sub-gap 1 caveats.
 6. **Run the three blocker-independent experiments now:** the liquidity screen, the cost-parameter sweep on Guo et al.'s own datasets, and tick-size classification on CSE counters from top-of-book alone. The last is decisive and nearly free.
 7. Re-check the gap statement before submission (Agentic Trading snapshot closed 2026-03-09).
-8. **Prior Work Contrast sheet** still lives only in v5, not in the consolidated workbook.
+8. ~~**Prior Work Contrast sheet** still lives only in v5~~ — **decided 18 Oct.** It lives in v5 and v6. The consolidated workbook keeps only its existing three gap sheets by decision, so this is closed rather than outstanding.
 
 ## Corrections
 
