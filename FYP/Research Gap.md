@@ -1,6 +1,6 @@
 ---
 status: current
-revised: 2026-10-12
+revised: 2026-10-18
 written_against: 59 reviews
 tags:
   - working-doc
@@ -55,7 +55,7 @@ This belongs before the prior-work contrast, because it is a stronger objection 
 
 **The objection.** [[Forecast combinations, An over 50-year review]] documents the **forecast combination puzzle**: across fifty years of evidence, the equally weighted combination is persistently hard to beat, and the usual reason sophisticated schemes lose is that weight-estimation error exceeds the gain from better weights. The review derives two guidelines that cut in opposite directions for this project:
 
-1. With limited historical data, the simple average or weights ignoring covariances are recommended. My per-counter archive is 374 trading days, so this points at equal weights.
+1. With limited historical data, the simple average or weights ignoring covariances are recommended. **[corrected 18 October 2026]** This was written against a 374-day archive and read as pointing at equal weights. The per-counter archive is in fact 2012-01-02 to 2026-10-02, roughly 3,400 trading days per counter, so the guideline bites far less hard than this note assumed. It still bites, because the components are themselves estimated on illiquid and intermittently traded series and calendar depth is not effective sample size on a counter that trades on a third of its days, but equal weights is no longer favoured by the data-length guideline on its own.
 2. Structural change affects sophisticated schemes more than the simple average, and changing weights are a legitimate response to it. This is the entire premise of conditioning on state.
 
 Which effect dominates on this data is the experiment. The review is explicit that there is no comprehensive quantitative guidance on when to choose which, so **an answer on a thin frontier market is a contribution even if the answer is that equal weights win.**
@@ -73,7 +73,7 @@ Which effect dominates on this data is the experiment. The review is explicit th
 
 The pre-registration has to separate two failure modes that look identical in the output: the weighting genuinely not helping, which is the field's prior, against the weighting helping and the two-step test being unable to see it. The first says abandon the conditioning, the second says change how it is estimated or tested. The review also warns that standard errors for a combined forecast are nontrivial because the weights are random and correlated with the forecasts, which is a direct warning about significance testing on the weighted output.
 
-**One design decision this settles and one it changes.** It settles the absence of a pairwise interaction term: Bates and Granger, Newbold and Granger, and Winkler and Makridakis between them say ignoring error covariances is the better practical choice because covariance estimates are unstable, and with four agents the full matrix costs ten parameters out of 374 days. That is now a cited choice rather than a simplification. What it changes is the abstention floor, below.
+**One design decision this settles and one it changes.** It settles the absence of a pairwise interaction term: Bates and Granger, Newbold and Granger, and Winkler and Makridakis between them say ignoring error covariances is the better practical choice because covariance estimates are unstable, and with four agents the full matrix costs ten parameters out of 374 days. **[corrected 18 October 2026]** The parameter count is unchanged but the denominator is not: roughly 3,400 trading days per counter, not 374. Ten covariance parameters against four diagonal ones is no longer self-evidently too many at that sample size, so the omission has to rest on the instability of covariance estimates, which is what the cited authors actually argue, rather than on a parameter count. State it that way. What it changes is the abstention floor, below.
 
 ---
 
@@ -125,10 +125,12 @@ The honest form of the argument is this. Reliability varies more here than on a 
 - **Chen et al. (ICAIF '22)** build a queue-reactive LOB simulator and quantify the error from ignoring impact at 3.04 bps.
 - **Wang, Gao and Li (Finance and Stochastics, 2026)** implement Almgren-Chriss in closed form. **This is the 2026 market-impact work the supervisor cited.** They were right, that open item is closed.
 
+**The cleanest reference case for why this sub-gap exists** **[corrected 18 October 2026]** is Gu, Kelly and Xiu. Their best strategy is an equal-weighted decile spread returning 3.3% per month at an out-of-sample Sharpe of 2.35, with monthly turnover of 114.08%, on a universe that retains sub-$5 stocks by explicit choice, and there are no transaction costs anywhere in the paper. Their own results bound what that leaves out: value weighting alone, with no costs introduced, drops NN3's Sharpe from 2.32 to 1.25 and OLS-3's from 0.89 to 0.27, which is a partial and unacknowledged cost estimate and should be cited as one. Liquidity appears there as a predictor family and is absent as a friction, which is the division of labour this sub-gap sits inside.
+
 **What survives, narrower but cleaner.** Four things, and the fourth matters most:
 
 1. Both existing treatments use a **linear or square-root** impact form. Neither tests a nonlinear one against data.
-2. **No participation-rate sweep anywhere.** Chen et al. run everything at one inventory and horizon, Wang et al. everything at 10% of ADTV, so the shape of the cost curve in order size is empirically untested across the set.
+2. **No participation-rate sweep in the reviewed set.** Chen et al. run everything at one inventory and horizon, Wang et al. everything at 10% of ADTV, so the shape of the cost curve in order size is empirically untested across the set.
 3. **No thin-book calibration.** Both are calibrated on deep markets, universes trading two to 115 million shares a day. A frontier market's book is a different object.
 4. **No allocation system puts cost inside the objective.** Every one deducts it afterwards. If the cost of a rebalance does not enter the function being optimised, the optimiser has no reason to prefer a cheaper path to the same position. Guo et al.'s transaction remainder factor is the container that lets a cost term stay inside a convex objective, and substituting a state-dependent cost into it is the constructive move.
 
@@ -212,7 +214,7 @@ State that these are pre-registered tests, so nobody thinks they were quietly dr
 
 [[Predicting Financial Market Stress with Machine Learning]] is a BIS working paper doing, at market level and monthly, something close to what $L_t$ and $V_t$ are supposed to be. Two results from it constrain this design directly.
 
-**The parsimony warning.** Eighty-four monthly observations against 44 predictors produced a model that beat its benchmark **in-sample everywhere and lost out-of-sample everywhere**, at monthly frequency on the deepest markets in the world. The conditioning set here is four state variables plus a per-agent confidence term, which is far smaller, but the training sample is 374 trading days per counter and the pressure to widen the state vector as reviews suggest additions is exactly what produced that result. **The commitment is that any proposed addition to $f(L_t, V_t, P_t, C_{i,t})$ has to beat the existing set out-of-sample on the ablation protocol, not in-sample, and the static learned-weight baseline stays in as the shrinkage-equivalent control.**
+**The parsimony warning.** Eighty-four monthly observations against 44 predictors produced a model that beat its benchmark **in-sample everywhere and lost out-of-sample everywhere**, at monthly frequency on the deepest markets in the world. The conditioning set here is four state variables plus a per-agent confidence term, which is far smaller, but the training sample is roughly 3,400 trading days per counter **[corrected 18 October 2026]**, previously stated here as 374, and the pressure to widen the state vector as reviews suggest additions is exactly what produced that result. **The commitment is that any proposed addition to $f(L_t, V_t, P_t, C_{i,t})$ has to beat the existing set out-of-sample on the ablation protocol, not in-sample, and the static learned-weight baseline stays in as the shrinkage-equivalent control.**
 
 **The scoping test, and it comes before the agent build.** In that paper the forest beat a one-lag quantile AR in two markets out of three, and the market where it failed was the Treasury market, the one whose state is least predictable from anything other than itself. The CSE analogue is a direct check: **if a quantile AR(1) on $L_t$ is as good as anything richer, the orchestrator conditions on the lag and the state-forecasting machinery is dead weight.** That is a cheap test and it should be run before anything is built on top of it.
 
@@ -235,15 +237,17 @@ So the sub-gaps are not supporting work that happens to be nearby. They are the 
 
 That is also why the ordering in the matrix matters: if either sub-gap fails to produce a usable signal, the main gap loses one of its two legs.
 
-**What changed about that risk.** It is smaller than it was. Sub-gap 2 is testable on someone else's published setup before any CSE data arrives. The per-counter archive is 374 trading days across roughly 300 counters, about 100,000 training sequences at a 30-day lookback, and a four to five day lookback is better supported by the only local evidence on window length, which would yield far more. The index track, ten years daily from 1 July 2014 to 30 June 2024, was never in doubt. The binding question was never *how many years exist*, it is **how many counters clear a liquidity screen**, and that is answerable from data already in hand.
+**What changed about that risk.** It is smaller than it was. Sub-gap 2 is testable on someone else's published setup before any CSE data arrives. The per-counter archive is roughly 3,400 trading days across 323 securities, about 829,070 security-day observations **[corrected 18 October 2026]**, previously stated here as 374 days across roughly 300 counters. At a 30-day lookback that is on the order of 820,000 training sequences rather than 100,000, and a four to five day lookback would yield more again. Coverage is uneven and that is the figure to quote carefully: the median security carries about 2,935 trading days and the tenth percentile about 1,081, so 14.75 years is the envelope rather than what most counters hold. The index track, ten years daily, was never in doubt. The binding question was never *how many years exist*, it is **how many counters clear a liquidity screen**, and that is answerable from data already in hand.
 
-**One new constraint on that.** Adaptive conformal inference, the method behind $C_{V,t}$, is calibrated in its source on a 1250-day refit window with calibration scores from the same window. Five years of daily data per counter against 374 days in the archive. On the index track it transfers as written; on the per-counter track it does not, and the honest options are a shorter joint window with the calibration degradation reported, or pooling scores across counters, which breaks the per-counter conditioning the method relies on. This belongs in the data-depth discussion as a named requirement with a number attached.
+**One new constraint on that.** Adaptive conformal inference, the method behind $C_{V,t}$, is calibrated in its source on a 1250-day refit window with calibration scores from the same window. Five years of daily data per counter against roughly 3,400 trading days in the archive. **[corrected 18 October 2026]** **This constraint is withdrawn.** The archive clears the 1250-day window on both tracks, so the recipe transfers as written on the per-counter track as well as on the index track. What replaces it is narrower and still worth stating: because coverage is uneven, with a tenth percentile around 1,081 trading days, the window becomes a per-counter eligibility test rather than a blanket constraint, and counters that fail it should abstain rather than be fitted on a shortened window.
 
 ---
 
 ### The evaluation commitments this note implies
 
 Collected in one place because they are now scattered across six reviews.
+
+**0. A precondition before any of the numbers below mean anything** **[corrected 18 October 2026]****.** The per-counter series is not adjusted for corporate actions. JKH closes at 212.50 on 2024-10-28 and 21.20 on 2024-11-06, a share split appearing as a -90% return, and AAF shows a +767% move in 2019. Until an adjusted series exists, every return, volatility estimate, Amihud value, regime split and backtest is wrong on corporate-action days, and a spurious -90% would dominate any GARCH or FIGARCH fit it entered. The adjustment factors come from the CSE Data Library, items 01 to 05, and building the adjusted series is the first item in the data plan.
 
 1. **Baselines, five arms not three.** Equal weight. Static learned weight (Automate Strategy Finding is the reference implementation). Discounted inverse-MSE performance weighting, no market state. State-conditioned, the proposal. Oracle weights fitted on the test window. Plus a Stock and Watson inverse-$k$ sweep, which is one parameter and maps the whole continuum from equal weights to winner-take-all.
 2. **Baseline 2 must be identical to the proposed system in every respect except the weighting function.** The CSE Graph-RAG paper's fatal flaw is that its proposed system got both the graph and the agent scaffolding while its baseline got neither. Do not reproduce it.

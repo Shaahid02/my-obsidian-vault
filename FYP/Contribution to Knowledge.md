@@ -1,6 +1,6 @@
 ---
 status: current
-revised: 2026-10-12
+revised: 2026-10-18
 written_against: 59 reviews
 tags:
   - working-doc
@@ -149,7 +149,9 @@ I have not found this for any market in the reviewed set, not just for the CSE. 
 
 ### K5. A liquidity-screened per-counter CSE dataset, with the screen itself reported as a statistic.
 
-270 counters of OHLCV over ten years as the envelope, with per-counter profiling for trading-day frequency, median turnover, zero-return frequency separated from non-trading, and Amihud. **The count of counters the trading-day filter removes on an average day is itself a liquidity statistic worth reporting.**
+323 securities of daily OHLCV, turnover and trade count from 2012-01-02 to 2026-10-02, roughly 829,070 security-day observations, with per-counter profiling for trading-day frequency, median turnover, zero-return frequency separated from non-trading, and Amihud. **[corrected 18 October 2026]** This previously read 270 counters over ten years, which was the Progress Update figure and understated the holding. Quote the envelope carefully: the median security carries about 2,935 trading days and the tenth percentile about 1,081.
+
+**The adjustment is part of the contribution, not a chore before it.** The raw extraction is not adjusted for corporate actions, confirmed on 18 October by direct inspection. A corporate-action-adjusted, liquidity-screened, survivorship-aware CSE panel with the adjustment factors and an event flag carried alongside is a materially more defensible artefact than a raw pull, and it is a precondition for every other number in this note. **The count of counters the trading-day filter removes on an average day is itself a liquidity statistic worth reporting.**
 
 Domain contribution. Per the supervisor on 13 September, do **not** promote dataset creation to a main theoretical contribution.
 
