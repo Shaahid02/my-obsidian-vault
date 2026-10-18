@@ -15,14 +15,14 @@ status: placeholder
 
 > **Verbatim record.** Do not edit, summarise, tidy or correct this file. Mark inaudible stretches `[inaudible]` and speaker guesses `[?]` rather than filling them in. All synthesis belongs in [[Week 4]].
 
-| | |
-|---|---|
-| **Session date** | TODO |
-| **Time** | TODO |
-| **Present** | TODO |
-| **Panel members** | TODO |
-| **Transcript source** | TODO (live recording / auto transcript / own notes) |
-| **Accuracy caveat** | TODO (e.g. auto transcript, speaker labels unverified) |
+|                       |                                |
+| --------------------- | ------------------------------ |
+| **Session date**      | 10/12/2026                     |
+| **Time**              | 21:30                          |
+| **Present**           | Salitha Perera, Shaahid Fathul |
+| **Panel members**     | Salitha Perera                 |
+| **Transcript source** | Live recording                 |
+| **Accuracy caveat**   | Auto transcipt                 |
 
 *Synthesis note:* [[Week 4]]
 
