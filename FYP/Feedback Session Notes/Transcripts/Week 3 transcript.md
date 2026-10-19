@@ -22,7 +22,7 @@ status: final
 | **Present**           | Sanjula Samarasekara, Shaahid Fathul |
 | **Panel members**     | Sanjula Samarasekara                 |
 | **Transcript source** | Live recording                       |
-| **Accuracy caveat**   | Auto transcipt                       |
+| **Accuracy caveat**   | Auto transcript                      |
 
 *Synthesis note:* [[Week 3]]
 
