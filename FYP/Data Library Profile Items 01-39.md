@@ -185,3 +185,62 @@ Dates appear as Excel serials in some columns and as `DD-MON-YY` strings in othe
 5. Declare whether the liquidity stratification is float-adjusted. It changes 31% of the bottom quintile either way.
 6. Build the company-name to security-ID crosswalk before attempting corporate-action adjustment.
 7. Write a per-item loader with a row-count assertion. Items 11, 16, 17, 21 and 37 all change layout or units partway through, and three of those fail silently rather than loudly.
+
+---
+
+## 7. Rights issues: the hardest of the five adjustments
+
+Splits and bonus issues are pure ratios. A rights issue is not, because shareholders pay cash at a subscription price below market, so the price adjustment runs through the theoretical ex-rights price:
+
+$$TERP = \frac{N \cdot P_{cum} + S \cdot X}{N + S}, \qquad \text{adjustment factor} = \frac{P_{cum}}{TERP}$$
+
+where $N$ is shares in issue, $S$ the new shares, $X$ the subscription price and $P_{cum}$ the cum-rights close. That needs three inputs item 04 only partly supplies.
+
+### Scale
+
+225 events over 2012 to 2026 across 174 distinct company names, between 7 and 27 a year. 133 of the 332 profiled companies, **40%**, had at least one rights issue inside the panel period. This is not a long-tail problem.
+
+### What item 04 supplies
+
+| Field | Populated |
+|---|---|
+| Consideration per share (the subscription price $X$) | 217 / 225 |
+| Proportion | 188 / 225, **but corrupted, see below** |
+| Date of provisional allotment | 177 / 225 |
+| Date listed | 185 / 225 |
+| Provisional and final allotment counts | 188 comparable |
+
+It supplies **no ex-rights date and no cum price**, which are the two remaining TERP inputs.
+
+### Three problems
+
+**The proportion column has been mangled by Excel time formatting.** Observed values include `6:01`, `2:01`, `1:08`, `3:14`, `5:24` and `14:45`. The ones with a leading zero in the second component are ratios reformatted as clock times: `6:01` is 6:1, `1:08` is 1:8. Others are ambiguous and cannot be recovered from the cell alone. Do not read this column directly. Derive the ratio from the provisional allotment divided by shares in issue at that date, using the item 16 annual anchors, and use item 04's proportion only as a sanity check on the derived value.
+
+**Provisional and final allotment diverge in 22% of events.** 146 of 188 were fully taken up; the other 42 were under-subscribed, with take-up ranging from 6.4% to 100% and a median of 74% among those. The worst cases: Blue Diamonds 2023 at 6.4% (486.6m provisional against 31.3m final), Kotagala Plantations 2017 at 12.7%, Lanka Realty 2020 at 18.5%, DFCC Bank 2019 at 36.9%.
+
+This matters because the two figures do different jobs. The **price** adjustment on the ex-date must use the **announced** terms, because that is what the market priced on the day. The **share count** change must use the **final** allotment, because that is what was actually issued. Using one number for both is wrong in roughly a fifth of events, and the error is large in the worst cases.
+
+**Item 04 is keyed by company name**, so the crosswalk problem in section 4 applies here too.
+
+### The missing ex-date is recoverable from the rights securities
+
+The 148 `.R` securities excluded from the equity universe are the dating mechanism. They carry 1,493 trade rows between 2010 and 2026, and the episodes are strikingly regular.
+
+A gap-based clustering (new episode after a 60-day gap) over 16 sampled symbols produced 50 clean episodes, almost all exactly 6 trading days long:
+
+| Symbol | Episodes |
+|---|---|
+| ACME.R0000 | 2010-08, 2014-10, 2022-07, 2026-02 |
+| CRL.R0000 | 8 episodes, 2010 through 2024 |
+| PMB.R0000 | 5 episodes, including two in 2021 |
+| COMB.R0000 / R0001 | identical dates: 2011-08, 2017-06, 2024-07 |
+
+Two things fall out. First, the README's warning about symbol reuse is confirmed and is worse than a nuisance: ACME.R0000 covers four separate issues and CRL.R0000 covers eight, so the symbol is a company marker, not an event key. Second, `R0000` and `R0001` pairs carry **identical** episode dates, so they are the voting and non-voting rights of the same issue rather than sequential issues. Do not count them twice.
+
+**Method.** Cluster each `.R` series into episodes by trading gap. Each episode is one rights issue and its first trade date is, in practice, the ex-rights date, since the rights begin trading once the underlying goes ex. That gives a symbol-keyed, dated event list. Join it to item 04 on company plus approximate date to pick up the subscription price and the final allotment. Having a date on both sides makes that join far more reliable than name matching alone.
+
+$P_{cum}$ then comes from the underlying's close on the trading day before the episode starts, which the panel already has.
+
+### Verification available
+
+Because item 16 gives year-end share counts, the whole chain is checkable: apply the year's splits, bonuses, scrip dividends and final rights allotments to year-end $N$ and confirm the result against year-end $N+1$. Any residual points at a missed or misdated event. Run that check per security per year rather than in aggregate, since offsetting errors would cancel in a total.
