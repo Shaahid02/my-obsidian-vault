@@ -31,9 +31,15 @@ status: placeholder
 
 ## 0. To Raise This Session
 
-| # | Item | Origin | Raised? |
-|--:|---|---|:---:|
-| 1 | TODO, carried from [[Week 5]] §6 | [[Week 5]] | ☐ |
+Carried in from [[Week 5]] and [[Week 4]], before the session rather than after it.
+
+|   # | Item                                                                                                                  | Origin                              | Raised? |
+| --: | --------------------------------------------------------------------------------------------------------------------- | ----------------------------------- | :-----: |
+|   1 | Does the adaptive weighting mechanism, shown with its ablation, need changing? Asked in Week 5 and not answered       | [[Week 5]] §2.3                     |    ☐    |
+|   2 | Is 2010 to 2026 the full-study window with the Week 4 sizing applying to the PoC, or are the two in genuine conflict? | [[Week 5]] §3                       |    ☐    |
+|   3 | Does grouping volatility and liquidity into one PoC agent conflict with the instruction to define them separately?    | [[Week 4]] §6, not raised in Week 5 |    ☐    |
+|   4 | Is next-day direction adequate as the PoC instrument when the thesis claim concerns decisions rather than forecasts?  | [[Week 4]] §6, not raised in Week 5 |    ☐    |
+|   5 | Test the news and sentiment scope-exclusion defence on whoever is in the room, including the exogenous-shock case     | [[Week 5]] §2.5                     |    ☐    |
 
 ---
 
