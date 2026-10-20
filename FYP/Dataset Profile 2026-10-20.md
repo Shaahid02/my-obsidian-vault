@@ -165,3 +165,44 @@ Seven securities account for most of the total and need inspection before any ad
 6. Inspect the seven high-jump securities before building the adjustment table; treat the remaining jumps as corporate-action candidates to reconcile against items 01 to 05.
 
 Outputs: `extracted/profile/security_profile.csv`, one row per security with trading frequency, tau rate, zero-return rate, turnover, trade count, Amihud, annualised volatility and jump count.
+
+---
+
+## 8. Items 16 and 21 are annual series, not snapshots
+
+Both carry one sheet per year.
+
+| Item | Sheets | Coverage | Grain |
+|---|---:|---|---|
+| 16 List of Quoted Securities and Issued Quantity | 22 | 2005 to 2026 | Year-end issued quantity, ISIN |
+| 21 Market Capitalisation of Listed Companies | 28 | 1999 to 2026 | Year-end indexed price, indexed quantity, market cap |
+
+This changes the shares-outstanding build. There are 15 annual anchors inside the window, so the corporate actions in items 02 to 05 interpolate between known endpoints rather than extrapolate from a single point. Apply the year's actions to the year-end N figure and check the result against year-end N+1. The procedure validates itself, and any residual points at a missing or misdated action.
+
+### Scale of the interpolation
+
+Share of securities whose issued quantity changes against the prior year, item 16, equity only:
+
+| Year | Changed | Year | Changed |
+|---|---:|---|---:|
+| 2013 | 11.3% | 2021 | 21.5% |
+| 2015 | 20.3% | 2022 | 15.6% |
+| 2016 | 10.3% | 2023 | 15.4% |
+| 2017 | 13.4% | 2024 | 16.8% |
+| 2018 | 14.2% | 2025 | 12.4% |
+| 2019 | 13.3% | 2026 | 14.6% |
+| 2020 | 11.9% | | |
+
+Median around 14%, so roughly 45 securities a year and on the order of 600 change events across the window that need a date attached from items 02 to 05.
+
+### Three caveats that affect the build
+
+**Item 21 is not float-adjusted.** Its "indexed quantity" matches item 16's issued quantity for 100% of the common securities in 2024 and 99% in 2020 and 2026, with the handful of exceptions looking like class aggregation rather than a float rule. Item 21 therefore adds a year-end price and market cap but nothing on free float. Free float comes only from item 17, Public Holding, quarterly, 2012 to 2026.
+
+**Item 21 is company-level before 2017, in two different layouts.** From 2017 it carries a SECURITY TYPE column with full symbols. For 2013 to 2016 there is a company code and no security type. For 2012 and earlier the columns are company code, name, indexed shares, price, market cap, with shares and price in the opposite order. So voting and non-voting cannot be separated out of item 21 for 2012 to 2016; take those years from item 16 instead.
+
+**Item 16's 2014 sheet is company-level and needs a special case.** 2015 onward uses full security IDs such as `AAF-N-0000` against the issued quantity. The 2014 sheet puts bare company codes there and relegates full security IDs to a separate ISIN block that carries no quantity, so a reader written for the neighbouring years returns nothing for 2014. Either special-case it or bracket 2014 between the 2013 and 2015 anchors.
+
+### Coverage against the profiled universe
+
+Roughly 300 of the 356 profiled securities appear in any single year of items 16 and 21, the remainder having listed or delisted outside that year. Item 21 contributes nothing for 2012 at security level for the reason above.
