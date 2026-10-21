@@ -7,6 +7,8 @@ tags:
 ---
 *Created 20 October 2026. What a four-agent PoC requires from the data, in dependency order, with $A_F$ built last. Written against [[Data Cleaning Checklist]], [[Dataset Profile 2026-10-20]], [[Data Library Profile Items 01-39]] and the `FYP Dataset` repository. Schedule is deliberately absent: this note is about order and precondition, not dates. Sentiment is out of scope throughout.*
 
+*Revised 21 October 2026 against the repository's `docs/poc_build_verification_2026-10-21.md`. Figures are corrected or have their definitions stated, items 09, 11 and 13 are added to A0, and the EDGE window reflects the cleaned price layer. The remaining work is tracked in the repository's `docs/data_cleansing_tasks.md`.*
+
 ---
 
 ## 1. The shape of the job
@@ -30,7 +32,7 @@ Nothing in A2 to A6 can be reordered. A7 is independent of all of it and can run
 
 ## 2. A0. Loaders
 
-One loader per Data Library item, each asserting an expected row count and date range. Seven items change layout, units or meaning partway through their own history, and three of those fail silently rather than loudly ([[Data Cleaning Checklist]] 0.1).
+One loader per Data Library item, each asserting an expected row count and date range. At least ten items change layout, units or meaning partway through their own history, and three of those fail silently rather than loudly ([[Data Cleaning Checklist]] 0.1).
 
 | Item | The trap | Severity |
 |---|---|---|
@@ -40,6 +42,9 @@ One loader per Data Library item, each asserting an expected row count and date 
 | 07 | **A second header block at row 8380.** From 2020-01-02 the sector columns switch from the old scheme to GICS, with nothing in the data to signal it. Date, ASPI and SL20 keep their meaning. Any sector series read straight down this file across 2020 is two unrelated index families concatenated | Blocking |
 | 21 | Four layouts, not three. Voting and non-voting cannot be separated before 2017, so take those years from item 16 | Degrading |
 | 01 to 05 | Mixed date types within a single column. Item 01's 2021 DATE OF EX holds 105 serials and 105 strings. Some carry trailing non-breaking spaces | Degrading |
+| 11 | **Units and doubling.** Turnover and market cap switch from Rs Mn to Rs on 2025-01-02 (shares from '000 to units). Market cap is in **billions** from 2020-05-11 to 2020-06-30. Turnover, shares and trades are **doubled from 2025-07-28** (turnover to 2025-12-31; shares and trades to 2026-06-30). There is a text market cap on 2006-10-05 and a note row ("Market Halted") on 2026-01-07. Market aggregates must come from the summed panel, not from item 11 | Blocking |
+| 13 | The 2026 "Trades (No) Equity" row holds a figure in millions (4.046958), and "Foreign (No Mn)" shares hold a raw count | Degrading |
+| 09 | Text cells (ASTRI 2008-11-10). MTRI is blank from 2013-01 to 2017-03. Bad prints are listed under $A_V$ | Degrading |
 | 39 | Market Cap sheet column D rows 2365 to 2425 are date-formatted and read as errors unless raw values are requested | Degrading |
 
 > The checklist's own framing of why these matter is worth keeping in front of the build: the three errors found in the original checklist all came from checking that a field existed and had a plausible magnitude, without checking that it carried information or was internally consistent at a small multiple.
@@ -51,7 +56,7 @@ One loader per Data Library item, each asserting an expected row count and date 
 | What | Detail |
 |---|---|
 | Base panel | `extracted/daily_share_prices/`, not `historical_trades/`. 46 N and X securities are in the official panel and absent from the API, a 12.8% gap of 359. The API-only route would exclude them, and that exclusion spans a sovereign default |
-| Universe | 359 equity securities profiled, 335 voting and 24 non-voting. 356 have at least 60 aligned days, giving 853,577 rows. Rights, warrants, preference and unit instruments excluded |
+| Universe | 357 equity securities trade in the window, 333 voting and 24 non-voting. The figure is 359 (335 voting) if HDEV and SUGA are counted; both stopped trading in November 2011. 356 have at least 60 aligned days (calendar trading days between first and last trade), giving 853,535 traded rows. Rights, warrants, preference and unit instruments excluded |
 | Listing and delisting | Item 06 was never supplied. Reconstruct dates from first and last appearance across the yearly files. Reasons are not recoverable, so voluntary delistings cannot be separated from failures. Report that as a residual limitation rather than carrying it silently |
 | Name crosswalk | Build company-name to security-ID from item 16, across all years. Items 02, 03 and 04 carry only Company or Name columns, so without this the three largest share-count actions cannot be joined at all |
 | Calendar | 3,920 validated trading days, 2010 to 2026-06-30, matching both the Data Library annual Market Days figure and the annual reports for all 17 years. Forward-fill for the $\tau_t$ construction and keep a traded flag, so a zero-volume day stays distinguishable from a non-trading day |
@@ -66,8 +71,8 @@ The precondition for every return, and therefore for all four agents and the who
 
 | Item | Keyed by | Joins cleanly? | Notes |
 |---|---|---|---|
-| 05 splits | Company ID | Yes | 93 splits 2012 to 2026. 145 of 149 line up with a one-day drop above 25% within seven days of the recorded effective date. The four misses are JKH twice and SAMP in 2010, small ratios where no 25% drop is expected, and SING in 2021, which shows no drop and is worth checking |
-| 01 dividends | Security ID | Yes | Carries rate, ex-date, payment date, cum and ex price. Roughly 210 announcements a year, on the order of 3,000 across the window |
+| 05 splits | Company ID | Yes | 95 rows on the 2012 to 2026 sheets, 85 distinct company-date events once within-year duplicates are merged. One effective date is stored as text (ASPH, '22-05-2020'). Counting from 2010, with voting and non-voting shares tested separately, 145 of 149 line up with a one-day drop above 25% within seven days of the recorded effective date. The four misses are JKH twice and SAMP in 2010, small ratios where no 25% drop is expected, and SING in 2021, which shows no drop and is worth checking |
+| 01 dividends | Security ID | Yes | Carries rate, ex-date, payment date, cum and ex price. 3,177 rows from 2012 to 2026, about 219 a year (160 in 2020 to 259 in 2017) |
 | 03 bonus issues | Company name | No | Needs the crosswalk |
 | 02 scrip dividends | Company name | No | Needs the crosswalk |
 | 04 rights issues | Company name | No | The hardest of the five. See below |
@@ -78,7 +83,7 @@ A rights issue is not a pure ratio, because shareholders pay cash below market, 
 
 $$TERP = \frac{N \cdot P_{cum} + S \cdot X}{N + S}, \qquad \text{factor} = \frac{P_{cum}}{TERP}$$
 
-Item 04 supplies $X$ for 217 of its events and supplies neither the ex-date nor $P_{cum}$. Three problems, each with a route through:
+Item 04 supplies $X$ for 217 rows from 2012 to 2026, including share-class sub-rows (197 from 2013, the base of the 192 events below). It supplies neither the ex-date nor $P_{cum}$. Three problems, each with a route through:
 
 **The proportion column is corrupted.** 87 cells are formatted `h:mm`, across 2008 to 2010, 2012 to 2015 and one in 2024. Six cases cannot be recovered from the cell at all. Derive the ratio from provisional allotment divided by shares in issue at that date, using the item 16 anchors, and use item 04's proportion only as a sanity check on the derived value.
 
@@ -119,11 +124,11 @@ Item 16 year-end anchors interpolated with the dated actions from 02 to 05. Betw
 
 ### A4. Crossing-stripped volume and turnover
 
-Item 37 holds individual crossing trades with a trade date, security ID, price and quantity: 26,096 trades across 10,711 distinct security-date pairs. It can be stripped at daily per-security granularity.
+Item 37 holds individual crossing trades with a trade date, security ID, price and quantity: 26,096 trades across 10,711 distinct security-date pairs counting from 2011, or 24,921 across 9,985 within the 2012 to 2026 H1 window. It can be stripped at daily per-security granularity.
 
 **Why this is not optional.** Crossings run from 8.8% of annual market turnover in 2021 to 47.4% in 2017, and per security over the whole period the median is 15.8% with a 90th percentile of 53.6%. Amihud, relative volume, turnover ratio and trade intensity all divide by volume they assume is continuous order-book trading. A crossing is a pre-negotiated transfer that consumed no book depth, so a counter whose turnover is heavily crossed looks liquid on those measures without being liquid. Left uncorrected the liquidity state is systematically wrong for roughly a third of the universe, in the direction of overstating liquidity.
 
-**Mechanics.** Subtract with a floor at zero and flag the exceptions rather than letting volume go negative: on 90.7% of crossing security-days the crossing quantity is at or below panel volume, median ratio 0.751, and on 9.3% it exceeds. Resolve the above-100% cases first, since the fix differs by cause: AGST.X0000 at 144.7%, SHAW.N0000 at 110.9% and MERC.N0000 at 102.1% are impossible if crossings are a subset of reported turnover, so either they are partly additive or there are date or symbol mismatches between the two files.
+**Mechanics.** Subtract with a floor at zero and flag the exceptions rather than letting volume go negative: on 90.7% of crossing security-days the crossing quantity is at or below panel volume, median ratio 0.751, and on 9.3% it exceeds. Resolve the above-100% cases first, since the fix differs by cause: AGST.X0000 at 144.7%, SHAW.N0000 at 110.9% and MERC.N0000 at 102.1% are impossible if crossings are a subset of reported turnover, so either they are partly additive or there are date or symbol mismatches between the two files. AGST.X0000's figure comes from a single crossing, on 2023-12-20, a day with no row in its price file, so that case at least looks like a join defect. COF.U0000 is also above 100% (177.8%); it is a fund unit outside the N and X universe, so exclude it and say so.
 
 **The contamination is bounded.** 20.3% of 25,901 crossings price outside the day's high-low range, so crossings are excluded from the high-low calculation while being included in volume. EDGE's inputs are open, high, low and close, which are board-only and uncontaminated. The crossing problem is confined to Amihud, relative volume and turnover ratio.
 
@@ -133,13 +138,13 @@ The per-security figure is sensitive to the variant chosen: volume-based gives 1
 
 Item 17, quarterly, 2012 to 2026 H1. 283 observations are exactly 0 and must be treated as missing rather than as a value, or any float-adjusted ratio divides to infinity. There are 0 values above 100%, the maximum being exactly 100.0 with 261 observations at it, and 424 non-zero values below 1% across 24 securities. Winsorise or exclude the sub-1% tail and say which. Median float is 25.0%, and 49.96% of observations sit below 25%.
 
-> **Float adjustment is a methodology decision, not an implementation detail.** Comparing raw median daily turnover against turnover divided by float, the least-liquid quintile retains only 69% of its membership. Nearly a third of the bottom quintile changes identity depending on which measure is used. My reading is that float-adjusted turnover is the better measure of tradeable liquidity on a market where half the counters have under a quarter of shares in public hands, but the raw version belongs alongside it as a robustness check, and the choice has to be declared rather than inherited from whichever the code happened to implement.
+> **Float adjustment is a methodology decision, not an implementation detail.** Comparing raw median daily turnover against turnover divided by float (each security's median float over the quarters, zeros excluded), the least-liquid quintile retains only 69% of its membership. Using the latest float instead gives 68%. Nearly a third of the bottom quintile changes identity depending on which measure is used. My reading is that float-adjusted turnover is the better measure of tradeable liquidity on a market where half the counters have under a quarter of shares in public hands, but the raw version belongs alongside it as a robustness check, and the choice has to be declared rather than inherited from whichever the code happened to implement.
 
 ### A6. Spread
 
-**The window is non-contiguous, and this is the finding that affects protocol design.** The open field is populated from 2017, but in 2017, 2018 and 2025 every open equals that day's close, so all open-based terms in EDGE collapse to zero identically and the estimator returns numbers without erroring. Genuinely informative opens exist for 2019 to 2020, 2021-04 to 2024-12 and 2026 H1, with the cleaned layer extending coverage through tagged API and TradingView fills.
+**Which price layer feeds EDGE is the finding that affects protocol design.** In the raw source files the open field is populated from 2017. But in 2017, 2018, 2021 Q1 and 2025 every open equals that day's close, so all open-based terms in EDGE would collapse to zero identically and the estimator would return numbers without erroring. The repository's official layer (`daily_share_prices/`) has those opens **blank**, not equal to the close, so EDGE run on it sees missing values rather than degenerate ones. Genuine official opens exist for 2019 to 2020, 2021-04 to 2024-12 and 2026 H1.
 
-So the usable EDGE period is roughly six years with **2025 as a hole in the middle**. Any walk-forward design assuming an unbroken sequence needs reworking rather than patching. Use CHL where the open is absent or degenerate, and report EDGE and CHL separately rather than splicing them into one series.
+The cleaned layer (`clean_daily_prices/`) fills real opens from the API and TradingView, each tagged with `open_source`. Coverage is 99.8% in 2025 and 86 to 92% in 2012 to 2018. Official and API opens agree on 100% of rows where both are real. So EDGE can run nearly contiguously from 2012 on the cleaned layer, with the official-only window as the robustness check, and **2025 is a hole only if the official layer is used**. The remaining gaps are 2010 to 2011 and securities that neither the API nor TradingView covers, mostly delisted ones. Use CHL where the open is missing, and report EDGE and CHL separately rather than splicing them into one series.
 
 Report, for every spread series, the fraction of non-positive squared estimates. It is the only visible signal that the truncation bias is distorting the number.
 
@@ -147,9 +152,9 @@ Report, for every spread series, the fraction of non-positive squared estimates.
 
 ## 6. The decision that has to be settled before any spread is computed
 
-54,796 of 853,577 rows, 6.41% from 2012, carry a close outside the day's high-low range. The median trade count on a violating day is exactly 1 in every liquidity quintile, and deviations are small, median 0.44% of price.
+54,796 of 853,535 rows in the 356-security universe, 6.42% from 2012, carry a close outside the day's high-low range (6.41% across the whole panel, 55,410 of 864,264). The median trade count on a violating day is exactly 1 in every liquidity quintile. The median deviation is 2.56% of the close, with a mean of 4.1%.
 
-**The key fact is that 99.9% of violations, 55,354 of 55,410, have close equal to the previous close.** These are stale carried-forward reference prices rather than erratic ones, which looks like the CSE closing-price rule producing a reference price instead of a transaction price on days with negligible trading. It appears in the official files, so it is not an extraction defect.
+**The key fact is that 99.9% of violations, 54,743 of 54,796 (55,354 of 55,410 across the whole panel), have close equal to the previous close.** On these days the median high-low range is zero: a single trade printed away from a carried-forward close. These are stale carried-forward reference prices rather than erratic ones, which looks like the CSE closing-price rule producing a reference price instead of a transaction price on days with negligible trading. It appears in the official files, so it is not an extraction defect.
 
 Ardia, Guidotti and Kroencke treat rows where the open or close falls outside the high-low range as missing and drop them. But a stale carried-forward close is precisely what their $\tau_t = 0$ flag exists to identify, so these rows may belong in the estimator as $\tau_t = 0$ observations rather than being excluded. The two treatments give different usable sample sizes and different discreteness corrections, and the choice does not follow from the paper.
 
@@ -167,13 +172,13 @@ Price granularity breaks at 2021-01. 2011 to 2016 and 2020 are entirely on a 10-
 
 ### $A_V$ volatility
 
-Range estimators need high and low from the adjusted panel. 121 rows have a blank high or low, 23 fully blank and 98 close-only, across 2014 to 2025.
+Range estimators need high and low from the adjusted panel. 144 rows have a blank high or low: 23 with no prices at all (2010 to 2014) and 121 with a close only (2014 to 2025). Range estimators must skip them (repository DC-05).
 
-At index level the ASPI is clean across the window and carries 15.1% annualised volatility, with annual figures running from 5.6% in 2017 to 31.6% in 2022. That is a factor of 5.6 between the quietest and the most volatile year, with the regimes falling where expected, so the regime variable has real variation and does not need hand-dating.
+At index level the ASPI is clean across the window and carries 15.1% annualised volatility, with annual figures running from 5.6% in 2017 to 31.6% in 2022 (log returns on the official calendar, annualised with √240; √252 gives 15.5%, 5.7% and 32.4%). That is a factor of 5.6 between the quietest and the most volatile year, with the regimes falling where expected, so the regime variable has real variation and does not need hand-dating.
 
-The S&P SL20 has one bad print at 2019-07-12, which alone produces 109.7% annualised 2019 volatility against 13.5% without it, and kurtosis of 821 against 21.8. ASTRI has a bad print at 2015-05-20 and several more outside the window. Repair or exclude before use, and scan each series separately.
+The S&P SL20 has one bad print at 2019-07-12, which alone produces 109.7% annualised 2019 volatility against 13.5% without it, and kurtosis of 821 against 21.8. ASTRI has a single bad print in the window on 2015-05-20 (−23.6%, then +31.1%). It has five more in 2007 to 2010, including **+648% on 2010-07-06**, which matter for the pre-2012 stress sample. The SL20 TRI has bad prints on 2012-07-10, 2014-09-30, 2015-05-20 and 2017-07-19. Repair or exclude before use, and scan each series separately.
 
-**For $P_t$, the persistence term has something to estimate on this sample.** GPH at $m = 58$ on the ASPI 2012 to 2026 gives $\hat{d} = 0.407$ on absolute returns and 0.364 on squared returns, both more than two standard errors from zero, against $-0.084$ on returns themselves as a negative control. Absolute returns still show autocorrelation of 0.108 at a one-year lag. This is a feasibility result on one index and one sample, and should be scoped to that rather than presented as a characterisation of the market.
+**For $P_t$, the persistence term has something to estimate on this sample.** GPH at $m = 58$ on the ASPI 2012 to 2026 gives $\hat{d} = 0.408$ on absolute returns and 0.365 on squared returns, against $-0.085$ on returns themselves as a negative control. With the asymptotic standard error $\pi/\sqrt{24m} = 0.084$, the first two are more than four standard errors from zero. (The earlier figure of "more than two" used $\pi/\sqrt{6m}$, which overstates the standard error by a factor of two.) Absolute returns still show autocorrelation of about 0.10 at a one-year lag: 0.102 at lag 250 on the official calendar. The earlier 0.108 included the 2026-01-07 halt day, which item 07 carries as a repeated value. This is a feasibility result on one index and one sample, and should be scoped to that rather than presented as a characterisation of the market.
 
 ### $A_L$ liquidity
 
@@ -185,9 +190,20 @@ Everything in §5, plus the $\tau$ and stratification material from [[Dataset Pr
 | Q3 | Rs 145,514 | 93.0% | 13.9% | 13 |
 | Q5 most liquid | Rs 2,230,554 | 99.5% | 1.6% | 44 |
 
-A factor of 114 in turnover and 27 in the $\tau = 0$ rate between the extremes. A pooled estimate would conceal the regime the contribution is about, so stratify rather than average. Median annualised volatility runs 58.0% in Q1 down to 42.2% in Q5, so the least liquid counters are also the most volatile, which is the combination $A_V$ and $A_L$ are supposed to handle jointly.
+Definitions: the universe is the 356 N and X securities with at least 60 aligned days. Quintiles are by each security's median turnover over the days it traded (71/71/71/71/72 securities). Trading frequency is traded days divided by aligned days. In this table, **non-traded days count as $\tau = 0$**.
 
-Candidate universe: 234 voting securities trading on at least 60% of days with at least 2,000 aligned days, which supports a five-stratum design with roughly 45 securities per stratum and lets the stratum be an experimental factor rather than a robustness note.
+A factor of 114 in turnover and 27 in the $\tau = 0$ rate between the extremes. The 27 mostly reflects non-trading: over traded days only, $\tau = 0$ is 6.6% in Q1, 5.2% in Q3 and 0.9% in Q5, a factor of about 7. Report both. A pooled estimate would conceal the regime the contribution is about, so stratify rather than average.
+
+Median annualised volatility depends on how returns are built:
+
+| Return construction | Q1 | Q2 | Q3 | Q4 | Q5 |
+|---|---:|---:|---:|---:|---:|
+| Calendar-aligned, forward-filled (0 on non-traded days), √240 | 58.0% | 56.9% | 60.3% | 50.5% | 42.2% |
+| Consecutive traded days, √252 | 79.9% | | | | 43.2% |
+
+Forward-filling damps the volatility of thinly traded stocks, so under it Q3, not Q1, is the most volatile. On traded-day returns the least liquid counters are the most volatile, which is the combination $A_V$ and $A_L$ are supposed to handle jointly. State which construction is used.
+
+Candidate universe: 234 voting (N) securities trading on at least 60% of their aligned days with at least 2,000 aligned days (249 if non-voting shares are included), which supports a five-stratum design with roughly 45 securities per stratum and lets the stratum be an experimental factor rather than a robustness note.
 
 ### $A_F$ fundamental
 
@@ -215,10 +231,11 @@ Expected coverage should be written as a hypothesis rather than a fact: $A_F$ ma
 | 1 | Close-outside-range rows: drop, or admit as $\tau_t = 0$ | Changes every spread estimate and every usable sample size |
 | 2 | Float-adjusted or raw liquidity stratification | Changes 31% of the bottom quintile's membership |
 | 3 | Panel end at 2026-06-30, or splice the API to 2026-10-02 | Decide on source-consistency grounds. The original reason given for truncating, two different open definitions, was wrong |
-| 4 | How walk-forward handles the 2025 EDGE hole | A protocol assuming contiguity will silently train across a gap |
+| 4 | Which price layer feeds EDGE: cleaned (opens from 2012, source-tagged) with an official-only robustness run, or official only (2019 to 2020, 2021-04 to 2024-12, 2026 H1) | On the official layer a walk-forward assuming contiguity will silently train across the 2021 Q1 and 2025 gaps |
 | 5 | Crossings above 100% of panel turnover: additive, or a join defect | The fix differs by cause, and the subtraction cannot be built until it is known |
 | 6 | Non-trading day representation | Forward-fill for $\tau_t$ and keep the traded flag, per 1.4 |
-| 7 | Benchmark series | ASTRI rather than ASPI, since the price index excludes dividends |
+| 7 | Benchmark series | ASTRI rather than ASPI, since the price index excludes dividends. ASTRI needs its bad prints repaired first (2015-05-20 in the window; five in 2007 to 2010) |
+| 8 | Volatility return construction | Forward-filled and traded-day returns rank the quintiles differently (§7 $A_L$) |
 
 ---
 
@@ -228,7 +245,7 @@ Expected coverage should be written as a hypothesis rather than a fact: $A_F$ ma
 
 | Profile | Claim | Replaced by |
 |---|---|---|
-| §1 | Opens 100% present from 2017, so EDGE runs 2017 onward | Opens are degenerate in 2017, 2018 and 2025. EDGE runs 2019 to 2020, 2021-04 to 2024-12 and 2026 H1, non-contiguous |
+| §1 | Opens 100% present from 2017, so EDGE runs 2017 onward | Opens are degenerate in 2017, 2018, 2021 Q1 and 2025 (blank in the official layer). On official opens EDGE runs 2019 to 2020, 2021-04 to 2024-12 and 2026 H1, non-contiguous. On the cleaned layer it runs from 2012 (§5 A6) |
 | §3 | Least-liquid quintile violation rate 25.4% | 15.4%. No quintile definition tried exceeds 21.5% |
 | §5 | 24 securities below 10 EDGE observations per quarter, 6 below 3 | 2 and 1 among N0000, 3 and 2 including X. The original averaged over quarters before each security listed. No separate annual-window track is needed |
 | §6 | 14.7% survivorship uplift | 12.8%, 46 of 359. The original used the API count as the denominator. 5 of the 44 still trade in 2026, so "delisted" is loose |
