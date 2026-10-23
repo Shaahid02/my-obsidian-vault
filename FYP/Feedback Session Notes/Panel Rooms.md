@@ -41,7 +41,7 @@ Two points so far have been answered by a different member from the one who rais
 
 ## Administrative
 
-| Item | Value | Source |
-|---|---|---|
-| Course and mode | Part time | [[Week 5]] |
-| Group | Group four, roughly row 30 on the panel sheet | [[Week 5]] |
+| Item            | Value                                         | Source     |
+| --------------- | --------------------------------------------- | ---------- |
+| Course and mode | Software Engineering, Part time               | [[Week 5]] |
+| Group           | Group four, roughly row 30 on the panel sheet | [[Week 5]] |
