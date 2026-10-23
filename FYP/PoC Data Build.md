@@ -77,6 +77,17 @@ The precondition for every return, and therefore for all four agents and the who
 | 02 scrip dividends | Company name | No | Needs the crosswalk |
 | 04 rights issues | Company name | No | The hardest of the five. See below |
 
+> **Built (2026-10-23).** The adjusted panel is in `extracted/adjusted/` (DATA_CLEANING DC-28 to DC-32). It has a price-only series (`adj_close`) and a total-return series (`tr_close`). The choice between them (T3.5) is still open.
+>
+> **Item 05 is not reliable on its own.** SING 2021 is Singer (Sri Lanka), i.e. SINS. Item 05 also omits every consolidation and the December 2025 splits (its 2025 sheet ends in October), and 10 of the 16 rows on its 2026 sheet have the wrong ratio or are duplicates. That makes 31 corrections, each confirmed by both the price and item 16 (DC-30).
+>
+> **No documented date is an ex-date.** Measured from the price drops (DC-29):
+> - up to 2021, bonus, scrip and rights go ex 1 trading day after the allotment date;
+> - from 2022, bonus and scrip go ex on the date itself, and rights 2 days before it (1 day before from 2025);
+> - dividends drop on item 01's XD date.
+>
+> Scrip timing remains approximate.
+
 ### 4.2 Rights issues, the hard case
 
 A rights issue is not a pure ratio, because shareholders pay cash below market, so the price adjustment runs through the theoretical ex-rights price:
@@ -90,6 +101,8 @@ Item 04 supplies $X$ for 217 rows from 2012 to 2026, including share-class sub-r
 **Provisional and final allotment diverge.** 43 of 192 events, 22.4%, with minimum take-up 6.44% at Blue Diamonds non-voting in 2023. The two figures do different jobs: the price adjustment on the ex-date uses the **announced** terms, because that is what the market priced on the day, and the share count uses the **final** allotment, because that is what was issued. One number for both is wrong in roughly a fifth of events and badly wrong in the worst cases.
 
 **The ex-date is recoverable from the rights securities.** Cluster each `.R` series into episodes by trading gap. 267 episodes, of which 75.3% are exactly 6 traded days and 83.5% span 6 trading days, the rest running 1 to 5, 8 or 11. The first day of an episode is the ex-date in practice. $P_{cum}$ is then the underlying's close on the prior trading day, which the panel already holds.
+
+> **Correction (2026-10-23): the first day of the episode is not the ex-date.** The `.R` security first trades about 9 trading days after the provisional allotment (174 of 261), and by then the underlying has already dropped. The drop comes 1 trading day after the provisional-allotment date up to 2021, in 26 of 28 material events in 2014–2017; from 2022 it comes 1–2 days before it (DATA_CLEANING DC-29). Episodes remain useful for pairing R0000 and R0001, but not for dating.
 
 > **Conflict between the two profiles, and it changes the result.** [[Data Library Profile Items 01-39]] §7 states that R0000 and R0001 pairs carry identical episode dates and are the voting and non-voting rights of the same issue, so should not be counted twice. [[Data Cleaning Checklist]] 3.5 found that of 16 R0001 files only 10 share their R0000's dates: CDB, SHOT and TESS overlap partially, AAF and VLL never overlap and are separate issues, and NTB has an R0001 with no R0000. The checklist is the merged and cross-checked version, so **pair by date and do not assume**. Assuming the pairing double-counts some issues and misses others.
 
@@ -108,9 +121,13 @@ Inspect the seven securities carrying anomalous counts of one-day moves above 35
 
 Overall there are 1,076 such moves across 366 securities, or 344 across 184 for N and X from 2012.
 
+> **Resolved (DC-32).** These are genuine low-price trades: 726 of the seven securities' 733 large adjusted moves are at Rs 1 or less, where one Rs 0.10 tick is a 10%+ move. The higher-price moves are corporate actions, now adjusted. Nothing is excluded; the panel carries a `low_price` flag instead.
+
 ### 4.4 The check that validates the whole chain
 
 Apply each year's splits, bonuses, scrip dividends and final rights allotments to item 16's year-end share count and confirm against the next year-end. **Per security per year, not in aggregate**, because offsetting errors cancel in a total. Any residual points at a missed or misdated event. There are 15 annual anchors inside the window, so the actions interpolate between known endpoints rather than extrapolating from one.
+
+> **Result (DC-28).** Shares are counted from their listing year. Within 1% of item 16: bonus 100%, scrip 95%, splits 93% and rights 86% of security-years (baseline 97.4% for years without events). The check found the missing consolidations, a totals row read as an event, and duplicate events (DC-30, DC-31).
 
 ---
 
