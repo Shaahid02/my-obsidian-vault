@@ -27,13 +27,13 @@ All four are available. What this note does is choose which figures carry them.
 | Element | Current position |
 |---|---|
 | Base panel | The official daily share price extraction, **not** the API scrape |
-| Universe | 357 equity securities trading in the window, 333 voting and 24 non-voting, with rights, warrants, preference and unit instruments excluded. 356 have at least 60 aligned days |
+| Universe | `[CORRECTED 24 OCTOBER 2026]` **355 core securities and 233 candidates**, after DOCK was dropped on 24 October when its December 2025 capital change proved to be a rights issue absent from the register. Rights, warrants, preference and unit instruments excluded throughout. The superseded figures were 357 and 234 |
 | Observations | Roughly **853,535 traded rows** |
 | Calendar | **3,920 validated trading days**, 2010 to 2026-06-30, matching both the Data Library annual market-day figure and the exchange annual reports for all 17 years |
 | Per-counter depth | Median roughly **3,400 days**, 10th percentile 1,081 |
 | Turnover and trade count | **Held across the full span**, confirmed 18 October. Amihud and the turnover ratio therefore enter the liquidity composite over the whole window rather than a fragment |
 | Index track | ASPI clean across the window at 15.1 percent annualised volatility, with annual figures from 5.6 percent in 2017 to 31.6 percent in 2022 |
-| Corporate actions | Registers for splits, dividends, bonus issues, scrip dividends and rights issues, inside the purchased Data Library |
+| Corporate actions | Registers for splits, dividends, bonus issues, scrip dividends and rights issues, from the purchased Data Library. `[CORRECTED 24 OCTOBER 2026]` **The adjusted panel was built on 23 October**, in `extracted/adjusted/`, carrying a price-only series `adj_close` and a total-return series `tr_close`, with 31 register corrections each confirmed against both price and issued quantity |
 | Float | Quarterly public holding, 2012 to 2026 H1 |
 | Bid, ask, depth | <font color="#ff0000">Not held, and not available in any of the Data Library's forty items.</font> The outstanding request to the exchange is the only route |
 
@@ -117,7 +117,7 @@ This is the part that makes the slide a strategy rather than an inventory. Each 
 |---|---|
 | No listing and delisting register with effective dates | Series-end dates used as an explicit proxy, labelled as a proxy, residual bias reported. Voluntary delistings cannot be separated from failures |
 | No bid, ask or depth | The microstructure route is closed and the cost work runs on proxies for illiquidity. Stated as a bounded fallback that was declared in advance rather than discovered |
-| The adjusted series does not exist yet | Depends on the purchased registers. The proof of concept runs on a detect-and-exclude subset in the meantime |
+| Ex-date timing | `[CORRECTED 24 OCTOBER 2026]` The adjusted panel now exists, so the detect-and-exclude workaround is withdrawn. What remains is that **no documented date is an ex-date**: ex-dates were recovered from measured price drops, and `corporate_actions.csv` records reliability in `ex_date_basis` with **259 events marked approximate**. Daily-return models drop or flag a few days around those; longer horizons are unaffected |
 | Three known structural breaks | Named and handled in the methodology: the 2019 accounting standard change for lease-sensitive and PPE-derived features, nominal price distortion across 2020 to 2023 for rupee-denominated features, and a price-granularity break at 2021-01 for tick-based features |
 | Files checked for structure only | Several Data Library items have been checked for structure and coverage but not content. Given that every file examined so far has carried at least one defect, the unexamined ones are not assumed clean |
 
