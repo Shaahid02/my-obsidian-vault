@@ -1,6 +1,7 @@
 ---
 status: current
 created: 2026-10-23
+revised: 2026-10-24
 written_against: "[[PoC Data Build]]; [[Data Cleaning Checklist]]; [[Dataset Profile 2026-10-20]]; [[Data Library Profile Items 01-39]]; [[Research Matrices Status]]"
 tags:
   - working-doc
@@ -40,6 +41,34 @@ All four are available. What this note does is choose which figures carry them.
 
 ---
 
+## Part 1a. The study window
+
+> [!important]
+> **Decided 24 October: the full-study window is 2012 Q3 to 2026 Q2**, that is **2012-07-01 to 2026-06-30**, fourteen years.
+
+**The rationale is an index-regime boundary rather than data availability**, which is what makes it defensible to an examiner. The S&P Sri Lanka 20 was initiated on 18 June 2012 and launched on 26 June 2012, replacing the older Milanka Price Index. It is a free-float capitalisation-weighted large-cap index whose constituents are reviewed annually on size, liquidity and financial viability. Starting the window at the following quarter means the large-cap index methodology is constant across the whole sample, so no index-definition break sits inside the evaluation period.
+
+It also sits coherently beside the stratification decision below. If liquidity is stratified on a float-adjusted basis, then running over a period in which the market's own large-cap index is free-float weighted is consistent rather than coincidental.
+
+| Consequence | Detail |
+|---|---|
+| What it costs | The first half of 2012. The per-security panel runs from 2012-01-02, so roughly six months are given up to buy the clean index boundary |
+| What it resolves | The 2010 start given in [[Week 5]] §2.1 cannot be honoured at security level in any case, because the per-security panel begins in 2012. That is now a fact to report rather than a conflict to reconcile |
+| Regime coverage | The Easter attacks, COVID and the 2022 crisis all sit inside the window |
+| Proof-of-concept window | The roughly 2021 to 2024 slice in [[PoC Build Plan]] §3 sits inside it, so the two scales are nested rather than in conflict |
+| End date | 2026-06-30, consistent with the single-source decision below |
+
+> [!WARNING]
+> **Two things to state accurately rather than loosely.**
+>
+> The benchmark series for evaluation is **ASTRI**, not the SL20, because a price index excludes dividends. The SL20 launch is the reason for the window boundary, not the benchmark choice, and conflating the two would be easy to pick apart.
+>
+> The SL20 total-return series carries a bad print on **2012-07-10**, nine days into the new window, along with others on 2014-09-30, 2015-05-20 and 2017-07-19. Any use of that series needs those repaired or excluded first.
+
+**Still to confirm with the supervisor.** [[Week 4]] §2.5 gave two to five years for the proof of concept and [[Week 5]] §2.1 gave 2010 to 2026 for the study. The reading adopted here is that they answer different questions, a full-study envelope and a proof-of-concept slice inside it, but neither panel member said so, so it goes to the supervisor as a stated reading rather than as a settled fact.
+
+---
+
 ## Part 2. The template's table
 
 Data need, source, quality check, control. Four rows as the template asks, with the fourth adapted since there are no participants.
@@ -62,7 +91,21 @@ This is the part that makes the slide a strategy rather than an inventory. Each 
 
 **2. Crossings make a counter look liquid without being liquid.** A crossing is a pre-negotiated transfer that consumed no book depth, so Amihud, relative volume, turnover ratio and trade intensity all divide by volume they assume is continuous order-book trading. Left uncorrected the liquidity state is systematically wrong in the direction of overstating liquidity. The contamination is bounded: the estimator inputs are board-only and uncontaminated, so the problem is confined to the volume-derived measures.
 
+> [!important]
+> **Decided 24 October on finding 3 below, and it is two decisions rather than one.**
+>
+> **For the panel and the agents, these rows are retained with a flag, not dropped.** Dropping removes 15.4 percent of the least liquid quintile against close to nothing of the most liquid, which biases the universe toward liquid counters. That is the opposite of what this project needs, since the thin end of the cross-section is the regime the contribution is about.
+>
+> **For any spread estimate, if one is ever computed, they are admitted as degenerate observations rather than dropped**, because a stale carried-forward close is exactly the condition the estimator's own zero flag exists to identify, with sample size reported both ways. The honest caveat travels with it: this departs from the source paper's stated rule, and the estimator's behaviour under admitted rows is unvalidated on this market. Note that boundary requirement B4 currently excludes that estimator as a system component, so this half of the decision is contingent rather than live.
+
 **3. The published close is often not a traded price.** 6.4 percent of rows carry a close outside the day's high-low range, and **99.9 percent of those have a close equal to the previous close**, with a median high-low range of zero. A single trade printed away from a carried-forward reference price. This appears in the official files and is not an extraction defect. It is also a candidate staleness variable with a cleaner interpretation than zero-return frequency, and I have not found it quantified for the CSE in the literature I have covered.
+
+> [!important]
+> **Decided 24 October on finding 4 below: stratification is float-adjusted, with the raw version reported alongside as a robustness check.**
+>
+> Median float is 25.2 percent excluding zeros, and 49.2 percent of observations sit below 25 percent, so a capitalisation-based measure systematically overstates tradeable depth. Using the raw version as primary would also contradict the project's own premise, since mean institutional ownership of 66.1 percent against insider ownership of 5.7 percent is already the argument that available depth is worse than capitalisation suggests.
+>
+> **Two mechanics come with it, and both are declared rather than inherited from whichever the code implemented.** The 283 float observations recorded as exactly 0 are treated as **missing**, not as zero, or any float-adjusted ratio divides to infinity. The 424 non-zero values below 1 percent across 24 securities are **winsorised**, with the threshold stated and the affected count reported.
 
 **4. Liquidity stratification is feasible and wide.** Median daily turnover spans a factor of 114 from the least to the most liquid quintile, and the degenerate-day rate by a factor of 27. A pooled estimate would conceal the regime the contribution is about, so the universe is stratified rather than averaged, and the candidate set is 234 voting securities trading on at least 60 percent of aligned days with at least 2,000 aligned days.
 
@@ -90,12 +133,22 @@ The template's last instruction is that data strategy is part of the research de
 
 ---
 
-## Part 6. Open decisions
+## Part 6. Settled and open
 
-1. **Whether rows with a close outside the high-low range are dropped or admitted as degenerate observations.** The two treatments give different usable sample sizes and different corrections, and the choice does not follow from the source method. Settle it, document the reasoning, and report the sample size both ways.
-2. **Float-adjusted or raw liquidity stratification.** Nearly a third of the bottom quintile changes identity depending on which is used. My reading is that float-adjusted is the better measure of tradeable liquidity on a market where half the counters have under a quarter of shares in public hands, with the raw version alongside as a robustness check.
-3. **Panel end at 2026-06-30, or spliced forward.** Decide on source-consistency grounds.
-4. **The full-study window.** A panel member gave 2010 to 2026 in [[Week 5]] §2.1 and a different one gave two to five years for the proof of concept in [[Week 4]] §2.5. They most likely answer different questions, but neither said so, so both go to the supervisor together rather than one being chosen silently.
+### Settled 24 October
+
+| Item | Decision |
+|---|---|
+| **Study window** | **2012 Q3 to 2026 Q2**, 2012-07-01 to 2026-06-30, anchored to the S&P SL20 index-regime boundary. See Part 1a |
+| **Close-outside-range rows, panel** | **Retained with a flag.** Dropping would bias the universe toward liquid counters |
+| **Close-outside-range rows, spread estimate** | **Admitted as degenerate observations** if one is ever computed, sample size reported both ways. Contingent, since B4 excludes that estimator as a component |
+| **Stratification** | **Float-adjusted primary**, raw alongside as robustness. Zero floats treated as missing, sub-one-percent values winsorised |
+| **Panel end** | **2026-06-30, single source.** Splicing forward would put a source boundary inside the evaluation window to buy about a quarter the proof of concept does not use |
+
+### Still open
+
+1. **Supervisor confirmation of the nested window reading**, that 2012 Q3 to 2026 Q2 is the study envelope and the proof-of-concept slice sits inside it. The two panel members gave different scales a week apart and neither reconciled them, so this goes up as a stated reading rather than a settled fact.
+2. **The winsorisation threshold** for sub-one-percent float values. The decision to winsorise is made; the cut point is not.
 
 ---
 
