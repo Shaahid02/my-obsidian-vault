@@ -1,6 +1,7 @@
 ---
 status: current
 created: 2026-10-23
+revised: 2026-10-24
 written_against: "[[PoC Specification]]; [[PoC Data Build]]; [[PoC Build Plan]]; [[10 Requirements]]"
 tags:
   - working-doc
@@ -34,6 +35,23 @@ Five layers. The template's table names a user interface layer; this project rep
 
 ---
 
+### The one interface that is specified
+
+> [!important]
+> **Added 24 October.** The other interfaces are described in prose. This one is given a signature, because requirements FR1 and NFR1 both rest on it and because a single concrete signature does more for the credibility of the technical concept than another layer of description.
+
+$$\texttt{DataLayer.query(ticker, fields, as\_of)} \rightarrow \texttt{Rows}$$
+
+Three properties, each of which is a requirement rather than a convenience:
+
+- **No component ever receives a dataframe.** Every component receives a query, which is what makes the cursor enforceable at one place instead of four.
+- **Any row whose timestamp exceeds `as_of` raises `CursorViolation`.** It raises rather than warns, because a warning in a long backtest is a silent failure.
+- **`as_of` is supplied by the simulation clock, not by the caller's own state**, so an agent cannot widen its own window.
+
+This is the interface that makes point-in-time correctness a property of the system rather than a discipline, and it is the one piece of the architecture that cannot be retrofitted once agents have been built against raw frames.
+
+---
+
 ## Part 2. Data flow and build order
 
 The dependency chain is from [[PoC Data Build]] §1 and nothing in it can be reordered except the filings harvest, which is independent of everything else and is therefore the thing to start early despite the fundamental agent being built last.
@@ -53,6 +71,9 @@ A0 loaders ──► A1 master + calendar ──► A2 adjusted panel ─┬─�
                                               cached outputs ──► five arms ──► ablations ──► diagnostics
 ```
 
+> [!important]
+> **Decided 24 October: the five-layer view in Part 1 goes on slide 11, and this dependency chain goes in the backup set.** The layer view matches the template's own table and is what the requirements criterion assesses. The chain answers feasibility and build-order questions, which is where it earns its place.
+
 **The ordering rule that matters.** The as-of cursor comes before any agent. [[PoC Build Plan]] §4 protects this explicitly, and the reason is that lookahead is the one property here that cannot be retrofitted once agents have been built against raw frames.
 
 ---
@@ -68,8 +89,12 @@ Four, unchanged across all 59 reviews, and provisional rather than settled.
 | $A_L$ liquidity | Crossing-stripped volume, turnover, float, trading frequency | Directional view off the $L_t$ composite | Rolling loss ratio against a fixed benchmark, unit-free |
 | $A_F$ fundamental | Per-company filings, not yet collected | Retrieval, numeric extraction, program emission. Minimal, and acceptably stubbed at proposal stage | Does the extracted program parse, does every argument trace to a retrieved figure, and step count as a calibrated difficulty proxy at 67.61, 59.08 and 22.78 percent for one, two and three-plus steps |
 
-> [!WARNING]
-> $A_F$ is the agent most likely to be stubbed at the 25 October gate, and [[PoC Build Plan]] §2 already plans for three live agents with the fundamental agent emitting the contract in state `no_data`. What is acceptable is reporting it as stubbed. What is not acceptable is it being silently absent, because the on-and-off ablation depends on it existing in the framework.
+> [!important]
+> **Decided 24 October: the architecture diagram shows all four agents as live.** An architecture diagram depicts the designed system, and the designed system has four agents. Build status is a different question from architecture and does not belong on this slide.
+>
+> **The condition that makes that honest.** Implementation status has to be disclosed somewhere, and the right places are the proof-of-concept evidence and the limitations slide, not slide 11. [[PoC Build Plan]] §2 currently plans three live agents with the fundamental agent emitting the contract in state `no_data`. If that is still true at the gate, then the evidence slide says so and [[20 Scope, Limitations and Closing Defence]] carries it as a limitation. What is not acceptable is an unqualified four-agent diagram with no disclosure anywhere, because the on-and-off ablation then reports a zero delta from a stub as though it were a finding.
+>
+> **Carried to [[20 Scope, Limitations and Closing Defence]]** as a limitation to state, and to [[22 Backup and Q&A Preparation]], which already prepares the answer to "your fundamental agent does not work yet, does the contribution survive".
 
 Expected coverage is a hypothesis, not a fact: $A_F$ may have low usable coverage on numerically demanding CSE questions, based on benchmark evidence from other financial-QA pipelines. The 50 to 53 percent figure is **not** a measured CSE result and must not be presented as one.
 
@@ -103,8 +128,8 @@ The clause that makes this a contribution rather than an architecture is that ea
 | Data storage | Flat columnar files over the ticker-date spine, with the loaders and the security master in the repository | Established by the existing build. No database is needed at this scale and adding one would be new technology under the 18 October freeze |
 | Volatility and persistence estimation | Range estimators and fractionally integrated GARCH from established econometric libraries | Parkinson frozen as the estimator, per [[PoC Build Plan]] §3 |
 | Orchestrator | A low-capacity gated linear or shallow regression form, not a deep framework | [[10 Requirements]] MAI4 |
-| **Backbone for $A_F$** | <font color="#ff0000">Open decision, stated as open.</font> Selection criteria recorded below | Nothing is committed anywhere in the vault. LangGraph appears only as a candidate in [[16-06-2026]] §5.1 and as "implementation technology" in [[13-09-2026]] §4.8 |
-| **Orchestration framework** | <font color="#ff0000">Open decision.</font> The four-agent pipeline is a directed flow that plain Python can express, so a framework has to earn its place | Same as above |
+| **Retrieval and agent framework** | <font color="#ffc000">**LangChain, as a stated placeholder.**</font> Named so the slide carries a concrete answer, and explicitly not yet a commitment. The selection criteria below still govern, and the choice is revisited before the build | Nothing was committed anywhere in the vault. LangGraph appears only as a candidate in [[16-06-2026]] §5.1 and as "implementation technology" in [[13-09-2026]] §4.8 |
+| **Model backbone for $A_F$** | <font color="#ff0000">Open.</font> Selection criteria below | No corpus exists yet, so the choice cannot be tested against the thing it has to work on |
 
 **Selection criteria for the two open items**, so that the decision is principled when it is made rather than defaulted into:
 
@@ -114,7 +139,9 @@ The clause that makes this a contribution rather than an architecture is that ea
 4. Cost and data control matter, because the filings corpus is third-party material under exchange terms.
 
 > [!NOTE]
-> Naming Python is a specification of something the build already does, not an addition under the 18 October hard rule. Choosing a backbone and a framework is a genuine decision and is deliberately left open rather than quietly settled, which is the same convention the conditioning set uses: specified rather than resolved.
+> Naming Python is a specification of something the build already does, not an addition under the 18 October hard rule. **LangChain is named as a placeholder on 24 October for the same reason**: the slide needs a concrete answer to "what will you build it with", and an answer marked as provisional is stronger than no answer. It is not a commitment, it does not breach the freeze, and if an examiner asks why LangChain the honest reply is that it is the working assumption and the four criteria below are what will actually decide it.
+>
+> The model backbone stays genuinely open, because the corpus it has to work on does not exist yet and choosing it now would be choosing without evidence. That is the same convention the conditioning set uses: specified rather than resolved.
 
 ---
 
@@ -122,21 +149,38 @@ The clause that makes this a contribution rather than an architecture is that ea
 
 This is the part slide 11 actually asks for, and the part that distinguishes a design from a diagram.
 
-- **The cursor exists because RQ1's answer is worthless under lookahead.** If the weighting operator can see the future, a favourable comparison against equal weights says nothing. Two published studies on this market show the failure from either side, one with no as-of field at all and one backfilling a 2023 universe to 2013.
-- **The cached-arm structure exists because RQ1 is a comparison and the comparison has to be fair.** The only difference permitted between arms is the weighting function. That is an architectural property, not a discipline, because agents running once and arms consuming the cache is the only way to guarantee it.
+- **The cursor exists because the main question's answer is worthless under lookahead.** If the weighting operator can see the future, a favourable comparison against equal weights says nothing. Two published studies on this market show the failure from either side, one with no as-of field at all and one backfilling a 2023 universe to 2013.
+- **The cached-arm structure exists because MRQ is a comparison and the comparison has to be fair.** The only difference permitted between arms is the weighting function. That is an architectural property, not a discipline, because agents running once and arms consuming the cache is the only way to guarantee it.
+- **The calibration transform exists because SQ2 asks how unlike agents can be placed on a common scale.** Four confidence mechanisms computed from output structure are only combinable once each is mapped through its own accuracy-at-threshold curve, so that step is load-bearing architecture rather than post-processing.
 - **The common output contract exists because weighting is only meaningful over comparable outputs.** A softmax and a posterior variance cannot be combined, so the calibration transform is load-bearing rather than cosmetic.
 - **The abstention routing exists because the motivating failure is an absent channel rather than a weak signal.** A system built for occasionally imperfect inputs would handle the fundamental channel wrongly on this market.
-- **The exposed allocation exists because RQ2 needs execution cost inside the objective.** Returning only a decision would close that door permanently.
+- **The exposed allocation exists because SQ1 needs execution cost inside the objective.** Returning only a decision would close that door permanently.
 - **The low-capacity form exists because the data does not support more.** An observed Sharpe sign-flip as regularisation moves from 0.001 to 0.002, on a universe larger and a history longer than this one, is the argument against a network here.
 
 ---
 
-## Part 7. Open decisions
+## Part 7. Settled and open
 
-1. **The backbone for $A_F$ and whether an orchestration framework is used.** Criteria above; decision outstanding.
-2. **Interfaces between layers are described but not specified.** The data layer's query interface is the one that needs a signature, because FR1 depends on it.
-3. **Whether the diagram presented on the slide is the five-layer view or the dependency chain.** The layer view suits the criterion better; the dependency chain explains the build order. One on the slide, the other in backup.
-4. **Whether the fundamental agent appears in the architecture diagram as live or as stubbed.** It should appear, with its status labelled, since the ablation needs it present in the framework.
+### Settled 24 October
+
+| Item | Decision |
+|---|---|
+| Framework | **LangChain as a stated placeholder.** Not a commitment. The four selection criteria still govern |
+| Model backbone for $A_F$ | **Open**, because no corpus exists to choose against |
+| Interfaces | **One signature specified**, the data layer query, in Part 1. The rest stay as prose |
+| Diagram on the slide | **The five-layer view.** The dependency chain goes to backup |
+| Agents in the diagram | **All four shown as live.** The diagram depicts the designed system, not the build state |
+
+### Still open
+
+1. **The model backbone**, which is deliberately open rather than undecided by omission.
+
+### Carried to other notes
+
+| Note | What it carries |
+|---|---|
+| [[20 Scope, Limitations and Closing Defence]] | Implementation status of the fundamental agent, as a limitation, since the architecture slide now shows four live agents without qualification |
+| [[22 Backup and Q&A Preparation]] | The prepared answer to "your fundamental agent does not work yet, does the contribution survive" |
 
 ---
 
