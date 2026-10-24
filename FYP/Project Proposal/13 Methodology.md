@@ -1,6 +1,7 @@
 ---
 status: current
 created: 2026-10-23
+revised: 2026-10-24
 written_against: "[[PoC Specification]]; [[29-09-2026]]; [[Research Gap (Final Statement)]]; [[07 Research Questions, Aim and Objectives]]"
 tags:
   - working-doc
@@ -25,10 +26,13 @@ Neither was selected. The gap is not in the thinking, it is in the labelling: th
 
 The template's own table, filled.
 
+> [!important]
+> **Both labels fixed 24 October.** The research design is **design science research**, with a controlled comparative experiment as its evaluation strategy. The development process is **evolutionary prototyping, managed through stage gates**.
+
 | Layer | What it controls | This project |
 |---|---|---|
-| **Research design** | How the knowledge claim is investigated | Design science, with a controlled comparative experiment as the evaluation instrument |
-| **Development process** | How the artefact is built | Gated incremental development, with acceptance criteria written before the increment |
+| **Research design** | How the knowledge claim is investigated | **Design science research**, with a controlled comparative experiment as the evaluation strategy |
+| **Development process** | How the artefact is built | **Evolutionary prototyping, managed through stage gates**, with acceptance criteria written before each increment |
 | **Evaluation protocol** | How evidence is collected and interpreted | Walk-forward, cost-aware, regime-decomposed, with five arms and per-input ablation |
 | **Validity controls** | How bias and weak inference are reduced | Point-in-time enforcement, arm fairness, oracle pricing of estimation cost, pre-registration, and a stated screening rule on unfalsifiable measurements |
 
@@ -36,7 +40,9 @@ The template's own table, filled.
 
 ## Part 2. Research design, and why it is this one
 
-**Design science.** The object of study is a mechanism that does not exist to be observed, so it has to be constructed before anything can be learned about it, and the knowledge claim is about the constructed artefact's behaviour rather than about a naturally occurring phenomenon. That is the design science shape: build an artefact to address a problem class, then evaluate it against alternatives under stated conditions.
+**Design science research.** The object of study is a mechanism that does not exist to be observed, so it has to be constructed before anything can be learned about it, and the knowledge claim is about the constructed artefact's behaviour rather than about a naturally occurring phenomenon. That is the design science shape: build an artefact to address a problem class, then evaluate it against alternatives under stated conditions.
+
+**Why the standard label rather than a plainer description.** A phrase such as "constructive and comparative experimental study" says the same thing and is self-explanatory, but it is not a recognised methodology, so it invites the question of what methodology that is. Design science research is standard vocabulary in software engineering and carries its own expectations, which the evaluation strategy below then meets.
 
 **With a controlled comparative experiment as the evaluation.** The research question is comparative in form, so the evidence has to come from running competing weighting schemes over identical inputs and measuring the difference. The controls are what make it an experiment rather than a demonstration: identical data, identical agents, identical everything except the weighting function.
 
@@ -51,9 +57,18 @@ The template's own table, filled.
 
 ## Part 3. Development process, and the evidence for it
 
-**Gated incremental development.** Increments are bounded by an hour budget and closed by a gate, and the acceptance criteria for an increment are written before the code rather than after it.
+**Evolutionary prototyping, managed through stage gates.** A prototype is built small, evaluated against criteria written before it, and then grown into the delivered artefact rather than discarded. Increments are bounded by an hour budget and closed by a gate with a stated condition.
 
-The evidence that this is the actual process rather than a label applied retrospectively:
+**Why prototyping is the accurate label here, and not incremental delivery.**
+
+- **It is the module's own structure.** No prototype is required at the proposal, a **working prototype** is required at IPD, and a **fully functional prototype** at the end. The process model and the deliverable ladder are the same thing.
+- **It is what the panel directed.** [[Week 4]] §2.6 is explicit: do not start by building four agents or the complete framework, and first test whether adaptive weighting provides measurable value over a simple baseline. That is prototyping logic, build small to learn, rather than incremental delivery of a known design.
+- **Evolutionary rather than throwaway.** The data layer, the as-of cursor and the agent output contract are built to carry forward. The standing rule that lookahead cannot be retrofitted only makes sense if the prototype becomes the system, which is the defining property of the evolutionary variant.
+
+> [!WARNING]
+> **One qualifier that has to be said out loud, because it pre-empts the obvious challenge.** Classic prototyping is a requirements-elicitation strategy: you build in order to discover what is needed. **That is not what the prototype is for here.** The requirements in [[10 Requirements]] are derived from literature and from measurements on this dataset, which is what the source column of every requirement shows. The prototype validates **mechanism feasibility**, specifically whether changing liquidity changes the weights, the decision, or both. Without this qualifier an examiner can reasonably ask why the requirements cite papers if they came from a prototype.
+
+The evidence that the gated half is the actual process rather than a label applied retrospectively:
 
 - [[PoC Specification]] Part 0 opens with the acceptance criteria and says why: *"Written first, deliberately, so the build is measured against them rather than against how much got implemented."*
 - Weekly gates at 4, 11, 18 and 25 October and 1 November, each with a stated condition rather than a date alone.
@@ -115,7 +130,7 @@ Not novel, and not claimed as novel. What does not exist in the literature I hav
 
 Stated here so they appear on the limitations slide rather than in an answer under pressure.
 
-- **Corporate actions.** The primary series is unadjusted, confirmed by inspection on 18 October. Until the adjusted series exists the PoC runs on a detect-and-exclude subset, and counters that split are disproportionately ones that rose, so the exclusion carries a direction of bias that has to be reported.
+- **Ex-date timing, which replaces the corporate-action threat.** `[CORRECTED 24 OCTOBER 2026]` The adjusted panel was built on 23 October, so the detect-and-exclude workaround and its exclusion bias no longer apply. What remains is narrower and still real: **no documented date is an ex-date**, the ex-dates were recovered from measured price drops, and `corporate_actions.csv` records reliability in `ex_date_basis` with **259 events marked approximate**. Daily-return models drop or flag a few days around those events; longer-horizon returns are unaffected. The superseded wording read: *the primary series is unadjusted, confirmed by inspection on 18 October, so the PoC runs on a detect-and-exclude subset.*
 - **Survivorship.** No listing and delisting register with effective dates is held, so series-end dates serve as an explicit proxy and the residual bias is reported rather than carried.
 - **Simulated slippage is not measured slippage.** There is no ground-truth execution data to validate a CSE simulator against, so it is presented as simulated.
 - **Persistence estimator stability.** $\hat{d}$ on short rolling windows is a named risk, with per-regime estimation and a slower-moving cap as the fallback, and the instability reported either way.
@@ -124,11 +139,23 @@ Stated here so they appear on the limitations slide rather than in an answer und
 
 ---
 
-## Part 8. Open decisions
+## Part 8. Settled and open
 
-1. **Whether design science is the label used, or whether the simpler "constructive and comparative experimental study" reads better to this panel.** Both describe the same method; the first is standard vocabulary and the second is self-explanatory.
-2. **Whether the development process is described as gated incremental or as plan-driven with iterative increments.** The evidence supports either; the gates are the distinctive part.
-3. **How much of Part 5 goes on slide 13 against slide 14.** The protocol belongs to the evaluation design slide, and slide 13 should carry the two methodologies and the distinction between them, or the two slides will say the same thing twice.
+### Settled 24 October
+
+| Item | Decision |
+|---|---|
+| Research design | **Design science research**, with a controlled comparative experiment as the evaluation strategy |
+| Development process | **Evolutionary prototyping, managed through stage gates**, with the qualifier in Part 3 that the prototype validates mechanism feasibility rather than eliciting requirements |
+| Slide 13 against slide 14 | **Slide 13** carries the two methodologies, why they are distinct, and the validity controls. **Slide 14** carries the comparators, metrics, protocol, ablations and success criteria |
+| Corporate-action threat | Superseded. Replaced in Part 7 by the narrower ex-date timing threat |
+
+### Still open
+
+Nothing in this note.
+
+> [!NOTE]
+> **Two further threats in Part 7 may need revising once backlog item B1 is cleared.** The filings corpus now exists, 22,893 documents dated by CSE announcement date, which changes what can be said about the fundamental channel. Part 7 does not currently carry a threat about it, and once the corpus is profiled for text-native against scanned coverage, an extraction-quality threat may belong there.
 
 ---
 
