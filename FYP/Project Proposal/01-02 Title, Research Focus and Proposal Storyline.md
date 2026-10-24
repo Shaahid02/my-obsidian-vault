@@ -29,14 +29,14 @@ Every title variant in the vault predates the 20 September scope decision and th
 
 ## Part 2. Slide 1 content
 
-| Field | Content |
-|---|---|
-| Student name | Shaahid Fathul |
-| IIT and UoW ID | To confirm against the submission record before 3 November |
-| Supervisor | Guhanathan Poravi |
-| Academic year | 2026 to 2027 |
-| Group | Group four, roughly row 30 on the panel sheet |
-| Project title | See Part 1, open |
+| Field          | Content                                       |
+| -------------- | --------------------------------------------- |
+| Student name   | Shaahid Fathul                                |
+| IIT and UoW ID | 20223216, W1986734                            |
+| Supervisor     | Guhanathan Poravi                             |
+| Academic year  | 2026 to 2027                                  |
+| Group          | Group four, roughly row 30 on the panel sheet |
+| Project title  | See Part 1, open                              |
 
 **The one-sentence research focus**, following the template's own sentence shape, which is *investigates [gap] by designing, implementing and evaluating [artefact] for [context]*:
 
