@@ -1,6 +1,7 @@
 ---
 status: current
 created: 2026-10-23
+revised: 2026-10-24
 written_against: "[[Research Gap (Final Statement)]]; [[ELI5 - The Whole Project in Plain English]]; [[29-09-2026]]; [[07 Research Questions, Aim and Objectives]]"
 tags:
   - working-doc
@@ -32,15 +33,21 @@ Stated in the order the slide needs it: what the problem is, who it affects, wha
 
 Five documented cases, each a published system or study rather than an assertion. This is the content that makes the problem a problem rather than an observation.
 
-| Case | What it shows |
-|---|---|
-| **FinAgent on ETHUSD** | Auxiliary strategies returned 16 percent against buy-and-hold's 29 percent, tuned to large-cap dynamics that then changed, with nothing in the design able to notice |
-| **AlphaAgents** | An entire agent was deleted by hand because its input channel was too thin across fifteen megacaps. A human noticed and intervened; the system had no way to |
-| **Jung and Lee** | A measured 10.36 point total-return degradation from a text agent the architecture cannot notice |
-| **Pavithya et al. (2021), on the CSE itself** | Two heterogeneous models, one shared decision, combination fixed once at three to one in favour of the text model because that model scored higher in individual testing on a different and easier task. The normalisation also makes realised influence depend on how many articles appeared that day, which is an availability-weighted scheme nobody designed and nobody analysed |
-| **PIXIU** | The complementary failure, where agents cannot fail independently in the first place. One trading-tuned model scores 0.03 F1 against 0.94 for its NLP-tuned sibling on the same benchmark family, which is the documented case for keeping agents architecturally separate |
+**Decided 24 October: three go on the slide, two are held for questions.**
 
-Pavithya et al. is the one to lead with in questioning, because it is the fixed-influence failure on this exact market with a visible dial to point at. It also settles a design question: an agent's weight cannot be set from its own in-domain score, it has to come from measured marginal contribution to the joint decision.
+| Case | On slide | What it shows |
+|---|:---:|---|
+| **Pavithya et al. (2021), on the CSE itself** | ✅ | Two heterogeneous models, one shared decision, combination fixed once at three to one in favour of the text model because that model scored higher in individual testing on a different and easier task. The normalisation also makes realised influence depend on how many articles appeared that day, which is an availability-weighted scheme nobody designed and nobody analysed |
+| **AlphaAgents** | ✅ | An entire agent was deleted by hand because its input channel was too thin across fifteen megacaps. A human noticed and intervened; the system had no way to |
+| **FinAgent on ETHUSD** | ✅ | Auxiliary strategies returned 16 percent against buy-and-hold's 29 percent, tuned to large-cap dynamics that then changed, with nothing in the design able to notice |
+| **Jung and Lee** | held | A measured 10.36 point total-return degradation from a text agent the architecture cannot notice |
+| **PIXIU** | held | The complementary failure, where agents cannot fail independently in the first place. One trading-tuned model scores 0.03 F1 against 0.94 for its NLP-tuned sibling on the same benchmark family, which is the documented case for keeping agents architecturally separate |
+
+**Why these three, and in this order.** They are the same structural failure in three different settings, which is a stronger argument than three instances of one setting. Pavithya is the fixed dial on this exact market, with a visible coefficient to point at. AlphaAgents is the channel going thin and a human having to intervene, which is the sentence that explains the abstention design in one line and carries slide 3 forward to slides 9 and 10. FinAgent is the system tuned once to conditions that then changed, with nothing in the design able to notice.
+
+**Scope the FinAgent case when stating it.** That result is on a crypto pair rather than on equities, so it is evidence that the failure mode is not market-specific rather than evidence about the CSE. Saying so is what keeps the three-case argument honest.
+
+Pavithya et al. also settles a design question beyond the illustration: an agent's weight cannot be set from its own in-domain score, it has to come from measured marginal contribution to the joint decision.
 
 ---
 
@@ -62,9 +69,11 @@ The framing matters here and the wording is the supervisor's prescription from [
 
 ## Part 4. The project goal
 
-One statement, build and evaluate, consistent with the aim in [[07 Research Questions, Aim and Objectives]].
+One statement, build and evaluate, consistent with the aim in [[07 Research Questions, Aim and Objectives]]. **Approved whole on 24 October, and it is delivered whole rather than compressed.**
 
 > **Design, implement and evaluate a market-state-conditioned orchestration operator for multi-agent financial decision systems, and establish on CSE data under a cost-aware, regime-decomposed protocol whether conditioning agent influence on measured market state earns its place against fixed, static learned and performance-reactive weighting.**
+
+**Why it is not compressed.** The second clause is what keeps a null inside the goal. Cut it and the goal becomes a promise to improve something, which is a claim the evidence may not support and which would then sit in tension with the pre-registered position that equal weights winning is an acceptable outcome.
 
 **The intended product**, stated plainly so the slide's product row is not empty: a research pipeline comprising a point-in-time data layer, four heterogeneous agents behind one output contract, a state vector, a low-capacity orchestration operator with an abstention channel, and an evaluation harness running five weighting arms over identical cached agent outputs. There is no end-user interface, and that exclusion is deliberate rather than unfinished.
 
@@ -72,7 +81,7 @@ One statement, build and evaluate, consistent with the aim in [[07 Research Ques
 
 ## Part 5. Expected outcomes
 
-The rubric wants outcomes that are measurable or observable, and that align with the goal. Six, split by what kind of thing each one is.
+The rubric wants outcomes that are measurable or observable, and that align with the goal. **Five, as settled on 24 October.**
 
 | # | Outcome | Observable as |
 |--:|---|---|
@@ -81,7 +90,11 @@ The rubric wants outcomes that are measurable or observable, and that align with
 | 3 | A comparison of four structural confidence mechanisms on one agent pool, with the accuracy-at-threshold transform as the candidate common unit | The calibration curves and the confidence ablation |
 | 4 | A CSE baseline set produced under a walk-forward, cost-aware, regime-decomposed protocol | The baseline table, with the liquidity screen reported as a statistic in its own right |
 | 5 | A corporate-action-aware, liquidity-screened, survivorship-reported CSE panel with the adjustment factors carried alongside | The dataset artefact and its verification record |
-| 6 | A stated and tested position on whether volatility persistence should govern post-shock re-levering | The reproduction and substitution experiment, which at proposal stage is pre-registered rather than complete |
+
+> [!NOTE]
+> **A sixth outcome was removed on 24 October.** It read: *a stated and tested position on whether volatility persistence should govern post-shock re-levering*. It is removed because the experiment behind it was cut from the 25 October gate in [[PoC Build Plan]] §6, so listing it as an expected outcome would invite a question about a result that will not exist by 5 November.
+>
+> **Consequence to resolve in [[07 Research Questions, Aim and Objectives]].** RQ3 now has no outcome attached to it. Either RQ3 is demoted to a stated sub-hypothesis, or persistence returns as an outcome worded explicitly as a pre-registered experiment. The two notes have to agree, and they currently do not.
 
 **Outcome 2 is the one that holds whichever way the result goes.** Fifty years of forecast-combination evidence says equal weights are hard to beat, and the review that documents this states plainly that there is no comprehensive quantitative guidance on when to choose which. An answer on a thin frontier market is worth having even if the answer is that equal weights win.
 
@@ -95,11 +108,20 @@ Worth saying out loud on the slide, because the criterion assesses alignment and
 
 ---
 
-## Part 7. Open decisions
+## Part 7. Settled and open
 
-1. **Whether the goal statement on the slide is the full sentence in Part 4 or a compressed version.** The full one is precise and long; a compressed one reads better and risks losing the comparison clause, which is the part that keeps a null inside the goal.
-2. **How many of the five cases in Part 2 appear on the slide.** All five is too many for the time. Two on the slide and three held for questioning is the likely split, and Pavithya et al. should be one of the two.
-3. **Whether outcome 6 is listed at all**, given that the experiment behind it was cut from the 25 October gate and will be pre-registered rather than complete.
+### Settled 24 October
+
+| Item | Decision |
+|---|---|
+| Goal statement | Delivered whole, not compressed. The comparison clause stays |
+| Failure cases on the slide | Three: Pavithya et al., AlphaAgents, FinAgent. Jung and Lee and PIXIU held for questions |
+| Outcome 6, persistence | **Removed.** Five outcomes remain |
+
+### Still open
+
+1. **The knock-on to RQ3**, recorded in Part 5. Removing the persistence outcome leaves RQ3 without one, and the two notes have to be reconciled when [[07 Research Questions, Aim and Objectives]] is addressed.
+2. **Nothing else.** This note is otherwise ready to build from.
 
 ---
 

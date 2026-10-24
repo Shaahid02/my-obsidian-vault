@@ -1,6 +1,7 @@
 ---
 status: current
 created: 2026-10-23
+revised: 2026-10-24
 written_against: "[[Research Gap (Final Statement)]]; [[Research Matrices Status]]; [[_Corpus Index]]; [[Week 4]]"
 tags:
   - working-doc
@@ -22,6 +23,9 @@ Slide 4 is where the evidence criterion is won or lost, because it is the slide 
 ---
 
 ## Part 1. The four evidence routes
+
+> [!important]
+> **Decided 24 October.** This table is what slide 4 carries. The clause-by-clause contrast in Part 2 moves to slide 6, so the two slides answer different questions: slide 4 answers *how did you arrive at a gap*, slide 6 answers *why is the gap yours*. Part 2 stays in this note as the reasoning behind row two and as backup-slide material.
 
 The template's table, filled. Each row is a different kind of evidence, which is the point: four independent routes converging on the same absence is a stronger argument than one route repeated.
 
@@ -71,6 +75,9 @@ A second strand supports the premise independently. An asset-pricing study inter
 
 ## Part 5. The strongest objection, stated before anyone else states it
 
+> [!important]
+> **Decided 24 October: this lives on slide 4, and only on slide 4.** It is raised immediately after the gap is stated. Raising it at the moment the gap is claimed is more convincing than raising it at the end, and it is what turns equal weighting from a convenience baseline into the pre-registered primary benchmark on slides 8 and 14. Notes [[06 Gap, Novelty and Contribution]] and [[20 Scope, Limitations and Closing Defence]] reference it but must not restate it.
+
 Putting this on the slide rather than waiting for it is worth more than any additional evidence of the gap.
 
 Across fifty years of evidence the equally weighted combination is persistently hard to beat, and the usual reason sophisticated schemes lose is that weight-estimation error exceeds the gain from better weights. Equal weights is therefore the field's hardest benchmark, which is why it is the pre-registered primary baseline rather than one arm among several, and it raises the bar rather than lowering it.
@@ -97,11 +104,18 @@ The template asks for this explicitly, and it is the link between slide 4 and sl
 
 ---
 
-## Part 7. Open decisions
+## Part 7. Settled and open
 
-1. **How much of Part 2 goes on slide 4 against slide 6.** The two slides both touch the contrast and should not repeat it. My reading is that slide 4 carries the four evidence routes and slide 6 carries the clause-by-clause contrast.
-2. **Whether the objection in Part 5 appears on slide 4, slide 6 or slide 20.** It belongs wherever it is said before the examiner says it, and once only.
-3. **The verification [[Week 4]] asked for is still open.** Running the comparison across aggregation method, regime detection, liquidity treatment and evaluation protocol is matrix work that extends existing sheets rather than new research, and it has not been done.
+### Settled 24 October
+
+| Item | Decision |
+|---|---|
+| What slide 4 carries | The four evidence routes in Part 1. The clause-by-clause contrast moves to slide 6 |
+| Where the objection goes | Slide 4, immediately after the gap is stated, and nowhere else |
+
+### Still open
+
+Nothing. This note is ready to build from.
 
 ---
 

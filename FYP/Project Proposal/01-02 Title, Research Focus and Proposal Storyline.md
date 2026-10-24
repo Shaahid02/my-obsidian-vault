@@ -1,6 +1,7 @@
 ---
 status: current
 created: 2026-10-23
+revised: 2026-10-24
 written_against: "[[16-06-2026]]; [[ELI5 - The Whole Project in Plain English]]; [[07 Research Questions, Aim and Objectives]]"
 tags:
   - working-doc
@@ -10,35 +11,40 @@ tags:
 
 ---
 
-## Part 1. The title, still open
+## Part 1. The title
 
-Every title variant in the vault predates the 20 September scope decision and the working one still contains "Localized Sentiment". A current title does not exist, and slide 1 cannot be built without one.
+> [!important]
+> **Decided 24 October 2026.**
+>
+> ## Market-State-Conditioned Orchestration of Heterogeneous Agents for Financial Decision Support: A Colombo Stock Exchange Study
 
-| Candidate | Wording | Argument for it |
+**Why this one.** It names the contribution rather than a supporting mechanism, which matters because the friction work is self-rated 3 out of 5 and the orchestration operator is 4. It mirrors the wording of the surviving claim agreed with the supervisor on 29 September, so the title, the gap statement and the contribution statement all use the same vocabulary. And it answers the integration challenge at a glance, which is the challenge both panel members raised in different forms, in [[Week 3]] §2.2 and [[Week 4]] §2.4.
+
+**Two properties it satisfies, which any title had to.** No sentiment reference anywhere, and the CSE named as the evaluation setting rather than as the subject, which is the framing [[29-09-2026]] §3.2 prescribed.
+
+### The two not chosen, kept as the record
+
+| Candidate | Wording | Why it was not chosen |
 |---|---|---|
-| **A** | A Friction-Aware Multi-Agent Decision Support Framework for Frontier Equity Markets: A Colombo Stock Exchange Case Study | This is my own shorter form from [[16-06-2026]] §4 and it never contained sentiment, so it carries continuity with what the supervisor has already seen. Weakness: "friction-aware" foregrounds the supporting contribution rather than the main one |
-| **B** | Market-State-Conditioned Orchestration of Heterogeneous Agents for Financial Decision Support: A Colombo Stock Exchange Study | Puts the mechanism in the title, which is what both panel members independently identified as the strongest element. Weakness: longest of the three and heaviest to say out loud |
-| **C** | Adaptive Multi-Agent Orchestration under Liquidity and Volatility Constraints: A Colombo Stock Exchange Case Study | Shortest, fits one line, names the two conditioning variables with the clearest local evidence. Weakness: "adaptive" is doing a lot of work and is less precise than "market-state-conditioned" |
+| **A** | A Friction-Aware Multi-Agent Decision Support Framework for Frontier Equity Markets: A Colombo Stock Exchange Case Study | My own shorter form from [[16-06-2026]] §4, and it never contained sentiment, so it carried the most continuity with what the supervisor has already seen. Set aside because "friction-aware" foregrounds the supporting contribution rather than the main one |
+| **C** | Adaptive Multi-Agent Orchestration under Liquidity and Volatility Constraints: A Colombo Stock Exchange Case Study | Shortest and easiest to say. Set aside because "adaptive" is vaguer than "market-state-conditioned", and because it names two of the four conditioning terms, which invites the question of why those two |
 
-> [!WARNING]
-> <font color="#ff0000">Open decision.</font> My own reading is that B is the most accurate and C is the most usable, and that A is the safest if the supervisor has been reading the earlier framing. The decision belongs to you and it should be made before anything else on the deck, because slides 1, 3, 6 and 20 all have to agree with it.
-
-**Whichever is chosen, two things must be true.** It contains no sentiment reference, and it names the CSE as a case study or evaluation setting rather than as the subject, which is the framing [[29-09-2026]] §3.2 prescribed.
+**One consequence to carry.** The chosen title is long for a single line on a slide. Set it in two lines on slide 1, breaking after the colon, rather than reducing the type size.
 
 ---
 
 ## Part 2. Slide 1 content
 
-| Field          | Content                                       |
-| -------------- | --------------------------------------------- |
-| Student name   | Shaahid Fathul                                |
-| IIT and UoW ID | 20223216, W1986734                            |
-| Supervisor     | Guhanathan Poravi                             |
-| Academic year  | 2026 to 2027                                  |
-| Group          | Group four, roughly row 30 on the panel sheet |
-| Project title  | See Part 1, open                              |
+| Field | Content |
+|---|---|
+| Student name | Shaahid Fathul |
+| IIT and UoW ID | 20223216, W1986734 |
+| Supervisor | Guhanathan Poravi |
+| Academic year | 2026 to 2027 |
+| Group | Group four, roughly row 30 on the panel sheet |
+| Project title | Market-State-Conditioned Orchestration of Heterogeneous Agents for Financial Decision Support: A Colombo Stock Exchange Study |
 
-**The one-sentence research focus**, following the template's own sentence shape, which is *investigates [gap] by designing, implementing and evaluating [artefact] for [context]*:
+**The one-sentence research focus**, approved 24 October, following the template's own sentence shape, which is *investigates [gap] by designing, implementing and evaluating [artefact] for [context]*:
 
 > This project investigates how the influence of methodologically heterogeneous financial agents should be set when the reliability of their evidence channels varies with market conditions, by designing, implementing and evaluating a market-state-conditioned orchestration operator on Colombo Stock Exchange data.
 
@@ -72,11 +78,31 @@ From [[ELI5 - The Whole Project in Plain English]], lightly revised to remove th
 
 ---
 
-## Part 5. Open decisions
+## Part 5. Settled and open
 
-1. **The title.** Three candidates in Part 1. Everything else on the deck depends on it.
-2. **Student and supervisor details.** To be checked against the submission record, per the 3 November proofreading task.
-3. **Whether slide 2 is delivered or skipped.** It carries no criterion of its own and costs perhaps forty seconds. At up to twenty minutes including questions, that is a real trade. My reading is that it earns its place because it tells the examiner what structure to expect, and the communication criterion assesses structure.
+### Settled 24 October
+
+| Item | Decision |
+|---|---|
+| Project title | Candidate B, as in Part 1 |
+| One-sentence research focus | Approved as drafted in Part 2 |
+| Slide 2, keep or cut | **Keep.** It carries no criterion of its own and costs roughly forty seconds, but the communication criterion assesses structure and this is the slide that tells the examiner what structure to expect |
+
+### Still open
+
+Nothing. The student IDs were supplied on 24 October and are in Part 2. They remain on the 3 November proofreading checklist, which verifies student IDs, title and supervisor details against the submission record, but that is a check rather than an open decision.
+
+### Propagation from the title decision
+
+The title is now fixed, so these have to agree with it and should be checked when each is built.
+
+| Where | What must match |
+|---|---|
+| Slide 1 | The title itself, set over two lines |
+| Slide 3 | The goal statement, which already uses "market-state-conditioned orchestration operator" |
+| Slide 6 | The contribution statement, same vocabulary |
+| Slide 20 | The closing defence, which names the contribution again |
+| Recorded video and Blackboard filename | Same title, so the submission record matches the deck |
 
 ---
 
