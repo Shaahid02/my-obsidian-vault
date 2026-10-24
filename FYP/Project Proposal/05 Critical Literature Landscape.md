@@ -1,6 +1,7 @@
 ---
 status: current
 created: 2026-10-23
+revised: 2026-10-24
 written_against: "[[_Corpus Index]]; [[Research Matrices Status]]; [[Research Gap (Final Statement)]]"
 tags:
   - working-doc
@@ -26,8 +27,11 @@ Generated from the notes' own properties, so these figures are reliable rather t
 | CSE-facing | 12 |
 | Sri Lanka, non-market data | 2 |
 | Reports an out-of-sample evaluation | 41 yes, 18 no |
-| Reproducible from the paper alone | 4 yes, 34 partial, 21 no |
+| Reproducible from the paper alone | **4 yes**, 34 partial, 21 no |
 | Missing a citekey | 0 |
+
+> [!important]
+> **Decided 24 October: the reproducibility figure goes on the slide.** Four of 59 reproducible from the paper alone is the most striking number in the corpus, and it is what makes the reproducibility commitment in the methodology a response to something rather than boilerplate. The obvious follow-up, whether this project will meet its own standard, is already answered by requirement NFR3, a released pipeline with recorded seeds and identical artefacts at a fixed seed. A question with a prepared answer is worth inviting.
 
 **By stream.** Multi-agent LLM systems 15, forecasting 8, retrieval and financial QA 8, sentiment 5 retained as background, portfolio 4, volatility 4, execution 3, macro-finance 3, benchmarks 2, corporate finance 2, microstructure 2, reinforcement learning for trading 2, calibration 1.
 
@@ -39,6 +43,9 @@ Generated from the notes' own properties, so these figures are reliable rather t
 ---
 
 ## Part 2. The three themes
+
+> [!important]
+> **Decided 24 October: the slide uses the template's own split**, problem domain, methods, evaluation. A split by role, gap evidence against protocol sources against cautionary specimens, is more distinctive and was set aside because it requires explaining my own taxonomy before any content lands, and at roughly forty seconds a slide that cost is real. The role counts in Part 1 are used as the supporting figure inside the conventional structure rather than as the structure itself.
 
 The template asks for problem domain, methods, and evaluation. Each theme below ends with the tension that makes it worth presenting.
 
@@ -89,6 +96,9 @@ Worth one line each on the slide, because it shows the literature changing decis
 ---
 
 ## Part 4. Three corrections made to my own record
+
+> [!NOTE]
+> **Decided 24 October: this material does not go on slide 5.** It belongs on slide 16, where AI verification is assessed, and in the backup set. Putting it here turns the literature slide into a slide about process at the exact moment the examiner is looking for synthesis.
 
 Worth having ready rather than presenting, because it answers the question of how carefully the corpus was actually read.
 
