@@ -1,6 +1,7 @@
 ---
 status: current
 created: 2026-10-23
+revised: 2026-10-24
 written_against: "[[PoC Specification]]; [[PoC Data Build]]; [[PoC Build Plan]]; [[Data Cleaning Checklist]]; [[Contribution to Knowledge]]; [[07 Research Questions, Aim and Objectives]]"
 tags:
   - working-doc
@@ -21,6 +22,13 @@ The vault has the design decisions and the evidence behind them. What it has not
 
 **Priority** uses MoSCoW. Must means the 25 October gate or the research claim fails without it. Should means the claim is weaker without it. Could means it is wanted and droppable.
 
+> [!important]
+> **Decided 24 October: five requirements go on the slide, one per category**, each chosen because its source column cites a paper or a measurement rather than a preference. That is the template's own layout for this slide, and the source column is the strongest thing in this note, so the exemplars should show it. The full set of 41 is a backup slide.
+>
+> The exemplars: **FR1** the as-of cursor, **NFR3** reproducibility, **DR2** corporate-action handling, **MAI1** structural confidence, **B2** no fifth agent. Each cites a published failure or a measurement on this dataset.
+
+**Two priorities were revised on 24 October**, both upward, and both are recorded in Part 7.
+
 ---
 
 ## Part 1. Functional requirements
@@ -35,8 +43,9 @@ The vault has the design decisions and the evidence behind them. What it has not
 | **FR6** | The liquidity state shall modulate the technical agent's confidence, $C'_{T,t} = C_{T,t} \cdot g(L_t)$ with $g$ decreasing in illiquidity | [[29-09-2026]] §7.4. Poor liquidity does not only make a trade expensive, it makes the price series feeding the technical agent noisier. One measurement, two uses | A3, the sensitivity sweep recording $\partial w / \partial L$ over the observed range of $L_t$ on a frozen date | Must |
 | **FR7** | The system shall run five weighting arms, $B_1$ equal, $B_2$ static learned, $B_3$ discounted inverse-MSE with no market state, $P$ the proposal, $O$ oracle, over identical cached agent outputs | [[PoC Specification]] Part 7. The CSE Graph-RAG paper's fatal flaw is that its proposed system received both the graph and the agent scaffolding while its baseline received neither | A5, agent outputs byte-identical across all five arms | Must |
 | **FR8** | The system shall run one ablation per state input, $P - L_t$, $P - V_t$, $P - P_t$, $P - C_{i,t}$, and report an attributable delta for each | [[Contribution to Knowledge]] K1. The ablations are what make the answer attributable rather than a single number | A6, ablation table, one row per removed input | Must |
-| **FR9** | The orchestrator shall expose the proposed allocation before it is committed, not only the final decision | [[PoC Specification]] §6.5. Building it to return only a decision forecloses putting execution cost inside the objective, which RQ2 needs | Proposed allocation present in the run artefact | Should |
-| **FR10** | The system shall compute and emit the pre-registered diagnostics as standard output: weight entropy, pairwise agent error correlation, volatility and liquidity agent collinearity, the fundamental agent's weight trajectory around reporting dates, the oracle gap, and a quiet against stressed decomposition | [[Contribution to Knowledge]] Part 5. Each corresponds to a named risk, and each is much better found by me than by an examiner | Six diagnostics present in the evidence pack | Should |
+| **FR9** | The orchestrator shall expose the proposed allocation before it is committed, not only the final decision | [[PoC Specification]] §6.5. Building it to return only a decision forecloses putting execution cost inside the objective, which SQ1 needs | Proposed allocation present in the run artefact | Should |
+| **FR10a** | The system shall compute and emit the **weight entropy series** $H_t$ and the **liquidity sensitivity** $\partial w / \partial L$ as standard output | Acceptance criteria A2 and A3 are defined on these two quantities, so they are not optional. Entropy collapse is an observed failure mode in a reviewed system rather than a hypothetical one | A2 and A3 themselves | **Must** |
+| **FR10b** | The system shall compute and emit the remaining pre-registered diagnostics: pairwise agent error correlation, volatility and liquidity agent collinearity, the fundamental agent's weight trajectory around reporting dates, the oracle gap, and a quiet against stressed decomposition | [[Contribution to Knowledge]] Part 5. Each corresponds to a named risk, and each is much better found by me than by an examiner | Five diagnostics present in the evidence pack | Should |
 
 ---
 
@@ -50,7 +59,7 @@ The vault has the design decisions and the evidence behind them. What it has not
 | **NFR4** | The orchestrator's stability shall be swept across its regularisation setting and reported, not tuned to a favourable value | [[Contribution to Knowledge]] C1. An observed Sharpe sign-flip as L2 moves from 0.001 to 0.002, on a universe larger and a history longer than the CSE offers, is the reason the form is low capacity in the first place | Sweep table in the evidence pack, including the unfavourable settings | Must |
 | **NFR5** | Every directional result shall carry class balance, Matthews correlation and cost-adjusted return on the same row | [[PoC Specification]] Part 9. The local example of why is accuracy 0.5837 at MCC 0.1493 | Result schema check on every output table | Must |
 | **NFR6** | Trade counts shall be equalised before arms are compared, with exposure time, holding period and turnover reported as fixed columns | [[Research Gap (Final Statement)]], evaluation commitment 8 | Fixed columns present in the comparison table | Must |
-| **NFR7** | Agent outputs, state series and weights shall be logged at one row per ticker-date so that any decision can be reconstructed after the fact | [[Contribution to Knowledge]] K7. The weight vector is the decision-level explanation, and it is only an explanation if it was recorded | Run artefact schema | Should |
+| **NFR7** | Agent outputs, state series and weights shall be logged at one row per ticker-date so that any decision can be reconstructed after the fact | [[Contribution to Knowledge]] K7. The weight vector is the decision-level explanation, and an explanation that was not recorded is not an explanation. Promoted to Must on 24 October: the logging is cheap and K7 is unverifiable without it | Run artefact schema, and any decision reconstructable from the log alone | **Must** |
 
 ---
 
@@ -65,7 +74,7 @@ These carry more evidence behind them than any other group, because the data wor
 | **DR3** | Bar validation shall run on load, asserting high $\geq$ close $\geq$ low and high $\geq$ open $\geq$ low, with rights instruments excluded from the universe | [[PoC Build Plan]] §0a. At least one security, ASPM.N0000, prints a close outside its own high-low range, and 17 of 334 counter files are rights instruments | Validation report on every load, with violations listed rather than dropped silently | Must |
 | **DR4** | Volume-derived liquidity measures shall be computed on crossing-stripped volume, with the stripped and unstripped versions reported side by side | [[PoC Data Build]] §5. Crossings run from 8.8 percent of annual market turnover in 2021 to 47.4 percent in 2017, with a per-security median of 12.5 percent and a 90th percentile of 53.0 percent. A crossing is a pre-negotiated transfer that consumed no book depth, so uncorrected measures overstate liquidity | Both series present, and the above-100-percent cases resolved or excluded with the reason stated | Must |
 | **DR5** | Zero-return days shall be recorded separately from non-trading days, with volume rather than price change deciding, and the exchange calendar separating the two | [[PoC Specification]] §0.3. The two are different observations and conflating them corrupts both the liquidity screen and the directional metric | Both columns present in the per-counter profile | Must |
-| **DR6** | Every document retrievable by the fundamental agent shall carry a publication-date field, and the retrieval filter shall be keyed to the simulation clock | [[Contribution to Knowledge]] C6. Filenames in the announcements feed are opaque identifier and timestamp pairs, so the date has to be captured at harvest rather than inferred later | Ingestion rejects any document without a publication date | Must |
+| **DR6** | Every document retrievable by the fundamental agent shall carry a publication-date field, and the retrieval filter shall be keyed to the simulation clock | [[Contribution to Knowledge]] C6. Filenames in the announcements feed are opaque identifier and timestamp pairs, so the date has to be captured at harvest rather than inferred later | Ingestion rejects any document without a publication date. <font color="#ffc000">**Specified, not yet exercised:** no filings corpus has been collected, so this requirement has never been run against real documents</font> | Must |
 | **DR7** | Known structural breaks shall be handled in the methodology rather than discovered in a post-mortem: SLFRS 16 in 2019 for lease-sensitive and PPE-derived fundamental features, nominal price distortion across 2020 to 2023 for rupee-denominated features, and the price-granularity break at 2021-01 for any tick-based or discreteness feature | [[Research Gap (Final Statement)]] and [[PoC Data Build]] §7. The 2011 to 2016 and 2020 series sit entirely on a 10-cent grid while 2021 onward runs 5.4 to 12.9 percent off it | Each break named in the methodology with its treatment stated before the run | Must |
 | **DR8** | The experimental universe shall be selected by the liquidity screen and stratified across the liquidity cross-section, and the count of counters the screen removes shall be reported as a result | [[Contribution to Knowledge]] K5 and [[PoC Build Plan]] §3. Selecting the ten most liquid counters leaves $L_t$ with little variation, and A3 then has nothing to detect | Per-counter screen table reported by tier, plus the removal count | Must |
 | **DR9** | Survivorship limitations shall be reported rather than carried silently, using series-end dates as an explicit proxy for a tradability mask | [[PoC Build Plan]] §0a. Data Library item 06 holds 119 delisted company names with no effective dates, so a point-in-time tradability mask is not possible and the proxy has to be labelled as one | Limitation stated in the protocol and on the limitations slide | Must |
@@ -107,21 +116,38 @@ Out of scope, each with the reason, because the rubric's scope criterion rewards
 
 Must requirements against the question they serve and the test that shows them satisfied. This is the chain the 11 October gate asked for, and the backup slide the template recommends.
 
-| RQ | Requirements | Test or evidence |
+| Question | Requirements | Test or evidence |
 |---|---|---|
-| RQ1 orchestration | FR2, FR3, FR4, FR5, FR7, FR8, MAI1, MAI2, MAI4 | A1, A2, A4, A5, A6, the five-arm table, the per-input ablation deltas |
-| RQ2 liquidity | FR6, FR9, DR4, DR8, MAI6 | A3 sensitivity sweep, the two separating ablations, the participation-rate sweep |
-| RQ3 persistence | DR7, MAI5 | Reproduction fidelity against published behaviour, $\hat{d}$ stability on the rolling window |
+| **MRQ** orchestration | FR2, FR3, FR4, FR5, FR7, FR8, FR10a, NFR7, MAI4 | A1, A2, A4, A5, A6, the five-arm table, the per-input ablation deltas |
+| **SQ1** liquidity | FR6, FR9, DR4, DR8, MAI6 | A3 sensitivity sweep, the two separating ablations, the participation-rate sweep |
+| **SQ2** confidence comparability | MAI1, MAI2, MAI3 | Per-agent calibration curves, the $C_{i,t}$ ablation, the accuracy-at-threshold transform landing every agent in one unit |
+| Persistence, sub-hypothesis under MRQ | DR7, MAI5 | The $P_t$ ablation. The reproduction experiment is pre-registered rather than run |
 | All, validity | FR1, NFR1, NFR2, NFR3, NFR5, DR1, DR2, DR3, DR6 | Cursor violation test, byte-identical outputs, seed reproduction, schema checks, the Stage 6 verification suite |
 
 ---
 
-## Part 7. Open decisions
+## Part 7. Settled and open
 
-1. **MoSCoW is assigned here for the first time and is provisional.** FR9, FR10, NFR7 and MAI7 are the four marked Should, and they are the ones most likely to be cut if the 25 October gate runs short.
-2. **DR2 is a workaround, not a solution.** The adjusted series does not exist and depends on the corporate actions register inside the Data Library purchase. The interim detect-and-exclude rule should be raised with the supervisor rather than discovered in the results.
-3. **Whether FR9 survives at proposal stage.** Cost inside the objective is out of the PoC's first pass, and FR9 exists only so the architecture does not foreclose it. It could be reframed as an architectural constraint rather than a functional requirement.
-4. **Acceptance evidence for DR6 does not yet have a corpus to run against.** No per-company filings have been collected, so this requirement is specified and untested.
+### Settled 24 October
+
+| Item | Decision |
+|---|---|
+| **FR10 split** | **FR10a** weight entropy and liquidity sensitivity promoted to **Must**, because acceptance criteria A2 and A3 are defined on them. **FR10b** the remaining five diagnostics stay Should |
+| **NFR7 promoted** | To **Must**. The logging is cheap and contribution K7 is unverifiable without it |
+| **FR9 kept as a functional requirement** | Not demoted to an architectural constraint. It is testable, the acceptance evidence is that the allocation appears in the run artefact, and reframing it would lose that test. Stays **Should** |
+| **DR6 labelled** | Stays **Must**, marked *specified, not yet exercised*, because no filings corpus exists to run it against |
+| **MAI7** | Unchanged at Should |
+| **Slide exemplars** | FR1, NFR3, DR2, MAI1, B2. Full set of 41 as a backup slide |
+| **Traceability relabelled** | MRQ, SQ1, SQ2, with a new row for confidence comparability |
+
+**Counts after the split:** 11 functional, 7 non-functional, 9 data, 7 model and AI, 8 boundary. **42 requirements**, of which exactly three are Should, FR9, FR10b and MAI7, and the rest are Must. Those three are the first candidates to cut if the build runs short.
+
+### Still open
+
+Nothing in this note.
+
+> [!NOTE]
+> **DR2 is not an open decision here.** The corporate-action workaround is already item 0 on the carry-to-supervisor list in [[PoC Build Plan]] §7, which is the right place for it. It stays Must with the detect-and-exclude rule and the direction of the exclusion bias both stated.
 
 ---
 
