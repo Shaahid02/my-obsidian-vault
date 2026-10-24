@@ -71,9 +71,11 @@ The framing matters here and the wording is the supervisor's prescription from [
 
 One statement, build and evaluate, consistent with the aim in [[07 Research Questions, Aim and Objectives]]. **Approved whole on 24 October, and it is delivered whole rather than compressed.**
 
-> **Design, implement and evaluate a market-state-conditioned orchestration operator for multi-agent financial decision systems, and establish on CSE data under a cost-aware, regime-decomposed protocol whether conditioning agent influence on measured market state earns its place against fixed, static learned and performance-reactive weighting.**
+> **Design, implement and evaluate a market-state-conditioned orchestration operator for multi-agent financial decision systems, and establish, on CSE data under a cost-aware and regime-decomposed protocol, under what market conditions it earns its place against fixed, static learned and performance-reactive weighting.**
 
 **Why it is not compressed.** The second clause is what keeps a null inside the goal. Cut it and the goal becomes a promise to improve something, which is a claim the evidence may not support and which would then sit in tension with the pre-registered position that equal weights winning is an acceptable outcome.
+
+**One word changed on 24 October.** It previously read *"establish ... whether conditioning agent influence ... earns its place"*. The supervisor's research-question guideline bars questions answerable yes or no, and although a goal is not a research question, *whether* sat oddly beside a main question framed as *how* and *under what conditions*. The goal now matches the aim in [[07 Research Questions, Aim and Objectives]] Part 1 word for word in that clause.
 
 **The intended product**, stated plainly so the slide's product row is not empty: a research pipeline comprising a point-in-time data layer, four heterogeneous agents behind one output contract, a state vector, a low-capacity orchestration operator with an abstention channel, and an evaluation harness running five weighting arms over identical cached agent outputs. There is no end-user interface, and that exclusion is deliberate rather than unfinished.
 
@@ -86,7 +88,7 @@ The rubric wants outcomes that are measurable or observable, and that align with
 | # | Outcome | Observable as |
 |--:|---|---|
 | 1 | A working orchestration pipeline in which changing liquidity measurably changes the weights, the decision, or both | The A3 sensitivity sweep recording $\partial w / \partial L$, and the disagreement count between arms |
-| 2 | Attributable evidence on whether state conditioning beats equal weighting, static learned weighting and performance-reactive weighting | The five-arm comparison with per-input ablation deltas, tested at a pre-registered margin |
+| 2 | Attributable evidence on how state conditioning compares with equal weighting, static learned weighting and performance-reactive weighting, and under what conditions it outperforms them | The five-arm comparison with per-input ablation deltas, tested at a pre-registered margin |
 | 3 | A comparison of four structural confidence mechanisms on one agent pool, with the accuracy-at-threshold transform as the candidate common unit | The calibration curves and the confidence ablation |
 | 4 | A CSE baseline set produced under a walk-forward, cost-aware, regime-decomposed protocol | The baseline table, with the liquidity screen reported as a statistic in its own right |
 | 5 | A corporate-action-aware, liquidity-screened, survivorship-reported CSE panel with the adjustment factors carried alongside | The dataset artefact and its verification record |
@@ -114,7 +116,7 @@ Worth saying out loud on the slide, because the criterion assesses alignment and
 
 | Item | Decision |
 |---|---|
-| Goal statement | Delivered whole, not compressed. The comparison clause stays |
+| Goal statement | Delivered whole, not compressed. The comparison clause stays, with *whether* replaced by *under what market conditions* to match the aim |
 | Failure cases on the slide | Three: Pavithya et al., AlphaAgents, FinAgent. Jung and Lee and PIXIU held for questions |
 | Outcome 6, persistence | **Removed.** Five outcomes remain |
 

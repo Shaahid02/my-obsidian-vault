@@ -86,7 +86,9 @@ The precondition for every return, and therefore for all four agents and the who
 > - from 2022, bonus and scrip go ex on the date itself, and rights 2 days before it (1 day before from 2025);
 > - dividends drop on item 01's XD date.
 >
-> Scrip timing remains approximate.
+> **Ex-date timing caveat (keep in mind for A_T and any event work).** `corporate_actions.csv` labels each ex-date's reliability in `ex_date_basis`. The 259 `approximate` events (all scrip, and rights from 2022) can be off by a day or more. Drop or flag a few days around them in daily-return models; longer-horizon returns are unaffected.
+>
+> **Exclusions (2026-10-24).** DOCK is dropped from the universes and the adjusted panel: its December 2025 capital change looks like a rights issue that item 04 does not list (DC-33). The universes become 355 core and 233 candidates. YORK 2018 is treated as a 16:1 consolidation, per items 16 and 21.
 
 ### 4.2 Rights issues, the hard case
 
@@ -127,7 +129,7 @@ Overall there are 1,076 such moves across 366 securities, or 344 across 184 for 
 
 Apply each year's splits, bonuses, scrip dividends and final rights allotments to item 16's year-end share count and confirm against the next year-end. **Per security per year, not in aggregate**, because offsetting errors cancel in a total. Any residual points at a missed or misdated event. There are 15 annual anchors inside the window, so the actions interpolate between known endpoints rather than extrapolating from one.
 
-> **Result (DC-28).** Shares are counted from their listing year. Within 1% of item 16: bonus 100%, scrip 95%, splits 93% and rights 86% of security-years (baseline 97.4% for years without events). The check found the missing consolidations, a totals row read as an event, and duplicate events (DC-30, DC-31).
+> **Result (DC-28).** Shares are counted from their listing year. Within 1% of item 16: bonus 100%, scrip 95%, splits 94% and rights 86% of security-years (baseline 97.4% for years without events). The check found the missing consolidations, a totals row read as an event, and duplicate events (DC-30, DC-31).
 
 ---
 
@@ -207,7 +209,7 @@ Everything in §5, plus the $\tau$ and stratification material from [[Dataset Pr
 | Q3 | Rs 145,514 | 93.0% | 13.9% | 13 |
 | Q5 most liquid | Rs 2,230,554 | 99.5% | 1.6% | 44 |
 
-Definitions: the universe is the 356 N and X securities with at least 60 aligned days. Quintiles are by each security's median turnover over the days it traded (71/71/71/71/72 securities). Trading frequency is traded days divided by aligned days. In this table, **non-traded days count as $\tau = 0$**.
+Definitions: the universe is the 356 N and X securities with at least 60 aligned days (355 after DOCK is excluded). Quintiles are by each security's median turnover over the days it traded (71/71/71/71/72 securities). Trading frequency is traded days divided by aligned days. In this table, **non-traded days count as $\tau = 0$**.
 
 A factor of 114 in turnover and 27 in the $\tau = 0$ rate between the extremes. The 27 mostly reflects non-trading: over traded days only, $\tau = 0$ is 6.6% in Q1, 5.2% in Q3 and 0.9% in Q5, a factor of about 7. Report both. A pooled estimate would conceal the regime the contribution is about, so stratify rather than average.
 
@@ -220,7 +222,7 @@ Median annualised volatility depends on how returns are built:
 
 Forward-filling damps the volatility of thinly traded stocks, so under it Q3, not Q1, is the most volatile. On traded-day returns the least liquid counters are the most volatile, which is the combination $A_V$ and $A_L$ are supposed to handle jointly. State which construction is used.
 
-Candidate universe: 234 voting (N) securities trading on at least 60% of their aligned days with at least 2,000 aligned days (249 if non-voting shares are included), which supports a five-stratum design with roughly 45 securities per stratum and lets the stratum be an experimental factor rather than a robustness note.
+Candidate universe (233 after DOCK is excluded, see below): 234 voting (N) securities trading on at least 60% of their aligned days with at least 2,000 aligned days (249 if non-voting shares are included), which supports a five-stratum design with roughly 45 securities per stratum and lets the stratum be an experimental factor rather than a robustness note.
 
 ### $A_F$ fundamental
 

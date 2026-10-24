@@ -1,6 +1,7 @@
 ---
 status: current
 created: 2026-10-23
+revised: 2026-10-24
 written_against: "[[16-06-2026]]; [[29-09-2026]]; [[Research Gap (Final Statement)]]; [[Contribution to Knowledge]]"
 tags:
   - working-doc
@@ -27,15 +28,19 @@ Everything below follows from that. **There is no end user operating this system
 
 ## Part 1. The stakeholder table
 
+> [!important]
+> **Decided 24 October.** One term is used for the motivating party throughout the deck, **investment decision-maker**, replacing the interchangeable use of investor, analyst and portfolio manager across slides 3, 9 and 20. It covers retail and institutional without committing to either, and the retail party who would be exposed by a deployed system is already separated into its own row. *Analyst* was the weakest of the three, because it implies a job title there is no evidence about.
+>
+> The exchange is **retained as a stakeholder** rather than demoted to a data source, with its need worded as licensing and terms compliance rather than as any collaboration, which is the accurate description of the relationship: a purchase plus an unanswered request. It also does work on slide 19, where buying licensed data rather than scraping is one of the three decisions responsible considerations actually changed.
+
 Four columns, matching the template. Every evidence source is something already in the vault.
 
 | Stakeholder | Need or responsibility | Evidence source | Design implication |
 |---|---|---|---|
 | **Primary operator: the researcher running the experiments** | Runs that are reproducible, comparisons that are fair, and results attributable to a named cause rather than to a configuration difference | Three documented instances in the reviewed set of published financial ML results that cannot be checked as published. The CSE Graph-RAG paper's proposed system got both the graph and the agent scaffolding while its baseline got neither | Agents run once and all five arms consume the same cached outputs, which is what makes A5 achievable. Seeds recorded, pipeline released, pre-registration fixed before the run |
-| **Motivating decision-maker: an investor or analyst allocating on a thin market** | Not to receive a confident directional signal from an information channel that is empty today | AlphaAgents deleted an entire agent by hand because its input channel was too thin across fifteen US megacaps. Three separate CSE studies hand-collected fundamentals from annual report PDFs. Pavithya et al. had the exchange's own announcement feed in 2021 and abandoned it as too thin to train on | The abstention channel, the confidence floor $\phi$, and `unparseable` as a distinct outcome state from `abstain`. An agent's influence falls when its channel is absent rather than a human noticing and intervening |
+| **Motivating user: an investment decision-maker allocating on a thin market** | Not to receive a confident directional signal from an information channel that is empty today | AlphaAgents deleted an entire agent by hand because its input channel was too thin across fifteen US megacaps. Three separate CSE studies hand-collected fundamentals from annual report PDFs. Pavithya et al. had the exchange's own announcement feed in 2021 and abandoned it as too thin to train on | The abstention channel, the confidence floor $\phi$, and `unparseable` as a distinct outcome state from `abstain`. An agent's influence falls when its channel is absent rather than a human noticing and intervening |
 | **Exposed party: retail participants on the CSE, if a system of this kind were deployed** | Not to be exposed to false confidence, and not to have thin-market execution cost hidden from them | Mean institutional ownership of 66.1% against insider ownership of 5.7%, so available depth is worse than a capitalisation-based estimate suggests. Unexpected illiquidity shocks depress CSE returns at $-0.084$ to $-0.097$, small caps more than large | The research-prototype framing rather than a deployable recommender. Simulated slippage presented as simulated, since there is no ground-truth execution data to validate a CSE simulator against. Survivorship bias reported rather than silently carried |
 | **Data provider: the Colombo Stock Exchange** | Licensed and terms-compliant use of its published data, and no scraping where an official route exists | [[20-09-2026]] decision 4, prefer existing and official CSE sources over scraping, Confirmed. The Data Library purchased at the student rate. The available CSE API documentation is community-produced rather than formal exchange developer documentation | The official daily share price extraction is the base panel rather than the API scrape. Licensing and reuse terms recorded as a field on every dataset row. The outstanding request for bid, ask and depth goes through the exchange rather than around it |
-| **Adjacent research group: the CSE Graph-RAG work at Moratuwa, same department** | Results and artefacts that can be checked and built on, and prior work credited rather than re-claimed | That system builds a static snapshot with no as-of field, which is a lookahead hazard in a backtest rather than an inconvenience | The single as-of cursor at the data layer, point-in-time correctness as a stated contribution, and structure-aware retrieval explicitly **not** claimed as novel because it is verified prior art on this market from the same university |
 | **Academic stakeholders: supervisor, panel and examiners** | Claims that are auditable, scoped to the evidence, and separable from the student's own reasoning | The standing language rule, the dated revision headers, and the withdrawn-claims table in [[Contribution to Knowledge]] Part 4 | Every claim scoped to the conditions it was tested under. Paper claim, evidence and my reading kept visibly separate. Corrections recorded in place rather than rewritten silently |
 
 ---
@@ -79,11 +84,22 @@ Said here so it is not discovered in questioning.
 
 ---
 
-## Part 5. Open decisions
+## Part 5. Settled and open
 
-1. **Whether the motivating decision-maker is described as an investor, an analyst or a portfolio manager.** The vault uses all three loosely. One term, used consistently across slides 3, 9 and 20, reads better than three.
-2. **Whether the exchange is listed as a stakeholder or only as a data source.** Listing it carries an obligation to describe the relationship accurately, and the relationship is currently a purchase plus an unanswered request.
-3. **Whether to name the Moratuwa group on the slide.** Naming adjacent work from the same university is good practice and it also pre-empts the question of whether this duplicates it.
+### Settled 24 October
+
+| Item | Decision |
+|---|---|
+| Term for the motivating party | **Investment decision-maker**, used consistently across slides 3, 9 and 20 |
+| The exchange | **Retained as a stakeholder**, with its need worded as licensing and terms compliance |
+| Adjacent research group | **Removed from the stakeholder table**, and not named on the slide |
+
+### Still open
+
+Nothing in this note.
+
+> [!NOTE]
+> **One limitation to carry to slide 20.** No need in Part 1 was elicited from a person. All of them are inferred from published evidence and from local market structure, which is a limitation of the requirements process rather than of the design, and it belongs on the limitations slide as well as in Part 4 here.
 
 ---
 
