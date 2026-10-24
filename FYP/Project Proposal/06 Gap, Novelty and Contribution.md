@@ -1,6 +1,7 @@
 ---
 status: current
 created: 2026-10-23
+revised: 2026-10-24
 written_against: "[[Contribution to Knowledge]]; [[Research Gap (Final Statement)]]; [[Week 3]]; [[Week 4]]; [[29-09-2026]]"
 tags:
   - working-doc
@@ -30,7 +31,19 @@ What exists, what is missing, the proposed novelty, the expected contribution. T
 |---|---|---|---|
 | Multi-agent financial systems combining heterogeneous analysts, mostly through a prompt rather than a coefficient. Separately, feature-conditioned forecast combination with a learned weighting function | Influence is fixed at design time, and in most reviewed systems there is no weight object to vary. Where a weight object exists it weights assets, selection or learning rate rather than influence, or conditions on properties of the series rather than on market state | A continuous, agent-level weighting function over methodologically heterogeneous agents resolving to a single shared decision, conditioned on measured exogenous market state, in a low-capacity form | Attributable evidence, through five arms and per-input ablation, on whether state-aware orchestration earns its place where channel reliability varies |
 | Execution cost modelled against depth in two reviewed papers, both credible and implemented | Both use a linear or square-root impact form, neither sweeps participation rate, both calibrate on deep markets, and every allocation system deducts cost after optimising rather than inside the objective | A nonlinear, depth-conditioned cost function held inside the convex allocation objective, plus a participation-rate sweep establishing the shape of the cost curve in order size | A measured cost-curve shape in order size, which I have not found for any market in the reviewed set, and a cost term that changes the decision rather than scoring it afterwards |
-| Volatility level operationalised daily by a target-volatility scaler that does most of the risk work in its own paper. Long memory measured on this market across all three regimes | The scaler assumes exponential decay, which is the assumption the local long-memory results contradict, so exposure returns on a schedule that is too fast. Persistence is measured locally and consumed by nothing | The fractional differencing parameter governing the post-shock exposure-restoration schedule, paired with a forecast conditional variance | A tested position on whether persistence should set the re-levering schedule. <font color="#ffc000">At proposal stage this is a pre-registered experiment rather than a result</font> |
+
+**Two rows, not three.** Persistence was removed from this table on 24 October and is stated below as a pre-registered experiment instead.
+
+### Persistence, stated as an experiment rather than a contribution
+
+> [!NOTE]
+> **Decided 24 October: persistence is not listed as a contribution anywhere in the proposal.** The experiment behind it was cut from the 25 October gate, so by 5 November there is no result. Listing it as a contribution would invite a question that has no answer, and it would contradict slide 3, where the corresponding outcome was removed on the same day.
+
+The position to state, if it comes up at all:
+
+> A standard target-volatility scaler assumes exponential decay of volatility shocks, and the long-memory results measured on this market across all three regimes contradict that assumption, so after a shock the scaler re-levers on a schedule that is too fast. Whether the fractional differencing parameter should govern that schedule is a pre-registered experiment with the baseline identified and the environment chosen. It runs on the source paper's own four-ETF setup and needs no CSE data, which is why it is off the critical path rather than abandoned.
+
+That is a stronger thing to say than most proposal-stage sub-gaps carry, and it is honest about its status. **Consequence still to resolve in [[07 Research Questions, Aim and Objectives]]:** RQ3 now has neither an outcome nor a contribution attached to it.
 
 ---
 
@@ -56,7 +69,8 @@ Drop any clause and a named system already does it. That is the test, and it is 
 
 Positioning the contribution as a generalisation along an identified axis is more defensible than positioning it as new machinery, and it pre-empts the examiner who knows that literature. Time-varying weights also have a lineage, through the Kalman filter and smooth-transition line, and saying so costs nothing.
 
-**Self-rated novelty 4 out of 5** for the orchestration operator, 3 for the cost work, and 3.5 for the persistence hypothesis. The supervisor rated the formulation 4.5 to 4.7 on 29 September and identified it as the point where this moved from an application architecture into a testable technical research contribution.
+> [!important]
+> **Decided 24 October: no novelty ratings appear anywhere in the proposal.** Not the self-ratings, and not the supervisor's rating of the formulation either. A number attached to novelty is a self-assessment artefact rather than evidence, it invites the question of who produced it and against what scale, and it adds nothing the clause table in Part 2 does not already do better. The ratings remain in [[Contribution to Knowledge]], which is how this is discussed with the supervisor, and they stay out of how it is presented to an examiner.
 
 ---
 
@@ -74,14 +88,17 @@ The negative evidence is strong enough to be the argument on its own. One publis
 
 ## Part 5. What is not claimed
 
-Pre-empting is cheaper than defending, and every item here was a claim at some point and was withdrawn or demoted on evidence. This belongs partly on slide 6 and partly on slide 20, and it should appear once.
+Pre-empting is cheaper than defending, and every item here was a claim at some point and was withdrawn or demoted on evidence.
 
-| Not claimed | Why |
-|---|---|
-| That size-dependent execution cost is unmodelled | Two reviewed papers implement it. Withdrawn, and the novelty rating moved with it |
-| That volatility is not operationalised in agent systems | The target-volatility scaler operationalises level daily. Only the persistence half survives |
-| That structure-aware retrieval over filings is novel | Verified prior art on this market, same department and university |
-| That layered explainability is a research gap | Combining existing explanation tools is useful engineering. Demoted to a design requirement on 13 September |
+> [!important]
+> **Decided 24 October: three go on slide 6, the full table goes on slide 20.** The three marked below are the ones that defend the contribution directly, so they belong at the moment the contribution is claimed. Together they show the contribution survived a contest rather than avoided one. The rest are limitations and belong where limitations live.
+
+| Not claimed | On slide 6 | Why |
+|---|:---:|---|
+| That size-dependent execution cost is unmodelled | ✅ | Two reviewed papers implement it. Withdrawn once they were found |
+| That structure-aware retrieval over filings is novel | ✅ | Verified prior art on this market, same department and university |
+| That layered explainability is a research gap | ✅ | Combining existing explanation tools is useful engineering. Demoted to a design requirement on 13 September |
+| That volatility is not operationalised in agent systems | | The target-volatility scaler operationalises level daily. Only the persistence half survives |
 | That evaluation discipline is a contribution | It is a mandatory methodology requirement. What does not exist is a CSE baseline set produced under it |
 | That dataset creation is a main theoretical contribution | Domain contribution only, per the supervisor on 13 September |
 | That the CSE is scientifically unique | It is a frontier-market stress-test environment where reliability varies, and that is the defensible framing |
