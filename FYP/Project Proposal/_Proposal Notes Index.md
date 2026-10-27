@@ -55,6 +55,43 @@ Dividing each criterion across the slides that carry it. Not how a marker works,
 
 ---
 
+## Assessment source materials
+
+Four issued documents, held in `Support Materials/Project Proposal/`. These are the authority for everything in this folder: where a note disagrees with one of them, the issued document wins.
+
+| Document | What it governs | Used for |
+|---|---|---|
+| [[6SENG010C_SE_PP_Student_Guide_2026_2027_V3.docx\|PP Student Guide V3]] | The whole proposal: criteria interpretation, recommended slide structure, examiner questions, readiness checklist | The per-slide rubric mapping below, and the Q&A preparation in note 22 |
+| [[6SENG010C_PP_Marking_Rubrics_2026-2027_V3.xlsx\|PP Marking Rubric V3]] | Nine weighted criteria, grade-band descriptors, threshold rules | The weights used throughout this folder |
+| [[6SENG010C_SE_PP_Live_Presentation_Template_2026_2027_V3.pptx\|PP Live Presentation Template V3]] | Slide order and per-slide tables | The deck is built by filling this file, so the order matches the submission check |
+| [[LONDON - Software Engineering Final Project.pdf\|Module Proforma]] | Module-level structure: assessment weights, learning outcomes, deliverable definitions | The whole-project stages on slide 17 |
+
+### What the Student Guide settles
+
+- **The recommended presentation structure is slides 1 to 20**, mapping exactly onto the template, with a rubric link given per slide. That mapping is reproduced below and supersedes my own.
+- **Section 22 lists sixteen questions students should be prepared to answer.** Every one of them is already covered by a note in this folder, which is a useful check rather than a coincidence. They belong in note 22.
+- **The guide does not name a referencing style.** Its readiness checklist says only that citations and the reference list must be accurate and complete, so the Cite Them Right Harvard default in note 21 stands, still to be confirmed.
+
+### What the Module Proforma settles, for slide 17
+
+| Component | Form | Weight |
+|---|---|--:|
+| Project Proposal | Presentation | 15% |
+| Interim Progress Demonstration | Presentation, **up to 20 minutes** | 15% |
+| Final Project and Report | Artefact plus written report, **10,000 to 12,000 words excluding code and diagrams** | 50% |
+| Final Project Viva | Viva, **up to 45 minutes** | 20% |
+
+Qualifying minimum is 30% on each. No calendar dates appear in either document, so the IPD, final submission and viva dates are still outstanding.
+
+> [!WARNING]
+> **The two issued documents conflict on duration, and it changes the deck's time budget.**
+>
+> The Marking Rubric's Threshold tab reads **"Up to 20 minutes, including questions"**. The Student Guide reads **"Up to 20 minutes, followed by examiner questions as scheduled"**.
+>
+> Under the rubric the delivery is roughly thirteen to fifteen minutes. Under the guide it is twenty, with questions on top. That is a difference of about a third of the talk. Everything in this folder was planned against the rubric's stricter reading, which is the safe direction to be wrong in, but it is worth one question to the supervisor before rehearsing.
+
+---
+
 ## Assessment conditions
 
 | Item | Value |
