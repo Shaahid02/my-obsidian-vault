@@ -1,7 +1,7 @@
 ---
 status: current
 created: 2026-10-23
-revised: 2026-10-24
+revised: 2026-10-27
 written_against: "[[PoC Data Build]]; [[Data Cleaning Checklist]]; [[Dataset Profile 2026-10-20]]; [[Data Library Profile Items 01-39]]; [[Research Matrices Status]]"
 tags:
   - working-doc
@@ -18,7 +18,7 @@ Data strategy sits inside the requirements criterion and also feeds the responsi
 All four are available. What this note does is choose which figures carry them.
 
 > [!WARNING]
-> **Do not quote superseded figures.** `[UPDATED 27 OCTOBER 2026]` [[ELI5 - The Whole Project in Plain English]] carried the stale set, 374 trading days per counter, 270 counters, and turnover unavailable long-horizon, and **was corrected on 27 October**, so it is safe to quote from again. [[PoC Specification]] §4.3 still carries them and has not been revised. The authoritative figures are in Part 1 and Part 1a of this note.
+> **Do not quote superseded figures.** `[UPDATED 27 OCTOBER 2026]` [[ELI5 - The Whole Project in Plain English]] carried the stale set, 374 trading days per counter, 270 counters, and turnover unavailable long-horizon, and **was corrected on 27 October**, so it is safe to quote from again. `[UPDATED 27 OCTOBER 2026]` [[PoC Specification]] §4.3 carried them too and **was corrected on 27 October**, with the superseded table kept inside a collapsed block; quote from the current table only. The authoritative figures are in Part 1 and Part 1a of this note.
 
 ---
 
@@ -107,7 +107,7 @@ This is the part that makes the slide a strategy rather than an inventory. Each 
 >
 > **Two mechanics come with it, and both are declared rather than inherited from whichever the code implemented.** The 283 float observations recorded as exactly 0 are treated as **missing**, not as zero, or any float-adjusted ratio divides to infinity. The 424 non-zero values below 1 percent across 24 securities are **winsorised**, with the threshold stated and the affected count reported.
 
-**4. Liquidity stratification is feasible and wide.** Median daily turnover spans a factor of 114 from the least to the most liquid quintile, and the degenerate-day rate by a factor of 27. A pooled estimate would conceal the regime the contribution is about, so the universe is stratified rather than averaged, and the candidate set is 234 voting securities trading on at least 60 percent of aligned days with at least 2,000 aligned days.
+**4. Liquidity stratification is feasible and wide.** Median daily turnover spans a factor of 114 from the least to the most liquid quintile, and the degenerate-day rate by a factor of 27. A pooled estimate would conceal the regime the contribution is about, so the universe is stratified rather than averaged, and the candidate set is `[CORRECTED 27 OCTOBER 2026]` **233** voting securities trading on at least 60 percent of aligned days with at least 2,000 aligned days. The superseded figure was 234. It was corrected in Part 1 on 24 October when DOCK was dropped, and this occurrence was missed at the time.
 
 ---
 

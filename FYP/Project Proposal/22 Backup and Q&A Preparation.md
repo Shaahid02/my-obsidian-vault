@@ -1,6 +1,7 @@
 ---
 status: current
 created: 2026-10-23
+revised: 2026-10-27
 written_against: "[[Week 3]]; [[Week 4]]; [[Week 5]]; [[Week 6]]; [[29-09-2026]]; [[20 Scope, Limitations and Closing Defence]]"
 tags:
   - working-doc
@@ -66,7 +67,7 @@ Written out because the ones that hurt are the ones answered for the first time 
 | **How do you know the agents are actually heterogeneous?** | Currently asserted. Pairwise error correlation is a pre-registered diagnostic, and if the correlations are high the error-cancellation argument weakens and that is reported |
 | **Your fundamental agent does not work yet. Does the contribution survive?** | The orchestration claim is tested over whichever agents emit the contract, and the agent-on-and-off ablation is what measures its contribution. A stubbed agent is reported as stubbed, and a zero delta from a stub is not presented as a finding |
 | **Why not use an LLM to set the weights?** | Capacity. An observed performance sign-flip under a small regularisation change, on a larger universe and a longer history than this one, is the argument for a low-capacity form that can be swept and reported |
-| **Is 20 counters enough?** | The candidate universe is 234 voting securities meeting the screen. The proof of concept runs on around nine, stratified across the liquidity cross-section, because the mechanism needs liquidity to vary both across and within counters |
+| **Is 20 counters enough?** | `[CORRECTED 27 OCTOBER 2026]` The candidate universe is **233** voting securities meeting the screen, out of a core universe of 355. The superseded figure was 234, corrected when DOCK was dropped on 24 October. The proof of concept runs on around nine, stratified across the liquidity cross-section, because the mechanism needs liquidity to vary both across and within counters |
 | **Your data is not adjusted for corporate actions. Are your numbers wrong?** | On corporate-action days, yes, which is why the proof of concept excludes counters with detected events and reports the exclusion count and its direction of bias. The registers are purchased and the adjusted series is the next data task |
 | **What happens if the exchange never sends bid, ask and depth?** | Nothing collapses. Two data levels were declared in advance, the proxy route is the plan and the microstructure route is the enhancement |
 | **How much of this did AI write?** | Assistance in search, drafting and synthesis, with verification by reading the source. The audit found thirteen substantive errors across 59 notes, four adjudicated against the original PDFs, which is evidence the verification runs rather than being claimed |

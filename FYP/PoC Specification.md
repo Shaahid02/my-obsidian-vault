@@ -1,11 +1,16 @@
 ---
 status: current
-revised: 2026-10-13
-written_against: 59 reviews; Research Gap; Contribution to Knowledge
+revised: 2026-10-27
+written_against: 59 reviews; Research Gap; Contribution to Knowledge; 18-21 October data build; 26 October filings harvest
 tags:
   - working-doc
 ---
 *Created 13 October 2026, against [[Research Gap]] (59 reviews), [[Contribution to Knowledge]], [[Temp Progress Update]] and the revised plan in [[29-09-2026]]. This note states what gets built and what counts as the build succeeding. It does not restate why — that is in the gap and contribution notes. Sentiment is out of scope throughout.*
+
+> [!NOTE]
+> **Revised 27 October 2026, data availability only.** This note was written on 13 October, before the 18 to 21 October data build and before the filings corpus was harvested on 26 October. Every figure it carried for universe size, per-counter depth, turnover, trade count and filings was superseded by that work. Those figures are corrected below and each correction is marked `[CORRECTED 27 OCTOBER 2026]`, with the superseded text kept rather than deleted so the record of what was believed on 13 October survives.
+>
+> **Nothing else has been revised.** The acceptance criteria, the agent contracts, the orchestrator design, the arms, the ablations and the build order still stand as written on 13 October and have not been re-checked against the current position. The authoritative data figures are Part 1 and Part 1a of [[12 Data and Evidence Strategy]].
 
 ---
 
@@ -46,7 +51,7 @@ Written first, deliberately, so the build is measured against them rather than a
 
 ### Explicitly not required by the PoC
 
-Profitability. Statistical significance. Full 270-counter coverage. The fundamental agent working well. Hyperparameter tuning. A UI. Any of the Level B microstructure work. Per [[29-09-2026]] §11.8, time spent on these *reduces* proposal quality.
+Profitability. Statistical significance. `[CORRECTED 27 OCTOBER 2026]` Full-universe coverage, which is **355 core securities and 233 candidates** rather than the 270 written here. The fundamental agent working well. Hyperparameter tuning. A UI. Any of the Level B microstructure work. Per [[29-09-2026]] §11.8, time spent on these *reduces* proposal quality.
 
 ---
 
@@ -100,18 +105,21 @@ Compute per counter:
 
 | Statistic | Notes |
 | --- | --- |
-| History length in trading days | Resolves the 374-day / 10-year tension below |
+| History length in trading days | `[CORRECTED 27 OCTOBER 2026]` **Computed. Median roughly 3,400 days, 10th percentile 1,081.** The 374-day / 10-year tension recorded below is resolved |
 | % of days with non-zero volume | |
 | Zero-return frequency | Recorded **separately** from non-trading |
 | $\tau_t$ rate | Fraction of days where open or close coincides with high or low. Needs no estimator and is falsifiable, unlike a spread estimate |
 | Median and mean volume, ADV | |
-| Median turnover | Only where turnover is held — D13's 17-month window |
-| Amihud | Only where turnover is held |
+| Median turnover | `[CORRECTED 27 OCTOBER 2026]` **Held across the full span**, confirmed 18 October. The D13 17-month restriction written here no longer applies |
+| Amihud | `[CORRECTED 27 OCTOBER 2026]` **Computable over the whole window** for the same reason |
 | Missing-day count | |
 
 > **The count of counters the trading-day filter removes on an average day is itself a liquidity statistic worth reporting** — [[Contribution to Knowledge]] K5.
 
 ### 0.4 A documentation conflict to resolve while doing 0.3
+
+> [!NOTE]
+> **Resolved 27 October 2026.** The screen was run and the conflict below is closed. The authoritative figures are **355 core securities and 233 candidates**, over a window of **2012-07-01 to 2026-06-30**, with **3,920 validated trading days** in the calendar and a **median per-counter depth of roughly 3,400 days**, 10th percentile 1,081. Neither of the two figures the paragraph below sets against each other was right: 374 days was never a per-counter depth, and the 270 x 10-year envelope was both the wrong count and the wrong span. [[ELI5 - The Whole Project in Plain English]] was corrected on 27 October and is safe to quote from again. The paragraph below is kept as the record of the conflict, not as a live instruction.
 
 [[Research Gap]] and [[ELI5 - The Whole Project in Plain English]] both state **374 trading days per counter**. [[Temp Progress Update]] states **270 companies across 10 years**, correctly caveated as an envelope rather than realised coverage. Read side by side these contradict, and [[29-09-2026]] §5.3 separately records that the 270 × 10-year dataset has no row in the Dataset Matrix at all.
 
@@ -169,6 +177,25 @@ One ticker-date table as the spine. Every column marked raw or derived, with its
 
 ### 4.3 What is held, and what the PoC therefore runs on
 
+> [!important]
+> **`[CORRECTED 27 OCTOBER 2026]` This table is superseded.** It was written on 13 October against the position before the data build. Six of its eight rows have changed status. The current table is immediately below; the 13 October version is kept after it.
+
+| Field | Status at 27 October | Consequence for the PoC |
+| --- | --- | --- |
+| Date, ticker, OHLC, volume | ✅ Held. **355 core securities, 233 candidates**, roughly 853,535 traded rows, median depth roughly 3,400 days | Spine |
+| Adjusted panel | ✅ Held. Built 23 October, carrying `adj_close` and `tr_close`, with 31 register corrections | Returns are computable without the detect-and-exclude workaround |
+| Index track | ✅ Held. ASPI clean across 2012-07-01 to 2026-06-30 | Three labelled regimes inside the window: Easter attacks, COVID, 2022 crisis. **The evaluation benchmark is ASTRI, not a price index** |
+| Turnover / trading value | ✅ Held across the full span, confirmed 18 October | Amihud and the turnover ratio enter the liquidity composite over the whole window |
+| Number of trades | ✅ Held | Trade intensity available |
+| Market capitalisation | ✅ Held, with quarterly float 2012 to 2026 H1 | Size tiering available. **Stratification is float-adjusted**, raw reported alongside as robustness |
+| Filings corpus | ✅ Held. 22,893 documents, 2012-01-01 to 2026-10-04, roughly 340 counters, every filename prefixed with the CSE announcement date | $A_F$ has a corpus, and the as-of cursor filters on publication date rather than reporting-period end. Usable coverage on numerically demanding questions is still to be measured |
+| Bid / ask / depth | ❌ Not held, and not available in any of the Data Library's forty items | **The only remaining gap.** Level B closed, tick-size test blocked, cost work runs on proxies for illiquidity |
+| Listing / delisting register | ❌ Not held | **Survivorship bias is present and must be reported, not silently carried.** Series-end dates used as a labelled proxy |
+
+**The honest wording for what is missing**, under the [[29-09-2026]] §5.7 rule: *long-horizon bid, ask and depth history aligned to the price series has not yet been secured.* Do not write that turnover or market capitalisation are unavailable, because both are held.
+
+<details><summary>The superseded 13 October table, kept as record</summary>
+
 | Field | Status | Consequence for the PoC |
 | --- | --- | --- |
 | Date, ticker, OHLC, volume | ✅ Held, 270 counters | Spine |
@@ -179,7 +206,9 @@ One ticker-date table as the spine. Every column marked raw or derived, with its
 | Market capitalisation | ❌ Not held long-horizon | Size tiering unavailable |
 | Listing / delisting register | ❌ Not held | **Survivorship bias is present and must be reported, not silently carried** |
 
-**The honest wording, from [[29-09-2026]] §5.7** — do not write "turnover and market cap are unavailable", because D13 has them for 17 months. Write: *long-horizon turnover, trade-count, bid/ask and market-cap history aligned to the ten-year OHLCV series has not yet been secured.*
+Its honest-wording rule read: do not write "turnover and market cap are unavailable", because D13 has them for 17 months. Write: *long-horizon turnover, trade-count, bid/ask and market-cap history aligned to the ten-year OHLCV series has not yet been secured.* That wording is now wrong in the other direction and must not be reused.
+
+</details>
 
 ---
 
@@ -375,7 +404,11 @@ Not novel, and not claimed as novel. What does not exist in the reviewed literat
 
 ### One data-depth constraint with a number attached
 
-Adaptive conformal inference, the method behind $C_{V,t}$, is calibrated in its source on a **1250-day** refit window. That is five years of daily data per counter, against a per-counter archive that is far shorter. On the index track it transfers as written; on the per-counter track it does not. Two honest options: a shorter joint window with the calibration degradation reported, or pooling scores across counters, which breaks the per-counter conditioning the method relies on. **Pick one and say which, before running.**
+Adaptive conformal inference, the method behind $C_{V,t}$, is calibrated in its source on a **1250-day** refit window. That is five years of daily data per counter.
+
+`[CORRECTED 27 OCTOBER 2026]` The sentence that followed here said the per-counter archive is far shorter than 1250 days. That was written before the depth was measured and it is wrong for most of the universe. **Median per-counter depth is roughly 3,400 days**, so a 1250-day refit window fits with roughly 2,150 days left to evaluate on. The constraint does not disappear, it relocates: **the 10th percentile is 1,081 days**, which does not accommodate the window at all, and the counters in that tail are precisely the thin end of the cross-section this project is about. So the problem now reads as a stratum-dependent one rather than a universal one, and it bites hardest exactly where the contribution is claimed.
+
+On the index track the method transfers as written. On the per-counter track it transfers for the liquid strata and not for the thin ones. The two honest options are unchanged in kind: a shorter joint window with the calibration degradation reported, or pooling scores across counters, which breaks the per-counter conditioning the method relies on. A third is now available, namely applying the source window where depth allows and a declared fallback below a stated depth threshold, with the threshold and the affected counter count reported. **Pick one and say which, before running.**
 
 ---
 
@@ -442,12 +475,12 @@ Things this spec cannot settle and that someone has to.
 1. **$\phi$, the abstention floor.** No value is anywhere in the vault. §6.3 proposes setting it at the knee of the coverage-accuracy frontier and sweeping it.
 2. **Parkinson or Garman-Klass.** Both named, neither chosen. Freeze before running.
 3. **Where PoC-B sits in the order.** This spec moves it ahead of the agent build against the 29 September schedule. Worth a line to the supervisor rather than a silent reordering.
-4. **The conformal window compromise.** Short joint window with reported degradation, or pooled scores breaking per-counter conditioning. Both are defensible; only one can be run.
+4. **The conformal window compromise.** `[UPDATED 27 OCTOBER 2026]` Reframed by the measured depth in Part 9. The choice is no longer forced across the whole universe, since the median counter carries roughly 3,400 days against the 1250-day requirement. It is forced below roughly the 10th percentile, 1,081 days. Short joint window with reported degradation, pooled scores breaking per-counter conditioning, or a depth threshold with a declared fallback beneath it. All three are defensible; only one can be run, and the threshold and affected counter count must be reported either way.
 5. **Whether the state-forecasting layer survives Gate 0.1.** If the quantile AR(1) wins, the PoC gets simpler. Decide the response before seeing the result.
 6. **Intraday data, regardless of EDGE.** A month of minute prices is worth vastly more to a cost model than a year of daily prices, roughly $390^{3/2}$ against $\sqrt{252/21}$. If any intraday CSE feed exists at any granularity it is worth more than extending the daily archive backwards. This is a supervisor question and it is independent of everything else here.
 
 ---
 
-**Related notes.** [[Research Gap]] for what the literature lacks. [[Contribution to Knowledge]] for what this produces. [[ELI5 - The Whole Project in Plain English]] for the same material without jargon. [[29-09-2026]] for the schedule and gates this spec is built against. [[Scope sentiment analysis dropped]] for the standing scope decision.
+**Related notes.** [[Research Gap]] for what the literature lacks. [[Contribution to Knowledge]] for what this produces. [[ELI5 - The Whole Project in Plain English]] for the same material without jargon, corrected 27 October. [[12 Data and Evidence Strategy]] for the authoritative data figures this note was corrected against. [[29-09-2026]] for the schedule and gates this spec is built against. [[Scope sentiment analysis dropped]] for the standing scope decision.
 
 **Language discipline applies here too.** No "first / nobody / never". The permitted form is *"I have not found that evaluation in the literature I have covered."* The gap statement carries a 2026-03-09 cutoff and should be re-checked before submission.
