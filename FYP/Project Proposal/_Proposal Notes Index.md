@@ -110,6 +110,26 @@ Collected so they can be settled in one pass. Ordered by what blocks the most.
 
 ---
 
+## Backlog, raised 24 October, cleared 27 October
+
+Five items surfaced while working through the notes, each one making some note say something that was no longer true. **All five are now cleared in the settled notes.** Two of them also land in notes 17 and 18, which are not yet written, and are carried below rather than applied early.
+
+| # | What changed | Status |
+|--:|---|---|
+| **B1** | **Filings corpus obtained.** 22,893 documents, 2012-01-01 to 2026-10-04, roughly 340 counters. Interim 16,713, annual 4,902, prospectus 421, trust deed 223, accountants' report 30, other 604. Empty error log | **Cleared.** Every filename is prefixed with the CSE announcement date, which satisfies the hardest part of DR6 and contribution C6. A 22-file probe across four counters, both document types and 2012 to 2026 found an extractable text layer in **every** file, 507 to 3,485 characters per page, median 1,409, so the pre-2015 OCR risk does not materialise on that sample. Applied to notes 10, 11 and 12 |
+| **B2** | **Adjusted panel built 23 October**, carrying `adj_close` and `tr_close`, with 31 register corrections each confirmed against both price and issued quantity | **Cleared** in notes 10 (DR2), 12 and 13. Still to land in 17 critical path and 18 data risks when those are written |
+| **B3** | **Universe counts changed** to 355 core and 233 candidates after DOCK was dropped | **Cleared** in notes 07 and 12 |
+| **B4** | **No documented date is an ex-date.** Recovered from measured price drops, with 259 events marked approximate in `ex_date_basis` | **Cleared** as new requirement **DR10** in note 10, and in note 13's threats. Still to land in 18 as the residual risk that replaces B2 |
+| **B5** | **`adj_close` or `tr_close` is open** (repository T3.5) | **Raised** as open decision 3 in note 12, with the ASTRI pairing argument stated. Still to land in 14 |
+
+### What the corpus probe did and did not establish
+
+**Established.** Publication dates are present and are announcement dates rather than reporting-period ends, so the as-of cursor filters correctly. The documents carry a text layer, so no OCR stage is required on the sampled range.
+
+**Not established.** Usable coverage on numerically demanding questions. That remains a hypothesis to measure with a probe set, and the benchmark figure from other financial-QA pipelines must not be quoted as a CSE result. The probe is 22 files out of 22,893, chosen across four counters and fifteen years, which supports a scoped claim and not a corpus-wide one.
+
+---
+
 ## Still outstanding outside these notes
 
 - **The project title**, above, which is the one blocking item that cannot be deferred.
