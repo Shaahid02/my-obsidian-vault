@@ -40,18 +40,21 @@ Slides 10 and 11 are a pair. The rubric states that a requirements specification
 
 ## Marks per slide, as a triage signal
 
-Dividing each criterion across the slides that carry it. Not how a marker works, but it is where the preparation time should go.
+`[CORRECTED 27 OCTOBER 2026]` Rebuilt on the Student Guide's own per-slide rubric mapping, which supersedes the mapping I derived. Dividing each criterion across the slides the guide assigns it to. Not how a marker works, but it is where preparation time should go.
 
-| Slide | Approximate marks | Note |
-|--:|--:|---|
-| 19 Responsible considerations | 8 to 10 | One slide carrying a whole criterion |
-| 20 Scope and limitations | 7 to 10 | One slide, plus scope appears in the cross-cutting row of every band |
-| 10 Requirements | about 6 | Core of the 20 percent criterion |
-| 11 Architecture | about 6 | Core of the 20 percent criterion |
-| 17, 18 Plan and risk | about 5 each | |
-| 21 References | about 5 | Whole criterion |
-| 13 to 16 Methodology group | about 3.75 each | |
-| 4, 5, 6, 8 Evidence group | about 2.5 each | The strongest material in the project, and the least dense slides |
+| Slide | Guide's rubric link | Approximate marks | Note |
+|--:|---|--:|---|
+| **19** Responsible considerations | Responsible Project Considerations | **about 10** | The only slide carrying a whole criterion alone. Densest in the deck |
+| **9, 10, 11** Stakeholders, requirements, architecture | Requirements and Indicative Solution | **about 6.7 each** | The 20 percent criterion, split three ways rather than four. Slide 12 is not part of it |
+| 17, 18 Plan and risk | Plan, Feasibility and Risk | about 5 each | |
+| 21 References | Academic Practice and Referencing | about 5 | Whole criterion |
+| 3 Problem and goal | Problem or Opportunity and Project Goal | about 10 | Sole carrier of its criterion |
+| 6, 7, 20 | Scope, shared | about 3.3 each of Scope | Slide 6 and 7 also carry other criteria |
+| 7, 12, 13, 14, 15, 16 | Methodology and Development Approach | about 2.5 each | Split six ways, so individually light |
+| 4, 5, 6, 8 Evidence group | Background and Evidence | about 2.5 each | The strongest material in the project, and the least dense slides |
+| 1, 2, 20 | Communication, plus delivery | 10 shared | Assessed on structure, timing and answers, not only slides |
+
+**Two corrections this forced.** Slide 12 moves from the Requirements criterion to Methodology, which lowers it and raises slides 9, 10 and 11 to roughly 6.7 each. And slide 20 shares Scope with slides 6 and 7 rather than carrying it alone, so it is lighter than the 7 to 10 previously recorded here, though it still closes the talk.
 
 ---
 
@@ -177,11 +180,18 @@ Five items surfaced while working through the notes, each one making some note s
 
 ---
 
-## One standing warning before lifting text into slides
+## The ELI5 warning, resolved 27 October
 
-[[ELI5 - The Whole Project in Plain English]] is the most quotable note in the vault and is **superseded on data**. It still states 374 trading days per counter, 270 companies over ten years, and trading-activity data as missing. All three were corrected between 18 and 21 October: roughly 356 equity securities, about 853,535 traded rows, 3,920 validated trading days from 2010 to 2026-06-30, median per-counter history around 3,400 days, and turnover and trade count held across the full span.
+[[ELI5 - The Whole Project in Plain English]] is the most quotable note in the vault and was **superseded on data**, which made it the most likely route for a stale figure to reach a slide. **It has been corrected and is safe to quote from again.**
 
-This is not only a number. The forecast-combination objection in that note leans on 374 days to argue that limited data favours equal weights, and [[Research Matrices Status]] already records that the argument "is weaker than it reads" at 3,400 days. If that passage reaches a slide unrevised, it presents a weakened version of my own strongest counter-argument.
+| What it said | What it now says |
+|---|---|
+| 374 trading days per company | About 3,400 for the typical company |
+| 270 companies, ten years | 355 companies, mid-2012 to mid-2026, corrected for share splits |
+| Trading-activity data still missing, and the bottleneck | Turnover and trade count held across the whole period. Bid, ask and depth are the only remaining gap |
+| No row for company accounts | 22,893 filings, 2012 to 2026, each carrying its publication date |
+
+**The substantive change, not just the numbers.** That note's account of the strongest objection leaned on the 374 figure to argue that limited data favours equal weights. At 3,400 days that argument is weaker, so the passage now says so plainly and keeps only the part that survives: many counters do not trade every day, so calendar depth overstates how much there is to learn from. Leaving it unrevised would have presented a weakened version of the project's own strongest counter-argument.
 
 ---
 

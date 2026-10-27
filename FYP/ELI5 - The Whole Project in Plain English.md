@@ -1,4 +1,4 @@
-*Created 12 October 2026. The whole project with no jargon. Everything here is said properly in [[Research Gap]] and [[Contribution to Knowledge]]. This note is for explaining it out loud: to a panel in the first two minutes, to a family member, or to yourself at the point where the detail has stopped making sense.*
+*Revised 27 October 2026. Three things in this note had gone out of date: how much price history there is, what trading-activity data is held, and whether the company accounts had been collected. All three are corrected below and the old wording is noted where the change matters to an argument rather than just to a number. Created 12 October 2026. The whole project with no jargon. Everything here is said properly in [[Research Gap]] and [[Contribution to Knowledge]]. This note is for explaining it out loud: to a panel in the first two minutes, to a family member, or to yourself at the point where the detail has stopped making sense.*
 
 ---
 
@@ -158,7 +158,7 @@ Worth knowing, because somebody will raise it and it is better to raise it yours
 
 That literature gives two rules of thumb, and they point in opposite directions here:
 
-1. When you do not have much historical data, use the simple average. There are only 374 trading days per company. **Points at equal weights.**
+1. When you do not have much historical data, use the simple average. **This one has weakened, and the honest thing is to say so.** I used to think the archive held only a few hundred trading days per company. It holds about 3,400 for the typical one, so the data is not as thin as that rule assumes. What survives is subtler: many of these companies do not trade every day, so the number of days on the calendar overstates how much there actually is to learn from. **Still points at equal weights, but less firmly than it did.**
 2. When conditions change structurally, the simple average handles it worst and changing weights are the right response. Colombo's relationships demonstrably break across 2020 to 2022. **Points at the moving dial.**
 
 Which effect wins on this data is the experiment, and the review that documents both rules says plainly that there is **no comprehensive guidance on when to choose which**. So an answer on a thin frontier market is worth having even if the answer is "equal weights won."
@@ -202,10 +202,11 @@ The honest version, which is also the easier one to defend. Not "this market is 
 | Letting an adviser abstain | Designed, and now positioned in the forecasting literature's own vocabulary rather than as something bespoke |
 | Trading cost | Narrowed honestly, rated 3 out of 5, and carrying two caveats that have to be stated together |
 | Slow-fading shocks | A strong hypothesis. Becomes a contribution when one experiment runs, and that experiment needs no Colombo data |
-| Price data | 270 companies, ten years. Secured |
-| Trading-activity data | **Still missing, and this is the bottleneck.** Turnover, number of trades, bid and ask, company size. Three of the four advisers depend on some of it |
+| Price data | 355 companies, mid-2012 to mid-2026. Secured, and now corrected for share splits and similar events, which it was not until late October |
+| Trading-activity data | Turnover and the number of trades are held across the whole period, which I previously recorded as missing. **Bid, ask and depth are still missing**, and that is now the only data gap that bites |
+| Company accounts | **Secured.** 22,893 filings covering 2012 to 2026, each one carrying the date it was published, which is what stops the system reading a report before it existed |
 
-**The single most important practical consequence.** The request to the exchange for bid, ask and depth data is no longer a nice-to-have validation step. Since 11 October it is the only route to a real measurement of what trading costs on this market. It should be the headline item in that request, not one line among several.
+**The single most important practical consequence, and it has narrowed.** Most of what was blocking this project in October has since been secured: the price history, the trading activity, the corrections for share splits, and the company accounts. One gap is left. The request to the exchange for bid, ask and depth data is the only route to a real measurement of what a trade costs on this market, so it should be the headline item in that request rather than one line among several. Everything else can proceed without it, using indirect indicators, provided that is said out loud.
 
 ---
 

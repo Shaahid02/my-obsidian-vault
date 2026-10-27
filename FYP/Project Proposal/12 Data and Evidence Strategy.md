@@ -18,7 +18,7 @@ Data strategy sits inside the requirements criterion and also feeds the responsi
 All four are available. What this note does is choose which figures carry them.
 
 > [!WARNING]
-> **Do not quote superseded figures.** [[ELI5 - The Whole Project in Plain English]] and [[PoC Specification]] §4.3 both predate the 18 to 21 October corrections and still say 374 trading days per counter, 270 counters, and turnover unavailable long-horizon. The current figures are in Part 1 and all three of those statements are wrong.
+> **Do not quote superseded figures.** `[UPDATED 27 OCTOBER 2026]` [[ELI5 - The Whole Project in Plain English]] carried the stale set, 374 trading days per counter, 270 counters, and turnover unavailable long-horizon, and **was corrected on 27 October**, so it is safe to quote from again. [[PoC Specification]] §4.3 still carries them and has not been revised. The authoritative figures are in Part 1 and Part 1a of this note.
 
 ---
 
