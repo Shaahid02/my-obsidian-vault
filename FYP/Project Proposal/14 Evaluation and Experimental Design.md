@@ -1,12 +1,16 @@
 ---
 status: current
 created: 2026-10-23
+revised: 2026-10-29
 written_against: "[[PoC Specification]]; [[Contribution to Knowledge]]; [[07 Research Questions, Aim and Objectives]]; [[13 Methodology]]"
 tags:
   - working-doc
   - proposal
 ---
 *Created 23 October 2026, for slide 14 of the PP live presentation template. The material is already specified across [[PoC Specification]] Parts 7 to 10, and the work here is selection plus the one thing the spec leaves blank, which is the pre-registered values. Sentiment is out of scope throughout.*
+
+> [!NOTE]
+> **Revised 29 October 2026.** Three corrections against [[07 Research Questions, Aim and Objectives]], which this note contradicted, plus three decisions closed. The primary metric and the margin form are taken from note 07 rather than left open here. The fundamental agent's corpus position and the corporate-action commitment are brought up to date. Open decisions 1 to 3 are closed with the reasoning kept rather than deleted.
 
 ---
 
@@ -26,10 +30,10 @@ The template's own instruction on this slide is the standard to meet: a strong e
 | Evaluation element | What it requires | This project |
 |---|---|---|
 | **Baseline or comparator** | What is the approach compared against? | Five arms: equal weight, static learned weight, discounted inverse-MSE with no market state, the state-conditioned proposal, and an oracle fitted on the test window. Equal weight is the pre-registered primary benchmark |
-| **Metrics** | How is success measured? | Cost-adjusted return per traded day as primary, with Sharpe, maximum drawdown, recovery profile and turnover as secondary. Every directional row also carries class balance and Matthews correlation |
+| **Metrics** | How is success measured? | `[CORRECTED 29 OCTOBER 2026]` **Cost-adjusted return over the full window, abstained days held flat**, as primary, following [[07 Research Questions, Aim and Objectives]] Part 4. Return per traded day is reported as a secondary diagnostic beside coverage, not as the primary, because abstaining on hard days lifts a per-traded-day average by removing the worst days from the denominator. Sharpe, maximum drawdown, recovery profile and turnover also secondary. Every directional row carries class balance and Matthews correlation |
 | **Protocol** | Splits, scenarios, cases | Chronological walk-forward with adaptive retraining, five seeds across folds with dispersion reported, decomposed across the Easter attacks, COVID and the 2022 crisis, with a cost sensitivity sweep rather than a single assumption |
 | **Ablation or sensitivity** | What is tested separately? | One ablation per state input, plus the fundamental agent on and off, plus two separating ablations for the liquidity coupling and the cost objective, plus a sensitivity sweep over the liquidity state and a stability sweep over the orchestrator's own regularisation |
-| **Success criteria** | What result would support the aim? | A margin over equal weighting exceeding the baseline's own dispersion across repeated windows, HAC-adjusted and bootstrap tested at $\alpha = 0.05$, with attributable per-input deltas. A null at that margin is an acceptable and reportable outcome |
+| **Success criteria** | What result would support the aim? | `[CORRECTED 29 OCTOBER 2026]` A margin over equal weighting **exceeding the interquartile range of $B_1$ across repeated windows**, following [[07 Research Questions, Aim and Objectives]] Part 4, HAC-adjusted and bootstrap tested at $\alpha = 0.05$, with attributable per-input deltas. A null at that margin is an acceptable and reportable outcome |
 
 ---
 
@@ -57,9 +61,13 @@ One at a time, each producing an attributable delta.
 
 **State inputs.** Proposal minus liquidity, minus volatility, minus persistence, minus confidence. These four are what make the answer attributable rather than a single number.
 
-**Component.** The fundamental agent on and off inside the full framework, which is required rather than optional. If that agent is stubbed at the gate, report it as not run against a live agent with the reason, rather than reporting a zero delta as a finding.
+**Component.** The fundamental agent on and off inside the full framework, which is required rather than optional.
 
-**Mechanism separation, for the liquidity question.** Proposal minus the liquidity-to-reliability coupling, and proposal minus the cost objective. These separate whether any improvement comes from changing agent trust, from changing execution decisions, or from both, which is what RQ2 actually asks.
+`[UPDATED 29 OCTOBER 2026]` **The corpus for that agent is secured**, which this paragraph previously assumed it was not. 22,893 filings from 2012-01-01 to 2026-10-04 across roughly 340 counters, every probed file carrying an extractable text layer at 507 to 3,485 characters per page, and the **CSE announcement date in every filename**, so the as-of cursor filters on publication date rather than on reporting-period end. What remains is the build, and usable coverage on numerically demanding questions is still to be measured against a probe set.
+
+The stub therefore stays as the **declared fallback rather than the expected case**. If the agent is stubbed at the gate, report it as not run against a live agent with the reason, rather than reporting a zero delta as a finding.
+
+**Mechanism separation, for the liquidity question.** Proposal minus the liquidity-to-reliability coupling, and proposal minus the cost objective. These separate whether any improvement comes from changing agent trust, from changing execution decisions, or from both, which is what SQ1 actually asks.
 
 ---
 
@@ -67,7 +75,7 @@ One at a time, each producing an attributable delta.
 
 | Commitment | Detail |
 |---|---|
-| **Commitment zero** | Returns computed on a corporate-action-aware series. Everything below depends on it |
+| **Commitment zero**, now met | `[UPDATED 29 OCTOBER 2026]` Returns computed on a corporate-action-aware series. The adjusted panel was **built on 23 October**, carrying a price-only `adj_close` and a total-return `tr_close`, with 31 register corrections each confirmed against both price and issued quantity. **`tr_close` is the primary series**, because the evaluation benchmark is ASTRI and a total-return series against a total-return index is the like-for-like comparison; `adj_close` is reported as the price-only robustness check. This closes backlog item B5 |
 | Splits | Chronological, walk-forward with adaptive retraining |
 | Seeds | Five across the folds, with dispersion reported rather than the best run |
 | Regimes | Decomposed across the Easter attacks, COVID and the 2022 crisis. The index carries 15.1 percent annualised volatility over the window with annual figures running 5.6 percent to 31.6 percent, so the regime variable has real variation and does not need hand-dating |
@@ -125,10 +133,13 @@ Said here so the claim stays inside what the design can carry. [[Week 4]] §2.7 
 
 ## Part 8. Open decisions
 
-1. **Primary metric per traded day or over the full window.** They answer different questions once abstention is in play, and only one can be primary.
-2. **The margin form.** Scaled to the baseline's dispersion is proposed. A fixed number is also defensible. Either beats deciding afterwards.
-3. **Whether the oracle arm is presented on the slide.** It is the most distinctive thing in the design and it needs a sentence of explanation that the time budget may not allow. It is a strong backup slide.
-4. **How much of Part 4 is shown against slide 13.** The protocol belongs here; the validity controls belong there.
+`[UPDATED 29 OCTOBER 2026]` Three of the four below were closed on 29 October. The closures are recorded rather than deleted, so the reasoning survives.
+
+1. ~~Primary metric per traded day or over the full window.~~ **Closed 29 October: over the full window, abstained days held flat**, following [[07 Research Questions, Aim and Objectives]] Part 4, which had already settled it. Per-traded-day return survives as a secondary diagnostic reported beside coverage. The reason for the direction is that abstention is a design feature here rather than an accident, and a per-traded-day average rewards an arm for declining the hardest days, while holding abstained days flat over the full window charges it for the opportunity it passed up.
+2. ~~The margin form.~~ **Closed 29 October: scaled to the interquartile range of $B_1$ across repeated windows**, following [[07 Research Questions, Aim and Objectives]] Part 4. A fixed number remains defensible and was not chosen.
+3. ~~Whether the oracle arm is presented on the slide.~~ **Closed 29 October: named on the slide, explained on the backup.** The five-arm line names it without defining it, and what the oracle gap separates, a wrong hypothesis from a hard estimation problem, is explained on the baselines-and-metrics backup slide listed in [[22 Backup and Q&A Preparation]] Part 1. The slide keeps the credit for the design and spends none of the time budget on it.
+4. **How much of Part 4 is shown against slide 13.** Still open. The protocol belongs here; the validity controls belong there.
+5. **Where the seven diagnostics in Part 5 live.** `[RAISED 29 OCTOBER 2026]` They appear identically here and in [[15 Testing, QA and Traceability]] Part 4, whose own open decisions propose slide 15 as their home. They should appear once. Deferred to the slide 15 pass rather than decided here.
 
 ---
 
