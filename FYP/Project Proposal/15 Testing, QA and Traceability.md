@@ -1,12 +1,16 @@
 ---
 status: current
 created: 2026-10-23
+revised: 2026-10-29
 written_against: "[[Data Cleaning Checklist]]; [[PoC Specification]]; [[PoC Data Build]]; [[10 Requirements]]"
 tags:
   - working-doc
   - proposal
 ---
 *Created 23 October 2026, for slide 15 of the PP live presentation template. Testing design was scheduled for 25 October in [[29-09-2026]] §11.5 and has not been written, but one row of the template's table is already populated with executed results rather than plans: the data verification suite in [[Data Cleaning Checklist]] Stage 6. Sentiment is out of scope throughout.*
+
+> [!NOTE]
+> **Revised 29 October 2026.** Two corrections and four decisions. The traceability table traced three research questions that [[07 Research Questions, Aim and Objectives]] has since renamed and, in one case, withdrawn. Seven **Must** requirements carried no test anywhere in the note, which matters more than usual because linking tests to requirements is this note's whole purpose and the traceability chain is a planned backup slide. The seven are now covered. The behavioural checks are confirmed as living here rather than on slide 14, and a testing timeline has been added, because the note was a snapshot and the criterion rewards showing testing develop.
 
 ---
 
@@ -27,7 +31,7 @@ Most proposals answer this with intentions. This one can answer part of it with 
 
 | Area | Purpose | Status | Evidence |
 |---|---|---|---|
-| Unit and component | Verify isolated logic: estimators, the calibration transform, the normalisation, the composite construction | **Planned.** Targets named in Part 3 | Test results |
+| Unit and component | Verify isolated logic: estimators, the calibration transform, the normalisation, the composite construction | `[CONFIRMED 29 OCTOBER 2026]` **Planned, and none exist today.** No unit suite is in the repository at this date. Targets named in Part 3, scheduled in Part 7 | Test results, once written |
 | Integration | Verify components communicate correctly end to end and that the arms consume the cache rather than re-running | **Specified as acceptance criteria.** A1 and A5 are integration tests in all but name | A1 run artefact, A5 byte comparison |
 | Requirements-based system tests | Check each Must requirement is satisfied | **Specified.** Acceptance evidence is already attached to every requirement in [[10 Requirements]] | The traceability table in Part 4 |
 | Data and model checks | Detect leakage, bad data, drift, collinearity and degenerate behaviour | **Partly executed, with numbers** | [[Data Cleaning Checklist]] Stage 6, plus the pre-registered diagnostics |
@@ -54,9 +58,9 @@ This is the part to lead with, because it is evidence rather than intention. Eac
 
 ---
 
-## Part 3. Tests planned against the orchestration layer
+## Part 3. Tests planned against the orchestration and data layers
 
-Named targets rather than a general promise. Each one maps to a requirement.
+Named targets rather than a general promise. Each one maps to a requirement. `[EXTENDED 29 OCTOBER 2026]` Six rows added for **Must** requirements that previously had no test named anywhere in this note.
 
 | Test | What it asserts | Requirement |
 |---|---|---|
@@ -69,6 +73,12 @@ Named targets rather than a general promise. Each one maps to a requirement.
 | Calibration monotonicity | The accuracy-at-threshold transform is monotone and bounded in $[0,1]$ | MAI2 |
 | Gate behaviour | The technical agent receives no weight on days where Theil's $U2 \geq 1$ | MAI3 |
 | Result schema | No directional result is emitted without class balance, Matthews correlation and cost-adjusted return on the same row | NFR5 |
+| Stability sweep is run, not tuned | The regularisation sweep executes and its full range is reported, with no code path selecting a favourable setting | NFR4 |
+| Trade-count equalisation | No arm comparison is emitted unless trade counts are equalised and exposure time, holding period and turnover are present as fixed columns | NFR6 |
+| Decision reconstruction | A decision sampled at random is rebuilt from the per-ticker-date log alone, agent outputs, state series and weights, and matches the original. **This is the test that makes contribution K7 verifiable**, since an explanation that was not recorded is not an explanation | NFR7 |
+| Zero-return against non-trading | The two are held in separate fields, with volume rather than price change deciding and the exchange calendar separating them, asserted on the panel | DR5 |
+| Survivorship proxy is labelled | Any survivorship statement carries the series-end-date proxy label and the residual bias, and no run emits a tradability mask presented as point-in-time | DR9 |
+| Ex-date reliability is honoured | Every corporate-action event carries `ex_date_basis`, and any daily-return model drops or flags the events marked approximate | DR10 |
 
 ---
 
@@ -76,15 +86,18 @@ Named targets rather than a general promise. Each one maps to a requirement.
 
 These sit between testing and evaluation. They do not assert correctness, they detect the failure modes that would make a correct-looking result meaningless, and each corresponds to a named risk.
 
-| Check | Computation | The risk it tests |
-|---|---|---|
-| Weight entropy over time | $H_t = -\sum_i w_{i,t}\ln w_{i,t}$ | Entropy collapse, the orchestrator converging on near-constant weights. Observed rather than hypothetical: MacroHFT's own weight trace is near-binary with three of six curves barely off the floor |
-| Sensitivity to liquidity | $\partial w / \partial L$ swept over the observed range on a frozen date | Inert weights. This is A3, and it is the check that matters |
-| Agent error correlation | Pairwise across the four agents | The heterogeneity claim is load-bearing and currently asserted rather than measured |
-| Volatility and liquidity collinearity | Idiosyncratic risk estimate against turnover | If the two move together, two agents are partly measuring the same thing and the state vector has a collinearity problem |
-| Fundamental agent weight trajectory | Weight series annotated with filing dates | Whether the mechanism is conditional or merely selective. If the orchestrator zeroes that agent permanently, heterogeneity survives on paper while the system behaves as three agents |
-| Oracle gap | $O$ minus $P$ | Estimation cost, separating a failed hypothesis from a failed estimator |
-| Quiet against stressed decomposition | Weights and performance split by regime | An orchestrator whose weights move impressively in the two or three most volatile months and are inert otherwise |
+> [!important]
+> **Decided 29 October: these live here, not on slide 14.** The same seven appear in [[14 Evaluation and Experimental Design]] Part 5, and they should appear once. Slide 14 is already carrying five arms, three ablation families, an eleven-row protocol and the success criteria, so it keeps one line pointing here. The **Requirement** column is new and closes two coverage gaps at no cost: the first two checks are what **FR10a** requires as standard output, which is why it was promoted to Must, and the remaining five are **FR10b**.
+
+| Check | Computation | The risk it tests | Requirement |
+|---|---|---|---|
+| Weight entropy over time | $H_t = -\sum_i w_{i,t}\ln w_{i,t}$ | Entropy collapse, the orchestrator converging on near-constant weights. Observed rather than hypothetical: MacroHFT's own weight trace is near-binary with three of six curves barely off the floor | **FR10a**, A2 |
+| Sensitivity to liquidity | $\partial w / \partial L$ swept over the observed range on a frozen date | Inert weights. This is A3, and it is the check that matters | **FR10a**, A3 |
+| Agent error correlation | Pairwise across the four agents | The heterogeneity claim is load-bearing and currently asserted rather than measured | FR10b |
+| Volatility and liquidity collinearity | Idiosyncratic risk estimate against turnover | If the two move together, two agents are partly measuring the same thing and the state vector has a collinearity problem | FR10b |
+| Fundamental agent weight trajectory | Weight series annotated with filing dates | Whether the mechanism is conditional or merely selective. If the orchestrator zeroes that agent permanently, heterogeneity survives on paper while the system behaves as three agents | FR10b |
+| Oracle gap | $O$ minus $P$ | Estimation cost, separating a failed hypothesis from a failed estimator | FR10b |
+| Quiet against stressed decomposition | Weights and performance split by regime | An orchestrator whose weights move impressively in the two or three most volatile months and are inert otherwise | FR10b |
 
 ---
 
@@ -102,20 +115,39 @@ The template asks for this row and the honest answer is mostly that it does not 
 
 The chain the 11 October gate asked for, closed at the test end. This is also the backup slide the template recommends preparing for questions.
 
-| Research question | Requirements | Tests and checks | Evidence produced |
+`[CORRECTED 29 OCTOBER 2026]` Relabelled against [[07 Research Questions, Aim and Objectives]]. The table previously traced RQ1, RQ2 and RQ3; those are now **MRQ** and **SQ1**, **SQ2**, and the persistence work is no longer a research question at all. Its tests are real and are kept as a supporting experiment rather than deleted.
+
+| Question or experiment | Requirements | Tests and checks | Evidence produced |
 |---|---|---|---|
-| RQ1 orchestration | FR2, FR3, FR4, FR5, FR7, FR8, MAI1, MAI2, MAI4 | Contract conformance, state routing, simplex invariant, arm isolation, calibration monotonicity | A1, A2, A4, A5, A6, five-arm table, per-input ablation deltas, entropy series |
-| RQ2 liquidity | FR6, FR9, DR4, DR8, MAI6 | Sensitivity sweep, crossing-stripped against unstripped comparison | A3 plot, the two separating ablations, the screen table by tier |
-| RQ3 persistence | DR7, MAI5 | Reproduction fidelity against published behaviour, $\hat{d}$ stability on rolling windows | Sharpe and recovery profile against baseline, stability report |
-| Validity across all | FR1, NFR1, NFR2, NFR3, NFR5, DR1, DR2, DR3, DR6 | Cursor violation, seed determinism, result schema, Stage 6 suite | Exception log, identical artefacts, reconciliation figures |
+| **MRQ** orchestration | FR2, FR3, FR4, FR5, FR7, FR8, FR10a, FR10b, NFR4, NFR6, MAI1, MAI2, MAI3, MAI4 | Contract conformance, state routing, simplex invariant, arm isolation, calibration monotonicity, gate behaviour, stability sweep is run not tuned, trade-count equalisation, and the behavioural checks in Part 4 | A1, A2, A4, A5, A6, five-arm table, per-input ablation deltas, entropy series |
+| **SQ1** liquidity | FR6, FR9, DR4, DR5, DR8, MAI6 | Sensitivity sweep, crossing-stripped against unstripped comparison, zero-return against non-trading | A3 plot, the two separating ablations, the screen table by tier |
+| **SQ2** confidence on a common scale | FR3, MAI2, MAI4 | Calibration monotonicity, state routing separating `abstain` from `unparseable` | The accuracy-at-threshold curves per agent, and the coverage-accuracy pair |
+| **Persistence experiment**, a supporting experiment rather than a research question | DR7, MAI5 | Reproduction fidelity against published behaviour, $\hat{d}$ stability on rolling windows | Sharpe and recovery profile against baseline, stability report |
+| Validity across all | FR1, NFR1, NFR2, NFR3, NFR5, NFR7, DR1, DR2, DR3, DR6, DR9, DR10 | Cursor violation, seed determinism, result schema, decision reconstruction, survivorship proxy label, ex-date reliability, Stage 6 suite | Exception log, identical artefacts, reconciliation figures, a reconstructed decision |
 
 ---
 
-## Part 7. Open decisions
+## Part 7. How testing develops across the project
 
-1. **Whether a unit test suite exists in the repository today.** This note states unit tests as planned because the vault does not evidence them. If they exist, the slide should cite them rather than promise them.
-2. **Coverage reporting.** The template's own wording is "test results, coverage where suitable". A coverage figure on a research pipeline is weak evidence; the requirement-to-test mapping in Part 6 is stronger, and only one of the two needs to be on the slide.
-3. **Where the behavioural checks in Part 4 belong.** They are diagnostics in [[PoC Specification]] §8.2 and tests here. They should appear once, and slide 15 is the better home because the evaluation slide is already full.
+`[ADDED 29 OCTOBER 2026]` The criterion rewards showing that testing develops rather than listing it once, and this note was a snapshot: executed data checks on one side, planned orchestration tests on the other, with nothing about when the planned ones arrive. Stages follow [[17 Project Plan, Milestones and Dependencies]] Part 1, so the dates after 5 November carry that note's **TBC** until they are confirmed.
+
+| Stage | What comes online | What it means is true at the gate |
+|---|---|---|
+| **Now to PP, to 5 Nov 2026** | Data and model checks already executed and recorded, which makes them a regression baseline rather than a one-off. Integration behaviour specified as acceptance criteria A1 and A5. **No unit suite exists** | The Stage 6 figures are evidence on the slide, and the absence of unit tests is stated rather than implied |
+| **PP to IPD, TBC** | Unit suite written alongside the orchestration build, starting with cursor violation, contract conformance and the simplex invariant, because those three protect properties that cannot be retrofitted afterwards. Requirements-based system tests for the Must set | A working prototype means every Must requirement has a test that runs |
+| **IPD to final build, TBC** | Remaining orchestration tests. The NFR4 stability sweep and the NFR7 decision reconstruction. Data requirement checks DR5, DR9 and DR10 closed | Feature complete means no Must requirement is untested |
+| **Testing and evaluation, TBC** | The Part 4 behavioural checks run at full scale as part of the evaluation rather than as a separate pass. NFR6 trade-count equalisation asserted on every comparison | The diagnostics are reported whether or not they are favourable |
+| **Report and finalisation, TBC** | Regression run of the whole suite against the frozen artefact | Results are reproducible from the released pipeline |
+
+---
+
+## Part 8. Open decisions
+
+`[UPDATED 29 OCTOBER 2026]` All three below were closed on 29 October. The closures are recorded rather than deleted.
+
+1. ~~Whether a unit test suite exists in the repository today.~~ **Closed 29 October: none exist.** The note says planned because planned is accurate, and Part 7 says when they arrive. Claiming a suite that is not there is the one version of this that fails under questioning.
+2. ~~Coverage reporting.~~ **Closed 29 October: show the requirement-to-test mapping, and say in one line why a coverage percentage is not the measure here.** The template asks for "coverage where suitable", so a stated reason reads better than an omission. The reason is that coverage counts lines executed, while the risk on a research pipeline is a correct-looking result from a wrong assumption, which the mapping in Part 6 and the behavioural checks in Part 4 are what actually address.
+3. ~~Where the behavioural checks in Part 4 belong.~~ **Closed 29 October: here, on slide 15**, tied to FR10a and FR10b. [[14 Evaluation and Experimental Design]] Part 5 keeps one line pointing at them.
 
 ---
 
