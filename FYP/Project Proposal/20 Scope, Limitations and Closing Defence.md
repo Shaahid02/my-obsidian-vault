@@ -1,6 +1,7 @@
 ---
 status: current
 created: 2026-10-23
+revised: 2026-10-30
 written_against: "[[Contribution to Knowledge]]; [[PoC Specification]]; [[Week 5]]; [[Scope sentiment analysis dropped]]; [[29-09-2026]]"
 tags:
   - working-doc
@@ -9,6 +10,9 @@ tags:
 *Created 23 October 2026, for slide 20 of the PP live presentation template. This slide carries the scope criterion almost on its own, which makes it one of the two densest in the deck, and it is also the last thing the panel hears before questions. It additionally holds [[Week 5]] outstanding action 1, the news and sentiment exclusion defence, which was the highest-value item from that session and does not exist anywhere yet. Sentiment is out of scope throughout.*
 
 ---
+
+> [!NOTE]
+> **Revised 30 October 2026.** This criterion scored **69 of 100** in the [[24-10-2026]] assessment, the strongest of the four weak ones, with a seventeen item checklist in §6.7. Four additions: the justification for four voting agents, which answers a direct architectural challenge; the minimum viable research artefact; the priority order for what gets cut; and a narrowing of the execution-cost claim. The sub-gap classification §6.7 also asks for is deliberately left as it stands.
 
 ## Why this note exists
 
@@ -30,9 +34,35 @@ The template asks what makes the artefact technically and analytically challengi
 
 ---
 
+## Part 1a. Why four voting agents, and why liquidity and volatility vote
+
+`[ADDED 30 OCTOBER 2026]` [[24-10-2026]] §6.7 puts a direct architectural question: the liquidity and volatility components **"may operate more naturally as state estimators or constraints than as independent voting agents"**, and the architecture must justify whichever design is chosen. §6.7 also asks for four agents to be justified against three or fewer. Both are answered here, because they are the same question.
+
+**The decision is four voters.** $A_T$ technical, $A_F$ fundamental, $A_V$ volatility and $A_L$ liquidity each emit the common output contract and each receive a weight.
+
+### The objection, stated at its strongest
+
+There is a sharper version of §6.7's point than §6.7 makes, and it is the one worth pre-empting. If $A_L$ casts a vote **and** supplies $L_t$, the operator would be conditioning its weights on a quantity produced by one of the things it is weighting. That is circular in a way $A_T$ and $A_F$ are not, and the pre-registered collinearity diagnostic half-concedes it by testing whether the volatility and liquidity constructs measure the same thing.
+
+### Why it does not hold in this design, and what does survive of it
+
+**The state vector is not built from agent output.** $L_t$, $V_t$ and $P_t$ are computed at the state layer directly from market data, the BIS market-condition-indicator recipe for liquidity and range estimators for volatility, not from what $A_V$ or $A_L$ emitted. The agents and the state share a **data source**; they do not share an **output path**. No agent's vote feeds the weight it receives.
+
+**What does survive is weaker and is worth conceding.** $A_L$'s directional view and $L_t$ both derive from the same volume and turnover series, so they will correlate, which means $A_L$'s influence is modulated by something correlated with its own inputs. That is a correlation, not a feedback loop, and it is reported rather than argued away: the pairwise agent error correlation and the volatility-liquidity collinearity check are both pre-registered for exactly this.
+
+### The justification for four
+
+**Error cancellation is the argument, and it is the only one being made.** The case for a pool is that methodologically unlike estimators make unlike errors, so combining them cancels some of that error. That argument requires genuine heterogeneity, and heterogeneity across four unlike methods is the thing being tested rather than assumed. Three would be defensible; four is chosen because dropping either of the market-state agents removes a whole error mode rather than a redundant one, and because the pool is still small enough that every member is inspectable.
+
+**And it is falsifiable, which is the part that matters.** The per-input ablation is what measures whether each agent earns its vote. If the ablation shows an agent contributes nothing attributable, that is a reportable finding and the set shrinks. **The agent set remains provisional rather than settled**, which is the standing position across this project, and the ablation is the instrument that would settle it.
+
+> The honest form of the claim: four agents is a design under test, not a result. If the pairwise error correlations come back high, the error-cancellation argument weakens accordingly and is reported as weakened.
+
+---
+
 ## Part 2. Feasible boundaries
 
-Eight exclusions, each with a reason. The rubric rewards deliberate boundaries, and a boundary without a reason reads as something that was not reached.
+`[UPDATED 30 OCTOBER 2026]` Nine exclusions, each with a reason. The rubric rewards deliberate boundaries, and a boundary without a reason reads as something that was not reached.
 
 | Excluded | Reason |
 |---|---|
@@ -44,8 +74,57 @@ Eight exclusions, each with a reason. The rubric rewards deliberate boundaries, 
 | An end-user interface | Operated as a batch research pipeline. Advanced interface work was removed from the plan on the grounds that it would reduce proposal quality |
 | New components after 18 October | Hard rule with a named date |
 | Profitability as an acceptance condition | The claim is about whether conditioning earns its place, not about returns |
+| `[NARROWED 30 OCTOBER 2026]` A **validated** depth-conditioned execution-cost model | See the narrowing below. The model is designed and simulated, not validated, and the claim is cut to match |
+
+> [!important]
+> **`[NARROWED 30 OCTOBER 2026]` The execution-cost claim is cut to what the data can carry.** [[24-10-2026]] §7 lists this as **Critical**: sub-gap 1 proposes a nonlinear depth-conditioned execution-cost model while order-book and spread information are unavailable or unvalidated. §6.7 adds that a new market-impact model should not be developed unless data and novelty justify it.
+>
+> **What is claimed now.** A depth-conditioned cost function embedded **inside** the allocation objective rather than deducted after it, driven by illiquidity proxies, and evaluated under a **cost sensitivity sweep rather than a single assumption**. The contribution being claimed is the placement of cost inside the objective and the sweep around it, which is a design and evaluation claim that the available data fully supports.
+>
+> **What is no longer claimed.** A calibrated or validated market-impact curve. There is no order-book data on this market to fit one against and no quote data to check it with, which is why the spread estimator was demoted on 11 October. Any cost-curve shape reported is a **property of the simulation under stated proxy assumptions**, not a measurement of this market.
+>
+> **What would lift the narrowing.** The outstanding bid, ask and depth request to the exchange. If it is answered, validation becomes possible and the claim can be widened with evidence. If it is not, the narrowed claim stands and nothing collapses, because the proxy route was declared as the plan in advance rather than adopted after a failure.
 
 **The priority rule behind all of it**, which is the supervisor's: stop trying to make every component novel, and make the main orchestration contribution exceptionally well evidenced, implemented and evaluated.
+
+---
+
+## Part 2a. The minimum viable research artefact, and what gets cut first
+
+`[ADDED 30 OCTOBER 2026]` §6.7 asks for the minimum viable research artefact required to test the main contribution, for the primary baseline comparison to be prioritised over optional experiments, and for essential ablations to be separated from exploratory ones. It also names the danger this answers directly:
+
+> The most important danger is that significant effort goes into the execution-cost model, financial RAG component or data-processing infrastructure, leaving insufficient time to evaluate the main research contribution.
+
+### Required. Without any one of these there is no answer to the main question
+
+| Component | Why it cannot be dropped |
+|---|---|
+| The **point-in-time data layer** with the as-of cursor | No result is admissible without it, and it cannot be retrofitted |
+| The **common output contract** | Without it there is no weightable quantity, which is the gap itself |
+| At least **two methodologically unlike agents** emitting the contract | Heterogeneity is the premise. Four is the design, two is the floor below which the question stops existing |
+| The **state vector**, at minimum $L_t$ | $L_t$ is the input the main question is about |
+| The **orchestration operator**, low-capacity form, with the abstention floor | This is the contribution |
+| Arms $B_1$, $P$ and $B_3$ over byte-identical cached outputs | $B_1$ is the hardest benchmark and the pre-registered primary. **$B_3$ is required, not optional**, because without it the result cannot distinguish state conditioning from mere reactivity to recent agent performance, which is the objection that most threatens the claim |
+| The **A3 sensitivity sweep** | The acceptance criterion the mechanism rests on |
+| The **four per-input state ablations** | These make the answer attributable rather than a single number, which is what the main question asks for |
+| Cost-adjusted return over the full window, with class balance and Matthews correlation on the same row | The metric the pre-registration names |
+
+### Enhancement. Valuable, and droppable in this order
+
+| Dropped first | What is lost |
+|---|---|
+| 1. The **persistence re-levering schedule**, sub-gap 2 | A supporting experiment that sits off the critical path entirely and runs on a published paper's own environment. Already cut once, from the proposal period |
+| 2. The **oracle arm** $O$ | The estimation-cost reading. The result survives without it; the diagnosis of a null becomes coarser |
+| 3. The **static learned arm** $B_2$ | One comparator. $B_3$ is the one that carries the threatening objection, so $B_2$ goes first of the two |
+| 4. The **remaining five diagnostics**, FR10b | Depth of explanation, not the result |
+| 5. The **cost term inside the objective**, sub-gap 1 | A contribution in its own right, which is why it is low on this list rather than off it |
+| 6. The **fundamental agent built live** | Falls back to the stub, which keeps the framework four-agent and the ablation structure intact, reported as stubbed |
+
+**$A_F$ sits last deliberately.** It is the component §6.7 warns could absorb the time, and it is also the one with the cleanest declared fallback, so it can be deferred late without the design changing shape.
+
+### The rule, in one line
+
+**Nothing proceeds past the required list until $B_1$ against $P$ has run end to end on cached outputs.** That ordering is what converts the warning above into a rule rather than an intention.
 
 ---
 
