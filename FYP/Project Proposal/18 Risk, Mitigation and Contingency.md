@@ -128,7 +128,7 @@ These threaten the claim rather than the build, and they are the ones worth lead
 
 **If a fourth fits**, the bid-ask row, because it is the clearest case of a fallback declared in advance rather than adopted after a failure, and because its owner is the exchange rather than you.
 
-> **Ethics appears on slide 19, not here.** It is a responsible-practice item and a qualifying condition rather than a project risk, and it should be said once.
+> **Ethics is not presented on any slide**, decided 30 October, and it is not a row in this register. It is a mandatory qualifying submission rather than a project risk: non-submission voids the entire proposal mark regardless of the rubric, which is a different kind of thing from a risk with a mitigation and a fallback. It is tracked in [[29-09-2026]] §11.6 and in [[19 Responsible Research and Project Considerations]], and not presenting it changes nothing about submitting it.
 
 ---
 
@@ -138,7 +138,7 @@ These threaten the claim rather than the build, and they are the ones worth lead
 
 1. ~~Whether likelihood and impact are scored numerically.~~ **Closed 30 October: scored, but not numerically.** A three-point scale on each axis with a stated derivation rule, keeping the original prose beneath each score. That meets §6.5's requirement for probability, impact and priority without inventing precision the judgement cannot carry. The rule is above Part 1 so it can be checked.
 2. ~~Whether the realised risks are shown as realised.~~ **Closed 30 October: yes.** Realised risks carry **Realised**, **Managed** or **Closed** in the priority field rather than being removed. The corporate-action row and the Data Library row are both closed in place, which shows a register that is maintained rather than drafted once.
-3. ~~Whether the ethics item belongs here or on slide 19.~~ **Closed 30 October: slide 19, and not here.** It is a responsible-practice item and a qualifying condition rather than a project risk. Part 6 carries one pointer and the row is removed.
+3. ~~Whether the ethics item belongs here or on slide 19.~~ **Closed 30 October: neither.** The row is removed from this register and ethics is not presented on any slide. It is a mandatory qualifying submission, not a scored risk, and it is tracked outside the deck. Part 6 carries one line saying so.
 4. `[RAISED 30 OCTOBER 2026]` **Whether the register appears on the slide as a matrix.** Thirty-four scored rows support a 3x3 heat map showing where the risks cluster, which communicates faster than three bullet points. It also invites a question about any cell that looks empty.
 
 ---
