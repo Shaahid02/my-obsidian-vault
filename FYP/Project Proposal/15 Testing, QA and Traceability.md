@@ -129,15 +129,28 @@ The chain the 11 October gate asked for, closed at the test end. This is also th
 
 ## Part 7. How testing develops across the project
 
-`[ADDED 29 OCTOBER 2026]` The criterion rewards showing that testing develops rather than listing it once, and this note was a snapshot: executed data checks on one side, planned orchestration tests on the other, with nothing about when the planned ones arrive. Stages follow [[17 Project Plan, Milestones and Dependencies]] Part 1, so the dates after 5 November carry that note's **TBC** until they are confirmed.
+`[ADDED 29 OCTOBER 2026]` The criterion rewards showing that testing develops rather than listing it once, and this note was a snapshot: executed data checks on one side, planned orchestration tests on the other, with nothing about when the planned ones arrive.
+
+> [!important]
+> **`[DATED 30 OCTOBER 2026]` The summative deadlines are confirmed and the TBCs are gone.**
+>
+> | Assessment | Deadline | Weight |
+> |---|---|---|
+> | PP Submission, document and video presentation | **Thursday 5 November 2026** | 15% |
+> | IPD, document and video demonstration | **Thursday 28 January 2027** | 15% |
+> | Final submission, thesis document, video demonstration and code | **Thursday 1 April 2027** | 70% |
+>
+> Two consequences for testing specifically. **There are six days to submission**, which is not enough to start a unit suite, so planned is the only accurate word for it on the slide and the absence is stated rather than softened. And the stretch from IPD to final submission is **nine weeks** carrying the full build, the complete evaluation and the thesis together, which is why three of the stages below sit inside one window rather than running in sequence, and why no unit test can be deferred into it.
+
+Stages follow [[17 Project Plan, Milestones and Dependencies]] Part 1, whose own dates after 5 November are still marked **TBC** and can now be filled from the table above.
 
 | Stage | What comes online | What it means is true at the gate |
 |---|---|---|
-| **Now to PP, to 5 Nov 2026** | Data and model checks already executed and recorded, which makes them a regression baseline rather than a one-off. Integration behaviour specified as acceptance criteria A1 and A5. **No unit suite exists** | The Stage 6 figures are evidence on the slide, and the absence of unit tests is stated rather than implied |
-| **PP to IPD, TBC** | Unit suite written alongside the orchestration build, starting with cursor violation, contract conformance and the simplex invariant, because those three protect properties that cannot be retrofitted afterwards. Requirements-based system tests for the Must set | A working prototype means every Must requirement has a test that runs |
-| **IPD to final build, TBC** | Remaining orchestration tests. The NFR4 stability sweep and the NFR7 decision reconstruction. Data requirement checks DR5, DR9 and DR10 closed | Feature complete means no Must requirement is untested |
-| **Testing and evaluation, TBC** | The Part 4 behavioural checks run at full scale as part of the evaluation rather than as a separate pass. NFR6 trade-count equalisation asserted on every comparison | The diagnostics are reported whether or not they are favourable |
-| **Report and finalisation, TBC** | Regression run of the whole suite against the frozen artefact | Results are reproducible from the released pipeline |
+| **Now to PP Submission, 5 November 2026**, six days | Data and model checks already executed and recorded, which makes them a regression baseline rather than a one-off. Integration behaviour specified as acceptance criteria A1 and A5. **No unit suite exists** | The Stage 6 figures are evidence on the slide, and the absence of unit tests is stated rather than implied |
+| **PP to IPD, 6 November 2026 to 28 January 2027**, twelve weeks | Unit suite written alongside the orchestration build, starting with cursor violation, contract conformance and the simplex invariant, because those three protect properties that cannot be retrofitted afterwards. Requirements-based system tests for the Must set | A working prototype means every Must requirement has a test that runs |
+| **IPD to feature complete**, inside 29 January to 1 April 2027 | Remaining orchestration tests. The NFR4 stability sweep and the NFR7 decision reconstruction. Data requirement checks DR5, DR9 and DR10 closed | Feature complete means no Must requirement is untested |
+| **Testing and evaluation**, inside that same nine-week window | The Part 4 behavioural checks run at full scale as part of the evaluation rather than as a separate pass. NFR6 trade-count equalisation asserted on every comparison | The diagnostics are reported whether or not they are favourable |
+| **Report and finalisation, to 1 April 2027** | Regression run of the whole suite against the frozen artefact | Results are reproducible from the released pipeline |
 
 ---
 
