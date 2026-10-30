@@ -1,7 +1,7 @@
 ---
 status: current
 created: 2026-10-23
-revised: 2026-10-23
+revised: 2026-10-30
 tags:
   - index
   - proposal
@@ -10,29 +10,32 @@ tags:
 
 Twenty-one notes covering every slide of the PP live presentation template. Each converts decisions already recorded elsewhere in the vault into the form the template and the marking rubric ask for. Almost nothing in them is new research; where something is composed rather than extracted, the note says so.
 
-| Note | Slide | Rubric criterion | Weight |
-|---|--:|---|--:|
-| [[01-02 Title, Research Focus and Proposal Storyline]] | 1, 2 | Communication, plus the focus line feeds Problem and Goal | 10% shared |
-| [[03 Problem, Goal and Outcomes]] | 3 | Problem or Opportunity and Project Goal | 10% |
-| [[04 Evidence to Research Gap]] | 4 | Background and Evidence | 10% |
-| [[05 Critical Literature Landscape]] | 5 | Background and Evidence | 10% |
-| [[06 Gap, Novelty and Contribution]] | 6 | Background and Evidence, plus Goal | 10% |
-| [[07 Research Questions, Aim and Objectives]] | 7 | Problem and Goal, plus Methodology | 10% / 15% |
-| [[08 Existing Solutions and Baselines]] | 8 | Background and Evidence, plus Evaluation | 10% |
-| [[09 Stakeholders, Users and Context of Use]] | 9 | Initial Requirements and Indicative Solution | **20%** |
-| [[10 Requirements]] | 10 | Initial Requirements and Indicative Solution | **20%** |
-| [[11 Architecture and Indicative Solution]] | 11 | Initial Requirements and Indicative Solution | **20%** |
-| [[12 Data and Evidence Strategy]] | 12 | Requirements, plus Responsible Considerations | 20% / 10% |
-| [[13 Methodology]] | 13 | Methodology and Development Approach | **15%** |
-| [[14 Evaluation and Experimental Design]] | 14 | Methodology and Development Approach | **15%** |
-| [[15 Testing, QA and Traceability]] | 15 | Methodology and Development Approach | **15%** |
-| [[16 Iteration, Feedback, Change and AI Verification]] | 16 | Methodology and Development Approach | **15%** |
-| [[17 Project Plan, Milestones and Dependencies]] | 17 | Project Plan Feasibility and Risk | 10% |
-| [[18 Risk, Mitigation and Contingency]] | 18 | Project Plan Feasibility and Risk | 10% |
-| [[19 Responsible Research and Project Considerations]] | 19 | Responsible Project Considerations | 10% |
-| [[20 Scope, Limitations and Closing Defence]] | 20 | Appropriateness of Scope, plus Communication | 10% |
-| [[21 Academic Practice and References]] | 21 | Academic Practice and Referencing | 5% |
-| [[22 Backup and Q&A Preparation]] | 22 | Communication, responses to questions | 10% shared |
+> [!NOTE]
+> **Index revised 30 October 2026.** It had drifted badly: settled decisions were still listed as open, cleared backlog items as outstanding, and the 24 October supervisor review was absent entirely. **Fifteen of the twenty-one notes are settled.** The six carrying slides 17 to 22 are drafted and have not been worked through, and they hold most of the rubric weight still at risk.
+
+| Note | Slide | Rubric criterion | Weight | Status |
+|---|--:|---|--:|---|
+| [[01-02 Title, Research Focus and Proposal Storyline]] | 1, 2 | Communication, plus the focus line feeds Problem and Goal | 10% shared | Settled 24 Oct |
+| [[03 Problem, Goal and Outcomes]] | 3 | Problem or Opportunity and Project Goal | 10% | Settled 24 Oct |
+| [[04 Evidence to Research Gap]] | 4 | Background and Evidence | 10% | Settled 24 Oct |
+| [[05 Critical Literature Landscape]] | 5 | Background and Evidence | 10% | Settled 24 Oct |
+| [[06 Gap, Novelty and Contribution]] | 6 | Background and Evidence, plus Goal | 10% | Settled 24 Oct |
+| [[07 Research Questions, Aim and Objectives]] | 7 | Problem and Goal, plus Methodology | 10% / 15% | Settled 24 Oct |
+| [[08 Existing Solutions and Baselines]] | 8 | Background and Evidence, plus Evaluation | 10% | Settled 24 Oct |
+| [[09 Stakeholders, Users and Context of Use]] | 9 | Initial Requirements and Indicative Solution | **20%** | Settled 24 Oct |
+| [[10 Requirements]] | 10 | Initial Requirements and Indicative Solution | **20%** | Settled 24 Oct |
+| [[11 Architecture and Indicative Solution]] | 11 | Initial Requirements and Indicative Solution | **20%** | Settled 24 Oct |
+| [[12 Data and Evidence Strategy]] | 12 | Requirements, plus Responsible Considerations | 20% / 10% | Settled 24 Oct, corrected 27 and 30 Oct |
+| [[13 Methodology]] | 13 | Methodology and Development Approach | **15%** | Settled 24 Oct |
+| [[14 Evaluation and Experimental Design]] | 14 | Methodology and Development Approach | **15%** | **Settled 29 Oct** |
+| [[15 Testing, QA and Traceability]] | 15 | Methodology and Development Approach | **15%** | **Settled 30 Oct** |
+| [[16 Iteration, Feedback, Change and AI Verification]] | 16 | Methodology and Development Approach | **15%** | **Settled 30 Oct** |
+| [[17 Project Plan, Milestones and Dependencies]] | 17 | Project Plan Feasibility and Risk | 10% | Drafted 23 Oct, **not addressed** |
+| [[18 Risk, Mitigation and Contingency]] | 18 | Project Plan Feasibility and Risk | 10% | Drafted 23 Oct, **not addressed** |
+| [[19 Responsible Research and Project Considerations]] | 19 | Responsible Project Considerations | 10% | Drafted 23 Oct, **not addressed** |
+| [[20 Scope, Limitations and Closing Defence]] | 20 | Appropriateness of Scope, plus Communication | 10% | Drafted 23 Oct, **not addressed** |
+| [[21 Academic Practice and References]] | 21 | Academic Practice and Referencing | 5% | Drafted 23 Oct, **not addressed** |
+| [[22 Backup and Q&A Preparation]] | 22 | Communication, responses to questions | 10% shared | Drafted 23 Oct, corrected 27 Oct, **not addressed** |
 
 Slides 10 and 11 are a pair. The rubric states that a requirements specification cannot score highly if the technical concept is absent, and that a technology stack cannot compensate for unclear requirements, so neither note carries the criterion alone.
 
@@ -73,7 +76,7 @@ Four issued documents, held in `Support Materials/Project Proposal/`. These are 
 
 - **The recommended presentation structure is slides 1 to 20**, mapping exactly onto the template, with a rubric link given per slide. That mapping is reproduced below and supersedes my own.
 - **Section 22 lists sixteen questions students should be prepared to answer.** Every one of them is already covered by a note in this folder, which is a useful check rather than a coincidence. They belong in note 22.
-- **The guide does not name a referencing style.** Its readiness checklist says only that citations and the reference list must be accurate and complete, so the Cite Them Right Harvard default in note 21 stands, still to be confirmed.
+- **The guide does not name a referencing style**, and its readiness checklist says only that citations and the reference list must be accurate and complete. `[SETTLED 30 OCTOBER 2026]` **The required style is Westminster Harvard.** That closes the one hard blocker on note 21, and every in-slide citation and the reference list are built to it. [[21 Academic Practice and References]] Part 2 still carries the old open-item warning and is corrected when that note is worked through.
 
 ### What the Module Proforma settles, for slide 17
 
@@ -84,7 +87,22 @@ Four issued documents, held in `Support Materials/Project Proposal/`. These are 
 | Final Project and Report | Artefact plus written report, **10,000 to 12,000 words excluding code and diagrams** | 50% |
 | Final Project Viva | Viva, **up to 45 minutes** | 20% |
 
-Qualifying minimum is 30% on each. No calendar dates appear in either document, so the IPD, final submission and viva dates are still outstanding.
+Qualifying minimum is 30% on each. No calendar dates appear in either document.
+
+### The summative deadlines
+
+`[ADDED 30 OCTOBER 2026]` Supplied separately and not present in any issued document in this folder.
+
+| Assessment | Deadline | Weight |
+|---|---|--:|
+| PP Submission, document and video presentation | **Thursday 5 November 2026** | 15% |
+| IPD, document and video demonstration | **Thursday 28 January 2027** | 15% |
+| Final submission, thesis document, video demonstration and code | **Thursday 1 April 2027** | 70% |
+
+> [!WARNING]
+> **This does not reconcile with the proforma above, and the difference is the viva.** The proforma splits the end of the project into a 50% report and artefact plus a 20% viva of up to 45 minutes. The deadline list carries a single 70% final submission naming a thesis document, a video demonstration and code, with no viva. The arithmetic matches, so the viva has probably been folded in, but [[17 Project Plan, Milestones and Dependencies]] still plans viva preparation as a stage and [[22 Backup and Q&A Preparation]] is partly built for one. **Worth one question to the supervisor rather than a guess.**
+>
+> Working windows on the confirmed dates: **six days** to PP submission, **twelve weeks** PP to IPD, **nine weeks** IPD to final submission. The nine weeks carry the full build, the complete evaluation and a 10,000 to 12,000 word thesis together.
 
 > [!WARNING]
 > **The two issued documents conflict on duration, and it changes the deck's time budget.**
@@ -105,7 +123,9 @@ Qualifying minimum is 30% on each. No calendar dates appear in either document, 
 | Qualifying minimum | 30% |
 | Mandatory | Signed Ethics Application by the deadline, or the overall mark is zero |
 | Submission | Offline copy of the slides through Blackboard. The delivered presentation including answers is the assessed performance |
-| PPRS recorded video | 5 November 2026 |
+| Deadline | **5 November 2026** |
+| The document is the deck | `[CONFIRMED 30 OCTOBER 2026]` "Document and Video Presentation" means the submitted slides are the document. There is no separate written document, and **no separate handout**, which [[21 Academic Practice and References]] currently assumes exists for the full reference list |
+| Video | The deadline list names a video presentation. [[24-10-2026]] §9.1 says the opposite, that recorded-video requirements should not be added unless a current instruction requires them. The deadline list is the later instruction, so the video is in, and the conflict is recorded rather than reconciled silently |
 
 Leaving five to seven minutes for questions puts the delivery at roughly thirteen to fifteen minutes across twenty-one content slides, which is about forty seconds each.
 
@@ -123,36 +143,79 @@ Leaving five to seven minutes for questions puts the delivery at roughly thirtee
 
 ## Open decisions across all twenty-one notes
 
-Collected so they can be settled in one pass. Ordered by what blocks the most.
+`[REBUILT 30 OCTOBER 2026]` Fourteen of the original twenty are now settled and were still listed here as open, which made this table actively misleading. Settled items are kept with their resolution rather than deleted.
+
+**Still open.**
 
 | # | Decision | Note | Blocks |
 |--:|---|---|---|
-| 1 | **The project title.** Three candidates. Every variant in the vault still contains "Localized Sentiment" | 01-02 | Slides 1, 3, 6 and 20 |
-| 2 | **Dates after 5 November.** No IPD, final submission or viva date exists anywhere | 17 | Slide 17, and the plan criterion |
-| 3 | **Citation style.** Harvard is the template's first-named option; the institutional requirement was never recorded | 21 | Every in-slide citation |
-| 4 | The aim sentence, final wording | 07 | Slides 1, 3, 7 |
-| 5 | Whether RQ3 stands as a question or as a stated sub-hypothesis | 07 | Slides 6, 7, 14 |
-| 6 | Primary metric: per traded day or over the full window | 07, 14 | The pre-registration |
-| 7 | Minimum margin: scaled to baseline dispersion, or a fixed number | 07, 14 | The pre-registration |
-| 8 | Backbone for the fundamental agent, and whether a framework is used | 11 | Slide 11 |
-| 9 | Which diagram goes on slide 11, layered view or dependency chain | 11 | Slide 11 |
-| 10 | Labels for the research design and the development process | 13 | Slide 13 |
-| 11 | MoSCoW priorities, assigned provisionally | 10 | What gets cut if the build runs short |
-| 12 | Close-outside-range rows: dropped, or admitted as degenerate observations | 12 | Every spread estimate and sample size |
-| 13 | Float-adjusted or raw liquidity stratification | 12 | A third of the bottom quintile's membership |
-| 14 | The full-study window, 2010 to 2026 against the proof-of-concept sizing | 12 | Both came from different panel members a week apart |
-| 15 | One consistent term for the motivating decision-maker | 09 | Slides 3, 9, 20 |
-| 16 | Whether a unit test suite exists in the repository today | 15 | Whether slide 15 cites or promises |
-| 17 | How much code-level AI verification to claim | 16 | Slide 16 |
-| 18 | Whether the EDI argument is representational or weakly applicable | 19 | Slide 19 |
-| 19 | Whether the withdrawn-claims table sits on slide 6 or slide 20 | 06, 20 | Avoiding a repeat |
-| 20 | How many backup slides are actually built | 22 | Preparation time |
+| 1 | **Backbone for the fundamental agent**, and whether an orchestration framework is used. LangChain stands as a stated placeholder, not a commitment | 11 | Slide 11 |
+| 2 | **Whether the EDI argument is representational or weakly applicable** | 19 | Slide 19 |
+| 3 | **Whether the withdrawn-claims table sits on slide 6 or slide 20** | 06, 20 | Avoiding a repeat |
+| 4 | **How many backup slides are actually built.** Eight is a lot of preparation; three answer questions already on the record | 22 | Preparation time |
+| 5 | `[NEW]` **Whether the oracle is reframed as a hindsight diagnostic upper bound** rather than an arm, per [[24-10-2026]] §7 | 08, 14 | Slides 8 and 14 |
+| 6 | `[NEW]` **Whether cross-agent confidence becomes a defined validated scale** rather than the open question SQ2 currently poses, per [[24-10-2026]] §7 | 07, 11, 16 | Slides 7 and 11 |
+| 7 | `[NEW]` **How Part 4 of note 14 splits against slide 13** | 13, 14 | Avoiding a repeat |
+
+**Settled.**
+
+| Decision | Resolution |
+|---|---|
+| The project title | Candidate B. *Market-State-Conditioned Orchestration of Heterogeneous Agents for Financial Decision Support: A Colombo Stock Exchange Study* |
+| Dates after 5 November | **Confirmed 30 Oct.** IPD 28 January 2027, final submission 1 April 2027. Still to be applied to note 17 |
+| Citation style | **Westminster Harvard**, settled 30 Oct. Still to be applied to note 21 |
+| The aim sentence | Final wording settled in note 07 |
+| RQ3 | **Withdrawn.** One main question MRQ with two supporting, SQ1 and SQ2, and no yes/no framing. The persistence work survives as a supporting experiment |
+| Primary metric | **Cost-adjusted return over the full window, abstained days held flat.** Per-traded-day is a secondary diagnostic. Closed in note 14 on 29 Oct |
+| Minimum margin | **Interquartile range of $B_1$ across repeated windows.** <font color="#ff0000">Challenged by [[24-10-2026]] §7 as undefined; see below</font> |
+| Slide 11 diagram | Layered view on the slide, dependency chain to backup |
+| Methodology labels | Design science research, plus evolutionary prototyping managed through stage gates |
+| MoSCoW priorities | 43 requirements, exactly three Shoulds: FR9, FR10b, MAI7 |
+| Close-outside-range rows | Retained with a flag for the panel; admitted as degenerate for any spread estimate |
+| Liquidity stratification | **Float-adjusted primary**, raw reported alongside as robustness |
+| The full-study window | **2012-07-01 to 2026-06-30**, anchored to the S&P SL20 launch |
+| Term for the decision-maker | **Investment decision-maker** |
+| Unit test suite | **None exist.** Note 15 says planned, and Part 7 says when they arrive |
+| Code-level AI verification | Row splits: data pipeline is practice, orchestration code is stated intention |
 
 ---
 
-## Backlog, raised 24 October, cleared 27 October
+## The 24 October review
 
-Five items surfaced while working through the notes, each one making some note say something that was no longer true. **All five are now cleared in the settled notes.** Two of them also land in notes 17 and 18, which are not yet written, and are carried below rather than applied early.
+`[ADDED 30 OCTOBER 2026]` [[24-10-2026]] is the largest feedback event in the project and was missing from this index. It holds two sources and marks them apart: **§2 is the supervisor's email and is the authoritative requirement; §3 onward is a supporting assessment and is not his marking.**
+
+**Six decisions, two marked Final.** Set aside implementation, coding, model development, experimentation and proof-of-concept work until 5 November. Use the marking rubric as the primary working checklist, targeting 100 per criterion. Retain the topic and freeze its scope. No new agent, gap or topic. No further literature collection for paper count.
+
+The email states twice that **completion is not required by the deadline, only design**, with the rule attached: *do not present planned work as completed work*. The supporting assessment puts the submitted deck and matrix at a provisional 60.95, with Plan at 32, Responsible at 48, Academic Practice at 50 and Communication at 52. Those four are the criteria carried by the slides that were absent, so they measure what was not presented rather than what was done badly.
+
+### §7, the critical inconsistencies, still open
+
+These are data-integrity items rather than slide items, and none is in the backlog below because they postdate it.
+
+| Priority | The conflict | What is wanted |
+|---|---|---|
+| **Critical** | Slide 1 states 355 securities; D22 records 323, including 17 rights-issue securities | One defined raw, cleaned and final eligible universe, with every exclusion explained |
+| **Critical** | Slide 12 says roughly 817,000 records; D22 records 829,070 | An auditable reconciliation of raw, rejected and accepted |
+| **Critical** | D24 and D25 carry contradictory acquisition and verification statuses | Verify against the delivered files and correct both records |
+| **Critical** | Slide 10 presents corporate-action acceptance evidence; D26 was not yet constructed | Label work as planned, implemented or verified. **Partly overtaken: the adjusted panel was built 23 October**, so this needs rechecking rather than fixing |
+| **Critical** | Sub-gap 1 proposes a depth-conditioned cost model while order-book and spread data are unavailable | Obtain validation data, or narrow the claim to proxy-based simulation with explicit limits |
+| **High** | The IQR success criterion names no distribution | Define a coherent primary estimand, statistical test and decision rule. **This sits inside notes 07 and 14, both settled** |
+| **High** | D17 liquidity profiling not computed | Complete it and determine the actual experimental universe |
+| **High** | Slide 5 reports literature statistics without coding rules | Make the counts auditable through a documented classification protocol |
+
+> **Four statuses must stay distinct everywhere:** a source identified, a dataset downloaded, a derived dataset constructed, and that derived dataset validated.
+
+---
+
+## Backlog, raised 24 October, cleared 27 to 29 October
+
+Five items surfaced while working through the notes, each one making some note say something that was no longer true. **All five are cleared.** `[UPDATED 30 OCTOBER 2026]` What survives is residue in the six notes not yet worked through, and it clears itself when they are:
+
+| Residue | Where it still reads wrongly |
+|---|---|
+| B1 filings corpus | Note 17 Part 3 says the harvest is "Not started". Note 18 Part 3 says "No corpus exists" |
+| B2 adjusted panel | Note 18 Part 2 calls the corporate-action problem "currently realised". Note 20 Part 3 says the adjusted series "does not exist yet". Note 22 calls it "the next data task" |
+| B4 ex-date reliability | Still to land in note 18 as the residual data risk that replaces B2 |
 
 | # | What changed | Status |
 |--:|---|---|
@@ -160,7 +223,7 @@ Five items surfaced while working through the notes, each one making some note s
 | **B2** | **Adjusted panel built 23 October**, carrying `adj_close` and `tr_close`, with 31 register corrections each confirmed against both price and issued quantity | **Cleared** in notes 10 (DR2), 12 and 13. Still to land in 17 critical path and 18 data risks when those are written |
 | **B3** | **Universe counts changed** to 355 core and 233 candidates after DOCK was dropped | **Cleared** in notes 07 and 12 |
 | **B4** | **No documented date is an ex-date.** Recovered from measured price drops, with 259 events marked approximate in `ex_date_basis` | **Cleared** as new requirement **DR10** in note 10, and in note 13's threats. Still to land in 18 as the residual risk that replaces B2 |
-| **B5** | **`adj_close` or `tr_close` is open** (repository T3.5) | **Raised** as open decision 3 in note 12, with the ASTRI pairing argument stated. Still to land in 14 |
+| **B5** | **`adj_close` or `tr_close` is open** (repository T3.5) | **Cleared 29 October in note 14.** `tr_close` is primary, because the evaluation benchmark is ASTRI and a total-return series against a total-return index is the like-for-like comparison. `adj_close` is the price-only robustness check |
 
 ### What the corpus probe did and did not establish
 
@@ -172,8 +235,9 @@ Five items surfaced while working through the notes, each one making some note s
 
 ## Still outstanding outside these notes
 
-- **The project title**, above, which is the one blocking item that cannot be deferred.
-- **The Ethics Application.** Separate mandatory submission, listed as Not Started, targeted at 1 November. No contingency exists for non-submission.
+- <font color="#ff0000">**The Ethics Application.**</font> Separate mandatory submission, listed as Not Started, targeted at 1 November. **No contingency exists for non-submission and it voids the whole mark.** This is the single highest-impact outstanding item in the project.
+- **Six notes not yet worked through**, 17 to 22, carrying Plan and Risk at 10%, Responsible at 10%, Academic Practice at 5%, and most of Scope and Communication.
+- **Nine slides unbuilt.** `PP Deck Draft 2026-10-24.pptx` is filled to slide 13; 14 to 22 are still template placeholders.
 - **The structured gap verification** [[Week 4]] §2.2 asked for, comparing existing systems across aggregation method, regime detection, liquidity treatment and evaluation protocol. Matrix work extending existing sheets, not new research.
 - **The 374-day correction in the survey matrix**, which sits in around twenty cells across eight review notes and needs a note revision with the paper check that implies, rather than a find and replace.
 - **Panel items carried to Week 6**, including whether the mechanism with its ablation needs changing, which was asked in Week 5 and not answered.

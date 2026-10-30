@@ -1,12 +1,16 @@
 ---
 status: current
 created: 2026-10-23
-written_against: "[[Panel Rooms]]; [[Week 3]]; [[Week 4]]; [[Week 5]]; [[29-09-2026]]; [[Research Matrices Status]]; [[Literature Review Validation Prompt]]"
+revised: 2026-10-30
+written_against: "[[Panel Rooms]]; [[Week 3]]; [[Week 4]]; [[Week 5]]; [[29-09-2026]]; [[24-10-2026]]; [[Research Matrices Status]]; [[Literature Review Validation Prompt]]"
 tags:
   - working-doc
   - proposal
 ---
 *Created 23 October 2026, for slide 16 of the PP live presentation template. This is the slide with the most existing evidence and the least existing writing: the feedback loop, the change record and the verification of AI-assisted work are all documented across the vault and none of it has been stated as a process. It also closes [[Week 5]] outstanding action 2, the derivation note. Sentiment is out of scope throughout.*
+
+> [!NOTE]
+> **Revised 30 October 2026.** Two corrections and five additions. This note was written on 23 October, **the day before the largest feedback event in the project**, so a note about capturing feedback did not contain it. [[24-10-2026]] is now in Part 1, in Part 2 as a worked example, and in the frontmatter. Part 3's table also omitted the most recent and most extensive AI-assisted work, the drafting of these proposal notes and the deck, which is the one an examiner is looking at. Forward-looking change control has been added, because the criterion asks how change *will* be managed and the note was entirely retrospective. The three open decisions are closed.
 
 ---
 
@@ -28,6 +32,12 @@ The loop runs on two cadences and they work differently.
 |---|---|---|
 | Panel feedback sessions | Weekly | Recorded, transcribed, then synthesised into a note with the raw transcript kept beside it |
 | Supervisor meetings | Roughly fortnightly | Same structure, with decisions carrying an explicit status |
+| `[ADDED 30 OCTOBER 2026]` Written supervisor review | Once, 24 October, at the formative point | A written instruction and a supporting assessment captured together but kept apart, with the authoritative half marked as such |
+
+> [!important]
+> **`[ADDED 30 OCTOBER 2026]` The largest feedback event in the project is the 24 October review**, and this note predates it by one day. [[24-10-2026]] holds a written instruction from the supervisor together with a supporting assessment against rubric V3, and the note keeps the two apart explicitly: §2 is the email and is marked as the authoritative requirement, §3 onward is the assessment. That separation is the same discipline Part 1 describes, applied to a source that mixes authority levels inside one document.
+>
+> Six decisions came out of it, two marked **Final**: set aside implementation, coding, model development, experimentation and proof-of-concept work until 5 November, and use the marking rubric as the primary working checklist. The email states twice that completion is not required by the deadline, only design, and attaches the rule this project now works under: **do not present planned work as completed work.**
 
 **The structure each session note uses is the part worth showing**, because it is what stops advice turning into assumption. Every feedback point is split into four distinct claims that are not allowed to merge:
 
@@ -39,6 +49,8 @@ The loop runs on two cadences and they work differently.
 Directives are separated from opinions. [[Week 4]] §2.4 is the clearest case: a panel member offered a view on the technical contribution and explicitly hedged it as his own, so it is recorded as "Opinion, referred to the supervisor" rather than as a requirement. [[Week 5]] §2.3 is the mirror case: I asked a question, the answer went elsewhere and did not return, and it is recorded as unanswered rather than as tacit approval, because reading silence as endorsement is exactly the inference that does not survive a viva.
 
 **Conflicts between sources are surfaced rather than reconciled quietly.** The panel member changes week to week, so [[Panel Rooms]] carries a standing instruction to assume nothing said in an earlier session has been heard. Two points so far have been answered by a different member from the one who raised them, the data window being the clearest, deferred in Week 4 at one scale and answered in Week 5 at a very different one. Both are carried to the supervisor together rather than one being chosen silently.
+
+`[ADDED 30 OCTOBER 2026]` **The clearest evidence for that claim sits inside the 24 October note itself.** Its §8 carries a marked conflict between the supporting assessment, which places a bounded proof of concept at priority 4 behind a sixteen-item specification, and the supervisor's email of the same date, which instructs that implementation be set aside entirely. The conflict is flagged where it occurs and settled by a written precedence rule, the supervisor's instruction winning, rather than by quietly dropping one side. The claim above is therefore demonstrated rather than asserted.
 
 **Outstanding actions carry forward with provenance.** Each session note ends with a numbered action table, and the next session opens with what was carried in and whether it was raised. Items that were not raised are marked as not raised rather than quietly dropped.
 
@@ -62,7 +74,26 @@ Four mechanisms, all already in use.
 - **A claim withdrawn because the literature contradicted it.** The claim that size-dependent execution cost is unmodelled, withdrawn once two papers were found that implement it, with the self-rated novelty moved down at the same time rather than left where it was.
 - **A figure corrected against the project's own data.** The per-counter history quoted as 374 trading days turned out to be a superseded archive. The current extraction runs to a median of roughly 3,400 days per counter, and the correction weakened one of my own arguments, which is recorded as such.
 
-That last one is the example to use if asked, because the correction cost something: the forecast-combination argument that limited data favours equal weights is a weaker argument at 3,400 days than at 374, and the record says so plainly rather than keeping the convenient version.
+That last one is the example to use if asked **about what a correction costs**, because it cost something: the forecast-combination argument that limited data favours equal weights is a weaker argument at 3,400 days than at 374, and the record says so plainly rather than keeping the convenient version.
+
+`[ADDED 30 OCTOBER 2026]` **Two further examples, both since this note was written.**
+
+- **Change under instruction, which cost the proposal its strongest demonstration.** The 24 October email set aside implementation, coding, model development, experimentation and proof-of-concept work until 5 November. That superseded this project's own 25 October gate and the build plan behind it, and the consequence is that the proposal **describes** an orchestration mechanism rather than demonstrating one. The instruction was recorded and followed rather than argued down, and what it cost is stated rather than absorbed quietly.
+- **A correction that did not travel the first time.** The 374-day and 270-counter figures were corrected on 27 October, and the same superseded figures were then found still sitting in [[PoC Specification]] §4.3, in [[12 Data and Evidence Strategy]] Part 3 and in [[22 Backup and Q&A Preparation]], days after the correction was believed finished. Each was corrected in place and marked. **This is the example to use if asked whether the process actually works**, because it is the one where the process caught its own failure: marking corrections rather than overwriting them is what made the incomplete propagation visible at all, and a clean first-time correction would have proved less.
+
+---
+
+### How change control runs from here
+
+`[ADDED 30 OCTOBER 2026]` The mechanisms above are retrospective, and the criterion asks how change **will** be managed as well as how it has been.
+
+| Stage | What is frozen | What may still change |
+|---|---|---|
+| **To 5 November** | Everything in the research. The 18 October freeze holds, and the 24 October instruction extends it to implementation itself | Only the proposal artefact: slides, requirements, methodology, plan, risk register, ethics |
+| **5 November to IPD, 28 January 2027** | The research topic, the gap and the agent set, by the 24 October decisions, Confirmed | The implementation. The fundamental agent built against the secured corpus, the adjusted panel exercised, the proof of concept completed against the sixteen-item specification |
+| **IPD to 1 April 2027** | The architecture, which [[17 Project Plan, Milestones and Dependencies]] makes a dependency of this stage. Changing it after IPD would invalidate the evaluation | Parameters, thresholds and regularisation, all swept and reported rather than tuned to a favourable value |
+
+**Any change that crosses a freeze is recorded as a conflict with the rule and carried to the supervisor rather than taken in the moment.** That is how the 18 October freeze has been operated since it was set, and it is why the freeze is a date with a rule attached rather than an intention.
 
 ---
 
@@ -77,7 +108,9 @@ Stated as a table, matching the template's own three columns.
 | Populating the research matrices from the notes | A provenance audit requiring every quoted span in the matrix to be verbatim in the note it is drawn from, with disputed cases adjudicated against the source PDF | The audit moved 79 opening and 95 closing quotation marks and unquoted 101 spans, so that all 1,621 quoted spans are now traceable |
 | Synthesis in the working documents | Cross-checking the synthesis back against the notes | **Thirteen substantive corrections** found, four adjudicated against source PDFs. One note had reversed a paper's own ablation finding; two asserted something the note explicitly withholds; one quoted one strategy's turnover for another's; one carried a metric gain that appears at no horizon in the paper |
 | Deriving the weighting formulation | Term-by-term mapping to the reviewed papers that support each term, with any term resting on my own reasoning flagged as mine | Part 4 below |
-| Code and data pipeline | Review against official documentation, plus the data verification suite as the backstop: external reconciliation rather than inspection alone | [[15 Testing, QA and Traceability]] Part 2 |
+| Data pipeline | Review against official documentation, plus the data verification suite as the backstop: external reconciliation rather than inspection alone | [[15 Testing, QA and Traceability]] Part 2 |
+| Orchestration code | `[LABELLED 30 OCTOBER 2026]` **Stated intention, not practice.** That code does not exist, so nothing in it has been verified. The intended method is the same external-reconciliation principle plus the named test set | None yet, and the slide says so rather than implying otherwise |
+| `[ADDED 30 OCTOBER 2026]` Drafting these proposal notes and the deck | Every substantive choice is recorded as settled or open **with its reasoning**, decided rather than accepted as drafted, and superseded wording is marked in place rather than overwritten. The decision record is the verification, and it is auditable | The twenty-one notes in this folder, each carrying dated settled and open sections, and the `[CORRECTED]` markers throughout |
 
 **What AI is not used for, stated plainly.** It does not decide what the contribution is, it does not decide what the evidence shows, and it is not cited as evidence. The template's own line is that AI should not be cited as academic evidence, and the corollary followed here is that an AI-produced summary is a prompt to read the paper rather than a substitute for reading it.
 
@@ -105,9 +138,11 @@ Saying which term rests on my own reasoning is stronger than implying all four a
 
 ## Part 5. Open decisions
 
-1. **How much code-level AI verification to claim.** The data pipeline has external reconciliation behind it. The orchestration code does not exist yet, so the row in Part 3 is a stated intention and should be labelled as one on the slide.
-2. **Whether the thirteen-corrections figure goes on the main slide or the backup.** It is the single most persuasive piece of evidence here, and it is also the kind of detail that invites a follow-up question, which is an argument for having the examples ready either way.
-3. **Whether to show the session note structure itself.** A screenshot of one feedback point with its four rows would demonstrate the process in less time than describing it.
+`[UPDATED 30 OCTOBER 2026]` All three closed on 30 October. The closures are recorded rather than deleted.
+
+1. ~~How much code-level AI verification to claim.~~ **Closed 30 October: the row splits in two.** The data pipeline is practice with external reconciliation behind it. The orchestration code does not exist, so its row is labelled stated intention on the slide. Part 3 carries both.
+2. ~~Whether the thirteen-corrections figure goes on the main slide or the backup.~~ **Closed 30 October: main slide, one line, with two or three examples ready behind it.** It is the most persuasive number in the note because it shows the verification has caught things, and the follow-up question it invites is one worth being asked.
+3. ~~Whether to show the session note structure itself.~~ **Closed 30 October: not shown.** The four-row discipline is described in Part 1 and defended in questions if it is raised. A screenshot costs slide space the density budget does not have.
 
 ---
 
