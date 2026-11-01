@@ -1,6 +1,6 @@
 ---
 status: current
-revised: 2026-10-27
+revised: 2026-11-01
 written_against: 59 reviews; Research Gap; Contribution to Knowledge; 18-21 October data build; 26 October filings harvest
 tags:
   - working-doc
@@ -388,8 +388,8 @@ Not novel, and not claimed as novel. What does not exist in the reviewed literat
 
 | Commitment | Detail |
 | --- | --- |
-| Splits | Chronological. Walk-forward with adaptive retraining |
-| Seeds | Multiple, with repeated windows. Report dispersion |
+| Splits | `[DEFINED 1 NOVEMBER 2026]` Chronological. **Rolling walk-forward**, fixed window: **1250-day train, 125-day test, step 125, non-overlapping, 16 folds**, periodic refit at each fold boundary. Rolling rather than expanding, because the margin is scaled to fold-to-fold dispersion and that requires comparable folds. ~~Walk-forward with adaptive retraining~~ **withdrawn as a description**: no drift trigger was ever defined, and claiming one would present planned work as completed work. Full protocol and arithmetic in [[07 Research Questions, Aim and Objectives]] Part 4 |
+| Seeds | `[DEFINED 1 NOVEMBER 2026]` **Five seeds across the 16 folds.** Report dispersion rather than the best run |
 | Regimes | Decomposed across the Easter attacks, COVID and the 2022 crisis |
 | Costs | Sensitivity sweep, not a single assumption. Friction charged in quiet periods too |
 | Significance | HAC-adjusted and bootstrap. **Note the warning**: standard errors for a combined forecast are nontrivial because the weights are random and correlated with the forecasts |
@@ -416,18 +416,20 @@ On the index track the method transfers as written. On the per-counter track it 
 
 Fill this in and freeze it **before** the first full run. The whole attributability argument depends on these being decided in advance.
 
+`[FILLED 1 NOVEMBER 2026]` This block was **entirely blank** on 27 October, which is a problem in its own right, since the attributability argument rests on these being decided in advance. Six are now fixed in the proposal notes and are transcribed here with their sources. **Four remain genuinely open and are marked as such rather than guessed.**
+
 | Item | Value | Status |
 | --- | --- | --- |
-| Primary metric | | ☐ To fix |
-| Minimum margin counting as a win over $B_1$ | | ☐ To fix |
-| Significance test and $\alpha$ | | ☐ To fix |
-| Number of seeds / repeated windows | | ☐ To fix |
-| Volatility estimator: Parkinson or Garman-Klass | | ☐ To fix |
-| Abstention floor $\phi$, and the sweep range | | ☐ To fix |
-| Abstained-day exposure policy: hold or flat | | ☐ To fix |
-| Conformal window treatment: short joint, or pooled | | ☐ To fix |
-| $L_t$ composite input list, final | | ☐ To fix |
-| Experimental universe after the D17 screen | | ☐ Blocked on Gate 0.3 |
+| Primary metric | **Cost-adjusted return over the full window, abstained days held flat**, computed once across the whole test span. Return per traded day reported beside it, not primary | ☑ **Fixed 24 Oct, confirmed 29 Oct.** [[07 Research Questions, Aim and Objectives]] Part 4 |
+| Minimum margin counting as a win over $B_1$ | **The median per-fold difference $\Delta_k = R_{P,k} - R_{B_1,k}$ must exceed the interquartile range of $\{R_{B_1,k}\}$ across the 16 folds**, and the paired difference must also clear the test below. Both halves required | ☑ **Fixed 24 Oct, defined 1 Nov.** The distribution was the part [[24-10-2026]] §7 flagged as missing |
+| Significance test and $\alpha$ | HAC-adjusted paired test plus stationary bootstrap, $\alpha = 0.05$. The standing caution applies: standard errors for a combined forecast are nontrivial because the weights are random and correlated with the forecasts | ☑ **Fixed** |
+| Number of seeds / repeated windows | **Five seeds across 16 folds** | ☑ **Fixed 1 Nov** |
+| Conformal window treatment: short joint, or pooled | **Neither.** A depth threshold instead: counters with at least 1250 days use the source method as written; **counters below it are evaluated without the conformal confidence input**, with $C_{i,t}$ falling back to the remaining mechanisms and the affected count reported by liquidity stratum. They are **not** excluded | ☑ **Fixed 1 Nov.** The 10th-percentile counter has 1,081 days, so this was forced by the fold protocol |
+| Experimental universe after the D17 screen | **233 candidates from a core universe of 355**, after DOCK was dropped on 24 October | ⚠ **Fixed but contested.** [[24-10-2026]] §7 records D22 at 323 including 17 rights-issue securities. One raw, one cleaned and one final eligible universe must be defined and reconciled before this is quotable |
+| Volatility estimator: Parkinson or Garman-Klass | | ☐ **To fix.** Both named, neither chosen, in the vault since 13 October |
+| Abstention floor $\phi$, and the sweep range | | ☐ **To fix.** <font color="#ff0000">No value exists anywhere in the vault.</font> §6.3 proposes setting it at the knee of the coverage-accuracy frontier and sweeping it |
+| Abstained-day exposure policy: hold or flat | | ☐ **To fix, and the wording hides the question.** The notes consistently say abstained days are *held flat*, but that phrase does not distinguish holding the existing position from going to zero exposure, and this spec's own Part 9 points out that going flat carries a round-trip cost each time. **Decide explicitly rather than inheriting it from a metric description** |
+| $L_t$ composite input list, final | | ☐ **To fix.** Amihud, turnover ratio, zero-return frequency and high-low range are settled; $\tau_t$ is still a candidate rather than a member |
 
 > **Decide now that a null is an acceptable outcome.** The forecast-combination literature's fifty-year finding is that equal weights are hard to beat; its two guidelines cut in opposite directions here — limited data argues for the simple average, structural change argues for changing weights — and the review states plainly that there is no comprehensive quantitative guidance on when to choose which. **An answer on a thin frontier market is a contribution even if the answer is that equal weights win** — provided the margin and the test were written down before the run rather than after.
 

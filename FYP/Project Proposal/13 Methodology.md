@@ -97,7 +97,7 @@ Not novel, and not claimed as novel. What does not exist in the literature I hav
 | Commitment | Detail |
 |---|---|
 | **Commitment zero** | Returns computed on a corporate-action-aware series, because every number below this depends on it |
-| Splits | Chronological, walk-forward with adaptive retraining |
+| Splits | `[DEFINED 1 NOVEMBER 2026]` Chronological, **rolling walk-forward**: 1250-day training window, 125-day test block, non-overlapping, **16 folds**, periodic refit at each fold boundary. Rolling rather than expanding, because the success criterion scales its margin to fold-to-fold dispersion and that requires comparable folds. ~~adaptive retraining~~ withdrawn as a description, since no drift trigger is defined. Full protocol in [[07 Research Questions, Aim and Objectives]] Part 4 |
 | Seeds | Multiple, with repeated windows, and dispersion reported rather than the best run |
 | Regimes | Decomposed across the Easter attacks, COVID and the 2022 crisis. The ASPI carries 15.1 percent annualised volatility over the window with annual figures running from 5.6 percent in 2017 to 31.6 percent in 2022, so the regime variable has real variation and does not need hand-dating |
 | Costs | Sensitivity sweep rather than a single assumption, with friction charged in quiet periods too |

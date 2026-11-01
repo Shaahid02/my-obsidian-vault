@@ -135,9 +135,9 @@ A2 can be satisfied by noise. **A3 is the mechanism**, and [[PoC Build Plan]] §
 | Return per traded day | Reported alongside, not primary | Still required by C3 element 4, and it is the figure that shows whether selectivity is paying for itself |
 | Secondary metrics | Sharpe, maximum drawdown, recovery profile, turnover | Carried as fixed columns, not chosen after the fact |
 | Reported on every directional row | Class balance, Matthews correlation, cost-adjusted return | The local example of why: accuracy 0.5837 at MCC 0.1493 |
-| **Minimum margin over $B_1$** | **A margin exceeding the interquartile range of $B_1$ across the repeated windows.** Fixed 24 October | An absolute number picked now would be arbitrary. Scaling the margin to the baseline's own dispersion is defensible, and it is still fixed in advance, which is what attributability requires |
+| **Minimum margin over $B_1$** | `[DEFINED 1 NOVEMBER 2026]` **The median per-fold difference must exceed the interquartile range of $B_1$'s own per-fold returns across the 16 walk-forward folds.** Fixed 24 October, defined 1 November | An absolute number picked now would be arbitrary. Scaling the margin to the baseline's own dispersion is defensible, and it is still fixed in advance, which is what attributability requires. **What was missing until 1 November was the distribution**, which [[24-10-2026]] §7 flagged as High. Full definition below |
 | Significance test | HAC-adjusted paired test plus stationary bootstrap, $\alpha = 0.05$ | Part 9. Note the standing warning that standard errors for a combined forecast are nontrivial because the weights are random and correlated with the forecasts |
-| Seeds and windows | Five seeds across the walk-forward folds, dispersion reported | Dispersion is reported rather than the best run |
+| Seeds and windows | Five seeds across the **16** walk-forward folds, dispersion reported | Dispersion is reported rather than the best run. The fold protocol is defined below |
 | Volatility estimator | **Parkinson**, frozen | Garman-Klass carries a $(\ln C/O)^2$ term and on a thin counter the open is often stale or auction-set. Already decided in [[PoC Build Plan]] §3 |
 | Abstention floor $\phi$ | **0.05** as the pre-registered primary, swept as a robustness strip if time allows | Already decided in [[PoC Build Plan]] §3 |
 | Abstained-day exposure | **Hold**, not flat | The flat option carries a round-trip cost each time, which contaminates the abstention economics |
@@ -147,6 +147,49 @@ A2 can be satisfied by noise. **A3 is the mechanism**, and [[PoC Build Plan]] §
 | Conformal window treatment | No longer constrained | The 1250-day requirement was withdrawn on 18 October because the archive clears it on both tracks |
 
 **Decide now that a null is an acceptable outcome.** Fifty years of forecast-combination evidence says equal weights are hard to beat and that sophisticated schemes usually lose to estimation error. The review that documents this states plainly that there is no comprehensive quantitative guidance on when to choose which, so an answer on a thin frontier market is worth having even if the answer is that equal weights win, provided the margin and the test were written down first.
+
+### The walk-forward protocol, settled 1 November 2026
+
+`[SETTLED 1 NOVEMBER 2026]` Specified because the success criterion depends on it: **a margin scaled to dispersion across folds cannot be defined before the folds are.** [[24-10-2026]] §7 raised the undefined margin as a High item, and this is the parameter underneath it. Nothing in the vault previously fixed a fold.
+
+| Parameter | Value | Why |
+|---|---|---|
+| Design | **Rolling window, fixed size.** Not expanding | An expanding window trains each fold on more data than the last, so the folds are not comparable, and the IQR of $B_1$ across them would mix the baseline's own variability with the effect of growing training size. **The margin rule requires comparable folds**, so the metric constrains the protocol rather than the other way round |
+| Training window | **1250 trading days**, about five years | The calibration window the adaptive conformal inference method behind $C_{V,t}$ is specified on. Below it, the confidence input does not work as claimed |
+| Test block | **125 trading days**, about six months | |
+| Step | **125 days**, non-overlapping test blocks | |
+| Folds | **16** | 3,443 trading days are recorded from 2012-01-01 to 2026-06-30 and the study window starts 2012-07-01, leaving roughly **3,324**. After the first training window, $(3324 - 1250)/125 \approx 16$ |
+| Refit | **Periodic, at each fold boundary** | |
+| Test span | Roughly mid-2018 to mid-2026 | The Easter attacks, COVID and the 2022 crisis all fall inside **test** blocks rather than in training, so the regime decomposition has something to decompose |
+
+**Sixteen is a precedent rather than a convenience.** A reviewed portfolio framework runs 16 folds under the same tests and finds no significant mean-return outperformance anywhere. It is both the comparator for the fold count and a standing reminder of the prior this project works against.
+
+> **`[WITHDRAWN 1 NOVEMBER 2026]` "Adaptive retraining" is withdrawn as a description.** It appeared in several notes as a label borrowed from the strong work surveyed in [[05 Critical Literature Landscape]], and **no trigger was ever defined for it**. What this protocol does is a periodic refit at each fold boundary. Calling it adaptive without implementing a drift trigger would be presenting planned work as completed work, which is the rule [[24-10-2026]] §2.1 sets.
+
+### What 1250 days costs the thin strata
+
+The 10th-percentile counter carries **1,081 trading days**, less than one training window, so the thinnest counters cannot supply a full conformal calibration at all. They are also the stratum this contribution is most about, so the position is declared rather than left to emerge.
+
+**Counters below the 1250-day threshold are evaluated without the conformal confidence input**, with $C_{i,t}$ falling back to the remaining mechanisms for the affected agents, and the count reported by liquidity stratum. **They are not excluded.** Excluding them would bias the universe toward the liquid end, which is the opposite of what this project needs, and it is the same reasoning that kept the close-outside-range rows in on 24 October.
+
+### The success criterion, defined
+
+`[SETTLED 1 NOVEMBER 2026]` §7 asked for a coherent primary estimand, statistical test and decision rule. Three parts doing three different jobs.
+
+| | Definition |
+|---|---|
+| **Primary metric** | Cost-adjusted return over the **full window**, abstained days held flat, computed once across the whole test span rather than per fold. This is the headline and it is what the claim is about |
+| **Estimand for the margin** | The per-fold difference $\Delta_k = R_{P,k} - R_{B_1,k}$ in cost-adjusted return, for each of the 16 folds |
+| **Reference distribution** | $B_1$'s own fold-to-fold spread: the interquartile range of $\{R_{B_1,k}\}$ across those same 16 folds. **This is the quantity §7 said was unnamed** |
+| **Decision rule** | $P$ earns its place when $\mathrm{median}_k(\Delta_k) > \mathrm{IQR}(\{R_{B_1,k}\})$ **and** the paired difference clears the HAC-adjusted test and the stationary bootstrap at $\alpha = 0.05$ |
+
+**Both halves are required, and neither alone is enough.** Significance on its own can certify an effect too small to matter. A margin on its own can certify noise. Requiring the improvement to exceed the baseline's own fold-to-fold variability is what makes "earns its place" mean something: **if $P$ beats $B_1$ by less than the amount $B_1$ moves around by itself between windows, nothing has been shown.**
+
+**The median rather than the mean** of $\Delta_k$, so one extreme fold cannot carry the decision. Both are reported; the median decides.
+
+**The separation that makes this defensible.** The full-window figure and the per-fold distribution answer different questions, and these notes previously blurred them. The full window gives the magnitude of the claim. The folds supply the dispersion the margin is scaled against. A 125-day test block produces a noisy return on its own, which is exactly why it is used for dispersion rather than as the headline.
+
+**The caution that travels with the significance half**, already on record: standard errors for a combined forecast are nontrivial because the weights are random and correlated with the forecasts. That bites on the test and not on the margin, which is a further reason the two are reported separately.
 
 ---
 
