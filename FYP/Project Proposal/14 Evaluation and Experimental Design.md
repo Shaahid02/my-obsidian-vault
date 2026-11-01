@@ -47,9 +47,14 @@ Three arms is not enough, and the reason is specific to each.
 | $B_2$ | Static learned weight | That a fixed learned weight gets to the same place without any conditioning |
 | $B_3$ | Discounted inverse-MSE, no market state | <font color="#ffc000">The arm that actually threatens the contribution.</font> If reacting to recent agent performance does as well as conditioning on measured exogenous state, the state conditioning is not earning its place |
 | $P$ | State-conditioned, the proposal | |
-| $O$ | Oracle, fitted on the test window | Prices estimation cost in this project's own data and units, which separates a wrong hypothesis from a hard estimation problem |
+| $O$ | Oracle, fitted on the test window. `[FRAMED 1 NOVEMBER 2026]` **A hindsight diagnostic upper bound, not an achievable strategy** | Unattainable by construction, which is exactly the point. It prices estimation cost in this project's own data and units, and so separates a wrong hypothesis from a hard estimation problem |
 
 Plus a one-parameter sweep mapping the continuum from equal weights to winner-take-all, which places the whole family on a single axis at almost no cost.
+
+> [!important]
+> **`[FRAMED 1 NOVEMBER 2026]` The oracle is never presented as a strategy.** [[24-10-2026]] §7 asks for this explicitly, and it is the kind of thing an examiner will test with one question. It is **fitted on the test window**, so it could not be run forward even in principle, and no result from it is a performance claim.
+>
+> Its whole job is to be the ceiling. If the oracle shows no gain, the conditioning hypothesis is wrong. If the oracle gains and the estimate does not, the hypothesis may be right and the estimator is the problem, which is a different finding with a different response. **Without it those two failures look identical in the output**, which is why it is in the design rather than an indulgence.
 
 **The fairness rule is architectural, not procedural.** Every arm must be identical to the others except in the weighting function, which is only achievable if agents run once and all arms consume the same cached outputs. Acceptance criterion A5, byte-identical agent outputs across all five arms, is what enforces it. The motivating failure is a published comparison whose proposed system received both the graph and the agent scaffolding while its baseline received neither.
 

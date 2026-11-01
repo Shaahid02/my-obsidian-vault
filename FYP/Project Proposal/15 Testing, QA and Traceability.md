@@ -7,7 +7,7 @@ tags:
   - working-doc
   - proposal
 ---
-*Created 23 October 2026, for slide 15 of the PP live presentation template. Testing design was scheduled for 25 October in [[29-09-2026]] §11.5 and has not been written, but one row of the template's table is already populated with executed results rather than plans: the data verification suite in [[Data Cleaning Checklist]] Stage 6. Sentiment is out of scope throughout.*
+*Created 23 October 2026, for slide 15 of the PP live presentation template. Testing design was scheduled for 25 October in [[29-09-2026]] §11.5. `[UPDATED 1 NOVEMBER 2026]` ~~and has not been written~~ **It is written, in Parts 3, 3a, 4 and 7 below.** What was true when this note was created, and is still its strongest point, is that one row of the template's table is populated with **executed results rather than plans**: the data verification suite in [[Data Cleaning Checklist]] Stage 6. Sentiment is out of scope throughout.*
 
 > [!NOTE]
 > **Revised 29 October 2026.** Two corrections and four decisions. The traceability table traced three research questions that [[07 Research Questions, Aim and Objectives]] has since renamed and, in one case, withdrawn. Seven **Must** requirements carried no test anywhere in the note, which matters more than usual because linking tests to requirements is this note's whole purpose and the traceability chain is a planned backup slide. The seven are now covered. The behavioural checks are confirmed as living here rather than on slide 14, and a testing timeline has been added, because the note was a snapshot and the criterion rewards showing testing develop.

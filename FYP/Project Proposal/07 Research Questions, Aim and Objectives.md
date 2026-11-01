@@ -187,19 +187,21 @@ Nothing in this note. One consistency item is carried forward, in Part 7.
 
 ## Part 7. Propagation from the restructure
 
-The question labels changed, so these have to change with them. Each is handled when that note is addressed.
+The question labels changed, so these had to change with them. `[COMPLETE 1 NOVEMBER 2026]` ~~Each is handled when that note is addressed.~~ **All five are done**, confirmed by a sweep of every note on 1 November. The table is kept as the record of what the restructure touched rather than deleted.
 
-| Note | What needs changing |
-|---|---|
-| [[10 Requirements]] | Part 6 traceability table, three rows relabelled to MRQ, SQ1, SQ2 |
-| [[14 Evaluation and Experimental Design]] | Part 1 success criteria row, Part 7 claim limits |
-| [[15 Testing, QA and Traceability]] | Part 6 traceability table, three rows |
-| [[22 Backup and Q&A Preparation]] | The requirements traceability backup slide |
-| [[_Proposal Notes Index]] | Open decisions 4 to 7 now settled |
+| Note | What needed changing | Status |
+|---|---|---|
+| [[10 Requirements]] | Part 6 traceability table, three rows relabelled to MRQ, SQ1, SQ2 | **Done** |
+| [[14 Evaluation and Experimental Design]] | Part 1 success criteria row, Part 7 claim limits | **Done 29 Oct** |
+| [[15 Testing, QA and Traceability]] | Part 6 traceability table, three rows | **Done 30 Oct.** SQ2 had no row at all and now has one |
+| [[22 Backup and Q&A Preparation]] | The requirements traceability backup slide | **Done 1 Nov** |
+| [[_Proposal Notes Index]] | Open decisions 4 to 7 now settled | **Done 30 Oct**, in the index rebuild |
 
 ### One consistency item carried forward
 
-The phrase *"attributable evidence on whether it earns its place"* also appears in [[06 Gap, Novelty and Contribution]] Part 6 and [[20 Scope, Limitations and Closing Defence]] Part 5. In note 06 it sits inside a verbatim quotation of [[Contribution to Knowledge]] Part 3, so changing it there would break the quotation. In note 20 it is my own wording in the closing defence and can be changed freely. **Decide at note 20 rather than sweeping every instance now**, since describing a knowledge contribution as evidence either way is defensible in a sentence that is not a research question.
+The phrase *"attributable evidence on whether it earns its place"* also appears in [[06 Gap, Novelty and Contribution]] Part 6 and [[20 Scope, Limitations and Closing Defence]] Part 5. In note 06 it sits inside a verbatim quotation of [[Contribution to Knowledge]] Part 3, so changing it there would break the quotation. In note 20 it is my own wording in the closing defence and can be changed freely. ~~**Decide at note 20 rather than sweeping every instance now**~~, since describing a knowledge contribution as evidence either way is defensible in a sentence that is not a research question.
+
+`[DECIDED 1 NOVEMBER 2026]` **Left as it stands in both notes.** Note 20 was worked through on 30 October without changing it, and the reasoning above holds: in a closing-defence sentence rather than in a research question, either wording is defensible, and leaving note 06 alone keeps its quotation of [[Contribution to Knowledge]] intact.
 
 ---
 
