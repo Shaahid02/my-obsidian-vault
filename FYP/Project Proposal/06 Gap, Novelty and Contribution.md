@@ -43,7 +43,9 @@ The position to state, if it comes up at all:
 
 > A standard target-volatility scaler assumes exponential decay of volatility shocks, and the long-memory results measured on this market across all three regimes contradict that assumption, so after a shock the scaler re-levers on a schedule that is too fast. Whether the fractional differencing parameter should govern that schedule is a pre-registered experiment with the baseline identified and the environment chosen. It runs on the source paper's own four-ETF setup and needs no CSE data, which is why it is off the critical path rather than abandoned.
 
-That is a stronger thing to say than most proposal-stage sub-gaps carry, and it is honest about its status. **Consequence still to resolve in [[07 Research Questions, Aim and Objectives]]:** RQ3 now has neither an outcome nor a contribution attached to it.
+That is a stronger thing to say than most proposal-stage sub-gaps carry, and it is honest about its status.
+
+`[RESOLVED 1 NOVEMBER 2026]` ~~**Consequence still to resolve in [[07 Research Questions, Aim and Objectives]]:** RQ3 now has neither an outcome nor a contribution attached to it.~~ **RQ3 was withdrawn on 24 October.** The persistence work is a pre-registered supporting experiment rather than a research question, and it is deliberately not listed as a contribution, which is the decision already recorded in this note. Having neither an outcome nor a contribution is now the intended position rather than a loose end.
 
 ---
 

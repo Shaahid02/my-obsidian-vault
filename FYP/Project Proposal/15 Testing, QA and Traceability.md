@@ -142,7 +142,7 @@ The chain the 11 October gate asked for, closed at the test end. This is also th
 >
 > Two consequences for testing specifically. **There are six days to submission**, which is not enough to start a unit suite, so planned is the only accurate word for it on the slide and the absence is stated rather than softened. And the stretch from IPD to final submission is **nine weeks** carrying the full build, the complete evaluation and the thesis together, which is why three of the stages below sit inside one window rather than running in sequence, and why no unit test can be deferred into it.
 
-Stages follow [[17 Project Plan, Milestones and Dependencies]] Part 1, whose own dates after 5 November are still marked **TBC** and can now be filled from the table above.
+Stages follow [[17 Project Plan, Milestones and Dependencies]] Part 1. `[UPDATED 1 NOVEMBER 2026]` That note now carries the same confirmed dates, so the two agree.
 
 | Stage | What comes online | What it means is true at the gate |
 |---|---|---|

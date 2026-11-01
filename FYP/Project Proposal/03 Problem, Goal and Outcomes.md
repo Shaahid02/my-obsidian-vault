@@ -96,7 +96,9 @@ The rubric wants outcomes that are measurable or observable, and that align with
 > [!NOTE]
 > **A sixth outcome was removed on 24 October.** It read: *a stated and tested position on whether volatility persistence should govern post-shock re-levering*. It is removed because the experiment behind it was cut from the 25 October gate in [[PoC Build Plan]] §6, so listing it as an expected outcome would invite a question about a result that will not exist by 5 November.
 >
-> **Consequence to resolve in [[07 Research Questions, Aim and Objectives]].** RQ3 now has no outcome attached to it. Either RQ3 is demoted to a stated sub-hypothesis, or persistence returns as an outcome worded explicitly as a pre-registered experiment. The two notes have to agree, and they currently do not.
+> `[RESOLVED 1 NOVEMBER 2026]` **Consequence resolved in [[07 Research Questions, Aim and Objectives]] on 24 October.** ~~RQ3 now has no outcome attached to it. Either RQ3 is demoted to a stated sub-hypothesis, or persistence returns as an outcome worded explicitly as a pre-registered experiment. The two notes have to agree, and they currently do not.~~
+>
+> **RQ3 was withdrawn entirely.** The questions are now one main question, **MRQ**, with two supporting it, **SQ1** and **SQ2**, and the persistence work survives as a **pre-registered supporting experiment rather than a research question**. Nothing is left without an outcome, and the two notes agree.
 
 **Outcome 2 is the one that holds whichever way the result goes.** Fifty years of forecast-combination evidence says equal weights are hard to beat, and the review that documents this states plainly that there is no comprehensive quantitative guidance on when to choose which. An answer on a thin frontier market is worth having even if the answer is that equal weights win.
 
@@ -122,8 +124,8 @@ Worth saying out loud on the slide, because the criterion assesses alignment and
 
 ### Still open
 
-1. **The knock-on to RQ3**, recorded in Part 5. Removing the persistence outcome leaves RQ3 without one, and the two notes have to be reconciled when [[07 Research Questions, Aim and Objectives]] is addressed.
-2. **Nothing else.** This note is otherwise ready to build from.
+1. ~~The knock-on to RQ3, recorded in Part 5.~~ `[CLOSED 1 NOVEMBER 2026]` RQ3 was withdrawn in [[07 Research Questions, Aim and Objectives]] on 24 October and the persistence work became a supporting experiment. Nothing is outstanding.
+2. **Nothing else.** This note is ready to build from.
 
 ---
 

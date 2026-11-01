@@ -11,7 +11,9 @@ tags:
 Twenty-one notes covering every slide of the PP live presentation template. Each converts decisions already recorded elsewhere in the vault into the form the template and the marking rubric ask for. Almost nothing in them is new research; where something is composed rather than extracted, the note says so.
 
 > [!NOTE]
-> **Index revised 30 October 2026.** It had drifted badly: settled decisions were still listed as open, cleared backlog items as outstanding, and the 24 October supervisor review was absent entirely. **Fifteen of the twenty-one notes are settled.** The six carrying slides 17 to 22 are drafted and have not been worked through, and they hold most of the rubric weight still at risk.
+> **Index revised 30 October, updated 1 November 2026.** It had drifted badly: settled decisions were still listed as open, cleared backlog items as outstanding, and the 24 October supervisor review was absent entirely.
+>
+> `[UPDATED 1 NOVEMBER 2026]` **All twenty-one notes are now settled.** What remains is not writing: **nine slides are still template placeholders**, which is the single largest complaint in [[24-10-2026]] §6.9, and the §7 reconciliations are worksheet work.
 
 | Note | Slide | Rubric criterion | Weight | Status |
 |---|--:|---|--:|---|
@@ -30,12 +32,12 @@ Twenty-one notes covering every slide of the PP live presentation template. Each
 | [[14 Evaluation and Experimental Design]] | 14 | Methodology and Development Approach | **15%** | **Settled 29 Oct** |
 | [[15 Testing, QA and Traceability]] | 15 | Methodology and Development Approach | **15%** | **Settled 30 Oct** |
 | [[16 Iteration, Feedback, Change and AI Verification]] | 16 | Methodology and Development Approach | **15%** | **Settled 30 Oct** |
-| [[17 Project Plan, Milestones and Dependencies]] | 17 | Project Plan Feasibility and Risk | 10% | Drafted 23 Oct, **not addressed** |
-| [[18 Risk, Mitigation and Contingency]] | 18 | Project Plan Feasibility and Risk | 10% | Drafted 23 Oct, **not addressed** |
-| [[19 Responsible Research and Project Considerations]] | 19 | Responsible Project Considerations | 10% | Drafted 23 Oct, **not addressed** |
-| [[20 Scope, Limitations and Closing Defence]] | 20 | Appropriateness of Scope, plus Communication | 10% | Drafted 23 Oct, **not addressed** |
-| [[21 Academic Practice and References]] | 21 | Academic Practice and Referencing | 5% | Drafted 23 Oct, **not addressed** |
-| [[22 Backup and Q&A Preparation]] | 22 | Communication, responses to questions | 10% shared | Drafted 23 Oct, corrected 27 Oct, **not addressed** |
+| [[17 Project Plan, Milestones and Dependencies]] | 17 | Project Plan Feasibility and Risk | 10% | **Settled 30 Oct** |
+| [[18 Risk, Mitigation and Contingency]] | 18 | Project Plan Feasibility and Risk | 10% | **Settled 30 Oct** |
+| [[19 Responsible Research and Project Considerations]] | 19 | Responsible Project Considerations | 10% | **Settled 30 Oct** |
+| [[20 Scope, Limitations and Closing Defence]] | 20 | Appropriateness of Scope, plus Communication | 10% | **Settled 30 Oct**, corrected 1 Nov |
+| [[21 Academic Practice and References]] | 21 | Academic Practice and Referencing | 5% | **Settled 30 Oct** |
+| [[22 Backup and Q&A Preparation]] | 22 | Communication, responses to questions | 10% shared | **Settled 1 Nov** |
 
 Slides 10 and 11 are a pair. The rubric states that a requirements specification cannot score highly if the technical concept is absent, and that a technology stack cannot compensate for unclear requirements, so neither note carries the criterion alone.
 
@@ -211,11 +213,17 @@ These are data-integrity items rather than slide items, and none is in the backl
 
 Five items surfaced while working through the notes, each one making some note say something that was no longer true. **All five are cleared.** `[UPDATED 30 OCTOBER 2026]` What survives is residue in the six notes not yet worked through, and it clears itself when they are:
 
-| Residue | Where it still reads wrongly |
+`[CLEARED 1 NOVEMBER 2026]` **The residue is gone.** A sweep of all twenty-one notes on 1 November found **seven** live statements that a correction had not reached, which is one more than the residue table here had predicted, and all seven are now corrected in place with the superseded wording struck through rather than deleted.
+
+| Residue | Where it was, and how it reads now |
 |---|---|
-| B1 filings corpus | Note 17 Part 3 says the harvest is "Not started". Note 18 Part 3 says "No corpus exists" |
-| B2 adjusted panel | Note 18 Part 2 calls the corporate-action problem "currently realised". Note 20 Part 3 says the adjusted series "does not exist yet". Note 22 calls it "the next data task" |
-| B4 ex-date reliability | Still to land in note 18 as the residual data risk that replaces B2 |
+| **B1** filings corpus | Note 17 Part 3 said "Not started". Note 18 Part 3 said "No corpus exists". **Note 11 said it twice**, once in the layered view and once in the open-items table, and neither was caught when B1 was first applied |
+| **B2** adjusted panel | Note 18 Part 2 said "currently realised". Note 20 Part 3 said "does not exist yet". Note 22 said "the next data task". **Note 11's data-layer row said it too** |
+| **B4** ex-date reliability | Landed in note 18 as the residual risk that replaces B2, and is now also named in notes 11, 20 and 22 as the limitation that survives |
+| **RQ3 withdrawal** | Not a B-item. Notes 03 and 06 still posed the consequence as unresolved and said the two notes "currently do not" agree, seven days after note 07 withdrew RQ3 |
+| **Note 17's dates** | Note 15 Part 7 still described them as TBC, a residue created between writing note 15 on the 29th and dating note 17 on the 30th |
+
+> **The lesson is the one already recorded as a worked example in [[16 Iteration, Feedback, Change and AI Verification]] Part 2.** Marking corrections in place rather than overwriting them is what made each of these findable. A clean correction would have left no trace to sweep for.
 
 | # | What changed | Status |
 |--:|---|---|
