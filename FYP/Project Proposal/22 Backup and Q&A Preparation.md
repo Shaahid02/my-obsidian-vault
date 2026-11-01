@@ -1,7 +1,7 @@
 ---
 status: current
 created: 2026-10-23
-revised: 2026-10-27
+revised: 2026-11-01
 written_against: "[[Week 3]]; [[Week 4]]; [[Week 5]]; [[Week 6]]; [[29-09-2026]]; [[20 Scope, Limitations and Closing Defence]]"
 tags:
   - working-doc
@@ -10,6 +10,9 @@ tags:
 *Created 23 October 2026, for slide 22 of the PP live presentation template and for the questions after it. The duration is up to twenty minutes **including questions**, so the Q&A is a material share of the assessed performance rather than an epilogue, and the communication criterion explicitly assesses responses to questions. Sentiment is out of scope throughout.*
 
 ---
+
+> [!NOTE]
+> **Revised 1 November 2026.** The Communication criterion scored **52 of 100** in the [[24-10-2026]] assessment, marked Critical before 5 November and not finally assessable until the live presentation. §6.9 carries twenty-three items, most of which are deck-building rather than Q&A. What belongs here: one stale answer corrected, a new class of question from someone who has already read the material and found the seams, three questions that currently have no good answer, the fact that **there is no proof of concept to demonstrate**, and a delivery section the note did not have.
 
 ## Why this note exists
 
@@ -55,6 +58,34 @@ These were asked by panel members. Two of the three were not answered at the tim
 
 ---
 
+## Part 2a. Questions the 24 October review makes near-certain
+
+`[ADDED 1 NOVEMBER 2026]` A different class from Part 3. These come from someone who has read the material and found the seams, so they arrive precisely rather than vaguely. Five have good answers now. The sixth does not, and is in Part 2b.
+
+| Question | The answer |
+|---|---|
+| **Why do liquidity and volatility vote rather than act as constraints?** §6.7 says they "may operate more naturally as state estimators or constraints than as independent voting agents" | The state vector is **not built from agent output**. $L_t$, $V_t$ and $P_t$ are computed at the state layer directly from market data, so the agents and the state share a data source but not an output path, and no agent's vote feeds the weight it receives. Concede the residual rather than fight it: $A_L$'s view and $L_t$ come off the same volume series so they correlate, which is a correlation and not a feedback loop, and both the pairwise error correlation and the volatility-liquidity collinearity check are pre-registered for exactly that. Full argument in [[20 Scope, Limitations and Closing Defence]] Part 1a |
+| **Why four agents rather than three?** | Error cancellation, and nothing else. Unlike methods make unlike errors, so combining them cancels some of that error, and dropping either market-state agent removes a whole error mode rather than a redundant one. **The part that matters: it is falsifiable.** The per-input ablation measures whether each agent earns its vote, and if one contributes nothing attributable the set shrinks and that is a finding. The agent set is provisional, not settled |
+| **What is the minimum you need to build to test your main contribution?** | Nine components, and the list is written down: the point-in-time data layer, the output contract, at least two unlike agents, the state vector with $L_t$, the operator with its abstention floor, arms $B_1$, $P$ and $B_3$ over cached outputs, the A3 sweep, the four state ablations, and the cost-adjusted metric with class balance and Matthews correlation. Six further things are enhancement and have a written drop order. **One rule: nothing proceeds past the required list until $B_1$ against $P$ has run end to end.** [[20 Scope, Limitations and Closing Defence]] Part 2a |
+| **Is the oracle an achievable strategy?** §7 says treat it as a hindsight diagnostic upper bound | **No, and it is never presented as one.** It is fitted on the test window, so it is unattainable by construction. It exists to price estimation cost in this project's own data and units, which is what separates a wrong hypothesis from a hard estimation problem: no oracle gain means the conditioning idea is wrong, gain in the oracle without gain in the estimate means an estimation problem with a number attached |
+| **Where is your proof of concept?** | The 24 October instruction set aside implementation, coding, model development, experimentation and proof-of-concept work until 5 November, recorded as Final, on the reasoning that the proposal is an assessment in its own right. §8 of that note states the proposal must **describe** the mechanism rather than demonstrate it. **So there is nothing to run, by instruction rather than by failure**, and the feasibility evidence is the data work: a pipeline reconciled at 0.13 percent against published annual figures and 99.93 percent against an independent archive, a secured corpus of 22,893 filings, and the adjusted panel |
+
+---
+
+## Part 2b. Three questions that currently have no good answer
+
+`[ADDED 1 NOVEMBER 2026]` Written down because meeting these cold is worse than meeting them prepared, and because "I know about this, here is the reconciliation I am running" is a far better answer than surprise. Two are §7 **Critical** and one is §7 **High**.
+
+| Question | Why it bites | The holding answer, and what closes it |
+|---|---|---|
+| **Your success criterion uses an interquartile range. The interquartile range of what?** | §7, High. The margin is settled in [[07 Research Questions, Aim and Objectives]] and [[14 Evaluation and Experimental Design]] as exceeding the IQR of $B_1$ across repeated windows, and **the estimand, the test and the decision rule that go with it are not specified**. A margin without a named distribution is not a decision rule | <font color="#ff0000">**Proposed, not yet settled.**</font> The estimand is the per-fold difference in cost-adjusted return between $P$ and $B_1$ across walk-forward folds; the distribution is $B_1$'s own fold-to-fold dispersion over those same folds; the rule is that the median fold difference must exceed that IQR, with a HAC-adjusted paired test and a stationary bootstrap at $\alpha = 0.05$. **This must be confirmed and written into notes 07 and 14 before the slide claims it** |
+| **Your slide says 355 securities. Your dataset worksheet says 323.** | §7, Critical. D22 records 323 including 17 rights-issue securities, against 355 on slide 1 | Reconciliation, not a correction. §7 wants **one defined raw universe, one cleaned universe and one final eligible universe, with every exclusion explained**. The 355 core and 233 candidate figures are after excluding rights, warrants, preference and unit instruments and after dropping DOCK on 24 October; the 323 is a different cut. Until the three universes are named and reconciled, quote the figure with its definition attached rather than bare |
+| **You say roughly 817,000 records. Your worksheet says 829,070.** | §7, Critical | Same shape of answer. §7 asks for an auditable reconciliation of **raw, rejected and accepted** record counts. The 853,535 traded rows, the 817k used in the archive cross-check and the 829,070 in D22 are three different populations and are currently quoted as if interchangeable |
+
+> **The rule that covers all three**, from §7: four statuses stay distinct everywhere. A source identified, a dataset downloaded, a derived dataset constructed, and that derived dataset validated.
+
+---
+
 ## Part 3. Questions to expect that nobody has asked yet
 
 Written out because the ones that hurt are the ones answered for the first time in the room.
@@ -68,7 +99,7 @@ Written out because the ones that hurt are the ones answered for the first time 
 | **Your fundamental agent does not work yet. Does the contribution survive?** | The orchestration claim is tested over whichever agents emit the contract, and the agent-on-and-off ablation is what measures its contribution. A stubbed agent is reported as stubbed, and a zero delta from a stub is not presented as a finding |
 | **Why not use an LLM to set the weights?** | Capacity. An observed performance sign-flip under a small regularisation change, on a larger universe and a longer history than this one, is the argument for a low-capacity form that can be swept and reported |
 | **Is 20 counters enough?** | `[CORRECTED 27 OCTOBER 2026]` The candidate universe is **233** voting securities meeting the screen, out of a core universe of 355. The superseded figure was 234, corrected when DOCK was dropped on 24 October. The proof of concept runs on around nine, stratified across the liquidity cross-section, because the mechanism needs liquidity to vary both across and within counters |
-| **Your data is not adjusted for corporate actions. Are your numbers wrong?** | On corporate-action days, yes, which is why the proof of concept excludes counters with detected events and reports the exclusion count and its direction of bias. The registers are purchased and the adjusted series is the next data task |
+| **Your data is not adjusted for corporate actions. Are your numbers wrong?** | `[CORRECTED 1 NOVEMBER 2026]` **It is adjusted.** The adjusted panel was built on **23 October** from the purchased registers, carrying a price-only `adj_close` and a total-return `tr_close`, with 31 register corrections each confirmed against both price and issued quantity. `tr_close` is primary, because the benchmark is ASTRI and a total-return series against a total-return index is the like-for-like comparison. The detect-and-exclude workaround is withdrawn. **What survives is narrower and is worth volunteering:** no documented date in the registers is an ex-date, they were recovered from measured price drops, and `corporate_actions.csv` records **259 events as approximate**, so daily-return models drop or flag those days while longer horizons are unaffected |
 | **What happens if the exchange never sends bid, ask and depth?** | Nothing collapses. Two data levels were declared in advance, the proxy route is the plan and the microstructure route is the enhancement |
 | **How much of this did AI write?** | Assistance in search, drafting and synthesis, with verification by reading the source. The audit found thirteen substantive errors across 59 notes, four adjudicated against the original PDFs, which is evidence the verification runs rather than being claimed |
 
@@ -89,6 +120,20 @@ For the moment when a specific figure would settle a question faster than an arg
 - **Do not read silence as approval.** A question that was not pressed is not a question that was answered, and a favourable remark in passing does not freeze anything.
 - **Do not accept a premise that was already retired.** If the superseded fixed-weight wording is quoted back, note that the current formulation is sharper, that many reviewed systems carry no weighting quantity at all, and move on rather than defending the old phrasing.
 - **Do not promote a panel suggestion to a decision in the room.** Panel feedback is advisory unless the supervisor confirms it, which is the standing rule across every session note, and a suggestion to reintroduce sentiment is a conflict with a Final decision rather than an action.
+
+---
+
+## Part 5a. Delivery
+
+`[ADDED 1 NOVEMBER 2026]` §6.9 lists delivery items this note did not cover. The criterion cannot be finally assessed until the live presentation, so preparation here is worth more than anywhere else in the deck.
+
+**Explain each research question and its evaluation without reading the slide.** §6.9 asks for this by name. The test is whether MRQ, SQ1 and SQ2 can each be stated, justified and paired with how it is answered, in roughly thirty seconds each, looking at the examiner rather than the screen. These are the three sentences the whole proposal rests on and they are the ones most likely to be read aloud under pressure.
+
+**Rehearse against a clock, not against a feeling.** The duration is unresolved and the conflict is recorded in [[_Proposal Notes Index]]: the Marking Rubric's Threshold tab says up to twenty minutes **including** questions, the Student Guide says twenty **followed by** examiner questions. Rehearse to the stricter reading, thirteen to fifteen minutes of delivery, because overrunning costs marks under this criterion directly while finishing early costs nothing.
+
+**Ownership is assessed, and it is the one thing no backup slide can supply.** §6.9's last item is demonstrating independent ownership of the research decisions. The material that proves it already exists: the term-by-term derivation of the weighting function with the confidence term flagged as the one resting most on my own reasoning, the eight withdrawn claims, and the thirteen corrections the verification process caught. Ownership is shown by explaining **why a decision went the way it did**, including the ones that cost something, rather than by describing what was built.
+
+**There is no live demonstration, and that is the answer rather than a gap.** §6.9 asks for an alternative demonstration method if the proof of concept cannot run. It cannot run because it was not built, by instruction. See Part 2a.
 
 ---
 
