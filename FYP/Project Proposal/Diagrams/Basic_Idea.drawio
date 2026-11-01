@@ -1,0 +1,85 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="K8Vbayl_s8MtORwpEChZ">
+    <mxGraphModel dx="1101" dy="720" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="a1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#7030A0;fontColor=#3B1E54;fontSize=12;" value="&lt;b&gt;Technical&lt;/b&gt;&amp;nbsp;&lt;font style=&quot;font-size:10px&quot;&gt;price-derived&lt;/font&gt;" vertex="1">
+          <mxGeometry height="58" width="210" x="50" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#7030A0;fontColor=#3B1E54;fontSize=12;" value="&lt;b&gt;Fundamental&lt;/b&gt;&amp;nbsp;&lt;font style=&quot;font-size:10px&quot;&gt;from filings&lt;/font&gt;" vertex="1">
+          <mxGeometry height="58" width="210" x="50" y="182" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#7030A0;fontColor=#3B1E54;fontSize=12;" value="&lt;b&gt;Volatility&lt;/b&gt;" vertex="1">
+          <mxGeometry height="58" width="210" x="50" y="254" as="geometry" />
+        </mxCell>
+        <mxCell id="a4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#7030A0;fontColor=#3B1E54;fontSize=12;" value="&lt;b&gt;Liquidity&lt;/b&gt;" vertex="1">
+          <mxGeometry height="58" width="210" x="50" y="326" as="geometry" />
+        </mxCell>
+        <mxCell id="alab" parent="1" style="text;html=1;align=center;fontSize=11;fontColor=#3B1E54;" value="&lt;font style=&quot;font-size:11px&quot;&gt;each emits &lt;b&gt;direction, magnitude, confidence, status&lt;/b&gt;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="230" x="40" y="388" as="geometry" />
+        </mxCell>
+        <mxCell id="st" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E0F0EF;strokeColor=#1F7A7A;fontColor=#14524F;fontSize=12;" value="&lt;b&gt;Market state&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;liquidity, volatility, persistence&lt;br&gt;measured from the market, &lt;b&gt;not from any agent&lt;/b&gt;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="92" width="210" x="50" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="op" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EDE3F5;strokeColor=#7030A0;strokeWidth=2;verticalAlign=top;spacingTop=10;fontSize=14;fontColor=#3B1E54;" value="&lt;b&gt;Weighting operator&lt;/b&gt;&amp;nbsp;&amp;nbsp;&lt;font face=&quot;Courier New&quot;&gt;w&lt;sub&gt;i,t&lt;/sub&gt; = f(L&lt;sub&gt;t&lt;/sub&gt;, V&lt;sub&gt;t&lt;/sub&gt;, P&lt;sub&gt;t&lt;/sub&gt;, C&lt;sub&gt;i,t&lt;/sub&gt;)&lt;/font&gt;" vertex="1">
+          <mxGeometry height="422" width="400" x="350" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="op1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#7030A0;fontColor=#3B1E54;fontSize=12;align=left;spacingLeft=10;" value="&lt;b&gt;1 · Listen more to the channel that is working&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;an agent&#39;s influence rises and falls with measured conditions outside it, continuously, every day&lt;/font&gt;" vertex="1">
+          <mxGeometry height="86" width="356" x="372" y="166" as="geometry" />
+        </mxCell>
+        <mxCell id="op2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#7030A0;fontColor=#3B1E54;fontSize=12;align=left;spacingLeft=10;" value="&lt;b&gt;2 · Abstain when a channel is empty&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;influence falls to a floor rather than to zero, so the agent can recover when its evidence returns&lt;/font&gt;" vertex="1">
+          <mxGeometry height="86" width="356" x="372" y="266" as="geometry" />
+        </mxCell>
+        <mxCell id="op3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#7030A0;fontColor=#3B1E54;fontSize=12;align=left;spacingLeft=10;" value="&lt;b&gt;3 · Remove what cannot be read&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;an unparseable output is dropped entirely. &lt;b&gt;Not the same as abstaining&lt;/b&gt;, and the two are tested apart&lt;/font&gt;" vertex="1">
+          <mxGeometry height="86" width="356" x="372" y="366" as="geometry" />
+        </mxCell>
+        <mxCell id="opcap" parent="1" style="text;html=1;align=center;fontSize=11;fontColor=#3B1E54;" value="&lt;font style=&quot;font-size:11px&quot;&gt;deliberately &lt;b&gt;low capacity&lt;/b&gt;: a small, readable function, not a network&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="356" x="372" y="462" as="geometry" />
+        </mxCell>
+        <mxCell id="w" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D9C2EC;strokeColor=#7030A0;fontColor=#3B1E54;fontSize=12;" value="&lt;b&gt;One weight per agent&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;they sum to one, and none falls below the floor unless it was unreadable&lt;/font&gt;" vertex="1">
+          <mxGeometry height="100" width="220" x="840" y="196" as="geometry" />
+        </mxCell>
+        <mxCell id="dec" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#3B1E54;strokeColor=#3B1E54;fontColor=#FFFFFF;fontSize=13;" value="&lt;b&gt;One decision&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;for that ticker, that day&lt;/font&gt;" vertex="1">
+          <mxGeometry height="80" width="220" x="840" y="356" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" edge="1" parent="1" source="a1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#7030A0;strokeWidth=2;" target="op">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" edge="1" parent="1" source="a2" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#7030A0;strokeWidth=2;" target="op">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" edge="1" parent="1" source="a3" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#7030A0;strokeWidth=2;" target="op">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" edge="1" parent="1" source="a4" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#7030A0;strokeWidth=2;" target="op">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" edge="1" parent="1" source="st" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#1F7A7A;strokeWidth=2;" target="op">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" edge="1" parent="1" source="op" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#7030A0;strokeWidth=2;exitX=1;exitY=0.25;" target="w">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" edge="1" parent="1" source="w" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#3B1E54;strokeWidth=2;fontSize=10;fontColor=#3B1E54;" target="dec" value="weighted combination">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="cl" parent="1" style="text;html=1;align=left;fontSize=13;fontColor=#3B1E54;" value="&lt;b&gt;What makes it different&lt;/b&gt;&amp;nbsp;&lt;font style=&quot;font-size:11px&quot;&gt;every alternative also produces weights. The question is what the weights are allowed to depend on.&lt;/font&gt;" vertex="1">
+          <mxGeometry height="24" width="1000" x="50" y="572" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#9E9E9E;fontSize=12;" value="&lt;b&gt;Equal&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;fixed at one over n, every day&lt;/font&gt;" vertex="1">
+          <mxGeometry height="72" width="280" x="50" y="604" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#9E9E9E;fontSize=12;" value="&lt;b&gt;Static learned&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;fitted once, then fixed&lt;/font&gt;" vertex="1">
+          <mxGeometry height="72" width="280" x="350" y="604" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#9E9E9E;fontSize=12;" value="&lt;b&gt;Performance-reactive&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;from each agent&#39;s &lt;b&gt;own&lt;/b&gt; recent errors&lt;/font&gt;" vertex="1">
+          <mxGeometry height="72" width="280" x="650" y="604" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#D9C2EC;strokeColor=#3B1E54;strokeWidth=2;fontColor=#3B1E54;fontSize=12;" value="&lt;b&gt;This proposal&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:11px&quot;&gt;from measured market state, &lt;b&gt;outside&lt;/b&gt; the agent being weighted&lt;/font&gt;" vertex="1">
+          <mxGeometry height="72" width="300" x="950" y="604" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
