@@ -14,7 +14,7 @@ written_against: "Supervisor Meeting Notes/24-10-2026.md §7; PoC Data Build.md;
 
 The finding was correct, but the diagnosis implied in §7, that one of the two numbers is stale, is wrong. Both numbers are right. They describe two different datasets, and the matrix had a row for only one of them.
 
-This note states the reconciliation, records the universe and record chains in full so the figures can be re-derived, lists the corrections applied to the Dataset sheet, and flags the one residual that does not close.
+This note states the reconciliation, records the universe and record chains in full so the figures can be re-derived, lists the corrections applied to both `Matrices/Consolidated Research Matrix.xlsx` and its mirror `Matrices/Dataset Comparison Matrix.xlsx`, records a coverage gap in the panel that the headline figures hide, and flags the one residual that does not close.
 
 ## 1. The root defect
 
@@ -78,27 +78,58 @@ Applied 1 November 2026. Superseded text was retained in each cell under `SUPERS
 
 **D17, Size.** Cited D22's 323 securities and 829,070 observations. Retargeted to the official panel, 355 core over 853,535 universe rows. D17's own Verification Status is unchanged: the per-counter liquidity profiling is genuinely not yet computed, and it must be run against this panel.
 
-## 5. Residual that does not close
+### 4.1 The same corrections in `Dataset Comparison Matrix.xlsx`
 
-`PoC Data Build.md` records 46 voting and non-voting securities present in the official panel and absent from the API, described as a 12.8% gap. 46 of 359 is 12.8%, so the denominator used was the raw count.
+That file is a standalone mirror of the Dataset sheet, and its own Read Me states that where the two disagree the Consolidated Research Matrix is the source. Checking it cell by cell confirmed it was a faithful mirror: before this pass the only divergences were the five cells above, plus one.
 
-That does not reconcile with the other figures. Official in-window is 357. D22's voting plus non-voting count is 304 (283 .N plus 21 .X). The difference is 53, not 46.
+The exception is D24's Decision field, which had drifted independently of anything in this reconciliation. The consolidated file read "Obtained. Currently cleansing it." while the mirror still read "BUY, the full set at the student rate", which is the pre-purchase decision. Both are now set to the same current statement, with both superseded values recorded. This is a second instance of the §6.6 pattern: a Decision field left at the value it had when the decision was taken, rather than updated when it was carried out.
 
-I have not resolved which of the three figures is the one in error. The candidates are that the 46 was measured against a pre-cleaning snapshot of the API extraction, that it counted only securities with overlapping trading activity rather than all absent securities, or that the 12.8% was computed against 359 when it should have been against 357.
+The mirror also carries a Read Me whose summary section was written on 18 October and states four things the reconciliation falsifies: that the project's own API extraction is the primary dataset, that the adjusted series does not exist and is the highest-priority item, that there is effectively one viable per-ticker price source, and that licensing attaches to the primary dataset. All four are corrected in place with the superseded text kept, and a dated revision block is appended. A fifth claim, that Data Library items 30 to 33 stop at 2025 and serve as a cross-check, is corrected too: they are the base panel and their closes run to 2026-06-30.
 
-Until that is settled, the 46 and the 12.8% should not be quoted in the proposal, the deck or the report. The coverage-gap argument does not depend on the exact figure: it holds on the qualitative point that the official panel carries securities the API route does not, across a span that includes the sovereign default. State it that way until the arithmetic closes.
+The two files are now identical across all 19 rows and 23 columns.
 
-## 6. What this leaves open
+## 5. The opens are not covered like the closes
+
+This is the gap most easily missed, because every headline figure in §2 and §3 is close-based and continuous, which makes the panel look uniformly complete. It is not.
+
+Closes run 2012-01-02 to 2026-06-30 without interruption. Opens are blank or degenerate in 2017, 2018, 2021 Q1 and 2025. `PoC Data Build.md` §267 records the consequence: on official opens the EDGE spread estimator runs only 2019 to 2020, 2021-04 to 2024-12 and 2026 H1, which is non-contiguous. On the cleaned source-tagged layer, which blends D22 in to fill those periods, it runs from 2012.
+
+Two things follow, and both are open rather than settled.
+
+A walk-forward on the official layer that assumes contiguity would silently train across the 2021 Q1 and 2025 gaps. The fold protocol settled on 1 November specifies 1250-day train, 125-day test, step 125, 16 folds, and it is indexed on trading days rather than on calendar dates, so this does not break it. But any open-based feature inside a fold inherits the gap, and nothing currently checks for that.
+
+Which layer feeds EDGE is open decision 4 in the build log. It is a genuine trade-off rather than an oversight: the cleaned layer buys seven more years of spread estimates at the cost of mixing a licensed source with an unlicensed one inside a single series, which is exactly the mixing that §1 argues against. The build log's own proposal, cleaned layer with an official-only robustness run, keeps the licensing argument intact because the headline result does not depend on the API. That looks right to me, but it is not my decision to record as made.
+
+The panel end is open decision 3: stop at 2026-06-30, or splice D22 forward to 2026-10-02. The same mixing question applies.
+
+## 6. Residual that does not close
+
+`PoC Data Build.md` §270 records 46 voting and non-voting securities present in the official panel and absent from the API, a 12.8% gap, and explicitly notes that this denominator was already corrected once, from the API count to 359. So the 46 is not a first-draft figure; it has been checked.
+
+It still does not reconcile. If 46 of the 357 in-window securities are absent from the API, then 311 are shared. But D22 holds only 304 voting and non-voting securities, 283 .N plus 21 .X. The shortfall is seven, and it points the wrong way: the API cannot share more securities with the panel than it contains.
+
+Measuring against the 359 raw count makes it worse, not better, since that implies 313 shared.
+
+So either D22's breakdown of 323 into 283 .N, 21 .X, 2 .P and 17 .R is wrong, or the 46 is, or the two were counted over different windows in a way neither figure records. I have not resolved which, and I would rather leave it visible than pick the reading that makes the arithmetic close.
+
+Until it is settled, the 46 and the 12.8% should not be quoted in the proposal, the deck or the report. The coverage-gap argument does not depend on the exact figure: it holds on the qualitative point that the official panel carries securities the API route does not, across a span that includes the sovereign default. State it that way.
+
+One figure that is affected and should also be held: §270 adds that 5 of the 44 still trade in 2026, so "delisted" is loose. That sentence uses 44 where the rest of the row uses 46, which is a third count in the same line.
+
+## 7. What this leaves open
 
 | Item | Status |
 |---|---|
-| D17 per-counter liquidity profiling | not computed. Run against D27. |
-| The 46 against 359 residual | §5. Do not quote the figure. |
-| D22 licence terms | still unconfirmed. No longer on the critical path, because D22 is no longer the base panel, but it remains unconfirmed and the row says so. |
-| Listing and delisting register | not available in any of the forty purchased items. Survivorship is proxied by series-end dates and the residual bias is reported, not eliminated. |
-| Bid, ask and depth | not available in any purchased item. The cost work runs on illiquidity proxies, and that is a stated limitation rather than a gap to be filled. |
+| D17 per-counter liquidity profiling | not computed. Run against D27, not D22. |
+| The 46 against 359 residual | §6. Do not quote 46, 12.8% or 44. |
+| Which price layer feeds EDGE | open decision 4. §5. Affects the licensing argument, so it is not purely technical. |
+| Panel end, or splice D22 to 2026-10-02 | open decision 3. §5. |
+| D22 licence terms | still unconfirmed. Off the critical path now that D22 is not the base panel, but unconfirmed, and the row says so. |
+| Listing and delisting register | item 06 was never supplied. Dates reconstructed from first and last appearance; reasons are not recoverable, so voluntary delistings cannot be separated from failures. Reported as a residual limitation. |
+| Bid, ask and depth | not in any of the forty purchased items. The cost work runs on illiquidity proxies. A stated limitation, not a gap to be filled. |
+| The 374-trading-day figure | still present in the survey matrix, roughly 20 cells across 8 review notes. Superseded, correction outstanding. |
 
-## 7. Figures to use
+## 8. Figures to use
 
 For quick reference, the figures that are now settled and may be quoted:
 
@@ -109,3 +140,5 @@ For quick reference, the figures that are now settled and may be quoted:
 - 3,920 trading days, matching the Data Library annual market-day figure and the exchange annual reports across all 17 years
 - 54,796 of 853,535 rows, 6.42%, carry a close outside the day high-low range; 99.9% of those equal the previous close, retained with a flag
 - 31 register corrections, 259 approximate ex-dates
+
+Figures to hold back until §6 closes: 46, 44, 12.8%. And remember that every figure above is close-based; §5 is why that distinction matters.
