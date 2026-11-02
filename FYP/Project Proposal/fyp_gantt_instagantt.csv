@@ -1,0 +1,31 @@
+Name,Description,start date,due date,progress,estimated hours,actual_hours,estimated_cost,priority,risk
+[Lit] Corpus maintained and gap statement re-checked,"Maintenance and verification only. The corpus is frozen at 59 reviewed papers. The gap statement carries a 2026-03-09 cutoff and is re-checked before each submission.",2026-10-30,2027-04-01,0,,,,2,1
+[Lit] Structured gap verification,"Compares existing systems across aggregation method, regime detection, liquidity treatment and evaluation protocol. Matrix work on sheets that already exist. Requested in Week 4 section 2.2.",2026-11-06,2026-11-27,0,,,,2,1
+[Lit] Survey matrix correction pass,"The 374-day correction, roughly 20 cells across 8 review notes. Needs a note revision with the paper check that implies, not a find and replace.",2026-11-06,2026-12-04,0,,,,2,2
+[PP] Data reconciliation for the section 7 items,"DEPENDS ON: nothing. Universe chain, record populations, D27 added, D22 demoted. Both matrices patched and the reconciliation note written.",2026-10-30,2026-11-02,100,,,,3,1
+[PP] Slides 14 to 22 and deck build,"DEPENDS ON: the data reconciliation for any quoted figure. Deck built 1 November, 22 slides. Outstanding: reference appendix, backup slides, pipeline diagram slide.",2026-10-30,2026-11-04,75,,,,3,2
+[PP] Ethics application signed,"CRITICAL. A qualifying condition for the entire proposal mark. DEPENDS ON: signatures. Non-submission scores zero regardless of the deck.",2026-11-01,2026-11-03,0,,,,3,3
+[PP] Rehearse and submit,"DEPENDS ON: deck complete, ethics signed.",2026-11-03,2026-11-05,0,,,,3,2
+M1 PP submission,"MILESTONE. True when: slides submitted, signed Ethics Application submitted, and every section 7 data inconsistency either reconciled or stated as outstanding with a reason.",2026-11-05,2026-11-05,0,,,,3,3
+[IPD] Liquidity profiling and final universe,"D17. DEPENDS ON: the adjusted panel, already built. Run against the official D27 panel, not the API extraction.",2026-11-06,2026-11-20,0,,,,2,2
+[IPD] Point-in-time data layer and as-of cursor,"CANNOT SLIP. Point-in-time correctness cannot be retrofitted. The one ordering rule the build protects.",2026-11-06,2026-11-27,0,,,,3,3
+M2 Point-in-time data layer accepted,"MILESTONE. True when: the as-of cursor raises on any row past the simulation clock rather than warning, and the cursor-violation test passes.",2026-11-27,2026-11-27,0,,,,3,3
+M3 Adjusted dataset accepted,"MILESTONE. True when: raw, rejected and accepted record counts reconcile to one auditable figure, and the raw, cleaned and final eligible universes are each defined with every exclusion explained. Note: this milestone has no corresponding bar in the note 17 chart.",2026-12-11,2026-12-11,0,,,,3,2
+[IPD] Agent output contract across four agents,"DEPENDS ON: the data layer and the as-of cursor.",2026-11-20,2026-12-25,0,,,,3,2
+M4 Four agents behind one contract,"MILESTONE. True when: every agent returns all six fields with declared types and as_of equal to the cursor, on one ticker-date end to end.",2026-12-25,2026-12-25,0,,,,3,2
+[IPD] Fundamental agent on the filings corpus,"DEPENDS ON: the filings corpus, secured at 22,893 documents. Model backbone is an open decision. Fallback is to stub it against a probe set while keeping it emitting the contract.",2026-12-01,2027-01-10,0,,,,2,3
+M5 Fundamental agent live,"MILESTONE. True when: it answers from retrieved filings with every argument traceable to a retrieved figure, and usable coverage measured against a probe set rather than assumed.",2027-01-10,2027-01-10,0,,,,2,3
+[IPD] State vector and orchestrator,"CANNOT SLIP. Acceptance criterion A3 is what the whole contribution rests on, which is why it sits eight days before IPD rather than on it.",2026-12-20,2027-01-20,0,,,,3,3
+M6 Orchestrator responds to state,"MILESTONE. True when: A3 passes, the weight vector measurably responds to liquidity with the rest held fixed, with the sensitivity sweep plotted. If the weights are inert that is a finding, not a build failure.",2027-01-20,2027-01-20,0,,,,3,3
+[IPD] Unit and integration suite,"Runs across the whole twelve weeks rather than one block, because the three tests that protect properties which cannot be retrofitted have to exist before the components they guard.",2026-11-06,2027-01-28,0,,,,3,2
+"[IPD] Chapters 1, 4, 5 and 6","DEPENDS ON: nothing blocking. Required at IPD.",2026-12-15,2027-01-26,0,,,,2,2
+M7 IPD,"MILESTONE. True when: a working prototype exists, every Must requirement has a test that runs, and chapters 1, 4, 5 and 6 are drafted.",2027-01-28,2027-01-28,0,,,,3,3
+[Final] Full build and integration,"DEPENDS ON: architecture frozen.",2027-01-29,2027-02-26,0,,,,3,2
+[Final] Persistence experiment,"The one explicitly unblocked path. Runs on a published paper's own four-ETF environment and needs no CSE data, so this sub-gap is off the critical path. Natural first task after submission.",2027-01-29,2027-02-19,0,,,,2,1
+M8 Feature complete,"MILESTONE. True when: no Must requirement is untested, and the cost term sits inside the allocation objective rather than being deducted after it.",2027-02-26,2027-02-26,0,,,,3,2
+[Final] Cost term inside the allocation objective,"DEPENDS ON: the build. Inside the objective, not deducted after it.",2027-02-12,2027-03-05,0,,,,3,2
+"[Final] Five arms, ablations and regime decomposition","DEPENDS ON: a stable artefact and the adjusted panel. Five arms run over byte-identical cached agent outputs, which is acceptance criterion A5.",2027-02-26,2027-03-19,0,,,,3,2
+M9 Evaluation complete,"MILESTONE. True when: five arms over byte-identical cached agent outputs, all ablations, regime decomposition, and the diagnostics reported whether or not they are favourable.",2027-03-19,2027-03-19,0,,,,3,2
+[Final] Significance and stability sweeps,"16 folds, HAC-adjusted test plus stationary bootstrap. Decided in advance that a null result is acceptable and will be reported.",2027-03-12,2027-03-26,0,,,,3,2
+[Final] Thesis writing,"Runs the full nine weeks beside the build rather than following it, because nine weeks will not hold both in sequence.",2027-01-29,2027-03-29,0,,,,3,2
+M10 Final submission,"MILESTONE. True when: thesis, artefact and code submitted, and the pipeline reproducible from a clean environment.",2027-04-01,2027-04-01,0,,,,3,3
