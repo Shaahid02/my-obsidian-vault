@@ -1,31 +1,95 @@
 Name,Description,start date,due date,progress,estimated hours,actual_hours,estimated_cost,priority,risk
-[Lit] Corpus maintained and gap statement re-checked,"Maintenance and verification only. The corpus is frozen at 59 reviewed papers. The gap statement carries a 2026-03-09 cutoff and is re-checked before each submission.",2026-10-30,2027-04-01,0,,,,2,1
-[Lit] Structured gap verification,"Compares existing systems across aggregation method, regime detection, liquidity treatment and evaluation protocol. Matrix work on sheets that already exist. Requested in Week 4 section 2.2.",2026-11-06,2026-11-27,0,,,,2,1
-[Lit] Survey matrix correction pass,"The 374-day correction, roughly 20 cells across 8 review notes. Needs a note revision with the paper check that implies, not a find and replace.",2026-11-06,2026-12-04,0,,,,2,2
-[PP] Data reconciliation for the section 7 items,"DEPENDS ON: nothing. Universe chain, record populations, D27 added, D22 demoted. Both matrices patched and the reconciliation note written.",2026-10-30,2026-11-02,100,,,,3,1
-[PP] Slides 14 to 22 and deck build,"DEPENDS ON: the data reconciliation for any quoted figure. Deck built 1 November, 22 slides. Outstanding: reference appendix, backup slides, pipeline diagram slide.",2026-10-30,2026-11-04,75,,,,3,2
-[PP] Ethics application signed,"CRITICAL. A qualifying condition for the entire proposal mark. DEPENDS ON: signatures. Non-submission scores zero regardless of the deck.",2026-11-01,2026-11-03,0,,,,3,3
-[PP] Rehearse and submit,"DEPENDS ON: deck complete, ethics signed.",2026-11-03,2026-11-05,0,,,,3,2
-M1 PP submission,"MILESTONE. True when: slides submitted, signed Ethics Application submitted, and every section 7 data inconsistency either reconciled or stated as outstanding with a reason.",2026-11-05,2026-11-05,0,,,,3,3
-[IPD] Liquidity profiling and final universe,"D17. DEPENDS ON: the adjusted panel, already built. Run against the official D27 panel, not the API extraction.",2026-11-06,2026-11-20,0,,,,2,2
-[IPD] Point-in-time data layer and as-of cursor,"CANNOT SLIP. Point-in-time correctness cannot be retrofitted. The one ordering rule the build protects.",2026-11-06,2026-11-27,0,,,,3,3
-M2 Point-in-time data layer accepted,"MILESTONE. True when: the as-of cursor raises on any row past the simulation clock rather than warning, and the cursor-violation test passes.",2026-11-27,2026-11-27,0,,,,3,3
-M3 Adjusted dataset accepted,"MILESTONE. True when: raw, rejected and accepted record counts reconcile to one auditable figure, and the raw, cleaned and final eligible universes are each defined with every exclusion explained. Note: this milestone has no corresponding bar in the note 17 chart.",2026-12-11,2026-12-11,0,,,,3,2
-[IPD] Agent output contract across four agents,"DEPENDS ON: the data layer and the as-of cursor.",2026-11-20,2026-12-25,0,,,,3,2
-M4 Four agents behind one contract,"MILESTONE. True when: every agent returns all six fields with declared types and as_of equal to the cursor, on one ticker-date end to end.",2026-12-25,2026-12-25,0,,,,3,2
-[IPD] Fundamental agent on the filings corpus,"DEPENDS ON: the filings corpus, secured at 22,893 documents. Model backbone is an open decision. Fallback is to stub it against a probe set while keeping it emitting the contract.",2026-12-01,2027-01-10,0,,,,2,3
-M5 Fundamental agent live,"MILESTONE. True when: it answers from retrieved filings with every argument traceable to a retrieved figure, and usable coverage measured against a probe set rather than assumed.",2027-01-10,2027-01-10,0,,,,2,3
-[IPD] State vector and orchestrator,"CANNOT SLIP. Acceptance criterion A3 is what the whole contribution rests on, which is why it sits eight days before IPD rather than on it.",2026-12-20,2027-01-20,0,,,,3,3
-M6 Orchestrator responds to state,"MILESTONE. True when: A3 passes, the weight vector measurably responds to liquidity with the rest held fixed, with the sensitivity sweep plotted. If the weights are inert that is a finding, not a build failure.",2027-01-20,2027-01-20,0,,,,3,3
-[IPD] Unit and integration suite,"Runs across the whole twelve weeks rather than one block, because the three tests that protect properties which cannot be retrofitted have to exist before the components they guard.",2026-11-06,2027-01-28,0,,,,3,2
-"[IPD] Chapters 1, 4, 5 and 6","DEPENDS ON: nothing blocking. Required at IPD.",2026-12-15,2027-01-26,0,,,,2,2
-M7 IPD,"MILESTONE. True when: a working prototype exists, every Must requirement has a test that runs, and chapters 1, 4, 5 and 6 are drafted.",2027-01-28,2027-01-28,0,,,,3,3
-[Final] Full build and integration,"DEPENDS ON: architecture frozen.",2027-01-29,2027-02-26,0,,,,3,2
-[Final] Persistence experiment,"The one explicitly unblocked path. Runs on a published paper's own four-ETF environment and needs no CSE data, so this sub-gap is off the critical path. Natural first task after submission.",2027-01-29,2027-02-19,0,,,,2,1
-M8 Feature complete,"MILESTONE. True when: no Must requirement is untested, and the cost term sits inside the allocation objective rather than being deducted after it.",2027-02-26,2027-02-26,0,,,,3,2
-[Final] Cost term inside the allocation objective,"DEPENDS ON: the build. Inside the objective, not deducted after it.",2027-02-12,2027-03-05,0,,,,3,2
-"[Final] Five arms, ablations and regime decomposition","DEPENDS ON: a stable artefact and the adjusted panel. Five arms run over byte-identical cached agent outputs, which is acceptance criterion A5.",2027-02-26,2027-03-19,0,,,,3,2
-M9 Evaluation complete,"MILESTONE. True when: five arms over byte-identical cached agent outputs, all ablations, regime decomposition, and the diagnostics reported whether or not they are favourable.",2027-03-19,2027-03-19,0,,,,3,2
-[Final] Significance and stability sweeps,"16 folds, HAC-adjusted test plus stationary bootstrap. Decided in advance that a null result is acceptable and will be reported.",2027-03-12,2027-03-26,0,,,,3,2
-[Final] Thesis writing,"Runs the full nine weeks beside the build rather than following it, because nine weeks will not hold both in sequence.",2027-01-29,2027-03-29,0,,,,3,2
-M10 Final submission,"MILESTONE. True when: thesis, artefact and code submitted, and the pipeline reproducible from a clean environment.",2027-04-01,2027-04-01,0,,,,3,3
+Project Initiation,GROUP,2026-08-01,2026-09-29,100,,,,2,1
+Problem domain selection,Multi-agent LLM systems for the Colombo Stock Exchange.,2026-08-01,2026-08-08,100,,,,3,1
+"MSc lecture recordings, weeks 2 to 5","Paper valuation, contribution to the body of knowledge, SMART gap, literature review and methodology.",2026-08-01,2026-08-20,100,,,,2,1
+Topic validation with supervisor,"Scope overload, duplication with TradingAgents and dataset availability identified as the three main risks.",2026-08-08,2026-08-14,100,,,,3,2
+Preliminary literature survey,Breadth pass before the structured review.,2026-08-08,2026-09-05,100,,,,2,1
+"Research gap, contribution and research challenge",First drafts against the Week 2 and Week 4 specifications.,2026-08-20,2026-09-13,100,,,,3,2
+Research aim and objectives,"One-sentence aim, decomposed objectives.",2026-09-05,2026-09-20,100,,,,3,1
+"Scope decision, sentiment excluded","Supervisor decision of 20 September, recorded Final. Sentiment papers stay in the corpus as background and as fixed-influence failure cases.",2026-09-20,2026-09-22,100,,,,3,1
+"Proposal period plan, 126 hours",Revised down from the earlier 182-hour version. 193 atomic tasks across six gates.,2026-09-25,2026-09-29,100,,,,2,1
+Literature Review,GROUP,2026-08-08,2027-04-01,70,,,,2,1
+Paper search and screening,"Semantic Scholar and Consensus with Q1 to Q3, last five years, no preprints. Four-step reading funnel.",2026-08-08,2026-09-20,100,,,,2,1
+"Per-paper review notes, 59 papers","House structure, length budgets, voice rules and frontmatter schema.",2026-08-15,2026-10-04,100,,,,3,2
+Each review note checked against its source paper,"Validation pass. Claim, evidence and my reading kept visibly separate in every note.",2026-08-20,2026-10-04,100,,,,3,2
+Corpus index and research papers grid,Index generated from the notes' own properties.,2026-09-15,2026-10-04,100,,,,2,1
+Research gap statement drafted,SMART form. No absolutes. Search cutoff 9 March 2026.,2026-09-13,2026-10-04,100,,,,3,2
+GATE Literature and gap frozen,MILESTONE. Corpus frozen at 59 reviewed papers. No further collection to raise the paper count.,2026-10-04,2026-10-04,0,,,,3,1
+Research Gap final statement document,Issued 20 October 2026.,2026-10-06,2026-10-20,100,,,,3,1
+Gap statement re-checked before each submission,"The 9 March 2026 cutoff ages, and an examiner is entitled to ask when it was last tested.",2026-10-30,2027-04-01,10,,,,2,2
+Structured gap verification,"Existing systems compared across aggregation method, regime detection, liquidity treatment and evaluation protocol.",2026-11-06,2026-11-27,0,,,,2,1
+Survey matrix 374-day correction pass,"Roughly 20 cells across 8 review notes. A note revision with the paper check that implies, not a find and replace.",2026-11-06,2026-12-04,0,,,,2,2
+Data Acquisition and Engineering,GROUP,2026-08-15,2026-12-31,75,,,,2,1
+CSE API extraction built and archived,"D22. 323 securities, 829,070 observations. Archived daily because the past cannot be re-fetched.",2026-08-15,2026-10-02,100,,,,3,2
+Filings corpus harvest,"22,893 documents, 2012 to October 2026, roughly 340 counters, each filename prefixed with the announcement date so the as-of cursor can filter on publication.",2026-09-10,2026-10-04,100,,,,3,2
+Dataset comparison and source evaluation,"Catalogue rebuilt on one ID scheme. Sentiment and news rows removed, superseded price sources retired.",2026-09-20,2026-10-18,100,,,,2,1
+Data Library costed and purchased,Forty items at the student rate. The only official route to corporate actions.,2026-10-11,2026-10-18,100,,,,3,3
+Data Library delivery and inspection,"Turnover reconciled to the published annual figures. Calendar validated at 3,920 trading days across 17 years.",2026-10-18,2026-10-22,100,,,,3,2
+Data cleaning checklist and profiling,"Ten items change layout, units or meaning partway through their own history, three of them silently.",2026-10-18,2026-10-21,100,,,,3,2
+"Universe derivation, 359 to 233","Every exclusion named. 357 in window, 356 cleaned, 355 core, 233 passing the eligibility screen.",2026-10-20,2026-10-24,100,,,,3,2
+Corporate action register corrections,"31 corrections, each confirmed against both price and issued quantity.",2026-10-21,2026-10-23,100,,,,3,2
+Adjusted price panel built,"D26. Price-only adj_close and total-return tr_close. tr_close is primary against ASTRI. 259 ex-dates marked approximate, recorded as DR10.",2026-10-21,2026-10-23,100,,,,3,3
+"Bid, ask and depth requested from the exchange","Unanswered. The proxy route is the declared fallback and needs no reply, so this blocks the enhancement rather than the plan.",2026-10-18,2026-12-31,25,,,,2,2
+Dataset reconciliation and matrix patch,"D27 added, D22 demoted to cross-check, five status fields corrected across both matrices.",2026-10-30,2026-11-02,100,,,,3,1
+Liquidity profiling and final universe,"D17. Run against the official D27 panel, not the API extraction.",2026-11-06,2026-11-20,0,,,,2,2
+Point-in-time data layer and as-of cursor,CANNOT SLIP. Point-in-time correctness cannot be retrofitted.,2026-11-06,2026-11-27,0,,,,3,3
+M2 Point-in-time data layer accepted,"MILESTONE. The as-of cursor raises on any row past the simulation clock rather than warning, and the cursor-violation test passes.",2026-11-27,2026-11-27,0,,,,3,3
+M3 Adjusted dataset accepted,"MILESTONE. Raw, rejected and accepted record counts reconcile to one auditable figure, and the raw, cleaned and final eligible universes are each defined with every exclusion explained.",2026-12-11,2026-12-11,0,,,,3,2
+Requirements and Specification,GROUP,2026-10-06,2026-11-20,80,,,,2,1
+"Stakeholders, users and context of use",,2026-10-06,2026-10-11,100,,,,2,1
+Functional and non-functional requirements,"Must, Should and Could, each traceable to a test.",2026-10-06,2026-10-23,100,,,,3,2
+"GATE Questions, objectives, requirements and schema frozen",MILESTONE. ,2026-10-11,2026-10-11,0,,,,3,1
+Acceptance criteria A1 to A5,A3 is the one the contribution rests on: the weight vector measurably responds to liquidity with the rest held fixed.,2026-10-20,2026-10-30,100,,,,3,2
+Proof of concept specification,"Sixteen items. Five pre-registration decisions fixed, one contested, four still open.",2026-10-20,2026-11-01,70,,,,3,2
+Close the four open pre-registration items,"Volatility estimator, abstention floor, abstained-day exposure policy, and the final liquidity state input list.",2026-11-01,2026-11-20,0,,,,3,2
+System Design,GROUP,2026-10-12,2026-11-04,100,,,,2,1
+Architecture and indicative solution,"Four heterogeneous agents, a measured state vector, and an orchestration operator that varies influence as a function of market state.",2026-10-12,2026-10-23,100,,,,3,2
+Orchestration operator form,"The weighting form specified, with the agent set and the conditioning set both recorded as provisional.",2026-10-12,2026-10-30,100,,,,3,3
+"Agent output contract, six fields","Declared types, and as_of equal to the cursor on every agent.",2026-10-18,2026-10-30,100,,,,3,2
+Methodology,,2026-10-18,2026-10-25,100,,,,3,1
+GATE Change freeze,"MILESTONE. No new agents, datasets, research gaps or technologies after this date.",2026-10-18,2026-10-18,0,,,,3,1
+"Architecture, pipeline and mechanism diagrams",Three draw.io diagrams. The pipeline diagram separates executed work from designed work by colour.,2026-11-01,2026-11-04,100,,,,2,1
+Proposal and PPRS,GROUP,2026-10-23,2026-11-05,80,,,,2,1
+Proposal notes 01 to 13,"Title, problem, evidence, literature landscape, gap, questions, baselines, stakeholders, requirements, architecture, data strategy, methodology.",2026-10-23,2026-10-29,100,,,,3,2
+Supervisor review and the section 7 corrections,"Implementation set aside until 5 November, recorded Final. Nine criteria assessed, the project plan the lowest at 32 of 100.",2026-10-24,2026-11-02,100,,,,3,3
+Proposal notes 14 to 22,"Evaluation design, testing and QA, iteration and AI verification, project plan, risk, responsible considerations, scope, academic practice, backup and Q&A.",2026-10-29,2026-11-01,100,,,,3,2
+"Deck build, 22 slides",Built from the issued template against the marking rubric.,2026-10-30,2026-11-04,75,,,,3,2
+"Reference list, Westminster Harvard","59 papers plus the non-paper sources, generated from the Zotero library.",2026-11-02,2026-11-04,0,,,,3,2
+Backup slides,"Eight, against the anticipated questions.",2026-11-02,2026-11-04,0,,,,2,1
+Ethics application signed,CRITICAL. A qualifying condition for the entire proposal mark. Non-submission scores zero regardless of the deck.,2026-11-01,2026-11-03,0,,,,3,3
+Rehearsal and video recording,,2026-11-03,2026-11-05,0,,,,3,2
+M1 PP submission,"MILESTONE. Slides submitted, signed Ethics Application submitted, and every section 7 data inconsistency either reconciled or stated as outstanding with a reason.",2026-11-05,2026-11-05,0,,,,3,3
+Implementation,GROUP,2026-11-20,2027-03-05,0,,,,2,1
+Technical agent,A_T. Runs on the adjusted panel.,2026-11-20,2026-12-10,0,,,,3,2
+Liquidity agent,"A_L. Proxy-based: volume, zero-volume frequency, zero-return frequency, turnover and Amihud. Guaranteed feasible without the exchange reply.",2026-11-25,2026-12-15,0,,,,3,2
+Volatility agent,A_V. Estimator choice is one of the four open pre-registration items.,2026-12-01,2026-12-20,0,,,,3,2
+Four agents behind one contract,Every agent returning all six fields end to end on one ticker-date.,2026-11-20,2026-12-25,0,,,,3,2
+M4 Four agents behind one contract,"MILESTONE. Every agent returns all six fields with declared types and as_of equal to the cursor, on one ticker-date end to end.",2026-12-25,2026-12-25,0,,,,3,2
+Fundamental agent on the filings corpus,"A_F. Retrieval over 22,893 filings. Model backbone is an open decision. Fallback is to stub it against a probe set while keeping it emitting the contract.",2026-12-01,2027-01-10,0,,,,2,3
+M5 Fundamental agent live,"MILESTONE. It answers from retrieved filings with every argument traceable to a retrieved figure, and usable coverage measured against a probe set rather than assumed.",2027-01-10,2027-01-10,0,,,,2,3
+State vector construction,"Liquidity, volatility and participation, measured rather than declared.",2026-12-20,2027-01-10,0,,,,3,2
+Orchestrator and weighting operator,CANNOT SLIP. Scheduled eight days before IPD so there is time to respond if the weights turn out inert.,2027-01-01,2027-01-20,0,,,,3,3
+M6 Orchestrator responds to state,"MILESTONE. A3 passes: the weight vector measurably responds to liquidity with the rest held fixed, with the sensitivity sweep plotted. Inert weights are a finding, not a build failure.",2027-01-20,2027-01-20,0,,,,3,3
+Five-arm evaluation harness,"Arms consume byte-identical cached agent outputs, which is what makes the comparison fair and costs one agent pass rather than five.",2027-01-10,2027-01-28,0,,,,3,2
+Full build and integration,,2027-01-29,2027-02-26,0,,,,3,2
+M8 Feature complete,"MILESTONE. No Must requirement untested, and the cost term sits inside the allocation objective rather than being deducted after it.",2027-02-26,2027-02-26,0,,,,3,2
+Cost term inside the allocation objective,"Inside the objective, not deducted after it.",2027-02-12,2027-03-05,0,,,,3,2
+Testing and Evaluation,GROUP,2026-11-06,2027-03-26,0,,,,2,1
+Unit and integration suite,"Runs across the whole twelve weeks rather than one block, because the tests that protect properties which cannot be retrofitted have to exist before the components they guard.",2026-11-06,2027-01-28,0,,,,3,2
+Cursor-violation test,Guards the one ordering rule the build protects.,2026-11-20,2026-11-27,0,,,,3,3
+Must-requirement test coverage,"Every Must requirement has a test that runs, which is an IPD condition.",2026-12-01,2027-01-28,0,,,,3,2
+Persistence re-levering experiment,The one explicitly unblocked path. Runs on a published paper's own four-ETF environment and needs no CSE data.,2027-01-29,2027-02-19,0,,,,2,1
+"Five arms, ablations and regime decomposition","Per-input and per-agent ablations, which is what measures whether each agent earns its vote.",2027-02-26,2027-03-19,0,,,,3,2
+M9 Evaluation complete,"MILESTONE. Five arms over byte-identical cached agent outputs, all ablations, regime decomposition, and the diagnostics reported whether or not they are favourable.",2027-03-19,2027-03-19,0,,,,3,2
+Significance and stability sweeps,"16 folds, HAC-adjusted test plus stationary bootstrap at alpha 0.05. A null result was decided in advance to be acceptable and will be reported.",2027-03-12,2027-03-26,0,,,,3,2
+Documentation and Dissertation,GROUP,2026-12-15,2027-04-01,0,,,,2,1
+"Chapters 1, 4, 5 and 6",Required at IPD.,2026-12-15,2027-01-26,0,,,,3,2
+IPD document and demonstration,,2027-01-15,2027-01-28,0,,,,3,2
+M7 IPD,"MILESTONE. A working prototype, every Must requirement has a test that runs, and chapters 1, 4, 5 and 6 drafted.",2027-01-28,2027-01-28,0,,,,3,3
+Thesis writing,"Runs the full nine weeks beside the build rather than following it, because nine weeks will not hold both in sequence.",2027-01-29,2027-03-29,0,,,,3,2
+Final demonstration video,,2027-03-20,2027-03-30,0,,,,3,2
+Viva preparation,"The viva is unresolved: the proforma carries a 20 percent viva of up to 45 minutes, the deadline list carries one 70 percent final submission with no viva named.",2027-03-15,2027-04-01,0,,,,2,2
+M10 Final submission,"MILESTONE. Thesis, artefact and code submitted, and the pipeline reproducible from a clean environment.",2027-04-01,2027-04-01,0,,,,3,3
+Supervisor and Admin,GROUP,2026-08-08,2027-04-01,40,,,,2,1
+Supervisor meeting cycle,"Recorded meetings on 8 August, 13 September, 20 September, 29 September and 24 October, each written up with decisions marked Final or provisional.",2026-08-08,2027-04-01,40,,,,2,1
+Carry the viva question to the supervisor,The proforma and the deadline list do not reconcile on whether a viva exists.,2026-11-06,2026-11-20,0,,,,2,2
