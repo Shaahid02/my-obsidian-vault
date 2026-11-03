@@ -350,7 +350,7 @@ Slides 6, 7, 11, 14 and backup derivation | Priority P0
 
 The student should be prepared to derive and explain the proposed weighting function:
 
-wi,t=f(Lt,Vt,Pt,Ci,t)w_{i,t}=f(L_t,V_t,P_t,C_{i,t})wi,t=f(Lt,Vt,Pt,Ci,t)
+$$w_{i,t}=f(L_t,V_t,P_t,C_{i,t})$$
 
 1. Define every variable and index in the equation.
 2. What is the range and unit of each input?
