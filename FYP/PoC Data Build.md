@@ -143,6 +143,16 @@ Item 16 year-end anchors interpolated with the dated actions from 02 to 05. Betw
 
 ### A4. Crossing-stripped volume and turnover
 
+> **Built and corrected (2026-11-06, DATA_CLEANING DC-34).** Item 37 lists every crossing **twice** from 2025-07-28, the same doubling as item 11. Undoubled, it has 21,510 trades, not 26,096.
+>
+> **Revised figures:**
+> - Crossings exceed published volume on **0.13%** of crossing days, not 9.3%.
+> - SHAW and MERC are no longer above 100%; the 9.3% and those cases were the doubling.
+> - The 2025 crossing share of market turnover is 21.1%.
+> - The per-security median is 10.7% (p90 46.3%) on this note's own definition; it is 10.3% on stripped turnover from 2012.
+>
+> **Where it lives:** stripped volume, turnover and trades, with Amihud, turnover ratio and relative volume computed on them, are in `extracted/liquidity/daily/`. The figures below are the originals, kept for the record.
+
 Item 37 holds individual crossing trades with a trade date, security ID, price and quantity: 26,096 trades across 10,711 distinct security-date pairs counting from 2011, or 24,921 across 9,985 within the 2012 to 2026 H1 window. It can be stripped at daily per-security granularity.
 
 **Why this is not optional.** Crossings run from 8.8% of annual market turnover in 2021 to 47.4% in 2017, Per security over the whole period, the median is 12.5% with a 90th percentile of 53.0% across the 356 N and X securities; it is 15.8% (p90 53.6%) across crossed securities only. Amihud, relative volume, turnover ratio and trade intensity all divide by volume they assume is continuous order-book trading. A crossing is a pre-negotiated transfer that consumed no book depth, so a counter whose turnover is heavily crossed looks liquid on those measures without being liquid. Left uncorrected the liquidity state is systematically wrong for roughly a third of the universe, in the direction of overstating liquidity.
@@ -154,6 +164,11 @@ Item 37 holds individual crossing trades with a trade date, security ID, price a
 The per-security figure is sensitive to the variant chosen: volume-based gives 15.9%, including never-crossed securities gives 2.7%, and a per-security-year median gives 23.5%. State which was used.
 
 ### A5. Float
+
+> **Corrected and decided (2026-11-06, DC-36).**
+> - **2017 repair:** 44 of the sub-1% values were a 2017 unit error, a fraction written with a % sign (GRAN ".55%" = 55%), now repaired. The remaining 380 sub-1% values, in 13 securities, are genuine.
+> - **Decided:** zeros are missing, and the float is **floored at 1%** wherever it is divided into.
+> - **Strata:** **float-adjusted turnover is the primary stratification**, with raw as robustness (`extracted/liquidity/strata.csv`). 49 of 70 least-liquid securities are in the bottom quintile on both measures, still 70%.
 
 Item 17, quarterly, 2012 to 2026 H1. 283 observations are exactly 0 and must be treated as missing rather than as a value, or any float-adjusted ratio divides to infinity. There are 0 values above 100%, the maximum being exactly 100.0 with 261 observations at it, and 424 non-zero values below 1% across 24 securities. Winsorise or exclude the sub-1% tail and say which. Excluding the zeros, the median float is 25.2% and 49.2% of observations sit below 25% (25.0% and 50.0% if zeros are counted).
 
@@ -177,7 +192,9 @@ Report, for every spread series, the fraction of non-positive squared estimates.
 
 Ardia, Guidotti and Kroencke treat rows where the open or close falls outside the high-low range as missing and drop them. But a stale carried-forward close is precisely what their $\tau_t = 0$ flag exists to identify, so these rows may belong in the estimator as $\tau_t = 0$ observations rather than being excluded. The two treatments give different usable sample sizes and different discreteness corrections, and the choice does not follow from the paper.
 
-**Settle it explicitly, document the reasoning, and report the sample size both ways.** The exclusion rate is itself a measurement worth reporting per security and per stratum: the frequency with which a CSE price is not transaction-based is a candidate staleness variable with a cleaner interpretation than zero-return frequency. I have not found that quantified for the CSE in the literature covered so far, and it should be stated as a measurement on this dataset rather than as a general claim about the market.
+**Settle it explicitly, document the reasoning, and report the sample size both ways.**
+
+> **Decided (2026-11-06, DC-37): admitted.** Rows with the close outside the range stay in. They are flagged `close_outside_range`, and dropping them, Ardia et al.'s rule, is the robustness run. Dropping them would remove 17.2% of the least-liquid quintile's rows against 1.4% of the most liquid's. The per-security rate is kept as a staleness variable (`stale_close_rate`). The spread protocol in A6 was adopted as written (DC-38). The exclusion rate is itself a measurement worth reporting per security and per stratum: the frequency with which a CSE price is not transaction-based is a candidate staleness variable with a cleaner interpretation than zero-return frequency. I have not found that quantified for the CSE in the literature covered so far, and it should be stated as a measurement on this dataset rather than as a general claim about the market.
 
 ---
 
@@ -196,6 +213,11 @@ Range estimators need high and low from the adjusted panel. 144 rows have a blan
 At index level the ASPI is clean across the window and carries 15.1% annualised volatility, with annual figures running from 5.6% in 2017 to 31.6% in 2022 (log returns on the official calendar, annualised with √240; √252 gives 15.5%, 5.7% and 32.4%). That is a factor of 5.6 between the quietest and the most volatile year, with the regimes falling where expected, so the regime variable has real variation and does not need hand-dating.
 
 The S&P SL20 has one bad print at 2019-07-12, which alone produces 109.7% annualised 2019 volatility against 13.5% without it, and kurtosis of 821 against 21.8. ASTRI has a single bad print in the window on 2015-05-20 (−23.6%, then +31.1%). It has five more in 2007 to 2010, including **+648% on 2010-07-06**, which matter for the pre-2012 stress sample. The SL20 TRI has bad prints on 2012-07-10, 2014-09-30, 2015-05-20 and 2017-07-19. Repair or exclude before use, and scan each series separately.
+
+> **Done (2026-11-06, DATA_CLEANING DC-39 and DC-40).** `extracted/indices/` holds the cleaned series.
+> - **Repairs:** SL20 2019-07-12 held the ASPI's value; it is now the CSE website's 2,627.19. The ASTRI and SL20 TRI prints are blank, since there is no second source. A generic scan, with a check that the ASPI didn't move the same way, finds exactly these prints and no others.
+> - **Coverage:** SL20 is used from 2012-07-01, Milanka and MTRI are dropped, and GICS sectors come from item 39. Item 07's GICS copy jumps away from item 39 on 280 days, so it isn't used.
+> - **Benchmark:** decided as the **ASPI with price-only returns**; ASTRI with total returns is the robustness check (DC-41).
 
 **For $P_t$, the persistence term has something to estimate on this sample.** GPH at $m = 58$ on the ASPI 2012 to 2026 gives $\hat{d} = 0.408$ on absolute returns and 0.365 on squared returns, against $-0.085$ on returns themselves as a negative control. With the asymptotic standard error $\pi/\sqrt{24m} = 0.084$, the first two are more than four standard errors from zero. (The earlier figure of "more than two" used $\pi/\sqrt{6m}$, which overstates the standard error by a factor of two.) Absolute returns still show autocorrelation of about 0.10 at a one-year lag: 0.102 at lag 250 on the official calendar. The earlier 0.108 included the 2026-01-07 halt day, which item 07 carries as a repeated value. This is a feasibility result on one index and one sample, and should be scoped to that rather than presented as a characterisation of the market.
 
@@ -248,12 +270,12 @@ Expected coverage should be written as a hypothesis rather than a fact: $A_F$ ma
 | # | Decision | Consequence of leaving it open |
 |--:|---|---|
 | 1 | Close-outside-range rows: drop, or admit as $\tau_t = 0$ | Changes every spread estimate and every usable sample size |
-| 2 | Float-adjusted or raw liquidity stratification | Changes 31% of the bottom quintile's membership |
-| 3 | Panel end at 2026-06-30, or splice the API to 2026-10-02 | Decide on source-consistency grounds. The original reason given for truncating, two different open definitions, was wrong |
-| 4 | Which price layer feeds EDGE: cleaned (opens from 2012, source-tagged) with an official-only robustness run, or official only (2019 to 2020, 2021-04 to 2024-12, 2026 H1) | On the official layer a walk-forward assuming contiguity will silently train across the 2021 Q1 and 2025 gaps |
-| 5 | Crossings above 100% of panel turnover: additive, or a join defect | The fix differs by cause, and the subtraction cannot be built until it is known |
-| 6 | Non-trading day representation | Forward-fill for $\tau_t$ and keep the traded flag, per 1.4 |
-| 7 | Benchmark series | ASTRI rather than ASPI, since the price index excludes dividends. ASTRI needs its bad prints repaired first (2015-05-20 in the window; five in 2007 to 2010) |
+| 2 | Float-adjusted or raw liquidity stratification | Changes 31% of the bottom quintile's membership. **Decided: float-adjusted primary, raw as robustness (DC-36)** |
+| 3 | Panel end at 2026-06-30, or splice the API to 2026-10-02 | Decide on source-consistency grounds. The original reason given for truncating, two different open definitions, was wrong. **Decided: 2026-06-30 (DC-27)** |
+| 4 | Which price layer feeds EDGE: cleaned (opens from 2012, source-tagged) with an official-only robustness run, or official only (2019 to 2020, 2021-04 to 2024-12, 2026 H1) | On the official layer a walk-forward assuming contiguity will silently train across the 2021 Q1 and 2025 gaps. **Decided: cleaned, with an official-only robustness run (DC-38)** |
+| 5 | Crossings above 100% of panel turnover: additive, or a join defect | The fix differs by cause, and the subtraction cannot be built until it is known. **Resolved: item 37 lists every crossing twice from 2025-07-28; undoubled, 0.13% of crossing days exceed volume (DC-34)** |
+| 6 | Non-trading day representation | Forward-fill for $\tau_t$ and keep the traded flag, per 1.4. **Done (DC-26)** |
+| 7 | Benchmark series | ASTRI rather than ASPI, since the price index excludes dividends. ASTRI needs its bad prints repaired first (2015-05-20 in the window; five in 2007 to 2010). **Decided otherwise: the ASPI with price-only returns; ASTRI with total returns as robustness (DC-41)** |
 | 8 | Volatility return construction | Forward-filled and traded-day returns rank the quintiles differently (§7 $A_L$) |
 
 ---
