@@ -1,0 +1,14 @@
+// Create a function to check if the relation is symmetric
+    //1. Come up with suitable predicate logic
+    //2. Definitions to simplify 
+    // return Yes else No
+    
+    // Create another function to check if it is transitive
+    //1. Come up with suitable predicate logic
+    //2. Definitions to simplify
+     // return Yes else No
+     
+    // Create another function to check if it is identity
+    // 1. Come up with suitable predicate logic
+    //2. Definitions to simplify
+     // return Yes else No
