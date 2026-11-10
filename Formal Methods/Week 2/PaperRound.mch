@@ -1,6 +1,6 @@
 /* PaperRound
- * Author: draegek
- * Creation date: 19/10/2023
+ * Author: Shahid.f
+ * Creation date: 11/10/2026
  */
 MACHINE PaperRound
     
@@ -30,7 +30,23 @@ SETS
     numbHouses <-- howManyHouses =
     BEGIN
         numbHouses := card( houseNumbers )
-    END           
+    END;
+    
+    ans <-- getsPapers(houseNumber) = 
+    PRE
+        houseNumber: NAT1 & houseNumber : houseNumbers
+    THEN
+        ans := 1
+    END;
+    
+    cancelPapers(houseNumber) =
+    PRE
+        houseNumber: NAT1 & houseNumber : houseNumbers
+    THEN
+        houseNumbers:= houseNumbers - {houseNumber}
+    END
+    
+    
     
       
 END /* PaperRound */
