@@ -1,10 +1,8 @@
 ---
 
-### 6SENG005W Formal Methods
+#6SENG005W Formal Methods
 
-Week 03 Tutorial
-
-Extend & Develop _Abstract Machines_ using B Tools
+Week 03 Tutorial: Extend & Develop _Abstract Machines_ using B Tools
 
 ---
 
