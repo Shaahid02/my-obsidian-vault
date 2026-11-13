@@ -38,44 +38,38 @@ OPERATIONS
 	        THEN
 	            crosses := crosses \/ { pp } ||
 	            turn:= Noughts ||
-	            res:= Success ||
 	            IF
-	                POW(crosses) /\ winningSubsets /= {}
+	                POW(crosses \/ {pp}) /\ winningSubsets /= {}
 	            THEN
 	                currentOutcome:= Crosses_win
 	            ELSIF
-	                noughts \/ crosses = Grid
+	                noughts \/ crosses \/ {pp} = Grid
 	            THEN
 	                currentOutcome:= Draw
 	            ELSE
 	                currentOutcome:= Ongoing
-	            END
+	            END ||
+	            res:= Success
 	            
 	        ELSE
 	            noughts := noughts \/ { pp } ||
 	            turn:= Crosses ||
-	            res:= Success ||
 	            IF
-	                POW(noughts) /\ winningSubsets /= {}
+	                POW(noughts \/ {pp}) /\ winningSubsets /= {}
 	            THEN
 	                currentOutcome:= Noughts_win
 	            ELSIF
-	                noughts \/ crosses = Grid
+	                noughts \/ crosses \/ {pp} = Grid
 	            THEN
 	                currentOutcome:= Draw
 	            ELSE
 	                currentOutcome:= Ongoing
-	            END
+	            END ||
+	            res:= Success
 	            
 	        END
 	    END
 	END
-	
-	    
-	            
-	        
-
-
 END
 
 
