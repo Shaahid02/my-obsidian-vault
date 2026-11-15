@@ -12,7 +12,7 @@ MACHINE  Family
     REPORT =  { Success,                   Error_NotAFamilyMember,       
 	            Error_MalesCantHaveBabies, Error_AlreadyUsedName, Error_PassportNumberAlreadyTaken, Error_DoesNotHaveAPassport, Error_NumberAlreadyInUse  } ;
 
-    ANSWER =   { Yes, No}
+    ANSWER =   { Yes, No, Do_Not_Know}
     
   CONSTANTS
     PASSPORT_NUMBERS
@@ -26,15 +26,16 @@ MACHINE  Family
     age,
     sex,
     passport,
-    parentOf
+    parentOf,
+    myMum
   
   INVARIANT
     family  <: PEOPLE     &
     age : PEOPLE +-> NAT   &  dom(age) = family  &
     sex : PEOPLE +-> SEX   &  dom(sex) = family  &
     passport: PEOPLE >+> PASSPORT_NUMBERS & dom(passport) <: family &
-    parentOf: PEOPLE <-> PEOPLE & dom(parentOf) <: family & ran(parentOf) <: family
-    
+    parentOf: PEOPLE <-> PEOPLE & dom(parentOf) <: family & ran(parentOf) <: family &
+    myMum: PEOPLE +-> PEOPLE &  dom(myMum) <: family & ran(myMum) <: family & ran(myMum) <: sex~[{Female}]    
 
   INITIALISATION
        family := { Grandad, Paul, Mary, Jim, Jane, Jill }  
@@ -49,6 +50,8 @@ MACHINE  Family
     
     ||
         parentOf:= {}
+    ||
+        myMum:= {}
   
   
   OPERATIONS
@@ -77,7 +80,8 @@ MACHINE  Family
                       family := family - {person} ||
                       age:= {person} <<| age ||
                       sex := {person} <<| sex ||
-                      parentOf:= {peron} <<| parentOf |>> {person}
+                      parentOf:= {person} <<| parentOf |>> {person} ||
+                      myMum:= {person} <<| myMum |>> {person}
                       report:= Success
                   ELSE
                       report := Error_NotAFamilyMember
@@ -101,6 +105,7 @@ MACHINE  Family
                               age:= age <+ {baby |-> 0} ||
                               sex:= sex <+ {baby |-> babysex} ||
                               parentOf:= parentOf \/ { mother |-> baby} ||
+                              myMum:= myMum \/ {baby |-> mother}
                               report:= Success
                           ELSE
                               report:= Error_AlreadyUsedName
@@ -168,15 +173,22 @@ MACHINE  Family
                   ELSE
                       report:= Error_NotAFamilyMember
                   END
+              END;
+              
+    report <-- hasChildren(person) =
+              PRE
+                  person: PEOPLE
+              THEN
+                  IF person: family
+                  THEN
+                      IF person: dom(parentOf)
+                      THEN
+                          report:= Yes
+                      ELSE
+                          report:= No
+                      END
+                  ELSE
+                      report:= Do_Not_Know
+                  END
               END
-              
-    
-             
-                 
-       
-   
-              
-              
- 
-
 END 
