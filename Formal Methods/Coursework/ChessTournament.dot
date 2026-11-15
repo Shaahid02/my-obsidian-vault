@@ -1,0 +1,286 @@
+digraph g {
+rankdir=RL;
+    Noderoot [label="&exist;\ntrue", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+    Node1 [label="&and;\ntrue\nteam = blue &and; members = \{Eloise,Frank,Ga\nbrielle,Hugo\} &and; ((phase &ne; teamSelection \n&rArr; &#8868;) &and; (&not;(phase &ne; teamSelection) &and; teamM\nembers(team) &ne; &empty; &rArr; &#8868;) &and; (&not;(phase &ne; teamS\nelection) &and; &not;(teamMembers(team) &ne; &empty;) &and; c\nard(members) &ne; MAX_TEAM_SIZE &rArr; &#8868;) &and; (&not;(p\nhase &ne; tea...", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node1 -> Noderoot;
+    Node2 [label="=\ntrue\nteam = blue", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node2 -> Node1;
+    Node3 [label="team|blue", shape="record", fillcolor="white", style="filled"]
+        Node3 -> Node2;
+    Node4 [label="blue", shape="record", fillcolor="white", style="filled"]
+        Node4 -> Node2;
+    Node5 [label="=\ntrue\nmembers = \{Eloise,Frank,Gabrielle,Hugo\}", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node5 -> Node1;
+    Node6 [label="members|\{Eloise,Frank,Gabrielle,Hugo\}", shape="record", fillcolor="white", style="filled"]
+        Node6 -> Node5;
+    Node7 [label="\{Eloise,Frank,Gabrielle,Hugo\}", shape="record", fillcolor="white", style="filled"]
+        Node7 -> Node5;
+    Node8 [label="&rArr;\ntrue\nphase &ne; teamSelection &rArr; &#8868;", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node8 -> Node1;
+    Node9 [label="&ne;\nfalse\nphase &ne; teamSelection", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node9 -> Node8;
+    Node10 [label="phase|teamSelection", shape="record", fillcolor="white", style="filled"]
+        Node10 -> Node9;
+    Node11 [label="teamSelection", shape="record", fillcolor="white", style="filled"]
+        Node11 -> Node9;
+    Node12 [label="&#8868;\ntrue\n&#8868;", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node12 -> Node8;
+    Node13 [label="&rArr;\ntrue\n&not;(phase &ne; teamSelection) &and; teamMembers(t\neam) &ne; &empty; &rArr; &#8868;", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node13 -> Node1;
+    Node14 [label="&and;\nfalse\n&not;(phase &ne; teamSelection) &and; teamMembers(t\neam) &ne; &empty;", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node14 -> Node13;
+    Node15 [label="&not;\ntrue\n&not;(phase &ne; teamSelection)", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node15 -> Node14;
+    Node16 [label="&ne;\nfalse\nphase &ne; teamSelection", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node16 -> Node15;
+    Node17 [label="phase|teamSelection", shape="record", fillcolor="white", style="filled"]
+        Node17 -> Node16;
+    Node18 [label="teamSelection", shape="record", fillcolor="white", style="filled"]
+        Node18 -> Node16;
+    Node19 [label="&ne;\nfalse\nteamMembers(team) &ne; &empty;", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node19 -> Node14;
+    Node20 [label="func.applic.|&empty;", shape="record", fillcolor="white", style="filled"]
+        Node20 -> Node19;
+    Node21 [label="teamMembers|\{(red&#8614;&empty;),(blue&#8614;&empty;),(green&#8614;&empty;)\}", shape="record", fillcolor="white", style="filled"]
+        Node21 -> Node20;
+    Node22 [label="team|blue", shape="record", fillcolor="white", style="filled"]
+        Node22 -> Node20;
+    Node23 [label="&empty;", shape="record", fillcolor="white", style="filled"]
+        Node23 -> Node19;
+    Node24 [label="&#8868;\ntrue\n&#8868;", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node24 -> Node13;
+    Node25 [label="&rArr;\ntrue\n&not;(phase &ne; teamSelection) &and; &not;(teamMembers\n(team) &ne; &empty;) &and; card(members) &ne; MAX_TEAM_S\nIZE &rArr; &#8868;", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node25 -> Node1;
+    Node26 [label="&and;\nfalse\n&not;(phase &ne; teamSelection) &and; &not;(teamMembers\n(team) &ne; &empty;) &and; card(members) &ne; MAX_TEAM_S\nIZE", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node26 -> Node25;
+    Node27 [label="&not;\ntrue\n&not;(phase &ne; teamSelection)", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node27 -> Node26;
+    Node28 [label="&ne;\nfalse\nphase &ne; teamSelection", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node28 -> Node27;
+    Node29 [label="phase|teamSelection", shape="record", fillcolor="white", style="filled"]
+        Node29 -> Node28;
+    Node30 [label="teamSelection", shape="record", fillcolor="white", style="filled"]
+        Node30 -> Node28;
+    Node31 [label="&not;\ntrue\n&not;(teamMembers(team) &ne; &empty;)", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node31 -> Node26;
+    Node32 [label="&ne;\nfalse\nteamMembers(team) &ne; &empty;", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node32 -> Node31;
+    Node33 [label="func.applic.|&empty;", shape="record", fillcolor="white", style="filled"]
+        Node33 -> Node32;
+    Node34 [label="teamMembers|\{(red&#8614;&empty;),(blue&#8614;&empty;),(green&#8614;&empty;)\}", shape="record", fillcolor="white", style="filled"]
+        Node34 -> Node33;
+    Node35 [label="team|blue", shape="record", fillcolor="white", style="filled"]
+        Node35 -> Node33;
+    Node36 [label="&empty;", shape="record", fillcolor="white", style="filled"]
+        Node36 -> Node32;
+    Node37 [label="&ne;\nfalse\ncard(members) &ne; MAX_TEAM_SIZE", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node37 -> Node26;
+    Node38 [label="card|4", shape="record", fillcolor="white", style="filled"]
+        Node38 -> Node37;
+    Node39 [label="members|\{Eloise,Frank,Gabrielle,Hugo\}", shape="record", fillcolor="white", style="filled"]
+        Node39 -> Node38;
+    Node40 [label="MAX_TEAM_SIZE|4", shape="record", fillcolor="white", style="filled"]
+        Node40 -> Node37;
+    Node41 [label="&#8868;\ntrue\n&#8868;", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node41 -> Node25;
+    Node42 [label="&rArr;\ntrue\n&not;(phase &ne; teamSelection) &and; &not;(teamMembers\n(team) &ne; &empty;) &and; &not;(card(members) &ne; MAX_TEAM\n_SIZE) &and; (members &cap; union(ran(teamMember\ns))) &ne; &empty; &rArr; &#8868;", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node42 -> Node1;
+    Node43 [label="&and;\nfalse\n&not;(phase &ne; teamSelection) &and; &not;(teamMembers\n(team) &ne; &empty;) &and; &not;(card(members) &ne; MAX_TEAM\n_SIZE) &and; (members &cap; union(ran(teamMember\ns))) &ne; &empty;", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node43 -> Node42;
+    Node44 [label="&not;\ntrue\n&not;(phase &ne; teamSelection)", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node44 -> Node43;
+    Node45 [label="&ne;\nfalse\nphase &ne; teamSelection", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node45 -> Node44;
+    Node46 [label="phase|teamSelection", shape="record", fillcolor="white", style="filled"]
+        Node46 -> Node45;
+    Node47 [label="teamSelection", shape="record", fillcolor="white", style="filled"]
+        Node47 -> Node45;
+    Node48 [label="&not;\ntrue\n&not;(teamMembers(team) &ne; &empty;)", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node48 -> Node43;
+    Node49 [label="&ne;\nfalse\nteamMembers(team) &ne; &empty;", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node49 -> Node48;
+    Node50 [label="func.applic.|&empty;", shape="record", fillcolor="white", style="filled"]
+        Node50 -> Node49;
+    Node51 [label="teamMembers|\{(red&#8614;&empty;),(blue&#8614;&empty;),(green&#8614;&empty;)\}", shape="record", fillcolor="white", style="filled"]
+        Node51 -> Node50;
+    Node52 [label="team|blue", shape="record", fillcolor="white", style="filled"]
+        Node52 -> Node50;
+    Node53 [label="&empty;", shape="record", fillcolor="white", style="filled"]
+        Node53 -> Node49;
+    Node54 [label="&not;\ntrue\n&not;(card(members) &ne; MAX_TEAM_SIZE)", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node54 -> Node43;
+    Node55 [label="&ne;\nfalse\ncard(members) &ne; MAX_TEAM_SIZE", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node55 -> Node54;
+    Node56 [label="card|4", shape="record", fillcolor="white", style="filled"]
+        Node56 -> Node55;
+    Node57 [label="members|\{Eloise,Frank,Gabrielle,Hugo\}", shape="record", fillcolor="white", style="filled"]
+        Node57 -> Node56;
+    Node58 [label="MAX_TEAM_SIZE|4", shape="record", fillcolor="white", style="filled"]
+        Node58 -> Node55;
+    Node59 [label="&ne;\nfalse\n(members &cap; union(ran(teamMembers))) &ne; &empty;", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node59 -> Node43;
+    Node60 [label="&cap;|&empty;", shape="record", fillcolor="white", style="filled"]
+        Node60 -> Node59;
+    Node61 [label="members|\{Eloise,Frank,Gabrielle,Hugo\}", shape="record", fillcolor="white", style="filled"]
+        Node61 -> Node60;
+    Node62 [label="union|&empty;", shape="record", fillcolor="white", style="filled"]
+        Node62 -> Node60;
+    Node63 [label="ran|\{&empty;\}", shape="record", fillcolor="white", style="filled"]
+        Node63 -> Node62;
+    Node64 [label="teamMembers|\{(red&#8614;&empty;),(blue&#8614;&empty;),(green&#8614;&empty;)\}", shape="record", fillcolor="white", style="filled"]
+        Node64 -> Node63;
+    Node65 [label="&empty;", shape="record", fillcolor="white", style="filled"]
+        Node65 -> Node59;
+    Node66 [label="&#8868;\ntrue\n&#8868;", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node66 -> Node42;
+    Node67 [label="&rArr;\ntrue\n&not;(phase &ne; teamSelection) &and; &not;(teamMembers\n(team) &ne; &empty;) &and; &not;(card(members) &ne; MAX_TEAM\n_SIZE) &and; &not;((members &cap; union(ran(teamMemb\ners))) &ne; &empty;) &and; union(ran(teamMembers)) = \n&empty; &rArr; &#8868;", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node67 -> Node1;
+    Node68 [label="&and;\ntrue\n&not;(phase &ne; teamSelection) &and; &not;(teamMembers\n(team) &ne; &empty;) &and; &not;(card(members) &ne; MAX_TEAM\n_SIZE) &and; &not;((members &cap; union(ran(teamMemb\ners))) &ne; &empty;) &and; union(ran(teamMembers)) = \n&empty;", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node68 -> Node67;
+    Node69 [label="&not;\ntrue\n&not;(phase &ne; teamSelection)", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node69 -> Node68;
+    Node70 [label="&ne;\nfalse\nphase &ne; teamSelection", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node70 -> Node69;
+    Node71 [label="phase|teamSelection", shape="record", fillcolor="white", style="filled"]
+        Node71 -> Node70;
+    Node72 [label="teamSelection", shape="record", fillcolor="white", style="filled"]
+        Node72 -> Node70;
+    Node73 [label="&not;\ntrue\n&not;(teamMembers(team) &ne; &empty;)", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node73 -> Node68;
+    Node74 [label="&ne;\nfalse\nteamMembers(team) &ne; &empty;", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node74 -> Node73;
+    Node75 [label="func.applic.|&empty;", shape="record", fillcolor="white", style="filled"]
+        Node75 -> Node74;
+    Node76 [label="teamMembers|\{(red&#8614;&empty;),(blue&#8614;&empty;),(green&#8614;&empty;)\}", shape="record", fillcolor="white", style="filled"]
+        Node76 -> Node75;
+    Node77 [label="team|blue", shape="record", fillcolor="white", style="filled"]
+        Node77 -> Node75;
+    Node78 [label="&empty;", shape="record", fillcolor="white", style="filled"]
+        Node78 -> Node74;
+    Node79 [label="&not;\ntrue\n&not;(card(members) &ne; MAX_TEAM_SIZE)", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node79 -> Node68;
+    Node80 [label="&ne;\nfalse\ncard(members) &ne; MAX_TEAM_SIZE", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node80 -> Node79;
+    Node81 [label="card|4", shape="record", fillcolor="white", style="filled"]
+        Node81 -> Node80;
+    Node82 [label="members|\{Eloise,Frank,Gabrielle,Hugo\}", shape="record", fillcolor="white", style="filled"]
+        Node82 -> Node81;
+    Node83 [label="MAX_TEAM_SIZE|4", shape="record", fillcolor="white", style="filled"]
+        Node83 -> Node80;
+    Node84 [label="&not;\ntrue\n&not;((members &cap; union(ran(teamMembers))) &ne; \n&empty;)", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node84 -> Node68;
+    Node85 [label="&ne;\nfalse\n(members &cap; union(ran(teamMembers))) &ne; &empty;", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node85 -> Node84;
+    Node86 [label="&cap;|&empty;", shape="record", fillcolor="white", style="filled"]
+        Node86 -> Node85;
+    Node87 [label="members|\{Eloise,Frank,Gabrielle,Hugo\}", shape="record", fillcolor="white", style="filled"]
+        Node87 -> Node86;
+    Node88 [label="union|&empty;", shape="record", fillcolor="white", style="filled"]
+        Node88 -> Node86;
+    Node89 [label="ran|\{&empty;\}", shape="record", fillcolor="white", style="filled"]
+        Node89 -> Node88;
+    Node90 [label="teamMembers|\{(red&#8614;&empty;),(blue&#8614;&empty;),(green&#8614;&empty;)\}", shape="record", fillcolor="white", style="filled"]
+        Node90 -> Node89;
+    Node91 [label="&empty;", shape="record", fillcolor="white", style="filled"]
+        Node91 -> Node85;
+    Node92 [label="=\ntrue\nunion(ran(teamMembers)) = &empty;", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node92 -> Node68;
+    Node93 [label="union|&empty;", shape="record", fillcolor="white", style="filled"]
+        Node93 -> Node92;
+    Node94 [label="ran|\{&empty;\}", shape="record", fillcolor="white", style="filled"]
+        Node94 -> Node93;
+    Node95 [label="teamMembers|\{(red&#8614;&empty;),(blue&#8614;&empty;),(green&#8614;&empty;)\}", shape="record", fillcolor="white", style="filled"]
+        Node95 -> Node94;
+    Node96 [label="&empty;", shape="record", fillcolor="white", style="filled"]
+        Node96 -> Node92;
+    Node97 [label="&#8868;\ntrue\n&#8868;", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node97 -> Node67;
+    Node98 [label="&rArr;\ntrue\n&not;(phase &ne; teamSelection) &and; &not;(teamMembers\n(team) &ne; &empty;) &and; &not;(card(members) &ne; MAX_TEAM\n_SIZE) &and; &not;((members &cap; union(ran(teamMemb\ners))) &ne; &empty;) &and; &not;(union(ran(teamMembers)) \n= &empty;) &rArr; &exist;lastTeam&#183;(lastTeam &ne; team &and; team\nMembers(lastTeam) = &empty;)", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node98 -> Node1;
+    Node99 [label="&and;\nfalse\n&not;(phase &ne; teamSelection) &and; &not;(teamMembers\n(team) &ne; &empty;) &and; &not;(card(members) &ne; MAX_TEAM\n_SIZE) &and; &not;((members &cap; union(ran(teamMemb\ners))) &ne; &empty;) &and; &not;(union(ran(teamMembers)) \n= &empty;)", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node99 -> Node98;
+    Node100 [label="&not;\ntrue\n&not;(phase &ne; teamSelection)", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node100 -> Node99;
+    Node101 [label="&ne;\nfalse\nphase &ne; teamSelection", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node101 -> Node100;
+    Node102 [label="phase|teamSelection", shape="record", fillcolor="white", style="filled"]
+        Node102 -> Node101;
+    Node103 [label="teamSelection", shape="record", fillcolor="white", style="filled"]
+        Node103 -> Node101;
+    Node104 [label="&not;\ntrue\n&not;(teamMembers(team) &ne; &empty;)", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node104 -> Node99;
+    Node105 [label="&ne;\nfalse\nteamMembers(team) &ne; &empty;", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node105 -> Node104;
+    Node106 [label="func.applic.|&empty;", shape="record", fillcolor="white", style="filled"]
+        Node106 -> Node105;
+    Node107 [label="teamMembers|\{(red&#8614;&empty;),(blue&#8614;&empty;),(green&#8614;&empty;)\}", shape="record", fillcolor="white", style="filled"]
+        Node107 -> Node106;
+    Node108 [label="team|blue", shape="record", fillcolor="white", style="filled"]
+        Node108 -> Node106;
+    Node109 [label="&empty;", shape="record", fillcolor="white", style="filled"]
+        Node109 -> Node105;
+    Node110 [label="&not;\ntrue\n&not;(card(members) &ne; MAX_TEAM_SIZE)", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node110 -> Node99;
+    Node111 [label="&ne;\nfalse\ncard(members) &ne; MAX_TEAM_SIZE", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node111 -> Node110;
+    Node112 [label="card|4", shape="record", fillcolor="white", style="filled"]
+        Node112 -> Node111;
+    Node113 [label="members|\{Eloise,Frank,Gabrielle,Hugo\}", shape="record", fillcolor="white", style="filled"]
+        Node113 -> Node112;
+    Node114 [label="MAX_TEAM_SIZE|4", shape="record", fillcolor="white", style="filled"]
+        Node114 -> Node111;
+    Node115 [label="&not;\ntrue\n&not;((members &cap; union(ran(teamMembers))) &ne; \n&empty;)", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node115 -> Node99;
+    Node116 [label="&ne;\nfalse\n(members &cap; union(ran(teamMembers))) &ne; &empty;", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node116 -> Node115;
+    Node117 [label="&cap;|&empty;", shape="record", fillcolor="white", style="filled"]
+        Node117 -> Node116;
+    Node118 [label="members|\{Eloise,Frank,Gabrielle,Hugo\}", shape="record", fillcolor="white", style="filled"]
+        Node118 -> Node117;
+    Node119 [label="union|&empty;", shape="record", fillcolor="white", style="filled"]
+        Node119 -> Node117;
+    Node120 [label="ran|\{&empty;\}", shape="record", fillcolor="white", style="filled"]
+        Node120 -> Node119;
+    Node121 [label="teamMembers|\{(red&#8614;&empty;),(blue&#8614;&empty;),(green&#8614;&empty;)\}", shape="record", fillcolor="white", style="filled"]
+        Node121 -> Node120;
+    Node122 [label="&empty;", shape="record", fillcolor="white", style="filled"]
+        Node122 -> Node116;
+    Node123 [label="&not;\nfalse\n&not;(union(ran(teamMembers)) = &empty;)", shape="rect", fillcolor="tomato", style="filled,rounded"]
+        Node123 -> Node99;
+    Node124 [label="=\ntrue\nunion(ran(teamMembers)) = &empty;", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node124 -> Node123;
+    Node125 [label="union|&empty;", shape="record", fillcolor="white", style="filled"]
+        Node125 -> Node124;
+    Node126 [label="ran|\{&empty;\}", shape="record", fillcolor="white", style="filled"]
+        Node126 -> Node125;
+    Node127 [label="teamMembers|\{(red&#8614;&empty;),(blue&#8614;&empty;),(green&#8614;&empty;)\}", shape="record", fillcolor="white", style="filled"]
+        Node127 -> Node126;
+    Node128 [label="&empty;", shape="record", fillcolor="white", style="filled"]
+        Node128 -> Node124;
+    Node129 [label="&exist;\ntrue\n&exist;lastTeam&#183;(lastTeam &ne; team &and; teamMembers\n(lastTeam) = &empty;)", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node129 -> Node98;
+    Node130 [label="&and;\ntrue\nlastTeam &ne; team &and; teamMembers(lastTeam) \n= &empty;", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node130 -> Node129;
+    Node131 [label="&ne;\ntrue\nlastTeam &ne; team", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node131 -> Node130;
+    Node132 [label="lastTeam|red", shape="record", fillcolor="white", style="filled"]
+        Node132 -> Node131;
+    Node133 [label="team|blue", shape="record", fillcolor="white", style="filled"]
+        Node133 -> Node131;
+    Node134 [label="=\ntrue\nteamMembers(lastTeam) = &empty;", shape="rect", fillcolor="olivedrab2", style="filled,rounded"]
+        Node134 -> Node130;
+    Node135 [label="func.applic.|&empty;", shape="record", fillcolor="white", style="filled"]
+        Node135 -> Node134;
+    Node136 [label="teamMembers|\{(red&#8614;&empty;),(blue&#8614;&empty;),(green&#8614;&empty;)\}", shape="record", fillcolor="white", style="filled"]
+        Node136 -> Node135;
+    Node137 [label="lastTeam|red", shape="record", fillcolor="white", style="filled"]
+        Node137 -> Node135;
+    Node138 [label="&empty;", shape="record", fillcolor="white", style="filled"]
+        Node138 -> Node134;
+    Node139 [label="lastTeam|red", shape="record", fillcolor="white", style="filled"]
+        Node139 -> Node129;
+    Node140 [label="team|blue", shape="record", fillcolor="white", style="filled"]
+        Node140 -> Noderoot;
+    Node141 [label="members|\{Eloise,Frank,Gabrielle,Hugo\}", shape="record", fillcolor="white", style="filled"]
+        Node141 -> Noderoot;
+}
