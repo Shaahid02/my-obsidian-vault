@@ -77,6 +77,7 @@ MACHINE  Family
                       family := family - {person} ||
                       age:= {person} <<| age ||
                       sex := {person} <<| sex ||
+                      parentOf:= {peron} <<| parentOf |>> {person}
                       report:= Success
                   ELSE
                       report := Error_NotAFamilyMember
@@ -99,6 +100,7 @@ MACHINE  Family
                               family:= family \/ {baby} ||
                               age:= age <+ {baby |-> 0} ||
                               sex:= sex <+ {baby |-> babysex} ||
+                              parentOf:= parentOf \/ { mother |-> baby} ||
                               report:= Success
                           ELSE
                               report:= Error_AlreadyUsedName
