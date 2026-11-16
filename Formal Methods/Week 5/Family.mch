@@ -26,14 +26,16 @@ MACHINE  Family
     age,
     sex,
     passport,
-    parentOf
+    parentOf,
+    myMum
   
   INVARIANT
     family  <: PEOPLE     &
     age : PEOPLE +-> NAT   &  dom(age) = family  &
     sex : PEOPLE +-> SEX   &  dom(sex) = family  &
     passport: PEOPLE >+> PASSPORT_NUMBERS & dom(passport) <: family &
-    parentOf: PEOPLE <-> PEOPLE & dom(parentOf) <: family & ran(parentOf) <: family
+    parentOf: PEOPLE <-> PEOPLE & dom(parentOf) <: family & ran(parentOf) <: family &
+    myMum: PEOPLE +-> PEOPLE & dom(myMum) <: family & ran(myMum) <: family
     
 
   INITIALISATION
@@ -49,6 +51,9 @@ MACHINE  Family
     
     ||
         parentOf:= {}
+    
+    ||
+        myMum:= {}
   
   
   OPERATIONS
@@ -77,6 +82,7 @@ MACHINE  Family
                       family := family - {person} ||
                       age:= {person} <<| age ||
                       sex := {person} <<| sex ||
+                      parentOf:= {person} <<| parentOf |>> {person} ||
                       report:= Success
                   ELSE
                       report := Error_NotAFamilyMember
@@ -99,6 +105,7 @@ MACHINE  Family
                               family:= family \/ {baby} ||
                               age:= age <+ {baby |-> 0} ||
                               sex:= sex <+ {baby |-> babysex} ||
+                              parentOf:= parentOf \/ {mother |-> baby} ||
                               report:= Success
                           ELSE
                               report:= Error_AlreadyUsedName
