@@ -213,6 +213,10 @@ OPERATIONS
 
     /* ------------------------------------------------------------------ */
     /* Move to the game play phase once the schedule is complete.         */
+    /* Note: if every player has exactly 6 matches, each pair of teams    */
+    /* must have exactly 12 (each team has 4 x 6 = 24 match places, so    */
+    /* RB + RG = RB + BG = RG + BG = 24, giving 12 each). The second      */
+    /* check is kept because the requirements list both conditions.       */
     /* ------------------------------------------------------------------ */
     report <-- proceed =
     BEGIN
