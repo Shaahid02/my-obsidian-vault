@@ -428,14 +428,6 @@ END ;
 
 /* Move to the game play phase once the schedule is complete. */
 
-/* Note: if every player has exactly 6 matches, each pair of teams */
-
-/* must have exactly 12 (each team has 4 x 6 = 24 match places, so */
-
-/* RB + RG = RB + BG = RG + BG = 24, giving 12 each). The second */
-
-/* check is kept because the requirements list both conditions. */
-
 /* ------------------------------------------------------------------ */
 
 report <-- proceed =
@@ -488,17 +480,25 @@ report := noGamesLeft
 
 ELSE
 
-LET winner BE
+LET p1, p2 BE
 
-/* the player in the first match with the highest ability */
+/* the two players of the first scheduled match */
 
-winner = ability~(max(ability[{ prj1(PLAYER, PLAYER)(first(schedule)),
+p1 = prj1(PLAYER, PLAYER)(first(schedule)) &
 
-prj2(PLAYER, PLAYER)(first(schedule)) }]))
+p2 = prj2(PLAYER, PLAYER)(first(schedule))
 
 IN
 
-ANY winnerTeam WHERE
+ANY winner, winnerTeam WHERE
+
+/* the winner is the player with the higher ability */
+
+winner : {p1, p2} &
+
+(ability(p1) > ability(p2) => winner = p1) &
+
+(ability(p2) > ability(p1) => winner = p2) &
 
 winnerTeam : TEAM & winner : teamMembers(winnerTeam)
 
@@ -541,6 +541,8 @@ THEN
 phase := teamSelection ||
 
 teamMembers := { red |-> {}, blue |-> {}, green |-> {} } ||
+
+schedule := [] ||
 
 playerScore := PLAYER * {0} ||
 
