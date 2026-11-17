@@ -54,7 +54,11 @@ MAX_PLAYER_MATCHES,
 
 MAX_TEAM_MATCHES
 
+  
+
 PROPERTIES
+
+/* 12 is the strongest player, 1 is the weakest */
 
 ability : PLAYER >->> 1..12 &
 
@@ -74,17 +78,41 @@ MAX_TEAM_MATCHES = 12
 
 DEFINITIONS
 
-assignedPlayers == union(ran(teamMembers)) ;
+/* first and second player of a match */
+
+pA(mm) == prj1(PLAYER, PLAYER)(mm) ;
+
+pB(mm) == prj2(PLAYER, PLAYER)(mm) ;
 
   
 
-matchesOf(pp) == ( ran(schedule) /\ (({pp} * PLAYER) \/ (PLAYER * {pp})) ) ;
+/* the two players of the next game to be played */
+
+nextP1 == pA(first(schedule)) ;
+
+nextP2 == pB(first(schedule)) ;
+
+  
+
+/* players currently in team tt */
+
+membersOf(tt) == dom(teamOf |> {tt}) ;
+
+  
+
+/* scheduled matches involving player pp */
+
+matchesOf(pp) == ({pp} <| ran(schedule)) \/ (ran(schedule) |> {pp}) ;
+
+  
+
+/* scheduled matches between teams t1 and t2, in either order */
 
 matchesBetween(t1, t2) ==
 
-( ran(schedule) /\ ((teamMembers(t1) * teamMembers(t2)) \/
+((membersOf(t1) <| ran(schedule)) |> membersOf(t2)) \/
 
-(teamMembers(t2) * teamMembers(t1))) )
+((membersOf(t2) <| ran(schedule)) |> membersOf(t1))
 
   
 
@@ -92,7 +120,7 @@ VARIABLES
 
 phase,
 
-teamMembers,
+teamOf,
 
 schedule,
 
@@ -106,25 +134,19 @@ INVARIANT
 
 phase : PHASE &
 
-teamMembers : TEAM --> POW(PLAYER) &
+teamOf : PLAYER +-> TEAM &
 
 schedule : iseq(PLAYER * PLAYER) &
 
-playerScore : PLAYER --> NATURAL &
+playerScore : PLAYER --> 0..MAX_PLAYER_MATCHES &
 
-teamScore : TEAM --> NATURAL &
+teamScore : TEAM --> 0..(MAX_TEAM_SIZE * MAX_PLAYER_MATCHES) &
 
   
 
 /* each team has up to 4 players */
 
-!tt.(tt : TEAM => card(teamMembers(tt)) <= MAX_TEAM_SIZE) &
-
-/* a player can be in at most one team (teams are disjoint) */
-
-!(t1, t2).(t1 : TEAM & t2 : TEAM & t1 /= t2 =>
-
-teamMembers(t1) /\ teamMembers(t2) = {}) &
+!(tt).(tt : TEAM => card(membersOf(tt)) <= MAX_TEAM_SIZE) &
 
   
 
@@ -132,9 +154,9 @@ teamMembers(t1) /\ teamMembers(t2) = {}) &
 
 !(p1, p2).(p1 : PLAYER & p2 : PLAYER & (p1 |-> p2) : ran(schedule) =>
 
-#(t1, t2).(t1 : TEAM & t2 : TEAM & t1 /= t2 &
+p1 : dom(teamOf) & p2 : dom(teamOf) & teamOf(p1) /= teamOf(p2)) &
 
-p1 : teamMembers(t1) & p2 : teamMembers(t2))) &
+  
 
 /* the same two players are never scheduled twice (in either order) */
 
@@ -142,9 +164,13 @@ p1 : teamMembers(t1) & p2 : teamMembers(t2))) &
 
 (p2 |-> p1) /: ran(schedule)) &
 
+  
+
 /* up to 6 matches per player */
 
-!pp.(pp : PLAYER => card(matchesOf(pp)) <= MAX_PLAYER_MATCHES) &
+!(pp).(pp : PLAYER => card(matchesOf(pp)) <= MAX_PLAYER_MATCHES) &
+
+  
 
 /* up to 12 matches between each pair of teams */
 
@@ -154,19 +180,23 @@ card(matchesBetween(t1, t2)) <= MAX_TEAM_MATCHES) &
 
   
 
-/* a team's score is the sum of its players' scores */
+/* no matches exist during team selection */
 
-!tt.(tt : TEAM =>
-
-teamScore(tt) = SIGMA(pp).(pp : teamMembers(tt) | playerScore(pp))) &
+(phase = teamSelection => schedule = []) &
 
   
 
-/* after team selection: every team has exactly 4 players */
+/* after team selection every team has exactly 4 players */
 
 (phase /= teamSelection =>
 
-!tt.(tt : TEAM => card(teamMembers(tt)) = MAX_TEAM_SIZE))
+!(tt).(tt : TEAM => card(membersOf(tt)) = MAX_TEAM_SIZE)) &
+
+  
+
+/* scores only change during game play */
+
+(phase /= gamePlay => ran(playerScore) = {0} & ran(teamScore) = {0})
 
   
 
@@ -174,7 +204,7 @@ INITIALISATION
 
 phase := teamSelection ||
 
-teamMembers := { red |-> {}, blue |-> {}, green |-> {} } ||
+teamOf := {} ||
 
 schedule := [] ||
 
@@ -200,7 +230,7 @@ IF phase /= teamSelection THEN
 
 report := wrongPhase
 
-ELSIF teamMembers(team) /= {} THEN
+ELSIF team : ran(teamOf) THEN
 
 report := teamAlreadyHasPlayers
 
@@ -208,35 +238,33 @@ ELSIF card(members) /= MAX_TEAM_SIZE THEN
 
 report := notExactlyFourPlayers
 
-ELSIF members /\ assignedPlayers /= {} THEN
+ELSIF members /\ dom(teamOf) /= {} THEN
 
 report := playerAlreadyInTeam
 
-ELSIF assignedPlayers = {} THEN
+ELSIF teamOf = {} THEN
 
-teamMembers(team) := members ||
+/* first team */
+
+teamOf := members * {team} ||
 
 report := success
 
 ELSE
 
-ANY lastTeam WHERE
+/* second team: the 4 players left go into the one team
 
-lastTeam : TEAM & lastTeam /= team & teamMembers(lastTeam) = {}
+that is still empty, TEAM - (ran(teamOf) \/ {team}) */
 
-THEN
+teamOf := teamOf \/ (members * {team}) \/
 
-teamMembers := teamMembers <+
+((PLAYER - (dom(teamOf) \/ members)) *
 
-{ team |-> members,
-
-lastTeam |-> PLAYER - (assignedPlayers \/ members) } ||
+(TEAM - (ran(teamOf) \/ {team}))) ||
 
 phase := matchSetup ||
 
 report := teamsCompleted
-
-END
 
 END
 
@@ -252,41 +280,33 @@ players : PLAYER * PLAYER
 
 THEN
 
-LET p1, p2 BE
-
-p1 = prj1(PLAYER, PLAYER)(players) &
-
-p2 = prj2(PLAYER, PLAYER)(players)
-
-IN
-
 IF phase /= matchSetup THEN
 
 report := wrongPhase
 
-ELSIF p1 = p2 THEN
+ELSIF pA(players) = pB(players) THEN
 
 report := samePlayer
 
-ELSIF (p1 |-> p2) : ran(schedule) or (p2 |-> p1) : ran(schedule) THEN
+ELSIF players : ran(schedule) or
+
+(pB(players) |-> pA(players)) : ran(schedule) THEN
 
 report := matchAlreadyScheduled
 
-ELSIF #tt.(tt : TEAM & p1 : teamMembers(tt) & p2 : teamMembers(tt)) THEN
+ELSIF teamOf(pA(players)) = teamOf(pB(players)) THEN
 
 report := playersInSameTeam
 
-ELSIF card(matchesOf(p1)) >= MAX_PLAYER_MATCHES or
+ELSIF card(matchesOf(pA(players))) >= MAX_PLAYER_MATCHES or
 
-card(matchesOf(p2)) >= MAX_PLAYER_MATCHES THEN
+card(matchesOf(pB(players))) >= MAX_PLAYER_MATCHES THEN
 
 report := playerHasSixMatches
 
-ELSIF #(t1, t2).(t1 : TEAM & t2 : TEAM &
+ELSIF card(matchesBetween(teamOf(pA(players)), teamOf(pB(players))))
 
-p1 : teamMembers(t1) & p2 : teamMembers(t2) &
-
-card(matchesBetween(t1, t2)) >= MAX_TEAM_MATCHES) THEN
+>= MAX_TEAM_MATCHES THEN
 
 report := teamsHaveTwelveMatches
 
@@ -295,8 +315,6 @@ ELSE
 schedule := schedule <- players ||
 
 report := success
-
-END
 
 END
 
@@ -336,7 +354,7 @@ IF phase /= matchSetup THEN
 
 report := wrongPhase
 
-ELSIF #pp.(pp : PLAYER & card(matchesOf(pp)) /= MAX_PLAYER_MATCHES) THEN
+ELSIF #(pp).(pp : PLAYER & card(matchesOf(pp)) /= MAX_PLAYER_MATCHES) THEN
 
 report := notAllPlayersHaveSixMatches
 
@@ -370,39 +388,25 @@ ELSIF schedule = [] THEN
 
 report := noGamesLeft
 
-ELSE
+ELSIF ability(nextP1) > ability(nextP2) THEN
 
-LET p1, p2 BE
+playerScore(nextP1) := playerScore(nextP1) + 1 ||
 
-p1 = prj1(PLAYER, PLAYER)(first(schedule)) &
-
-p2 = prj2(PLAYER, PLAYER)(first(schedule))
-
-IN
-
-ANY winner, winnerTeam WHERE
-
-winner : {p1, p2} &
-
-(ability(p1) > ability(p2) => winner = p1) &
-
-(ability(p2) > ability(p1) => winner = p2) &
-
-winnerTeam : TEAM & winner : teamMembers(winnerTeam)
-
-THEN
-
-playerScore(winner) := playerScore(winner) + 1 ||
-
-teamScore(winnerTeam) := teamScore(winnerTeam) + 1 ||
+teamScore(teamOf(nextP1)) := teamScore(teamOf(nextP1)) + 1 ||
 
 schedule := tail(schedule) ||
 
 report := success
 
-END
+ELSE
 
-END
+playerScore(nextP2) := playerScore(nextP2) + 1 ||
+
+teamScore(teamOf(nextP2)) := teamScore(teamOf(nextP2)) + 1 ||
+
+schedule := tail(schedule) ||
+
+report := success
 
 END
 
@@ -420,9 +424,7 @@ THEN
 
 phase := teamSelection ||
 
-teamMembers := { red |-> {}, blue |-> {}, green |-> {} } ||
-
-schedule := [] ||
+teamOf := {} ||
 
 playerScore := PLAYER * {0} ||
 
@@ -440,7 +442,7 @@ team : TEAM
 
 THEN
 
-scores := teamMembers(team) <| playerScore
+scores := membersOf(team) <| playerScore
 
 END
 
