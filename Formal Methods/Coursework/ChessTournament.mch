@@ -31,6 +31,7 @@ CONSTANTS
     MAX_TEAM_MATCHES 
     
 PROPERTIES
+    /* Where 12 is the highest and 1 is the lowest in ability */
     ability : PLAYER >->> 1..12 &
     ability = { Alice |-> 12, Bob |-> 11, Christine |-> 10, Dennis |-> 9,
                 Eloise |-> 8, Frank |-> 7, Gabrielle |-> 6, Hugo |-> 5,
